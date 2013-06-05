@@ -1,33 +1,33 @@
 === All In One WP Security & Firewall ===
 Contributors: Tips and Tricks HQ, wpsolutions, Peter Petreski, Ruhul Amin 
-Donate link: http://www.tipsandtricks-hq.com/wordpress-security-and-firewall-plugin
-Tags: security, Anti Virus, antivirus, virus, firewall, secure, login, lockdown, htaccess, hacking, malware, vulnerability, protect, phishing, database, backup, plugin
+Donate link: http://www.tipsandtricks-hq.com
+Tags: security, secure, Anti Virus, antivirus, virus, firewall, login, lockdown, htaccess, hacking, ban hacker, malware, vulnerability, protect, phishing, database, backup, plugin, sql injection
 Requires at least: 3.5
 Tested up to: 3.6
-Stable tag: 1.0
+Stable tag: 1.1
 License: GPLv3
 
-A comprehensive, user-friendly, all in one security and firewall plugin for your WordPress site.
+A comprehensive, user-friendly, all in one WordPress security and firewall plugin for your site.
 
 == Description ==
 = A COMPREHENSIVE, EASY TO USE AND WELL SUPPORTED WORDPRESS SECURITY PLUGIN =
 
 WordPress itself is a very secure platform. However, it helps to add some extra security and firewall to your site by using a security plugin that enforces a lot of good security practices.
 
-The All In One WP Security plugin will take your website security to a whole new level.
+The All In One WordPress Security plugin will take your website security to a whole new level.
 
 This plugin is designed and written by experts and is easy to use and understand.
 
 It offers the latest recommended WordPress security practices and techniques.
 
+http://www.youtube.com/watch?v=CJvCTlVtazA
+
 All In One WP Security also uses an unprecedented security points grading system to measure how well you are protecting your site based on the security features you have activated.
+
+Our security and firewall rules are categorized into "basic", "intermediate" and "advanced". This way you can apply the firewall rules progressively without breaking your site's functionality.
 
 Below is a list of the security and firewall features offered in this plugin:
 
-= .htaccess and wp-config.php settings =
-* Easily backup your original .htaccess and wp-config.php files in case you will need to use them to restore broken functionality.
-* Modify the contents of the currently active .htaccess or wp-config.php from the admin dashboard with only a few clicks
- 
 = User Accounts Security =
 * Detect if there is a user account which has the default "admin" username and easily change the username to a value of your choice.
 * The plugin will also detect if you have any WordPress user accounts which have identical login and display names. Having account's where display name is identical to login name is bad security practice because 
@@ -42,20 +42,22 @@ via email whenever somebody gets locked out due to too many login attempts.
 * Force logout of all users after a configurable time period
 
 * Monitor/View failed login attempts which show the user's IP address, User ID/Username and Date/Time of the failed login attempt
+
 * Monitor/View the account activity of all user accounts on your system by keeping track of the username, IP address, login date/time, and logout date/time.
 
 = Database Security =
 * Easily the default WP prefix to a value of your choice with the click of a button.
-
 * Schedule automatic backups and email notifications or make an instant DB backup whenever you want with one click.
 
 = File System Security =
 * Identify files or folders which have permission settings which are not secure and set the permissions to the recommend secure values with click of a button.
 * Protect your PHP code by disabling file editing from the WordPress administration area.
 * Easily view and monitor all host system logs from a single menu page and stay informed of any issues or problems occurring on your server so you can address them quickly.
+* Prevent people from accessing the readme.html, license.txt and wp-config-sample.php files of your WordPress site.
 
-= WhoIs Lookup =
-* Perform a WhoIs lookup of a suspicious host or IP address.
+= htaccess and wp-config.php File Backup and Restore =
+* Easily backup your original .htaccess and wp-config.php files in case you will need to use them to restore broken functionality.
+* Modify the contents of the currently active .htaccess or wp-config.php files from the admin dashboard with only a few clicks
 
 = Blacklist Functionality =
 * Ban users by specifying IP addresses or use a wild card to specify IP ranges.
@@ -63,6 +65,10 @@ via email whenever somebody gets locked out due to too many login attempts.
 * Monitor the most active IP addresses which persistently produce the most SPAM comments and instantly block them with the click of a button.
 
 = Firewall Functionality =
+
+This plugin allows you to easily add a lot of firewall protection to your site via htaccess file. An htaccess file is processed by your web server before any other code on your site. 
+So these firewall rules will stop malicious script(s) before it gets a chance to reach the WordPress code on your site.
+
 * Instantly activate a selection of firewall settings ranging from basic, intermediate and advanced.
 * Enable the famous "5G Blacklist" Firewall rules courtesy of [Perishable Press](http://perishablepress.com/)
 * Forbid proxy comment posting
@@ -70,11 +76,14 @@ via email whenever somebody gets locked out due to too many login attempts.
 * Deny bad or malicious query strings
 * Protect against Cross Site Scripting (XSS) by activating the comprehensive advanced character string filter.
 
-= Other Benefits =
+= WhoIs Lookup =
+* Perform a WhoIs lookup of a suspicious host or IP address and get full details.
+
 = Regular updates and additions of new security features =
 * WordPress Security is something that evolves over time. We will be updating the All In One WP Security plugin with new security features (and fixes if required) on a regular basis so you can rest assured that your site will be on the cutting edge of security protection techniques.
+
+= Works with Most Popular WordPress Plugins =
 * It should work smoothly with most popular WordPress plugins.
-* Our firewall rules are categorized into "basic", "intermediate" and "advanced". This way you can apply the firewall rules progressively without breaking your site's functionality.
 
 = Plugin Support =
 * If you have a question or problem with the All In One Security plugin, post it on the support forum and we will help you.
@@ -82,20 +91,23 @@ via email whenever somebody gets locked out due to too many login attempts.
 = Translations =
 * All In One WP Security plugin can be translated to any language.
 
+Visit the [WordPress Security Plugin](http://www.tipsandtricks-hq.com/wordpress-security-and-firewall-plugin) page for more details.
+
 == Installation ==
 
 To begin making your WordPress site more secure:
 
 1. Upload the 'all-in-one-wp-security.zip' file from the Plugins->Add New page in the WordPress administration panel.
 2. Activate the plugin through the 'Plugins' menu in WordPress
-3. Go to Settings menu under 'WP Security' and use the configuration wizard or start configuring the plugin yourself.
+3. Go to Settings menu under 'WP Security' and start activating the security features of the plugin.
 
 == Usage ==
 
 Go to the settings menu after you activate the plugin and follow the instructions.
 
 == Screenshots ==
-None
+Check the following page for screenshots:
+http://www.tipsandtricks-hq.com/wordpress-security-and-firewall-plugin
 
 == Frequently Asked Questions ==
 None
@@ -104,6 +116,10 @@ None
 None
 
 == Changelog ==
+
+= 1.1 =
+- Added the following new feature:
+- Prevent people from accessing the readme.html, license.txt and wp-config-sample.php files.
 
 = 1.0 =
 - First commit to the WP repository.

@@ -6,6 +6,9 @@ class AIOWPSecurity_Utility_Htaccess
     //This will make it easy to locate the blocks of code for deletion if someone disables a feature
     public static $ip_blacklist_marker_start = '#AIOWPS_IP_BLACKLIST_START';
     public static $ip_blacklist_marker_end = '#AIOWPS_IP_BLACKLIST_END';
+
+    public static $prevent_wp_file_access_marker_start = '#AIOWPS_BLOCK_WP_FILE_ACCESS_START';
+    public static $prevent_wp_file_access_marker_end = '#AIOWPS_BLOCK_WP_FILE_ACCESS_END';
     
     public static $basic_htaccess_rules_marker_start = '#AIOWPS_BASIC_HTACCESS_RULES_START';
     public static $basic_htaccess_rules_marker_end = '#AIOWPS_BASIC_HTACCESS_RULES_END';
@@ -34,8 +37,37 @@ class AIOWPSecurity_Utility_Htaccess
         //NOP
     }
     
+    //Gets server type. Returns -1 if server is not supported
+    static function get_server_type()
+    {
+        //figure out what server they're using
+        if (strstr(strtolower(filter_var($_SERVER['SERVER_SOFTWARE'], FILTER_SANITIZE_STRING)), 'apache'))
+        {
+            return 'apache';
+        } 
+        else if (strstr(strtolower(filter_var($_SERVER['SERVER_SOFTWARE'], FILTER_SANITIZE_STRING)), 'nginx'))
+        {
+            return 'nginx';
+        } 
+        else if (strstr(strtolower(filter_var($_SERVER['SERVER_SOFTWARE'], FILTER_SANITIZE_STRING)), 'litespeed'))
+        {
+            return 'litespeed';
+        }
+        else 
+        { //unsupported server
+            return -1;
+        }
+        
+    }
+    
     static function write_to_htaccess()
     {   
+        //figure out what server is being used
+        if (AIOWPSecurity_Utility_Htaccess::get_server_type() == -1) 
+        {
+            return -1; //unable to write to the file
+        }
+
         //clean up old rules first
         if (AIOWPSecurity_Utility_Htaccess::delete_from_htaccess() == -1) 
         {
@@ -155,6 +187,7 @@ class AIOWPSecurity_Utility_Htaccess
     static function getrules()
     {
         $rules = "";
+        $rules .= AIOWPSecurity_Utility_Htaccess::getrules_block_wp_file_access();
         $rules .= AIOWPSecurity_Utility_Htaccess::getrules_basic_htaccess();
         $rules .= AIOWPSecurity_Utility_Htaccess::getrules_blacklist();
         $rules .= AIOWPSecurity_Utility_Htaccess::getrules_disable_trace_and_track();
@@ -176,29 +209,42 @@ class AIOWPSecurity_Utility_Htaccess
         return $rules;
     }
     
-    static function getrules_blacklist()
+    /*
+     * This function will write rules to prevent people from accessing the following files:
+     * readme.html, license.txt and wp-config-sample.php.
+     */ 
+    static function getrules_block_wp_file_access()
     {
         global $aio_wp_security;
         @ini_set( 'auto_detect_line_endings', true );
 		
-        //figure out what server they're using
-        if (strstr(strtolower(filter_var($_SERVER['SERVER_SOFTWARE'], FILTER_SANITIZE_STRING)), 'apache'))
+        $rules = '';
+        if($aio_wp_security->configs->get_value('aiowps_prevent_default_wp_file_access')=='1') 
         {
-            $aiowps_server = 'apache';
-        } 
-        else if (strstr(strtolower(filter_var($_SERVER['SERVER_SOFTWARE'], FILTER_SANITIZE_STRING)), 'nginx'))
-        {
-            $aiowps_server = 'nginx';
-        } 
-        else if (strstr(strtolower(filter_var($_SERVER['SERVER_SOFTWARE'], FILTER_SANITIZE_STRING)), 'litespeed'))
-        {
-            $aiowps_server = 'litespeed';
+            $rules .= AIOWPSecurity_Utility_Htaccess::$prevent_wp_file_access_marker_start . PHP_EOL; //Add feature marker start
+            $rules .= '<files license.txt>
+                        order allow,deny
+                        deny from all
+                        </files>
+                        <files wp-config-sample.php>
+                        order allow,deny
+                        deny from all
+                        </files>
+                        <files readme.html>
+                        order allow,deny
+                        deny from all
+                        </files>' . PHP_EOL;
+            $rules .= AIOWPSecurity_Utility_Htaccess::$prevent_wp_file_access_marker_end . PHP_EOL; //Add feature marker end
         }
-        else 
-        { //unsupported server
-            return -1;
-        }
+        
+	return $rules;
+    }
 
+    static function getrules_blacklist()
+    {
+        global $aio_wp_security;
+        @ini_set( 'auto_detect_line_endings', true );
+	$aiowps_server = AIOWPSecurity_Utility_Htaccess::get_server_type();	
         $rules = '';
         if($aio_wp_security->configs->get_value('aiowps_enable_blacklisting')=='1') 
         {
@@ -332,24 +378,6 @@ class AIOWPSecurity_Utility_Htaccess
         global $aio_wp_security;
         @ini_set( 'auto_detect_line_endings', true );
 		
-        //figure out what server they're using
-        if (strstr(strtolower(filter_var($_SERVER['SERVER_SOFTWARE'], FILTER_SANITIZE_STRING)), 'apache'))
-        {
-            $aiowps_server = 'apache';
-        } 
-        else if (strstr(strtolower(filter_var($_SERVER['SERVER_SOFTWARE'], FILTER_SANITIZE_STRING)), 'nginx'))
-        {
-            $aiowps_server = 'nginx';
-        } 
-        else if (strstr(strtolower(filter_var($_SERVER['SERVER_SOFTWARE'], FILTER_SANITIZE_STRING)), 'litespeed'))
-        {
-            $aiowps_server = 'litespeed';
-        }
-        else 
-        { //unsupported server
-            return -1;
-        }
-
         $rules = '';
         if($aio_wp_security->configs->get_value('aiowps_enable_basic_firewall')=='1') 
         {
@@ -390,24 +418,6 @@ class AIOWPSecurity_Utility_Htaccess
         global $aio_wp_security;
         @ini_set( 'auto_detect_line_endings', true );
 		
-        //figure out what server they're using
-        if (strstr(strtolower(filter_var($_SERVER['SERVER_SOFTWARE'], FILTER_SANITIZE_STRING)), 'apache'))
-        {
-            $aiowps_server = 'apache';
-        } 
-        else if (strstr(strtolower(filter_var($_SERVER['SERVER_SOFTWARE'], FILTER_SANITIZE_STRING)), 'nginx'))
-        {
-            $aiowps_server = 'nginx';
-        } 
-        else if (strstr(strtolower(filter_var($_SERVER['SERVER_SOFTWARE'], FILTER_SANITIZE_STRING)), 'litespeed'))
-        {
-            $aiowps_server = 'litespeed';
-        }
-        else 
-        { //unsupported server
-            return -1;
-        }
-
         $rules = '';
         if($aio_wp_security->configs->get_value('aiowps_disable_trace_and_track')=='1') 
         {
@@ -432,24 +442,6 @@ class AIOWPSecurity_Utility_Htaccess
         global $aio_wp_security;
         @ini_set( 'auto_detect_line_endings', true );
 		
-        //figure out what server they're using
-        if (strstr(strtolower(filter_var($_SERVER['SERVER_SOFTWARE'], FILTER_SANITIZE_STRING)), 'apache'))
-        {
-            $aiowps_server = 'apache';
-        } 
-        else if (strstr(strtolower(filter_var($_SERVER['SERVER_SOFTWARE'], FILTER_SANITIZE_STRING)), 'nginx'))
-        {
-            $aiowps_server = 'nginx';
-        } 
-        else if (strstr(strtolower(filter_var($_SERVER['SERVER_SOFTWARE'], FILTER_SANITIZE_STRING)), 'litespeed'))
-        {
-            $aiowps_server = 'litespeed';
-        }
-        else 
-        { //unsupported server
-            return -1;
-        }
-
         $rules = '';
         if($aio_wp_security->configs->get_value('aiowps_forbid_proxy_comments')=='1') 
         {
@@ -476,24 +468,6 @@ class AIOWPSecurity_Utility_Htaccess
         global $aio_wp_security;
         @ini_set( 'auto_detect_line_endings', true );
 		
-        //figure out what server they're using
-        if (strstr(strtolower(filter_var($_SERVER['SERVER_SOFTWARE'], FILTER_SANITIZE_STRING)), 'apache'))
-        {
-            $aiowps_server = 'apache';
-        } 
-        else if (strstr(strtolower(filter_var($_SERVER['SERVER_SOFTWARE'], FILTER_SANITIZE_STRING)), 'nginx'))
-        {
-            $aiowps_server = 'nginx';
-        } 
-        else if (strstr(strtolower(filter_var($_SERVER['SERVER_SOFTWARE'], FILTER_SANITIZE_STRING)), 'litespeed'))
-        {
-            $aiowps_server = 'litespeed';
-        }
-        else 
-        { //unsupported server
-            return -1;
-        }
-
         $rules = '';
         if($aio_wp_security->configs->get_value('aiowps_deny_bad_query_strings')=='1') 
         {
@@ -540,24 +514,6 @@ class AIOWPSecurity_Utility_Htaccess
         global $aio_wp_security;
         @ini_set( 'auto_detect_line_endings', true );
 		
-        //figure out what server they're using
-        if (strstr(strtolower(filter_var($_SERVER['SERVER_SOFTWARE'], FILTER_SANITIZE_STRING)), 'apache'))
-        {
-            $aiowps_server = 'apache';
-        } 
-        else if (strstr(strtolower(filter_var($_SERVER['SERVER_SOFTWARE'], FILTER_SANITIZE_STRING)), 'nginx'))
-        {
-            $aiowps_server = 'nginx';
-        } 
-        else if (strstr(strtolower(filter_var($_SERVER['SERVER_SOFTWARE'], FILTER_SANITIZE_STRING)), 'litespeed'))
-        {
-            $aiowps_server = 'litespeed';
-        }
-        else 
-        { //unsupported server
-            return -1;
-        }
-
         $rules = '';
         if($aio_wp_security->configs->get_value('aiowps_advanced_char_string_filter')=='1') 
         {
@@ -647,24 +603,6 @@ class AIOWPSecurity_Utility_Htaccess
         global $aio_wp_security;
         @ini_set( 'auto_detect_line_endings', true );
 		
-        //figure out what server they're using
-        if (strstr(strtolower(filter_var($_SERVER['SERVER_SOFTWARE'], FILTER_SANITIZE_STRING)), 'apache'))
-        {
-            $aiowps_server = 'apache';
-        } 
-        else if (strstr(strtolower(filter_var($_SERVER['SERVER_SOFTWARE'], FILTER_SANITIZE_STRING)), 'nginx'))
-        {
-            $aiowps_server = 'nginx';
-        } 
-        else if (strstr(strtolower(filter_var($_SERVER['SERVER_SOFTWARE'], FILTER_SANITIZE_STRING)), 'litespeed'))
-        {
-            $aiowps_server = 'litespeed';
-        }
-        else 
-        { //unsupported server
-            return -1;
-        }
-
         $rules = '';
         if($aio_wp_security->configs->get_value('aiowps_enable_5g_firewall')=='1') 
         {

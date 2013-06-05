@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: All In One WP Security
-Version: v1.0.0
+Version: v1.1
 Plugin URI: http://www.tipsandtricks-hq.com/
 Author: Tips and Tricks HQ, Peter, Ruhul Amin
 Author URI: http://www.tipsandtricks-hq.com/

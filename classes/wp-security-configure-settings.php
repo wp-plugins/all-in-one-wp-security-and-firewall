@@ -34,6 +34,7 @@ class AIOWPSecurity_Configure_Settings
         
         //Filesystem Security feature
         $aio_wp_security->configs->set_value('aiowps_disable_file_editing','');//Checkbox
+        $aio_wp_security->configs->set_value('aiowps_prevent_default_wp_file_access','');//Checkbox
 
         //Blacklist feature
         $aio_wp_security->configs->set_value('aiowps_enable_blacklisting','');//Checkbox

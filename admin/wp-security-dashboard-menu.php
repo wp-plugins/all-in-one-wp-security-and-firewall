@@ -164,7 +164,7 @@ class AIOWPSecurity_Dashboard_Menu extends AIOWPSecurity_Admin_Menu
         <div class="inside">
 
         <?php 
-        _e('Below is the current status of the critical features that you should activate on your site for maximum security','aiowpsecurity'); 
+        _e('Below is the current status of the critical features that you should activate on your site to achieve a minimum level of recommended security','aiowpsecurity'); 
         $feature_items = $feature_mgr->feature_items;
         $username_admin_feature = $feature_mgr->get_feature_item_by_id("user-accounts-change-admin-user");
         echo '<div class="aiowps_feature_status_container">';
@@ -236,7 +236,7 @@ class AIOWPSecurity_Dashboard_Menu extends AIOWPSecurity_Admin_Menu
         
         <p>We are working to make your WordPress site more secure. Please support us, here is how:</p>
         <p>
-            <a href="http://twitter.com/intent/tweet?url=http://www.tipsandtricks-hq.com/wordpress-security-and-firewall-plugin&text=I love the All In One WP Security and Firewall plugin!" target="_blank" class="aio_tweet_link">Post to Tweeter</a>
+            <a href="http://twitter.com/intent/tweet?url=http://www.tipsandtricks-hq.com/wordpress-security-and-firewall-plugin&text=I love the All In One WP Security and Firewall plugin!" target="_blank" class="aio_tweet_link">Post to Twitter</a>
         </p>
         <p>
             <a href="http://wordpress.org/plugins/all-in-one-wp-security-and-firewall/" target="_blank" class="aio_rate_us_link">Vote & Rate Now</a>

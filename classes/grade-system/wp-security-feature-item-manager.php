@@ -48,6 +48,8 @@ class AIOWPSecurity_Feature_Item_Manager
         $this->feature_items[] = new AIOWPSecurity_Feature_Item("filesystem-file-permissions", "File Permissions", $this->feature_point_4, $this->sec_level_basic);
         //PHP File Editing
         $this->feature_items[] = new AIOWPSecurity_Feature_Item("filesystem-file-editing", "File Editing", $this->feature_point_2, $this->sec_level_basic);       
+        //Prevent Access WP Install Files
+        $this->feature_items[] = new AIOWPSecurity_Feature_Item("block-wp-files-access", "WordPress Files Access", $this->feature_point_2, $this->sec_level_basic);       
         
         //Blacklist Manager Menu Features
         //IP and user agent blacklisting
@@ -137,6 +139,10 @@ class AIOWPSecurity_Feature_Item_Manager
             if($item->feature_id == "filesystem-file-editing")
             {
                 $this->check_filesystem_file_editing_feature($item);
+            }            
+            if($item->feature_id == "block-wp-files-access")
+            {
+                $this->check_block_wp_files_access_feature($item);
             }            
 
             if($item->feature_id == "blacklist-manager-ip-user-agent-blacklisting")
@@ -294,6 +300,18 @@ class AIOWPSecurity_Feature_Item_Manager
     {
         global $aio_wp_security;
         if ($aio_wp_security->configs->get_value('aiowps_disable_file_editing') == '1') {
+            $item->set_feature_status($this->feature_active);
+        }
+        else
+        {
+            $item->set_feature_status($this->feature_inactive);
+        }
+    }
+
+    function check_block_wp_files_access_feature($item)
+    {
+        global $aio_wp_security;
+        if ($aio_wp_security->configs->get_value('aiowps_prevent_default_wp_file_access') == '1') {
             $item->set_feature_status($this->feature_active);
         }
         else

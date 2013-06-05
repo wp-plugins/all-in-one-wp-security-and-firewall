@@ -8,13 +8,15 @@ class AIOWPSecurity_Filescan_Menu extends AIOWPSecurity_Admin_Menu
     var $menu_tabs = array(
         'tab1' => 'File Permissions', 
         'tab2' => 'PHP File Editing',
-        'tab3' => 'Host System Logs',
+        'tab3' => 'WP File Access',
+        'tab4' => 'Host System Logs',
         );
 
     var $menu_tabs_handler = array(
         'tab1' => 'render_tab1', 
         'tab2' => 'render_tab2',
         'tab3' => 'render_tab3',
+        'tab4' => 'render_tab4',
         );
     
     function __construct() 
@@ -218,6 +220,78 @@ class AIOWPSecurity_Filescan_Menu extends AIOWPSecurity_Admin_Menu
     }
 
     function render_tab3()
+    {
+        global $aio_wp_security;
+        if(isset($_POST['aiowps_save_wp_file_access_settings']))//Do form submission tasks
+        {
+            $nonce=$_REQUEST['_wpnonce'];
+            if (!wp_verify_nonce($nonce, 'aiowpsec-prevent-default-wp-file-access-nonce'))
+            {
+                $aio_wp_security->debug_logger->log_debug("Nonce check failed on enable basic firewall settings!",4);
+                die("Nonce check failed on enable basic firewall settings!");
+            }
+
+            //Save settings
+            if(isset($_POST['aiowps_prevent_default_wp_file_access']))
+            {
+                $aio_wp_security->configs->set_value('aiowps_prevent_default_wp_file_access','1');
+            } 
+            else
+            {
+                $aio_wp_security->configs->set_value('aiowps_prevent_default_wp_file_access','');
+            }
+
+            //Commit the config settings
+            $aio_wp_security->configs->save_config();
+
+            //Now let's write the applicable rules to the .htaccess file
+            $res = AIOWPSecurity_Utility_Htaccess::write_to_htaccess();
+
+            if ($res)
+            {
+                $this->show_msg_updated(__('You have successfully saved the Prevent Access to Default WP Files configuration.', 'aiowpsecurity'));
+            }
+            else if($res == -1)
+            {
+                $this->show_msg_error(__('Could not write to the .htaccess file. Please check the file permissions.', 'aiowpsecurity'));
+            }
+        }
+
+        ?>
+        <h2><?php _e('WordPress Files', 'aiowpsecurity')?></h2>
+        <div class="aio_blue_box">
+            <?php
+            $info_msg = sprintf( __('This feature allows you to prevent access to files such as %s, %s and %s which are delivered with all WP installations.', 'aiowpsecurity'), 'readme.html', 'license.txt', 'wp-config-sample.php');
+            echo '<p>'.$info_msg.'</p>'.'<p>'.__('By preventing access to these files you are hiding some key pieces of information (such as WordPress version info) from potential hackers.', 'aiowpsecurity').'</p>';
+            ?>
+        </div>
+
+        <div class="postbox">
+        <h3><label for="title"><?php _e('Prevent Access to Default WP Files', 'aiowpsecurity'); ?></label></h3>
+        <div class="inside">
+        <?php
+        //Display security info badge
+        global $aiowps_feature_mgr;
+        $aiowps_feature_mgr->output_feature_details_badge("block-wp-files-access");
+        ?>
+        <form action="" method="POST">
+        <?php wp_nonce_field('aiowpsec-prevent-default-wp-file-access-nonce'); ?>            
+        <table class="form-table">
+            <tr valign="top">
+                <th scope="row"><?php _e('Prevent Access to WP Default Install Files', 'aiowpsecurity')?>:</th>                
+                <td>
+                <input name="aiowps_prevent_default_wp_file_access" type="checkbox"<?php if($aio_wp_security->configs->get_value('aiowps_prevent_default_wp_file_access')=='1') echo ' checked="checked"'; ?> value="1"/>
+                <span class="description"><?php _e('Check this if you want to prevent access to readme.html, license.txt and wp-config-sample.php.', 'aiowpsecurity'); ?></span>
+                </td>
+            </tr>            
+        </table>
+        <input type="submit" name="aiowps_save_wp_file_access_settings" value="<?php _e('Save Setting', 'aiowpsecurity')?>" class="button-primary" />
+        </form>
+        </div></div>
+        <?php
+    }
+
+    function render_tab4()
     {
         global $aio_wp_security;
 
