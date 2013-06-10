@@ -42,6 +42,7 @@ class AIOWPSecurity_Configure_Settings
 
         //Firewall features
         $aio_wp_security->configs->set_value('aiowps_enable_basic_firewall','');//Checkbox
+        $aio_wp_security->configs->set_value('aiowps_disable_index_views','');//Checkbox
         $aio_wp_security->configs->set_value('aiowps_disable_trace_and_track','');//Checkbox
         $aio_wp_security->configs->set_value('aiowps_forbid_proxy_comments','');//Checkbox
         $aio_wp_security->configs->set_value('aiowps_deny_bad_query_strings','');//Checkbox

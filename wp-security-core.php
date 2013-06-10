@@ -3,7 +3,7 @@
 if (!class_exists('AIO_WP_Security')){
 
 class AIO_WP_Security{
-    var $version = '1.1';
+    var $version = '1.2';
     var $db_version = '1.2';
     var $plugin_url;
     var $plugin_path;
@@ -79,6 +79,7 @@ class AIO_WP_Security{
         include_once('classes/wp-security-utility-htaccess.php');
         include_once('classes/wp-security-utility-ip-address.php');
         include_once('classes/wp-security-utility-file.php');
+        include_once('classes/wp-security-general-init-tasks.php');
         
         include_once('classes/wp-security-user-login.php');
         include_once('classes/wp-security-backup.php');
@@ -146,7 +147,7 @@ class AIO_WP_Security{
         //Set up localisation
 	load_plugin_textdomain('aiowpsecurity', false, AIO_WP_SECURITY_PATH . "/languages" );
 
-        //Plugin into code goes here... actions, filters, shortcodes goes here       
+        //Actions, filters, shortcodes goes here       
         $this->user_login_obj = new AIOWPSecurity_User_Login();//Do the user login operation tasks
         $this->backup_obj = new AIOWPSecurity_Backup();//Object to handle backup tasks    
         $this->cron_handler = new AIOWPSecurity_Cronjob_Handler();
@@ -155,16 +156,10 @@ class AIO_WP_Security{
                 
         add_action('wp_login', array('AIOWPSecurity_User_Login', 'wp_login_action_handler'), 10, 2);
         do_action('aiowps_force_logout_check');
-        $this->do_additional_init_tasks();
-        
+        new AIOWPSecurity_General_Init_Tasks();
     }
 
     function aiowps_header_content()
-    {
-        //NOP
-    }
-    
-    function do_additional_init_tasks()
     {
         //NOP
     }

@@ -16,6 +16,9 @@ class AIOWPSecurity_Utility_Htaccess
     public static $user_agent_blacklist_marker_start = '#AIOWPS_USER_AGENT_BLACKLIST_START';
     public static $user_agent_blacklist_marker_end = '#AIOWPS_USER_AGENT_BLACKLIST_END';
     
+    public static $disable_index_views_marker_start = '#AIOWPS_DISABLE_INDEX_VIEWS_START';
+    public static $disable_index_views_marker_end = '#AIOWPS_DISABLE_INDEX_VIEWS_END';
+    
     public static $disable_trace_track_marker_start = '#AIOWPS_DISABLE_TRACE_TRACK_START';
     public static $disable_trace_track_marker_end = '#AIOWPS_DISABLE_TRACE_TRACK_END';
 
@@ -189,6 +192,7 @@ class AIOWPSecurity_Utility_Htaccess
         $rules = "";
         $rules .= AIOWPSecurity_Utility_Htaccess::getrules_block_wp_file_access();
         $rules .= AIOWPSecurity_Utility_Htaccess::getrules_basic_htaccess();
+        $rules .= AIOWPSecurity_Utility_Htaccess::getrules_disable_index_views();
         $rules .= AIOWPSecurity_Utility_Htaccess::getrules_blacklist();
         $rules .= AIOWPSecurity_Utility_Htaccess::getrules_disable_trace_and_track();
         $rules .= AIOWPSecurity_Utility_Htaccess::getrules_forbid_proxy_comment_posting();
@@ -216,8 +220,6 @@ class AIOWPSecurity_Utility_Htaccess
     static function getrules_block_wp_file_access()
     {
         global $aio_wp_security;
-        @ini_set( 'auto_detect_line_endings', true );
-		
         $rules = '';
         if($aio_wp_security->configs->get_value('aiowps_prevent_default_wp_file_access')=='1') 
         {
@@ -243,7 +245,6 @@ class AIOWPSecurity_Utility_Htaccess
     static function getrules_blacklist()
     {
         global $aio_wp_security;
-        @ini_set( 'auto_detect_line_endings', true );
 	$aiowps_server = AIOWPSecurity_Utility_Htaccess::get_server_type();	
         $rules = '';
         if($aio_wp_security->configs->get_value('aiowps_enable_blacklisting')=='1') 
@@ -376,14 +377,11 @@ class AIOWPSecurity_Utility_Htaccess
     static function getrules_basic_htaccess()
     {
         global $aio_wp_security;
-        @ini_set( 'auto_detect_line_endings', true );
 		
         $rules = '';
         if($aio_wp_security->configs->get_value('aiowps_enable_basic_firewall')=='1') 
         {
             $rules .= AIOWPSecurity_Utility_Htaccess::$basic_htaccess_rules_marker_start . PHP_EOL; //Add feature marker start
-            //limit indexing of directories 
-            $rules .= 'Options All -Indexes' . PHP_EOL;
             //protect the htaccess file - this is done by default with apache config file but we are including it here for good measure
             $rules .= '<files .htaccess>' . PHP_EOL;
             $rules .= 'order allow,deny' . PHP_EOL;
@@ -406,6 +404,26 @@ class AIOWPSecurity_Utility_Htaccess
         }
 	return $rules;
     }
+    
+    /*
+     * This function will disable directory listings for all directories, add this line to the
+     * site’s root .htaccess file.
+     * NOTE: AllowOverride must be enabled in the httpd.conf file for this to work!
+     */
+    static function getrules_disable_index_views()  
+    {
+        global $aio_wp_security;
+        $rules = '';
+        if($aio_wp_security->configs->get_value('aiowps_disable_index_views')=='1') 
+        {
+            $rules .= AIOWPSecurity_Utility_Htaccess::$disable_index_views_marker_start . PHP_EOL; //Add feature marker start
+            $rules .= 'Options All -Indexes' . PHP_EOL;
+            $rules .= AIOWPSecurity_Utility_Htaccess::$disable_index_views_marker_end . PHP_EOL; //Add feature marker end
+        }
+        
+	return $rules;
+    }
+
 
     /*
      * This function will write rules to disable trace and track.
@@ -416,8 +434,6 @@ class AIOWPSecurity_Utility_Htaccess
     static function getrules_disable_trace_and_track()
     {
         global $aio_wp_security;
-        @ini_set( 'auto_detect_line_endings', true );
-		
         $rules = '';
         if($aio_wp_security->configs->get_value('aiowps_disable_trace_and_track')=='1') 
         {
@@ -440,8 +456,6 @@ class AIOWPSecurity_Utility_Htaccess
     static function getrules_forbid_proxy_comment_posting()
     {
         global $aio_wp_security;
-        @ini_set( 'auto_detect_line_endings', true );
-		
         $rules = '';
         if($aio_wp_security->configs->get_value('aiowps_forbid_proxy_comments')=='1') 
         {
@@ -466,8 +480,6 @@ class AIOWPSecurity_Utility_Htaccess
     static function getrules_deny_bad_query_strings()
     {
         global $aio_wp_security;
-        @ini_set( 'auto_detect_line_endings', true );
-		
         $rules = '';
         if($aio_wp_security->configs->get_value('aiowps_deny_bad_query_strings')=='1') 
         {
@@ -512,8 +524,6 @@ class AIOWPSecurity_Utility_Htaccess
     static function getrules_advanced_character_string_filter()
     {
         global $aio_wp_security;
-        @ini_set( 'auto_detect_line_endings', true );
-		
         $rules = '';
         if($aio_wp_security->configs->get_value('aiowps_advanced_char_string_filter')=='1') 
         {
@@ -601,8 +611,6 @@ class AIOWPSecurity_Utility_Htaccess
     static function getrules_5g_blacklist()
     {
         global $aio_wp_security;
-        @ini_set( 'auto_detect_line_endings', true );
-		
         $rules = '';
         if($aio_wp_security->configs->get_value('aiowps_enable_5g_firewall')=='1') 
         {

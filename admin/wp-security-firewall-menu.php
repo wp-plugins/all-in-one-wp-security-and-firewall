@@ -164,6 +164,15 @@ class AIOWPSecurity_Firewall_Menu extends AIOWPSecurity_Admin_Menu
             }
 
             //Save settings
+            if(isset($_POST['aiowps_disable_index_views']))
+            {
+                $aio_wp_security->configs->set_value('aiowps_disable_index_views','1');
+            }
+            else
+            {
+                $aio_wp_security->configs->set_value('aiowps_disable_index_views','');
+            }
+            
             if(isset($_POST['aiowps_disable_trace_and_track']))
             {
                 $aio_wp_security->configs->set_value('aiowps_disable_trace_and_track','1');
@@ -232,6 +241,36 @@ class AIOWPSecurity_Firewall_Menu extends AIOWPSecurity_Admin_Menu
         <form action="" method="POST">
         <?php wp_nonce_field('aiowpsec-enable-additional-firewall-nonce'); ?>            
 
+        <div class="postbox">
+        <h3><label for="title"><?php _e('Listing of Directory Contents', 'aiowpsecurity'); ?></label></h3>
+        <div class="inside">
+        <?php
+        //Display security info badge
+        global $aiowps_feature_mgr;
+        $aiowps_feature_mgr->output_feature_details_badge("firewall-disable-index-views");
+        ?>
+        <table class="form-table">
+            <tr valign="top">
+                <th scope="row"><?php _e('Disable Index Views', 'aiowpsecurity')?>:</th>                
+                <td>
+                <input name="aiowps_disable_index_views" type="checkbox"<?php if($aio_wp_security->configs->get_value('aiowps_disable_index_views')=='1') echo ' checked="checked"'; ?> value="1"/>
+                <span class="description"><?php _e('Check this if you want to disable directory and file listing.', 'aiowpsecurity'); ?></span>
+                <span class="aiowps_more_info_anchor"><span class="aiowps_more_info_toggle_char">+</span><span class="aiowps_more_info_toggle_text"><?php _e('More Info', 'aiowpsecurity'); ?></span></span>
+                <div class="aiowps_more_info_body">
+                    <p class="description">
+                        <?php 
+                        _e('By default, an Apache server will allow the listing of the contents of a directory if it doesn\'t contain an index.php file.', 'aiowpsecurity');
+                        echo '<br />';
+                        _e('This feature will prevent the listing of contents for all directories.', 'aiowpsecurity');
+                        echo '<br />';
+                        _e('NOTE: In order for this feature to work "AllowOverride" must be enabled in your httpd.conf file. Ask your hosting provider to check this if you don\'t have access to httpd.conf', 'aiowpsecurity');
+                        ?>
+                    </p>
+                </div>
+                </td>
+            </tr>
+        </table>
+        </div></div>
         <div class="postbox">
         <h3><label for="title"><?php _e('Trace and Track', 'aiowpsecurity'); ?></label></h3>
         <div class="inside">

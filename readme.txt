@@ -4,7 +4,7 @@ Donate link: http://www.tipsandtricks-hq.com
 Tags: security, secure, Anti Virus, antivirus, virus, firewall, login, lockdown, htaccess, hacking, ban hacker, malware, vulnerability, protect, phishing, database, backup, plugin, sql injection
 Requires at least: 3.5
 Tested up to: 3.6
-Stable tag: 1.1
+Stable tag: 1.2
 License: GPLv3
 
 A comprehensive, user-friendly, all in one WordPress security and firewall plugin for your site.
@@ -18,7 +18,7 @@ The All In One WordPress Security plugin will take your website security to a wh
 
 This plugin is designed and written by experts and is easy to use and understand.
 
-It offers the latest recommended WordPress security practices and techniques.
+It reduces security risk by checking for vulnerabilities, and by implementing and enforcing the latest recommended WordPress security practices and techniques.
 
 http://www.youtube.com/watch?v=CJvCTlVtazA
 
@@ -69,7 +69,8 @@ via email whenever somebody gets locked out due to too many login attempts.
 This plugin allows you to easily add a lot of firewall protection to your site via htaccess file. An htaccess file is processed by your web server before any other code on your site. 
 So these firewall rules will stop malicious script(s) before it gets a chance to reach the WordPress code on your site.
 
-* Instantly activate a selection of firewall settings ranging from basic, intermediate and advanced.
+* Access control facility
+* Instantly activate a selection of firewall settings ranging from basic, intermediate and advanced
 * Enable the famous "5G Blacklist" Firewall rules courtesy of [Perishable Press](http://perishablepress.com/)
 * Forbid proxy comment posting
 * Disable trace and track
@@ -116,6 +117,9 @@ None
 None
 
 == Changelog ==
+= 1.2 =
+- Moved the rules which disable index views from the "basic firewall" rules to the "additional rules" section. This will prevent any site breakage for 
+those who want to enable the basic firewall but do not have "AllowOverride" option enabled in their httpd.conf
 
 = 1.1 =
 - Added the following new feature:
