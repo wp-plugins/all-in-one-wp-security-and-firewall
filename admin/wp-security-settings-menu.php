@@ -9,12 +9,14 @@ class AIOWPSecurity_Settings_Menu extends AIOWPSecurity_Admin_Menu
         'tab1' => 'General Settings', 
         'tab2' => '.htaccess File',
         'tab3' => 'wp-config.php File',
+        'tab4' => 'WP Meta Info',
         );
 
     var $menu_tabs_handler = array(
         'tab1' => 'render_tab1', 
         'tab2' => 'render_tab2',
         'tab3' => 'render_tab3',
+        'tab4' => 'render_tab4',
         );
 
     function __construct() 
@@ -395,6 +397,61 @@ class AIOWPSecurity_Settings_Menu extends AIOWPSecurity_Admin_Menu
 
         <?php
     }
+    
+    function render_tab4()
+    {
+        global $aio_wp_security;
+
+        if(isset($_POST['aiowps_save_remove_wp_meta_info']))//Do form submission tasks
+        {
+            $nonce=$_REQUEST['_wpnonce'];
+            if (!wp_verify_nonce($nonce, 'aiowpsec-remove-wp-meta-info-nonce'))
+            {
+                $aio_wp_security->debug_logger->log_debug("Nonce check failed on remove wp meta info options save!",4);
+                die("Nonce check failed on remove wp meta info options save!");
+            }
+            $aio_wp_security->configs->set_value('aiowps_remove_wp_generator_meta_info',isset($_POST["aiowps_remove_wp_generator_meta_info"])?'1':'');
+            $aio_wp_security->configs->save_config();
+            $this->show_msg_settings_updated();
+    }
+        ?>
+        <h2><?php _e('WP Generator Meta Tag', 'aiowpsecurity')?></h2>
+        <div class="aio_blue_box">
+            <?php
+            echo '<p>'.__('Wordpress generator automatically adds some meta information inside the "head" tags of every page on your site\'s front end. Below is an example of this:', 'aiowpsecurity');
+            echo '<br /><strong>&lt;meta name="generator" content="WordPress 3.5.1" /&gt;</strong>';
+            echo '<br />'.__('The above meta information shows which version of WordPress your site is currently running and thus can help hackers or crawlers scan your site to see if you have an older version of WordPress or one with a known exploit.', 'aiowpsecurity').'
+            <br />'.__('This feature will allow you to remove the WP generator meta info from your site\'s pages.', 'aiowpsecurity').'    
+            </p>';
+            ?>
+        </div>
+
+        <div class="postbox">
+        <h3><label for="title"><?php _e('WP Generator Meta Info', 'aiowpsecurity'); ?></label></h3>
+        <div class="inside">
+        <?php
+        //Display security info badge
+        global $aiowps_feature_mgr;
+        $aiowps_feature_mgr->output_feature_details_badge("wp-generator-meta-tag");
+        ?>
+
+        <form action="" method="POST">
+        <?php wp_nonce_field('aiowpsec-remove-wp-meta-info-nonce'); ?>            
+        <table class="form-table">
+            <tr valign="top">
+                <th scope="row"><?php _e('Remove WP Generator Meta Info', 'aiowpsecurity')?>:</th>                
+                <td>
+                <input name="aiowps_remove_wp_generator_meta_info" type="checkbox"<?php if($aio_wp_security->configs->get_value('aiowps_remove_wp_generator_meta_info')=='1') echo ' checked="checked"'; ?> value="1"/>
+                <span class="description"><?php _e('Check this if you want to remove the meta info produced by WP Generator from all pages', 'aiowpsecurity'); ?></span>
+                </td>
+            </tr>            
+        </table>
+        <input type="submit" name="aiowps_save_remove_wp_meta_info" value="<?php _e('Save Settings', 'aiowpsecurity')?>" class="button-primary" />
+        </form>
+        </div></div>
+    <?php
+    }
+
     
     function check_if_wp_config_contents($wp_file)
     {

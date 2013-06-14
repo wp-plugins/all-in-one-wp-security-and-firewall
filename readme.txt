@@ -4,7 +4,7 @@ Donate link: http://www.tipsandtricks-hq.com
 Tags: security, secure, Anti Virus, antivirus, virus, firewall, login, lockdown, htaccess, hacking, ban hacker, malware, vulnerability, protect, phishing, database, backup, plugin, sql injection
 Requires at least: 3.5
 Tested up to: 3.6
-Stable tag: 1.2
+Stable tag: 1.3
 License: GPLv3
 
 A comprehensive, user-friendly, all in one WordPress security and firewall plugin for your site.
@@ -117,6 +117,12 @@ None
 None
 
 == Changelog ==
+= 1.3 =
+- Added a new feature to remove the WordPress Generator Meta information from the HTML source of your site.
+- Tweaked the "Advanced Character String Filter" to fix issue which was affecting plugins such as "Admin Management Xtended" and also pages with keywords such as "password" in the URL.
+- Updated one rule in the "Advanced Character String Filter" feature to make it compatible with W3 Total Cache Plugin's minify feature.
+- Added a "Delete All Failed Login Records" option in the "Failed Login Records" tab. This will delete all entries in the failed logins table and will make it less tedious for users who get a lot of brute force attacks on their site.
+
 = 1.2 =
 - Moved the rules which disable index views from the "basic firewall" rules to the "additional rules" section. This will prevent any site breakage for 
 those who want to enable the basic firewall but do not have "AllowOverride" option enabled in their httpd.conf

@@ -24,6 +24,9 @@ class AIOWPSecurity_Feature_Item_Manager
     function initialize_features()
     {
         $this->feature_items = array();
+        //Settings Menu Features
+        //WP Generator Meta
+        $this->feature_items[] = new AIOWPSecurity_Feature_Item("wp-generator-meta-tag", "Remove WP Generatore Meta Tag", $this->feature_point_1, $this->sec_level_basic);
         
         //User Accounts Menu Features
         //Change Admin Username
@@ -106,7 +109,12 @@ class AIOWPSecurity_Feature_Item_Manager
     function check_and_set_feature_status()
     {
         foreach($this->feature_items as $item)
-        {        
+        {
+            if($item->feature_id == "wp-generator-meta-tag")
+            {
+                $this->check_remove_wp_generator_meta_feature($item);
+            }            
+
             if($item->feature_id == "user-accounts-change-admin-user")
             {
                 $this->check_user_accounts_change_admin_user_feature($item);
@@ -209,6 +217,18 @@ class AIOWPSecurity_Feature_Item_Manager
         return $this->total_achievable_points;
     }
     
+    function check_remove_wp_generator_meta_feature($item)
+    {
+        global $aio_wp_security;
+        if ($aio_wp_security->configs->get_value('aiowps_remove_wp_generator_meta_info') == '1') {
+            $item->set_feature_status($this->feature_active);
+        }
+        else
+        {
+            $item->set_feature_status($this->feature_inactive);
+        }
+    }
+
     function check_user_accounts_change_admin_user_feature($item)
     {
         if (AIOWPSecurity_Utility::check_user_exists('admin')) {

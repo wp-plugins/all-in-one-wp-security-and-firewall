@@ -226,6 +226,30 @@ class AIOWPSecurity_User_Login_Menu extends AIOWPSecurity_Admin_Menu
     
     function render_tab2()
     {
+        global $aio_wp_security, $wpdb;
+        if (isset($_POST['aiowps_delete_failed_login_records']))
+        {
+            $nonce=$_REQUEST['_wpnonce'];
+            if (!wp_verify_nonce($nonce, 'aiowpsec-delete-failed-login-records-nonce'))
+            {
+                $aio_wp_security->debug_logger->log_debug("Nonce check failed for delete all failed login records operation!",4);
+                die(__('Nonce check failed for delete all failed login records operation!','aiowpsecurity'));
+            }
+            $failed_logins_table = AIOWPSEC_TBL_FAILED_LOGINS;
+            //Delete all records from the failed logins table
+            $result = $wpdb->query("truncate $failed_logins_table");
+                    
+            if ($result === FALSE)
+            {
+                $aio_wp_security->debug_logger->log_debug("User Login Feature - Delete all failed login records operation failed!",4);
+                $this->show_msg_error(__('User Login Feature - Delete all failed login records operation failed!','aiowpsecurity'));
+            } 
+            else
+            {
+                $this->show_msg_updated(__('All records from the Failed Logins table were deleted successfully!','aiowpsecurity'));
+            }
+        }
+
         include_once 'wp-security-list-login-fails.php'; //For rendering the AIOWPSecurity_List_Table in tab2
         $failed_login_list = new AIOWPSecurity_List_Login_Failed_Attempts(); //For rendering the AIOWPSecurity_List_Table in tab2
         if(isset($_REQUEST['action'])) //Do row action tasks for list table form for failed logins
@@ -258,10 +282,24 @@ class AIOWPSecurity_User_Login_Menu extends AIOWPSecurity_Admin_Menu
             <?php $failed_login_list->display(); ?>
             </form>
         </div></div>
+        <div class="postbox">
+        <h3><label for="title"><?php _e('Delete All Failed Login Records', 'aiowpsecurity'); ?></label></h3>
+        <div class="inside">
+        <form action="" method="POST">
+        <?php wp_nonce_field('aiowpsec-delete-failed-login-records-nonce'); ?>
+        <table class="form-table">
+            <tr valign="top">
+            <span class="description"><?php _e('Click this button if you wish to delete all failed login records in one go.', 'aiowpsecurity'); ?></span>                
+            </tr>            
+        </table>
+        <input type="submit" name="aiowps_delete_failed_login_records" value="<?php _e('Delete All Failed Login Records', 'aiowpsecurity')?>" class="button-primary" onclick="return confirm('Are you sure you want to delete all records?')"/>
+        </form>
+        </div></div>
+
         <?php
     }
 
-        function render_tab3()
+    function render_tab3()
     {
         global $aio_wp_security;
         if(isset($_POST['aiowpsec_save_force_logout_settings']))//Do form submission tasks

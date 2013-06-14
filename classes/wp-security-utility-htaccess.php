@@ -530,71 +530,85 @@ class AIOWPSecurity_Utility_Htaccess
             $rules .= AIOWPSecurity_Utility_Htaccess::$advanced_char_string_filter_marker_start . PHP_EOL; //Add feature marker start
             
             $rules .= '<IfModule mod_alias.c>
-                        RedirectMatch 403 `
-                        RedirectMatch 403 {
-                        RedirectMatch 403 }
-                        RedirectMatch 403 ~
-                        RedirectMatch 403 &quot;
-                        RedirectMatch 403 &lt;
-                        RedirectMatch 403 &gt;
-                        RedirectMatch 403 //
-                        RedirectMatch 403 %0
-                        RedirectMatch 403 %A
-                        RedirectMatch 403 %B
-                        RedirectMatch 403 %C
-                        RedirectMatch 403 %D
-                        RedirectMatch 403 %E
-                        RedirectMatch 403 %F
-                        RedirectMatch 403 %22
-                        RedirectMatch 403 %27
-                        RedirectMatch 403 %28
-                        RedirectMatch 403 %29
-                        RedirectMatch 403 %3C
-                        RedirectMatch 403 %3E
-                        RedirectMatch 403 %3F
-                        RedirectMatch 403 %5B
-                        RedirectMatch 403 %5C
-                        RedirectMatch 403 %5D
-                        RedirectMatch 403 %7B
-                        RedirectMatch 403 %7C
-                        RedirectMatch 403 %7D
+                        RedirectMatch 403 \,
+                        RedirectMatch 403 \:
+                        RedirectMatch 403 \;
+                        RedirectMatch 403 \=
+                        RedirectMatch 403 \@
+                        RedirectMatch 403 \[
+                        RedirectMatch 403 \]
+                        RedirectMatch 403 \^
+                        RedirectMatch 403 \`
+                        RedirectMatch 403 \{
+                        RedirectMatch 403 \}
+                        RedirectMatch 403 \~
+                        RedirectMatch 403 \"
+                        RedirectMatch 403 \$
+                        RedirectMatch 403 \<
+                        RedirectMatch 403 \>
+                        RedirectMatch 403 \|
+                        RedirectMatch 403 \.\.
+                        RedirectMatch 403 \%0
+                        RedirectMatch 403 \%A
+                        RedirectMatch 403 \%B
+                        RedirectMatch 403 \%C
+                        RedirectMatch 403 \%D
+                        RedirectMatch 403 \%E
+                        RedirectMatch 403 \%F
+                        RedirectMatch 403 \%22
+                        RedirectMatch 403 \%27
+                        RedirectMatch 403 \%28
+                        RedirectMatch 403 \%29
+                        RedirectMatch 403 \%3C
+                        RedirectMatch 403 \%3E
+                        RedirectMatch 403 \%3F
+                        RedirectMatch 403 \%5B
+                        RedirectMatch 403 \%5C
+                        RedirectMatch 403 \%5D
+                        RedirectMatch 403 \%7B
+                        RedirectMatch 403 \%7C
+                        RedirectMatch 403 \%7D
                         # COMMON PATTERNS
-                        Redirectmatch 403 _vpi
+                        Redirectmatch 403 \_vpi
+                        RedirectMatch 403 \.inc
                         Redirectmatch 403 xAou6
-                        Redirectmatch 403 db_name
-                        Redirectmatch 403 /query/
+                        Redirectmatch 403 db\_name
+                        Redirectmatch 403 select\(
+                        Redirectmatch 403 convert\(
+                        Redirectmatch 403 \/query\/
                         RedirectMatch 403 ImpEvData
-                        Redirectmatch 403 .XMLHTTP
+                        Redirectmatch 403 \.XMLHTTP
                         Redirectmatch 403 proxydeny
-                        RedirectMatch 403 function.
+                        RedirectMatch 403 function\.
                         Redirectmatch 403 remoteFile
                         Redirectmatch 403 servername
-                        Redirectmatch 403 &amp;rptmode=
-                        Redirectmatch 403 sys_cpanel
-                        RedirectMatch 403 db_connect
+                        Redirectmatch 403 \&rptmode\=
+                        Redirectmatch 403 sys\_cpanel
+                        RedirectMatch 403 db\_connect
                         RedirectMatch 403 doeditconfig
-                        RedirectMatch 403 check_proxy
-                        Redirectmatch 403 system_user
-                        Redirectmatch 403 /(null)/
+                        RedirectMatch 403 check\_proxy
+                        Redirectmatch 403 system\_user
+                        Redirectmatch 403 \/\(null\)\/
                         Redirectmatch 403 clientrequest
-                        Redirectmatch 403 option_value
-                        RedirectMatch 403 ref.outcontrol
+                        Redirectmatch 403 option\_value
+                        RedirectMatch 403 ref\.outcontrol
                         # SPECIFIC EXPLOITS
-                        RedirectMatch 403 errors.
-                        RedirectMatch 403 config.
-                        RedirectMatch 403 display.
-                        RedirectMatch 403 register.
-                        Redirectmatch 403 password.
-                        RedirectMatch 403 maincore.
-                        RedirectMatch 403 authorize.
-                        Redirectmatch 403 macromates.
-                        RedirectMatch 403 head_auth.
-                        RedirectMatch 403 submit_links.
-                        RedirectMatch 403 change_action.
-                        Redirectmatch 403 com_facileforms/
-                        RedirectMatch 403 admin_db_utilities.
-                        RedirectMatch 403 admin.webring.docs.
-                        Redirectmatch 403 Table/Latest/index.
+                        RedirectMatch 403 errors\.
+                        RedirectMatch 403 config\.
+                        RedirectMatch 403 include\.
+                        RedirectMatch 403 display\.
+                        RedirectMatch 403 register\.
+                        Redirectmatch 403 password\.
+                        RedirectMatch 403 maincore\.
+                        RedirectMatch 403 authorize\.
+                        Redirectmatch 403 macromates\.
+                        RedirectMatch 403 head\_auth\.
+                        RedirectMatch 403 submit\_links\.
+                        RedirectMatch 403 change\_action\.
+                        Redirectmatch 403 com\_facileforms\/
+                        RedirectMatch 403 admin\_db\_utilities\.
+                        RedirectMatch 403 admin\.webring\.docs\.
+                        Redirectmatch 403 Table\/Latest\/index\.
                         </IfModule>' . PHP_EOL;
             $rules .= AIOWPSecurity_Utility_Htaccess::$advanced_char_string_filter_marker_end . PHP_EOL; //Add feature marker end
         }

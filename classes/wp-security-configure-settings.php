@@ -9,6 +9,9 @@ class AIOWPSecurity_Configure_Settings
     static function set_default_settings()
     {
         global $aio_wp_security;
+        //WP Generator Meta Tag feature
+        $aio_wp_security->configs->set_value('aiowps_remove_wp_generator_meta_info','');//Checkbox
+        
         //User password feature
         
         //Lockdown feature
