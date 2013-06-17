@@ -172,6 +172,7 @@ class AIOWPSecurity_Backup
                     if ($result)
                     {
                         $aio_wp_security->configs->set_value('aiowps_last_backup_time', current_time('mysql'));
+                        $aio_wp_security->configs->save_config();
                         $aio_wp_security->debug_logger->log_debug_cron("DB Backup - Scheduled backup was successfully completed.");
                     } 
                     else

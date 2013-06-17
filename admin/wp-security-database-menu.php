@@ -245,6 +245,14 @@ class AIOWPSecurity_Database_Menu extends AIOWPSecurity_Admin_Menu
             $aio_wp_security->configs->set_value('aiowps_backup_email_address',$email_address);
             $aio_wp_security->configs->save_config();
             $this->show_msg_settings_updated();
+            
+            //Let's check if backup interval was set to less than 24 hours
+            if (isset($_POST["aiowps_enable_automated_backups"]) && ($backup_frequency < 24) && $_POST["aiowps_db_backup_interval"]==0)
+            {
+                $alert_user_msg = 'ATTENTION: You have configured your backups to occur at least once daily. For most websites we recommended that you choose a less frequent backup
+                    schedule such as once every few days, once a week or once a month. Choosing a less frequent schedule will also help reduce your server load.';
+                $this->show_msg_updated_st(__($alert_user_msg, 'aiowpsecurity'));
+            }
         }
         
         ?>

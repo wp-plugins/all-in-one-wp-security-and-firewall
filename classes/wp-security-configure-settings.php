@@ -9,6 +9,8 @@ class AIOWPSecurity_Configure_Settings
     static function set_default_settings()
     {
         global $aio_wp_security;
+        $blog_email_address = get_bloginfo('admin_email'); //Get the blog admin email address - we will use as the default value
+
         //WP Generator Meta Tag feature
         $aio_wp_security->configs->set_value('aiowps_remove_wp_generator_meta_info','');//Checkbox
         
@@ -21,7 +23,7 @@ class AIOWPSecurity_Configure_Settings
         $aio_wp_security->configs->set_value('aiowps_lockout_time_length','60');
         $aio_wp_security->configs->set_value('aiowps_set_generic_login_msg','');//Checkbox
         $aio_wp_security->configs->set_value('aiowps_enable_email_notify','');//Checkbox
-        //$aio_wp_security->configs->set_value('aiowps_email_address','');//text field
+        $aio_wp_security->configs->set_value('aiowps_email_address',$blog_email_address);//text field
         $aio_wp_security->configs->set_value('aiowps_enable_forced_logout','');//Checkbox
         $aio_wp_security->configs->set_value('aiowps_logout_time_period','60');
         
@@ -33,7 +35,7 @@ class AIOWPSecurity_Configure_Settings
         $aio_wp_security->configs->set_value('aiowps_db_backup_interval','2'); //Dropdown box where (0,1,2) => (hours,days,weeks)
         $aio_wp_security->configs->set_value('aiowps_backup_files_stored','2');
         $aio_wp_security->configs->set_value('aiowps_send_backup_email_address','');//Checkbox
-        $aio_wp_security->configs->set_value('aiowps_backup_email_address','');
+        $aio_wp_security->configs->set_value('aiowps_backup_email_address',$blog_email_address);
         
         //Filesystem Security feature
         $aio_wp_security->configs->set_value('aiowps_disable_file_editing','');//Checkbox
@@ -52,7 +54,7 @@ class AIOWPSecurity_Configure_Settings
         $aio_wp_security->configs->set_value('aiowps_advanced_char_string_filter','');//Checkbox
         $aio_wp_security->configs->set_value('aiowps_enable_5g_firewall','');//Checkbox
         
-        //TODO - keep adding default opitons for any fields that require it
+        //TODO - keep adding default options for any fields that require it
         
         //Save it
         $aio_wp_security->configs->save_config();

@@ -484,7 +484,7 @@ class AIOWPSecurity_Utility_Htaccess
         if($aio_wp_security->configs->get_value('aiowps_deny_bad_query_strings')=='1') 
         {
             $rules .= AIOWPSecurity_Utility_Htaccess::$deny_bad_query_strings_marker_start . PHP_EOL; //Add feature marker start
-            $rules .= 'RewriteCond %{QUERY_STRING} ../    [NC,OR]' . PHP_EOL;
+            //$rules .= 'RewriteCond %{QUERY_STRING} ../    [NC,OR]' . PHP_EOL;
             //$rules .= 'RewriteCond %{QUERY_STRING} boot.ini [NC,OR]' . PHP_EOL;
             $rules .= 'RewriteCond %{QUERY_STRING} tag=     [NC,OR]' . PHP_EOL;
             $rules .= 'RewriteCond %{QUERY_STRING} ftp:     [NC,OR]' . PHP_EOL;
@@ -495,7 +495,7 @@ class AIOWPSecurity_Utility_Htaccess
             //$rules .= 'RewriteCond %{QUERY_STRING} ^.*(%22|%27|%3C|%3E|%5C|%7B|%7C).* [NC,OR]' . PHP_EOL;
             //$rules .= 'RewriteCond %{QUERY_STRING} ^.*(%0|%A|%B|%C|%D|%E|%F|127.0).* [NC,OR]' . PHP_EOL;
             $rules .= 'RewriteCond %{QUERY_STRING} ^.*(globals|encode|config|localhost|loopback).* [NC,OR]' . PHP_EOL;
-            $rules .= 'RewriteCond %{QUERY_STRING} ^.*(request|select|insert|union|declare|drop).* [NC]' . PHP_EOL;
+            $rules .= 'RewriteCond %{QUERY_STRING} ^.*(request|insert|union|declare|drop).* [NC]' . PHP_EOL;
             $rules .= 'RewriteRule ^(.*)$ - [F,L]' . PHP_EOL;
             $rules .= AIOWPSecurity_Utility_Htaccess::$deny_bad_query_strings_marker_end . PHP_EOL; //Add feature marker end
         }

@@ -1,10 +1,10 @@
 === All In One WP Security & Firewall ===
 Contributors: Tips and Tricks HQ, wpsolutions, Peter Petreski, Ruhul Amin 
 Donate link: http://www.tipsandtricks-hq.com
-Tags: security, secure, Anti Virus, antivirus, virus, firewall, login, lockdown, htaccess, hacking, ban hacker, malware, vulnerability, protect, phishing, database, backup, plugin, sql injection
+Tags: security, secure, Anti Virus, antivirus, virus, firewall, login, lockdown, htaccess, hacking, ban hacker, malware, vulnerability, protect, phishing, database, backup, plugin, sql injection, ssl, restrict
 Requires at least: 3.5
 Tested up to: 3.6
-Stable tag: 1.3
+Stable tag: 1.4
 License: GPLv3
 
 A comprehensive, user-friendly, all in one WordPress security and firewall plugin for your site.
@@ -86,6 +86,10 @@ So these firewall rules will stop malicious script(s) before it gets a chance to
 = Works with Most Popular WordPress Plugins =
 * It should work smoothly with most popular WordPress plugins.
 
+= Additional Features =
+* Ability to remove the WordPress Generator Meta information from the HTML source of your site.
+* Ability to prevent people from accessing the readme.html, license.txt and wp-config-sample.php files
+
 = Plugin Support =
 * If you have a question or problem with the All In One Security plugin, post it on the support forum and we will help you.
 
@@ -117,6 +121,13 @@ None
 None
 
 == Changelog ==
+
+= 1.4 =
+- Tweaked the "Deny Bad Query Strings" firewall rules so that plugin deletion and update operations from the WordPress plugins menu are not affected.
+- Fixed a minor bug related to scheduled database backups.
+- Added some extra default settings to be applied to the plugin's configuration pages upon activation for the first time.
+- Plugin will now display a recommendation message if user sets scheduled backup frequency to less than 24 hours.
+
 = 1.3 =
 - Added a new feature to remove the WordPress Generator Meta information from the HTML source of your site.
 - Tweaked the "Advanced Character String Filter" to fix issue which was affecting plugins such as "Admin Management Xtended" and also pages with keywords such as "password" in the URL.
