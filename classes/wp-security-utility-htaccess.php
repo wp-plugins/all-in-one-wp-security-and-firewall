@@ -16,6 +16,9 @@ class AIOWPSecurity_Utility_Htaccess
     public static $user_agent_blacklist_marker_start = '#AIOWPS_USER_AGENT_BLACKLIST_START';
     public static $user_agent_blacklist_marker_end = '#AIOWPS_USER_AGENT_BLACKLIST_END';
     
+    public static $enable_brute_force_attack_prevention_marker_start = '#AIOWPS_ENABLE_BRUTE_FORCE_PREVENTION_START';
+    public static $disable_brute_force_attack_prevention_marker_end = '#AIOWPS_DISABLE_BRUTE_FORCE_PREVENTION_END';
+
     public static $disable_index_views_marker_start = '#AIOWPS_DISABLE_INDEX_VIEWS_START';
     public static $disable_index_views_marker_end = '#AIOWPS_DISABLE_INDEX_VIEWS_END';
     
@@ -199,6 +202,7 @@ class AIOWPSecurity_Utility_Htaccess
         $rules .= AIOWPSecurity_Utility_Htaccess::getrules_deny_bad_query_strings();
         $rules .= AIOWPSecurity_Utility_Htaccess::getrules_advanced_character_string_filter();
         $rules .= AIOWPSecurity_Utility_Htaccess::getrules_5g_blacklist();
+        $rules .= AIOWPSecurity_Utility_Htaccess::getrules_enable_brute_force_prevention();
         //TODO: The following utility functions are ready to use when we write the menu pages for these features
 
         //Add more functions for features as needed
@@ -406,6 +410,32 @@ class AIOWPSecurity_Utility_Htaccess
     }
     
     /*
+     * This function will write some drectives to block all people who do not have a cookie 
+     * when trying to access the WP login page
+     */
+    static function getrules_enable_brute_force_prevention()  
+    {
+        global $aio_wp_security;
+        $rules = '';
+        if($aio_wp_security->configs->get_value('aiowps_enable_brute_force_attack_prevention')=='1') 
+        {
+            $cookie_name = $aio_wp_security->configs->get_value('aiowps_brute_force_secret_word');
+            $redirect_url = $aio_wp_security->configs->get_value('aiowps_cookie_based_brute_force_redirect_url');
+            $rules .= AIOWPSecurity_Utility_Htaccess::$enable_brute_force_attack_prevention_marker_start . PHP_EOL; //Add feature marker start
+            $rules .= 'RewriteEngine On' . PHP_EOL;
+            $rules .= 'RewriteCond %{REQUEST_URI} wp-admin [OR]'. PHP_EOL;
+            $rules .= 'RewriteCond %{REQUEST_URI} wp-login'. PHP_EOL;
+            $rules .= 'RewriteCond %{HTTP_COOKIE} !'.$cookie_name.'= [NC]' . PHP_EOL;
+            $rules .= 'RewriteCond %{HTTP_COOKIE} !aiowps_cookie_test= [NC]' . PHP_EOL;
+            $rules .= 'RewriteRule .* '.$redirect_url.' [L]' . PHP_EOL;
+            $rules .= AIOWPSecurity_Utility_Htaccess::$disable_brute_force_attack_prevention_marker_end . PHP_EOL; //Add feature marker end
+        }
+        
+	return $rules;
+    }
+
+
+    /*
      * This function will disable directory listings for all directories, add this line to the
      * site’s root .htaccess file.
      * NOTE: AllowOverride must be enabled in the httpd.conf file for this to work!
@@ -423,7 +453,6 @@ class AIOWPSecurity_Utility_Htaccess
         
 	return $rules;
     }
-
 
     /*
      * This function will write rules to disable trace and track.

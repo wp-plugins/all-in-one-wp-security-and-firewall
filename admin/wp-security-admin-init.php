@@ -18,6 +18,7 @@ class AIOWPSecurity_Admin_Init
 
     function __construct()
     {
+        //This class is only initialized if is_admin() is true
         $this->admin_includes();
         add_action('admin_menu', array(&$this, 'create_admin_menus'));
 
@@ -25,7 +26,7 @@ class AIOWPSecurity_Admin_Init
         if (isset($_GET['page']) && strpos($_GET['page'], AIOWPSEC_MENU_SLUG_PREFIX ) !== false ) {
             add_action('admin_print_scripts', array(&$this, 'admin_menu_page_scripts'));
             add_action('admin_print_styles', array(&$this, 'admin_menu_page_styles'));            
-            add_action('admin_init', array( &$this, 'admin_init_hook_handler')); //For changing button text inside media uploader (thickbox)
+            add_action('init', array( &$this, 'init_hook_handler_for_admin_side')); 
         }
     }
     
@@ -54,15 +55,16 @@ class AIOWPSecurity_Admin_Init
         wp_enqueue_style('aiowpsec-admin-css', AIO_WP_SECURITY_URL. '/css/wp-security-admin-styles.css');
     }
     
-    function admin_init_hook_handler()
+    function init_hook_handler_for_admin_side()
     {
         $this->aiowps_media_uploader_modification();
         $this->initialize_feature_manager();
+        $this->do_other_admin_side_init_tasks();
     }
 
-    //For media uploader thickbox - change button text
     function aiowps_media_uploader_modification()
     {
+        //For changing button text inside media uploader (thickbox)
         global $pagenow;
         if ('media-upload.php' == $pagenow || 'async-upload.php' == $pagenow)
         {
@@ -91,6 +93,43 @@ class AIOWPSecurity_Admin_Init
         $aiowps_feature_mgr->check_and_set_feature_status();
         $aiowps_feature_mgr->calculate_total_points(); 
         $GLOBALS['aiowps_feature_mgr'] = $aiowps_feature_mgr;
+    }
+    
+    function do_other_admin_side_init_tasks()
+    {
+        if (isset($_GET['page']) && $_GET['page'] == AIOWPSEC_FIREWALL_MENU_SLUG && isset($_GET['tab']) && $_GET['tab'] == 'tab4')
+        {
+            global $aio_wp_security;
+            if(isset($_POST['aiowps_do_cookie_test_for_bfla'])){
+                AIOWPSecurity_Utility::set_cookie_value("aiowps_cookie_test", "1");
+                $cur_url = "admin.php?page=".AIOWPSEC_FIREWALL_MENU_SLUG."&tab=tab4";
+                $redirect_url = AIOWPSecurity_Utility::add_query_data_to_url($cur_url, "aiowps_cookie_test", "1");
+                AIOWPSecurity_Utility::redirect_to_url($redirect_url);
+            }
+            
+            if(isset($_POST['aiowps_enable_brute_force_attack_prevention']))//Enabling the BFLA feature so drop the cookie again
+            {
+                $brute_force_feature_secret_word = sanitize_text_field($_POST['aiowps_brute_force_secret_word']);
+                if(empty($brute_force_feature_secret_word)){
+                    $brute_force_feature_secret_word = "aiowps_secret";
+                }
+                AIOWPSecurity_Utility::set_cookie_value($brute_force_feature_secret_word, "1");
+            }
+
+            if(isset($_REQUEST['aiowps_cookie_test']))
+            {
+                $cookie_val = AIOWPSecurity_Utility::get_cookie_value("aiowps_cookie_test");
+                if(empty($cookie_val))
+                {
+                    $aio_wp_security->configs->set_value('aiowps_cookie_test_success','');
+                }
+                else
+                {
+                    $aio_wp_security->configs->set_value('aiowps_cookie_test_success','1');
+                }
+                $aio_wp_security->configs->save_config();//save the value
+            }
+        }
     }
     
     function create_admin_menus()

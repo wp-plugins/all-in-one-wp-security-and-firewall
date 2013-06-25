@@ -102,4 +102,20 @@ class AIOWPSecurity_Utility
         return $string;
     }
     
+    static function set_cookie_value($cookie_name, $cookie_value, $expiry_seconds = 86400, $path = '/', $cookie_domain = '')
+    {
+        $expiry_time = time() + intval($expiry_seconds);
+        if(empty($cookie_domain)){
+            $cookie_domain = COOKIE_DOMAIN;
+        }
+        setcookie($cookie_name, $cookie_value, $expiry_time, $path, $cookie_domain);
+    }
+    
+    static function get_cookie_value($cookie_name)
+    {
+        if(isset($_COOKIE[$cookie_name])){
+            return $_COOKIE[$cookie_name];
+        }
+        return "";
+    }
 }

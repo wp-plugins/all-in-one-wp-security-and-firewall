@@ -9,12 +9,14 @@ class AIOWPSecurity_Firewall_Menu extends AIOWPSecurity_Admin_Menu
         'tab1' => 'Basic Firewall Rules',
         'tab2' => 'Additional Firewall Rules',
         'tab3' => '5G Blacklist Firewall Rules',
+        'tab4' => 'Brute Force Prevention',
         );
 
     var $menu_tabs_handler = array(
         'tab1' => 'render_tab1',
         'tab2' => 'render_tab2',
         'tab3' => 'render_tab3',
+        'tab4' => 'render_tab4',
         );
     
     function __construct() 
@@ -154,6 +156,7 @@ class AIOWPSecurity_Firewall_Menu extends AIOWPSecurity_Admin_Menu
     function render_tab2()
     {
         global $aio_wp_security;
+        $error = '';
         if(isset($_POST['aiowps_apply_additional_firewall_settings']))//Do advanced firewall submission tasks
         {
             $nonce=$_REQUEST['_wpnonce'];
@@ -222,6 +225,11 @@ class AIOWPSecurity_Firewall_Menu extends AIOWPSecurity_Admin_Menu
             else if($res == -1)
             {
                 $this->show_msg_error(__('Could not write to the .htaccess file. Please check the file permissions.', 'aiowpsecurity'));
+            }
+            
+            if($error)
+            {
+                $this->show_msg_error($error);
             }
 
         }
@@ -481,4 +489,182 @@ class AIOWPSecurity_Firewall_Menu extends AIOWPSecurity_Admin_Menu
         <?php
     }
 
+    function render_tab4()
+    {
+        global $aio_wp_security;
+
+        //Save settings for brute force cookie method
+        if(isset($_POST['aiowps_apply_cookie_based_bruteforce_firewall']))
+        {
+            $nonce=$_REQUEST['_wpnonce'];
+            if (!wp_verify_nonce($nonce, 'aiowpsec-enable-cookie-based-brute-force-prevention'))
+            {
+                $aio_wp_security->debug_logger->log_debug("Nonce check failed on enable cookie based brute force prevention feature!",4);
+                die("Nonce check failed on enable cookie based brute force prevention feature!");
+            }           
+            
+            if(isset($_POST['aiowps_enable_brute_force_attack_prevention']))
+            {
+                $brute_force_feature_secret_word = sanitize_text_field($_POST['aiowps_brute_force_secret_word']);
+                if(empty($brute_force_feature_secret_word)){
+                    $brute_force_feature_secret_word = "aiowps_secret";
+                }
+                
+                if(filter_var($_POST['aiowps_cookie_based_brute_force_redirect_url'], FILTER_VALIDATE_URL))
+                {
+                    $aio_wp_security->configs->set_value('aiowps_cookie_based_brute_force_redirect_url',esc_url_raw($_POST['aiowps_cookie_based_brute_force_redirect_url']));
+                }
+                else
+                {
+                    $aio_wp_security->configs->set_value('aiowps_cookie_based_brute_force_redirect_url','http://127.0.0.1');
+                }
+                
+                $aio_wp_security->configs->set_value('aiowps_brute_force_secret_word',$brute_force_feature_secret_word);
+                $aio_wp_security->configs->set_value('aiowps_enable_brute_force_attack_prevention','1');
+                
+                //TODO - pretty up the following messages
+                $msg = '<p>'.__('You have successfully enabled the cookie based brute force prevention feature', 'aiowpsecurity').'</p>';
+                $msg .= '<p>'.__('From now on you will need to log into your WP Admin using the following URL:', 'aiowpsecurity').'</p>';
+                $msg .= '<p><strong>'.AIOWPSEC_WP_URL.'/?'.$brute_force_feature_secret_word.'=1</strong></p>';
+                $msg .= '<p>'.__('It is important that you save this URL value somewhere in case you forget it, OR,', 'aiowpsecurity').'</p>';
+                $msg .= '<p>'.sprintf( __('simply remember to add a "?%s=1" to your current site URL address.', 'aiowpsecurity'), $brute_force_feature_secret_word).'</p>';
+            }
+            else
+            {
+                $aio_wp_security->configs->set_value('aiowps_enable_brute_force_attack_prevention','');
+                $msg = __('You have successfully saved cookie based brute force prevention feature settings.', 'aiowpsecurity');
+            }
+            
+            $aio_wp_security->configs->save_config();//save the value
+            $res = AIOWPSecurity_Utility_Htaccess::write_to_htaccess();
+            if ($res){
+                echo '<div id="message" class="updated fade"><p>';
+                echo $msg;
+                echo '</p></div>';
+            }
+            else if($res == -1){
+                $this->show_msg_error(__('Could not write to the .htaccess file. Please check the file permissions.', 'aiowpsecurity'));
+            }
+            
+        }
+
+        ?>
+        <h2><?php _e('Brute Force Prevention Firewall Settings', 'aiowpsecurity')?></h2>
+        
+        <div class="aio_blue_box">
+            <?php
+            //TODO - need to fix the following message
+            $backup_tab_link = '<a href="admin.php?page='.AIOWPSEC_SETTINGS_MENU_SLUG.'&tab=tab2" target="_blank">backup</a>';
+            $info_msg = sprintf( __('This should not have any impact on your site\'s general functionality but if you wish you can take a %s of your .htaccess file before proceeding.', 'aiowpsecurity'), $backup_tab_link);
+            echo '<p>'.__('A Brute Force Attack is when a hacker tries many combinations of usernames and passwords until they succeed in guessing the right combination.', 'aiowpsecurity').
+            '<br />'.__('Due to the fact that at any one time there may be many concurrent login attempts occurring on your site via malicious automated robots, this also has a negative impact on your server\'s memory and performance.', 'aiowpsecurity').
+            '<br />'.__('The features in this tab will stop the majority of Brute Force Login Attacks at the .htaccess level thus providing even better protection for your WP login page and also reducing the load on your server because the system does not have to run PHP code to process the login attempts.', 'aiowpsecurity').
+            '<br />'.$info_msg.'</p>';
+            ?>
+        </div>
+
+        <div class="postbox">
+        <h3><label for="title"><?php _e('Cookie Based Brute Force Login Prevention', 'aiowpsecurity'); ?></label></h3>
+        <div class="inside">
+        <?php
+        //Display security info badge
+        global $aiowps_feature_mgr;
+        $aiowps_feature_mgr->output_feature_details_badge("firewall-enable-brute-force-attack-prevention");
+        ?>
+        <form action="" method="POST">
+        <?php wp_nonce_field('aiowpsec-enable-cookie-based-brute-force-prevention'); ?>              
+        <table class="form-table">
+            <tr valign="top">
+                <th scope="row"><?php _e('Enable Brute Force Attack Prevention', 'aiowpsecurity')?>:</th>                
+                <td>
+                <input name="aiowps_enable_brute_force_attack_prevention" type="checkbox"<?php if($aio_wp_security->configs->get_value('aiowps_enable_brute_force_attack_prevention')=='1') echo ' checked="checked"'; ?> value="1"/>
+                <span class="description"><?php _e('Check this if you want to protect your login page from Brute Force Attack.', 'aiowpsecurity'); ?></span>
+                <span class="aiowps_more_info_anchor"><span class="aiowps_more_info_toggle_char">+</span><span class="aiowps_more_info_toggle_text"><?php _e('More Info', 'aiowpsecurity'); ?></span></span>
+                <div class="aiowps_more_info_body">
+                    <p class="description">
+                        <?php 
+                        _e('This feature will deny access to your WordPress login page for all people except those who have a special cookie in their browser.', 'aiowpsecurity');
+                        echo '<br />';
+                        _e('To use this feature do the following:', 'aiowpsecurity');
+                        echo '<br />';
+                        _e('1) Enable the checkbox.', 'aiowpsecurity');
+                        echo '<br />';
+                        _e('2) Enter a secret word which will be difficult to guess. This secret word will be useful whenever you need to know the special URL which you will use to access the login page (see point below).', 'aiowpsecurity');
+                        echo '<br />';
+                        _e('3) You will then be provided with a special login URL. You will need to use this URL to login to your WordPress site instead of the usual login URL. NOTE: The system will deposit a special cookie in your browser which will allow you access to the WordPress administration login page.', 'aiowpsecurity');
+                        echo '<br />';
+                        _e('Any person trying to access your login page who does not have the special cookie in their browser will be automatically blocked.', 'aiowpsecurity');
+                        ?>
+                    </p>
+                </div>
+                </td>
+            </tr>
+            <tr valign="top">
+                <th scope="row"><?php _e('Secret Word', 'aiowpsecurity')?>:</th>
+                <td><input size="40" name="aiowps_brute_force_secret_word" value="<?php echo $aio_wp_security->configs->get_value('aiowps_brute_force_secret_word'); ?>" />
+                <span class="description"><?php _e('Choose a secret word which you can use to access your special URL. Your are highly encouraged to choose a word which will be difficult to guess.', 'aiowpsecurity'); ?></span>
+                </td> 
+            </tr>
+            <tr valign="top">
+                <th scope="row"><?php _e('Re-direct URL', 'aiowpsecurity')?>:</th>
+                <td><input size="40" name="aiowps_cookie_based_brute_force_redirect_url" value="<?php echo $aio_wp_security->configs->get_value('aiowps_cookie_based_brute_force_redirect_url'); ?>" />
+                <span class="description">
+                    <?php 
+                    _e('Specify a URL to redirect a hacker to when they try to access your WordPress login page.', 'aiowpsecurity');
+                    ?>
+                </span>
+                                <span class="aiowps_more_info_anchor"><span class="aiowps_more_info_toggle_char">+</span><span class="aiowps_more_info_toggle_text"><?php _e('More Info', 'aiowpsecurity'); ?></span></span>
+                <div class="aiowps_more_info_body">
+                    <p class="description">
+                        <?php 
+                    _e('The URL specified here can be any site\'s URL and does not have to be your own. For example you can be as creative as you like and send hackers to the CIA or NSA home page.', 'aiowpsecurity');
+                    echo '<br />';
+                    _e('This field will default to: http://127.0.0.1 if you do not enter a value.', 'aiowpsecurity');
+                    echo '<br />';
+                    _e('Useful Tip:', 'aiowpsecurity');
+                    echo '<br />';
+                    _e('It\'s a good idea to not redirect attempted brute force login attempts to your site because it increases the load on your server.', 'aiowpsecurity');
+                    echo '<br />';
+                    _e('Redirecting a hacker or malicious bot back to "http://127.0.0.1" is ideal because it deflects them back to their own local host and puts the load on their server instead of yours.', 'aiowpsecurity');
+                        ?>
+                    </p>
+                </div>
+
+                </td> 
+            </tr>
+        </table>
+        <?php
+        $cookie_test_value = $aio_wp_security->configs->get_value('aiowps_cookie_test_success');
+        $bfla_feature_enabled = $aio_wp_security->configs->get_value('aiowps_enable_brute_force_attack_prevention');
+        if($cookie_test_value == '1' || $bfla_feature_enabled == '1')//If the cookie test is successful or if the feature is already enabled then go ahead as normal
+        {
+            if (isset($_REQUEST['aiowps_cookie_test']))
+            {//Cookie test was just performed and the test succeded
+                echo '<div class="aio_green_box"><p>';
+                _e('The cookie test was successful. You can now enable this feature.', 'aiowpsecurity');
+                echo '</p></div>';
+            }            
+            echo '<input type="submit" name="aiowps_apply_cookie_based_bruteforce_firewall" value="'.__('Save Feature Settings', 'aiowpsecurity').'" class="button-primary" />';
+        }
+        else
+        {
+            //Cookie test needs to be performed
+            if(isset($_REQUEST['aiowps_cookie_test']) && $cookie_test_value != '1'){//Test failed
+                echo '<div class="aio_red_box"><p>';
+                _e('The cookie test failed on this server. So this feature cannot be used on this site.', 'aiowpsecurity');
+                echo '</p></div>';
+            }
+            
+            //TODO - pretty up the message
+            echo '<div class="aio_yellow_box"><p>';
+            _e("Before using this feature you are required to perform a cookie test first. This is to make sure that your browser cookie is working correctly and that you won't lock yourself out.", 'aiowpsecurity');
+            echo '</p></div>';
+            echo '<input type="submit" name="aiowps_do_cookie_test_for_bfla" value="'.__('Perform Cookie Test', 'aiowpsecurity').'" class="button-primary" />';
+        }
+        ?>
+        </form>
+        </div></div>
+        <?php
+    }
+        
 } //end class

@@ -4,7 +4,7 @@ Donate link: http://www.tipsandtricks-hq.com
 Tags: security, secure, Anti Virus, antivirus, virus, firewall, login, lockdown, htaccess, hacking, ban hacker, malware, vulnerability, protect, phishing, database, backup, plugin, sql injection, ssl, restrict
 Requires at least: 3.5
 Tested up to: 3.6
-Stable tag: 1.4
+Stable tag: 1.5
 License: GPLv3
 
 A comprehensive, user-friendly, all in one WordPress security and firewall plugin for your site.
@@ -76,6 +76,8 @@ So these firewall rules will stop malicious script(s) before it gets a chance to
 * Disable trace and track
 * Deny bad or malicious query strings
 * Protect against Cross Site Scripting (XSS) by activating the comprehensive advanced character string filter.
+* Instantly block Brute Force Login Attacks via our special Cookie-Based Brute Force Login Prevention feature. This firewall functionality will block all login attempts from people
+or malicious bots who do not have a special cookie in their browser. You (the site admin) will know how to set this special cookie and be able to log into your site.
 
 = WhoIs Lookup =
 * Perform a WhoIs lookup of a suspicious host or IP address and get full details.
@@ -121,6 +123,12 @@ None
 None
 
 == Changelog ==
+
+= 1.5 =
+- Added new feature - Cookie-based Brute Force Login Attack Prevention. Check under the "Firewall" menu for this new feature.
+  This feature will stop hackers in their tracks when they try to access your wp-admin or login pages. This feature will secure your WordPress backend by enforcing the requirement that anybody trying to access these pages will require a special cookie.
+
+- Fixed bug related to setting of default configuration for first-time plugin activation.
 
 = 1.4 =
 - Tweaked the "Deny Bad Query Strings" firewall rules so that plugin deletion and update operations from the WordPress plugins menu are not affected.

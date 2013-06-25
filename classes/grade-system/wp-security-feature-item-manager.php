@@ -63,6 +63,7 @@ class AIOWPSecurity_Feature_Item_Manager
         $this->feature_items[] = new AIOWPSecurity_Feature_Item("firewall-basic-rules", "Enable Basic Firewall", $this->feature_point_3, $this->sec_level_basic);
         
         //Additional and Advanced firewall
+        $this->feature_items[] = new AIOWPSecurity_Feature_Item("firewall-enable-brute-force-attack-prevention", "Enable Brute Force Attack Prevention", $this->feature_point_4, $this->sec_level_inter);
         $this->feature_items[] = new AIOWPSecurity_Feature_Item("firewall-disable-index-views", "Disable Index Views", $this->feature_point_1, $this->sec_level_inter);
         $this->feature_items[] = new AIOWPSecurity_Feature_Item("firewall-disable-trace-track", "Disable Trace and Track", $this->feature_point_2, $this->sec_level_advanced);
         $this->feature_items[] = new AIOWPSecurity_Feature_Item("firewall-forbid-proxy-comments", "Forbid Proxy Comments", $this->feature_point_2, $this->sec_level_advanced);
@@ -163,6 +164,10 @@ class AIOWPSecurity_Feature_Item_Manager
             if($item->feature_id == "firewall-basic-rules")
             {
                 $this->check_enable_basic_firewall_feature($item);
+            }
+            if($item->feature_id == "firewall-enable-brute-force-attack-prevention")
+            {
+                $this->check_enable_bfap_firewall_feature($item);
             }
             if($item->feature_id == "firewall-disable-index-views")
             {
@@ -386,6 +391,18 @@ class AIOWPSecurity_Feature_Item_Manager
     {
         global $aio_wp_security;
         if ($aio_wp_security->configs->get_value('aiowps_disable_index_views') == '1') {
+            $item->set_feature_status($this->feature_active);
+        }
+        else
+        {
+            $item->set_feature_status($this->feature_inactive);
+        }
+    }
+
+    function check_enable_bfap_firewall_feature($item)
+    {
+        global $aio_wp_security;
+        if ($aio_wp_security->configs->get_value('aiowps_enable_brute_force_attack_prevention') == '1') {
             $item->set_feature_status($this->feature_active);
         }
         else

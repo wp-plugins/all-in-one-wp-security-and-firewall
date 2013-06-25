@@ -22,6 +22,7 @@ class AIOWPSecurity_Installer
             }
         }
         AIOWPSecurity_Installer::create_db_tables();
+        AIOWPSecurity_Configure_Settings::add_option_values();
     }
     
     static function create_db_tables()

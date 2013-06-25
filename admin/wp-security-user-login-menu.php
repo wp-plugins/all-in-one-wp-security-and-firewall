@@ -141,10 +141,11 @@ class AIOWPSecurity_User_Login_Menu extends AIOWPSecurity_Admin_Menu
         <h2><?php _e('Login Lockdown Configuration', 'aiowpsecurity')?></h2>
         <div class="aio_blue_box">
             <?php
+            $brute_force_login_feature_link = '<a href="admin.php?page='.AIOWPSEC_FIREWALL_MENU_SLUG.'&tab=tab4">Cookie-Based Brute Force Login Prevention</a>';
             echo '<p>'.__('One of the ways hackers try to compromise sites is via a ', 'aiowpsecurity').'<strong>'.__('Brute Force Login Attack', 'aiowpsecurity').'</strong>.
             <br />'.__('This is where attackers use repeated login attempts until they guess the password.', 'aiowpsecurity').'
-            <br />'.__('Apart from choosing strong passwords, monitoring and blocking IP addresses which are involved in repeated login failures in a short period of time is a very effective way to stop these types of attacks.', 'aiowpsecurity').'
-            </p>';
+            <br />'.__('Apart from choosing strong passwords, monitoring and blocking IP addresses which are involved in repeated login failures in a short period of time is a very effective way to stop these types of attacks.', 'aiowpsecurity').
+            '<p>'.sprintf( __('You may also want to checkout our %s feature for another secure way to protect against these types of attacks.', 'aiowpsecurity'), $brute_force_login_feature_link).'</p>';
             ?>
         </div>
 
