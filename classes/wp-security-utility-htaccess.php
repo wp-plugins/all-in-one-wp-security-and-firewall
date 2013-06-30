@@ -17,7 +17,7 @@ class AIOWPSecurity_Utility_Htaccess
     public static $user_agent_blacklist_marker_end = '#AIOWPS_USER_AGENT_BLACKLIST_END';
     
     public static $enable_brute_force_attack_prevention_marker_start = '#AIOWPS_ENABLE_BRUTE_FORCE_PREVENTION_START';
-    public static $disable_brute_force_attack_prevention_marker_end = '#AIOWPS_DISABLE_BRUTE_FORCE_PREVENTION_END';
+    public static $enable_brute_force_attack_prevention_marker_end = '#AIOWPS_ENABLE_BRUTE_FORCE_PREVENTION_END';
 
     public static $disable_index_views_marker_start = '#AIOWPS_DISABLE_INDEX_VIEWS_START';
     public static $disable_index_views_marker_end = '#AIOWPS_DISABLE_INDEX_VIEWS_END';
@@ -423,12 +423,15 @@ class AIOWPSecurity_Utility_Htaccess
             $redirect_url = $aio_wp_security->configs->get_value('aiowps_cookie_based_brute_force_redirect_url');
             $rules .= AIOWPSecurity_Utility_Htaccess::$enable_brute_force_attack_prevention_marker_start . PHP_EOL; //Add feature marker start
             $rules .= 'RewriteEngine On' . PHP_EOL;
-            $rules .= 'RewriteCond %{REQUEST_URI} wp-admin [OR]'. PHP_EOL;
-            $rules .= 'RewriteCond %{REQUEST_URI} wp-login'. PHP_EOL;
+            $rules .= 'RewriteCond %{REQUEST_URI} (wp-admin|wp-login)'. PHP_EOL;// If URI contains wp-admin or wp-login
+            if($aio_wp_security->configs->get_value('aiowps_brute_force_attack_prevention_pw_protected_exception')=='1') 
+            {
+                $rules .= 'RewriteCond %{QUERY_STRING} !(action\=postpass)' . PHP_EOL; // Possible workaround for people usign the password protected page/post feature
+            }
             $rules .= 'RewriteCond %{HTTP_COOKIE} !'.$cookie_name.'= [NC]' . PHP_EOL;
             $rules .= 'RewriteCond %{HTTP_COOKIE} !aiowps_cookie_test= [NC]' . PHP_EOL;
             $rules .= 'RewriteRule .* '.$redirect_url.' [L]' . PHP_EOL;
-            $rules .= AIOWPSecurity_Utility_Htaccess::$disable_brute_force_attack_prevention_marker_end . PHP_EOL; //Add feature marker end
+            $rules .= AIOWPSecurity_Utility_Htaccess::$enable_brute_force_attack_prevention_marker_end . PHP_EOL; //Add feature marker end
         }
         
 	return $rules;
@@ -669,7 +672,7 @@ class AIOWPSecurity_Utility_Htaccess
                                 RewriteCond %{QUERY_STRING} (\"|%22).*(<|>|%3) [NC,OR]
                                 RewriteCond %{QUERY_STRING} (javascript:).*(\;) [NC,OR]
                                 RewriteCond %{QUERY_STRING} (<|%3C).*script.*(>|%3) [NC,OR]
-                                RewriteCond %{QUERY_STRING} (\\|\.\./|`|=\'$|=%27$) [NC,OR]
+                                RewriteCond %{QUERY_STRING} (\\\|\.\./|`|=\'$|=%27$) [NC,OR]
                                 RewriteCond %{QUERY_STRING} (\;|\'|\"|%22).*(union|select|insert|drop|update|md5|benchmark|or|and|if) [NC,OR]
                                 RewriteCond %{QUERY_STRING} (base64_encode|localhost|mosconfig) [NC,OR]
                                 RewriteCond %{QUERY_STRING} (boot\.ini|echo.*kae|etc/passwd) [NC,OR]
@@ -693,8 +696,8 @@ class AIOWPSecurity_Utility_Htaccess
                                 RedirectMatch 403 (https?|ftp|php)\://
                                 RedirectMatch 403 /(https?|ima|ucp)/
                                 RedirectMatch 403 /(Permanent|Better)$
-                                RedirectMatch 403 (\=\\\'|\=\\%27|/\\\'/?|\)\.css\()$
-                                RedirectMatch 403 (\,|\)\+|/\,/|\{0\}|\(/\(|\.\.\.|\+\+\+|\||\\\"\\\")
+                                RedirectMatch 403 (\=\\\\\\\'|\=\\\%27|/\\\\\\\'/?|\)\.css\()$
+                                RedirectMatch 403 (\,|\)\+|/\,/|\{0\}|\(/\(|\.\.\.|\+\+\+|\||\\\\\"\\\\\")
                                 RedirectMatch 403 \.(cgi|asp|aspx|cfg|dll|exe|jsp|mdb|sql|ini|rar)$
                                 RedirectMatch 403 /(contac|fpw|install|pingserver|register)\.php$
                                 RedirectMatch 403 (base64|crossdomain|localhost|wwwroot|e107\_)
@@ -744,8 +747,7 @@ class AIOWPSecurity_Utility_Htaccess
     {
         $is_htaccess = false;
         $file_contents = file_get_contents($file);
-        
-        if (!$file_contents || $file_contents == 0)
+        if ($file_contents === FALSE || strlen($file_contents) == 0)
         {
             return -1;
         }

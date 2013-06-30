@@ -109,7 +109,8 @@ class AIOWPSecurity_User_Login
     {
         global $wpdb;
         $login_lockdown_table = AIOWPSEC_TBL_LOGIN_LOCKDOWN;
-        $ip_range = $this->get_sanitized_ip_range(); //Get the IP range of the current user
+        $ip = AIOWPSecurity_Utility_IP::get_user_ip_address(); //Get the IP address of user
+        $ip_range = AIOWPSecurity_Utility_IP::get_sanitized_ip_range($ip); //Get the IP range of the current user
         $locked_user = $wpdb->get_var("SELECT user_id FROM $login_lockdown_table " .
                                         "WHERE release_date > now() AND " .
                                         "failed_login_IP LIKE '" . $wpdb->escape($ip_range) . "%'");
@@ -124,8 +125,8 @@ class AIOWPSecurity_User_Login
         global $wpdb, $aio_wp_security;
         $failed_logins_table = AIOWPSEC_TBL_FAILED_LOGINS;
         $login_retry_interval = $aio_wp_security->configs->get_value('aiowps_retry_time_period');
-        
-        $ip_range = $this->get_sanitized_ip_range(); //Get the IP range of the current user
+        $ip = AIOWPSecurity_Utility_IP::get_user_ip_address(); //Get the IP address of user
+        $ip_range = AIOWPSecurity_Utility_IP::get_sanitized_ip_range($ip); //Get the IP range of the current user
         $login_failures = $wpdb->get_var("SELECT COUNT(ID) FROM $failed_logins_table " . 
                                 "WHERE failed_login_date + INTERVAL " .
                                 $login_retry_interval . " MINUTE > now() AND " . 
@@ -141,8 +142,8 @@ class AIOWPSecurity_User_Login
         global $wpdb, $aio_wp_security;
         $login_lockdown_table = AIOWPSEC_TBL_LOGIN_LOCKDOWN;
         $lockout_time_length = $aio_wp_security->configs->get_value('aiowps_lockout_time_length');
-        
-        $ip_range = $this->get_sanitized_ip_range(); //Get the IP range of the current user
+        $ip = AIOWPSecurity_Utility_IP::get_user_ip_address(); //Get the IP address of user
+        $ip_range = AIOWPSecurity_Utility_IP::get_sanitized_ip_range($ip); //Get the IP range of the current user
         $username = sanitize_user($username);
 	$user = get_user_by('login',$username); //Returns WP_User object if exists
         if ($user)
@@ -179,7 +180,8 @@ class AIOWPSecurity_User_Login
         //$login_attempts_permitted = $aio_wp_security->configs->get_value('aiowps_max_login_attempts');
         //$lockout_time_length = $aio_wp_security->configs->get_value('aiowps_lockout_time_length');
         $login_fails_table = AIOWPSEC_TBL_FAILED_LOGINS;
-        $ip_range = $this->get_sanitized_ip_range(); //Get the IP range of the current user
+        $ip = AIOWPSecurity_Utility_IP::get_user_ip_address(); //Get the IP address of user
+        $ip_range = AIOWPSecurity_Utility_IP::get_sanitized_ip_range($ip); //Get the IP range of the current user
         
         $username = sanitize_user($username);
 	$user = get_user_by('login',$username); //Returns WP_User object if it exists
@@ -201,27 +203,6 @@ class AIOWPSecurity_User_Login
 
     }
 
-    /*
-     * Returns the first three octets of a sanitized IP address so it can used as an IP address range
-     */
-    function get_sanitized_ip_range()
-    {
-        global $aio_wp_security;
-        $ip = AIOWPSecurity_Utility_IP::get_user_ip_address(); //Get the IP address of user
-        $ip_range = '';
-        $valid_ip = filter_var($ip, FILTER_VALIDATE_IP); //Sanitize the IP address
-        if ($valid_ip)
-        {
-            $ip_range = substr($valid_ip, 0 , strrpos ($valid_ip, ".")); //strip last portion of address to leave an IP range
-        }
-        else
-        {
-            //Write log if the 'REMOTE_ADDR' contains something which is not an IP
-            $aio_wp_security->debug_logger->log_debug("AIOWPSecurity_User_Login - Invalid IP received ".$ip,4);
-        }
-        return $ip_range;
-    }
-    
     /*
      * This function queries the aiowps_failed_logins table and returns the number of failures for current IP range within allowed failure period
      */

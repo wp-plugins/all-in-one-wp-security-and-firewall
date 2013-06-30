@@ -107,6 +107,12 @@ class AIOWPSecurity_Feature_Item_Manager
         <?php
     }
     
+    function check_feature_status_and_recalculate_points()
+    {
+        $this->check_and_set_feature_status();
+        $this->calculate_total_points();
+    }
+    
     function check_and_set_feature_status()
     {
         foreach($this->feature_items as $item)

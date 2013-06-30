@@ -68,6 +68,7 @@ class AIOWPSecurity_User_Login_Menu extends AIOWPSecurity_Admin_Menu
     function render_tab1() 
     {
         global $aio_wp_security;
+        global $aiowps_feature_mgr;
         include_once 'wp-security-list-locked-ip.php'; //For rendering the AIOWPSecurity_List_Table in tab1
         $locked_ip_list = new AIOWPSecurity_List_Locked_IP(); //For rendering the AIOWPSecurity_List_Table in tab1
 
@@ -123,6 +124,10 @@ class AIOWPSecurity_User_Login_Menu extends AIOWPSecurity_Admin_Menu
             $aio_wp_security->configs->set_value('aiowps_enable_email_notify',isset($_POST["aiowps_enable_email_notify"])?'1':'');
             $aio_wp_security->configs->set_value('aiowps_email_address',$email_address);
             $aio_wp_security->configs->save_config();
+            
+            //Recalculate points after the feature status/options have been altered
+            $aiowps_feature_mgr->check_feature_status_and_recalculate_points();
+            
             $this->show_msg_settings_updated();
         }
         
@@ -303,6 +308,8 @@ class AIOWPSecurity_User_Login_Menu extends AIOWPSecurity_Admin_Menu
     function render_tab3()
     {
         global $aio_wp_security;
+        global $aiowps_feature_mgr;
+        
         if(isset($_POST['aiowpsec_save_force_logout_settings']))//Do form submission tasks
         {
             $error = '';
@@ -329,6 +336,10 @@ class AIOWPSecurity_User_Login_Menu extends AIOWPSecurity_Admin_Menu
             $aio_wp_security->configs->set_value('aiowps_logout_time_period',absint($logout_time_period));
             $aio_wp_security->configs->set_value('aiowps_enable_forced_logout',isset($_POST["aiowps_enable_forced_logout"])?'1':'');
             $aio_wp_security->configs->save_config();
+            
+            //Recalculate points after the feature status/options have been altered
+            $aiowps_feature_mgr->check_feature_status_and_recalculate_points();
+            
             $this->show_msg_settings_updated();
         }
         ?>

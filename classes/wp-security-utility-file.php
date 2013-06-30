@@ -56,7 +56,13 @@ class AIOWPSecurity_Utility_File
     static function recursive_file_search($pattern='*', $flags = 0, $path='')
     {
         $paths=glob($path.'*', GLOB_MARK|GLOB_ONLYDIR|GLOB_NOSORT);
+        if ($paths === FALSE){
+            return FALSE;
+        }
         $files=glob($path.$pattern, $flags);
+        if ($files === FALSE){
+            return FALSE;
+        }
         foreach ($paths as $path) { $files=array_merge($files,AIOWPSecurity_Utility_File::recursive_file_search($pattern, $flags, $path)); }
         return $files;
     }

@@ -68,6 +68,7 @@ class AIOWPSecurity_Firewall_Menu extends AIOWPSecurity_Admin_Menu
     
     function render_tab1()
     {
+        global $aiowps_feature_mgr;
         global $aio_wp_security;
         if(isset($_POST['aiowps_apply_basic_firewall_settings']))//Do form submission tasks
         {
@@ -90,6 +91,9 @@ class AIOWPSecurity_Firewall_Menu extends AIOWPSecurity_Admin_Menu
 
             //Commit the config settings
             $aio_wp_security->configs->save_config();
+            
+            //Recalculate points after the feature status/options have been altered
+            $aiowps_feature_mgr->check_feature_status_and_recalculate_points();
 
             //Now let's write the applicable rules to the .htaccess file
             $res = AIOWPSecurity_Utility_Htaccess::write_to_htaccess();
@@ -121,7 +125,6 @@ class AIOWPSecurity_Firewall_Menu extends AIOWPSecurity_Admin_Menu
         <div class="inside">
         <?php
         //Display security info badge
-        global $aiowps_feature_mgr;
         $aiowps_feature_mgr->output_feature_details_badge("firewall-basic-rules");
         ?>
         <form action="" method="POST">
@@ -492,6 +495,7 @@ class AIOWPSecurity_Firewall_Menu extends AIOWPSecurity_Admin_Menu
     function render_tab4()
     {
         global $aio_wp_security;
+        global $aiowps_feature_mgr;
 
         //Save settings for brute force cookie method
         if(isset($_POST['aiowps_apply_cookie_based_bruteforce_firewall']))
@@ -522,6 +526,12 @@ class AIOWPSecurity_Firewall_Menu extends AIOWPSecurity_Admin_Menu
                 $aio_wp_security->configs->set_value('aiowps_brute_force_secret_word',$brute_force_feature_secret_word);
                 $aio_wp_security->configs->set_value('aiowps_enable_brute_force_attack_prevention','1');
                 
+                if(isset($_POST['aiowps_brute_force_attack_prevention_pw_protected_exception'])){
+                    $aio_wp_security->configs->set_value('aiowps_brute_force_attack_prevention_pw_protected_exception','1');
+                }else {
+                    $aio_wp_security->configs->set_value('aiowps_brute_force_attack_prevention_pw_protected_exception','');
+                }
+                
                 //TODO - pretty up the following messages
                 $msg = '<p>'.__('You have successfully enabled the cookie based brute force prevention feature', 'aiowpsecurity').'</p>';
                 $msg .= '<p>'.__('From now on you will need to log into your WP Admin using the following URL:', 'aiowpsecurity').'</p>';
@@ -536,6 +546,10 @@ class AIOWPSecurity_Firewall_Menu extends AIOWPSecurity_Admin_Menu
             }
             
             $aio_wp_security->configs->save_config();//save the value
+            
+            //Recalculate points after the feature status/options have been altered
+            $aiowps_feature_mgr->check_feature_status_and_recalculate_points();
+            
             $res = AIOWPSecurity_Utility_Htaccess::write_to_htaccess();
             if ($res){
                 echo '<div id="message" class="updated fade"><p>';
@@ -613,7 +627,7 @@ class AIOWPSecurity_Firewall_Menu extends AIOWPSecurity_Admin_Menu
                     _e('Specify a URL to redirect a hacker to when they try to access your WordPress login page.', 'aiowpsecurity');
                     ?>
                 </span>
-                                <span class="aiowps_more_info_anchor"><span class="aiowps_more_info_toggle_char">+</span><span class="aiowps_more_info_toggle_text"><?php _e('More Info', 'aiowpsecurity'); ?></span></span>
+                <span class="aiowps_more_info_anchor"><span class="aiowps_more_info_toggle_char">+</span><span class="aiowps_more_info_toggle_text"><?php _e('More Info', 'aiowpsecurity'); ?></span></span>
                 <div class="aiowps_more_info_body">
                     <p class="description">
                         <?php 
@@ -629,8 +643,28 @@ class AIOWPSecurity_Firewall_Menu extends AIOWPSecurity_Admin_Menu
                         ?>
                     </p>
                 </div>
-
                 </td> 
+            </tr>
+            <tr valign="top">
+                <th scope="row"><?php _e('My Site Has Posts Or Pages Which Are Password Protected', 'aiowpsecurity')?>:</th>                
+                <td>
+                <input name="aiowps_brute_force_attack_prevention_pw_protected_exception" type="checkbox"<?php if($aio_wp_security->configs->get_value('aiowps_brute_force_attack_prevention_pw_protected_exception')=='1') echo ' checked="checked"'; ?> value="1"/>
+                <span class="description"><?php _e('Check this if you are using the native WordPress password protection feature for some or all of your blog posts or pages.', 'aiowpsecurity'); ?></span>
+                <span class="aiowps_more_info_anchor"><span class="aiowps_more_info_toggle_char">+</span><span class="aiowps_more_info_toggle_text"><?php _e('More Info', 'aiowpsecurity'); ?></span></span>
+                <div class="aiowps_more_info_body">
+                    <p class="description">
+                        <?php 
+                        _e('In the cases where you are protecting some of your posts or pages using the in-built WordPress password protection feature, a few extra lines of directives and exceptions need to be added to your .htacces file so that people trying to access pages are not automatically blocked.', 'aiowpsecurity');
+                        echo '<br />';
+                        _e('By enabling this checkbox the plugin will add the necessary rules and exceptions to your .htacces file so that people trying to access these pages are not automatically blocked.', 'aiowpsecurity');
+                        echo '<br />';
+                        echo "<strong>".__('Helpful Tip:', 'aiowpsecurity')."</strong>";
+                        echo '<br />';
+                        _e('If you do not use the WordPress password protection feature for your posts or pages then it is highly recommended that you leave this checkbox disabled.', 'aiowpsecurity');
+                        ?>
+                    </p>
+                </div>
+                </td>
             </tr>
         </table>
         <?php

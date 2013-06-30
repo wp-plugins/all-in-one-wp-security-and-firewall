@@ -171,6 +171,7 @@ class AIOWPSecurity_Database_Menu extends AIOWPSecurity_Admin_Menu
     function render_tab2()
     {
         global $aio_wp_security;
+        global $aiowps_feature_mgr;
         if (isset($_POST['aiowps_manual_db_backup']))
         {
             $nonce=$_REQUEST['_wpnonce'];
@@ -244,6 +245,9 @@ class AIOWPSecurity_Database_Menu extends AIOWPSecurity_Admin_Menu
             $aio_wp_security->configs->set_value('aiowps_send_backup_email_address',isset($_POST["aiowps_send_backup_email_address"])?'1':'');
             $aio_wp_security->configs->set_value('aiowps_backup_email_address',$email_address);
             $aio_wp_security->configs->save_config();
+            
+            //Recalculate points after the feature status/options have been altered
+            $aiowps_feature_mgr->check_feature_status_and_recalculate_points();
             $this->show_msg_settings_updated();
             
             //Let's check if backup interval was set to less than 24 hours

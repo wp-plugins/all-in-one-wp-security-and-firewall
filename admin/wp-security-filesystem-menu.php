@@ -155,6 +155,7 @@ class AIOWPSecurity_Filescan_Menu extends AIOWPSecurity_Admin_Menu
     function render_tab2()
     {
         global $aio_wp_security;
+        global $aiowps_feature_mgr;
 
         if(isset($_POST['aiowps_disable_file_edit']))//Do form submission tasks
         {
@@ -178,6 +179,9 @@ class AIOWPSecurity_Filescan_Menu extends AIOWPSecurity_Admin_Menu
                 //Save settings if no errors
                 $aio_wp_security->configs->set_value('aiowps_disable_file_editing',isset($_POST["aiowps_disable_file_editing"])?'1':'');
                 $aio_wp_security->configs->save_config();
+                
+                //Recalculate points after the feature status/options have been altered
+                $aiowps_feature_mgr->check_feature_status_and_recalculate_points();
             }
             //$this->show_msg_settings_updated();
 
@@ -222,6 +226,7 @@ class AIOWPSecurity_Filescan_Menu extends AIOWPSecurity_Admin_Menu
     function render_tab3()
     {
         global $aio_wp_security;
+        global $aiowps_feature_mgr;
         if(isset($_POST['aiowps_save_wp_file_access_settings']))//Do form submission tasks
         {
             $nonce=$_REQUEST['_wpnonce'];
@@ -243,6 +248,9 @@ class AIOWPSecurity_Filescan_Menu extends AIOWPSecurity_Admin_Menu
 
             //Commit the config settings
             $aio_wp_security->configs->save_config();
+            
+            //Recalculate points after the feature status/options have been altered
+            $aiowps_feature_mgr->check_feature_status_and_recalculate_points();
 
             //Now let's write the applicable rules to the .htaccess file
             $res = AIOWPSecurity_Utility_Htaccess::write_to_htaccess();
@@ -329,7 +337,7 @@ class AIOWPSecurity_Filescan_Menu extends AIOWPSecurity_Admin_Menu
             }
 
             $logResults = AIOWPSecurity_Utility_File::recursive_file_search('error_log', 0, ABSPATH);
-            if (empty($logResults) || $logResults == NULL || $logResults == '')
+            if (empty($logResults) || $logResults == NULL || $logResults == '' || $logResults === FALSE)
             {
                 $this->show_msg_updated(__('No system logs were found!', 'aiowpsecurity'));
             }

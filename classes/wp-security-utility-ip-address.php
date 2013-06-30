@@ -24,6 +24,28 @@ class AIOWPSecurity_Utility_IP
         return $userIP;
     }
     
+     /*
+     * Returns the first three octets of a sanitized IP address so it can used as an IP address range
+     */
+    static function get_sanitized_ip_range($ip)
+    {
+        global $aio_wp_security;
+        //$ip = AIOWPSecurity_Utility_IP::get_user_ip_address(); //Get the IP address of user
+        $ip_range = '';
+        $valid_ip = filter_var($ip, FILTER_VALIDATE_IP); //Sanitize the IP address
+        if ($valid_ip)
+        {
+            $ip_range = substr($valid_ip, 0 , strrpos ($valid_ip, ".")); //strip last portion of address to leave an IP range
+        }
+        else
+        {
+            //Write log if the 'REMOTE_ADDR' contains something which is not an IP
+            $aio_wp_security->debug_logger->log_debug("AIOWPSecurity_Utility_IP - Invalid IP received ".$ip,4);
+        }
+        return $ip_range;
+    }
+
+    
     static function create_ip_list_array_from_string_with_newline($ip_addresses)
     {
         $ip_list_array = explode(PHP_EOL, $ip_addresses);

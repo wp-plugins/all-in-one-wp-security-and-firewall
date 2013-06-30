@@ -66,6 +66,7 @@ class AIOWPSecurity_Blacklist_Menu extends AIOWPSecurity_Admin_Menu
     {
         //if this is the case there is no need to display a "fix permissions" button
         global $wpdb, $aio_wp_security;
+        global $aiowps_feature_mgr;
         $result = 1;
         if (isset($_POST['aiowps_save_blacklist_settings']))
         {
@@ -116,6 +117,10 @@ class AIOWPSecurity_Blacklist_Menu extends AIOWPSecurity_Admin_Menu
                 {
                     $aio_wp_security->configs->set_value('aiowps_enable_blacklisting',isset($_POST["aiowps_enable_blacklisting"])?'1':'');
                     $aio_wp_security->configs->save_config(); //Save the configuration
+                    
+                    //Recalculate points after the feature status/options have been altered
+                    $aiowps_feature_mgr->check_feature_status_and_recalculate_points();
+                    
                     $this->show_msg_settings_updated();
 
                     $write_result = AIOWPSecurity_Utility_Htaccess::write_to_htaccess(); //now let's write to the .htaccess file

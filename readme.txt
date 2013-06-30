@@ -4,7 +4,7 @@ Donate link: http://www.tipsandtricks-hq.com
 Tags: security, secure, Anti Virus, antivirus, virus, firewall, login, lockdown, htaccess, hacking, ban hacker, malware, vulnerability, protect, phishing, database, backup, plugin, sql injection, ssl, restrict
 Requires at least: 3.5
 Tested up to: 3.6
-Stable tag: 1.5
+Stable tag: 1.6
 License: GPLv3
 
 A comprehensive, user-friendly, all in one WordPress security and firewall plugin for your site.
@@ -123,6 +123,13 @@ None
 None
 
 == Changelog ==
+
+= 1.6 =
+- Added a new option in the cookie-based Brute Force Login Attack prevention feature to allow users to use this feature together with the WordPress's post/page password protection feature.
+- Fixed a bug in the 5G firewall rules to so that the printed rules include the correct number of '\' characters.
+- Fixed a minor bug in the "restore from backed up htaccess file" feature.
+- Enhanced the "Save current wp-config.php file" feature so it will continue to work with all of the firewall rules active on the site.
+- Added extra checks to account for some error scenarios caused on some servers when recursive file search is done.
 
 = 1.5 =
 - Added new feature - Cookie-based Brute Force Login Attack Prevention. Check under the "Firewall" menu for this new feature.

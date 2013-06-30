@@ -277,9 +277,9 @@ class AIOWPSecurity_Settings_Menu extends AIOWPSecurity_Admin_Menu
             
             if ($result)
             {
-                if (rename(ABSPATH.'wp-config.php.backup', ABSPATH.'wp-config.php.backup.txt'))
+                if (rename(ABSPATH.'wp-config.php.backup', ABSPATH.'wp-config-backup.txt'))
                 {
-                    $backup_file_url = AIOWPSEC_WP_URL . '/wp-config.php.backup.txt';
+                    $backup_file_url = AIOWPSEC_WP_URL . '/wp-config-backup.txt';
                     echo '<div id="message" class="updated fade"><p>';
                     _e('Your wp-config.php file was successfully backed up! Right click on the following file name and save the backup to your computer.','aiowpsecurity');
                     echo '<p>';
@@ -401,7 +401,8 @@ class AIOWPSecurity_Settings_Menu extends AIOWPSecurity_Admin_Menu
     function render_tab4()
     {
         global $aio_wp_security;
-
+        global $aiowps_feature_mgr;
+        
         if(isset($_POST['aiowps_save_remove_wp_meta_info']))//Do form submission tasks
         {
             $nonce=$_REQUEST['_wpnonce'];
@@ -412,6 +413,10 @@ class AIOWPSecurity_Settings_Menu extends AIOWPSecurity_Admin_Menu
             }
             $aio_wp_security->configs->set_value('aiowps_remove_wp_generator_meta_info',isset($_POST["aiowps_remove_wp_generator_meta_info"])?'1':'');
             $aio_wp_security->configs->save_config();
+            
+            //Recalculate points after the feature status/options have been altered
+            $aiowps_feature_mgr->check_feature_status_and_recalculate_points();
+            
             $this->show_msg_settings_updated();
     }
         ?>
