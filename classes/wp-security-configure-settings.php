@@ -14,6 +14,9 @@ class AIOWPSecurity_Configure_Settings
         //WP Generator Meta Tag feature
         $aio_wp_security->configs->set_value('aiowps_remove_wp_generator_meta_info','');//Checkbox
         
+        //General Settings Page
+        $aio_wp_security->configs->set_value('aiowps_site_lockout','');//Checkbox
+        
         //User password feature
         
         //Lockdown feature
@@ -72,6 +75,9 @@ class AIOWPSecurity_Configure_Settings
 
         //WP Generator Meta Tag feature
         $aio_wp_security->configs->add_value('aiowps_remove_wp_generator_meta_info','');//Checkbox
+        
+        //General Settings Page
+        $aio_wp_security->configs->add_value('aiowps_site_lockout','');//Checkbox
         
         //User password feature
         

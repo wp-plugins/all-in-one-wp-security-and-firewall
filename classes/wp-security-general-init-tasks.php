@@ -17,6 +17,13 @@ class AIOWPSecurity_General_Init_Tasks
             AIOWPSecurity_Utility::redirect_to_url(AIOWPSEC_WP_URL."/wp-admin");
         }
         
+        //For site lockout feature
+        if($aio_wp_security->configs->get_value('aiowps_site_lockout') == '1'){
+            if (!is_user_logged_in() && !current_user_can('administrator')) {
+                $this->site_lockout_tasks();
+            }
+        }
+        
         //Add more tasks that need to be executed at init time
     }
     
@@ -25,4 +32,11 @@ class AIOWPSecurity_General_Init_Tasks
         return '';
     }
     
+    function site_lockout_tasks(){
+        nocache_headers();
+        header("HTTP/1.0 503 Service Unavailable");
+        remove_action('wp_head','head_addons',7);
+        include_once(AIO_WP_SECURITY_PATH.'/other-includes/wp-security-visitor-lockout-page.php');
+        exit();
+    }
 }

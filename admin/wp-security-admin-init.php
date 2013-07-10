@@ -44,6 +44,7 @@ class AIOWPSecurity_Admin_Init
         wp_enqueue_script('media-upload');
         wp_register_script('aiowpsec-admin-js', AIO_WP_SECURITY_URL. '/js/wp-security-admin-script.js', array('jquery'));
         wp_enqueue_script('aiowpsec-admin-js');
+        wp_register_script('aiowpsec-pw-tool-js', AIO_WP_SECURITY_URL. '/js/password-strength-tool.js', array('jquery')); // We will enqueue this in the user acct menu class
     }
     
     function admin_menu_page_styles() 

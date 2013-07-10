@@ -16,6 +16,7 @@ class AIOWPSecurity_Installer
                 foreach ($blogids as $blog_id) {
                     switch_to_blog($blog_id);
                     AIOWPSecurity_Installer::create_db_tables();
+                    AIOWPSecurity_Configure_Settings::add_option_values();
                 }
                 switch_to_blog($old_blog);
                 return;

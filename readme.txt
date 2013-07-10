@@ -4,7 +4,7 @@ Donate link: http://www.tipsandtricks-hq.com
 Tags: security, secure, Anti Virus, antivirus, virus, firewall, login, lockdown, htaccess, hacking, ban hacker, malware, vulnerability, protect, phishing, database, backup, plugin, sql injection, ssl, restrict
 Requires at least: 3.5
 Tested up to: 3.6
-Stable tag: 1.6
+Stable tag: 1.7
 License: GPLv3
 
 A comprehensive, user-friendly, all in one WordPress security and firewall plugin for your site.
@@ -32,6 +32,7 @@ Below is a list of the security and firewall features offered in this plugin:
 * Detect if there is a user account which has the default "admin" username and easily change the username to a value of your choice.
 * The plugin will also detect if you have any WordPress user accounts which have identical login and display names. Having account's where display name is identical to login name is bad security practice because 
 you are making it 50% easier for hackers because they already know the login name.
+* Password strength tool to allow you to create very strong passwords.
 
 = User Login Security =
 * Protect against "Brute Force Login Attack" with the Login Lockdown feature. Users with a certain IP address or range will be locked out of the system for a predetermined amount of time based on the configuration settings and you can also choose to be notified 
@@ -91,6 +92,7 @@ or malicious bots who do not have a special cookie in their browser. You (the si
 = Additional Features =
 * Ability to remove the WordPress Generator Meta information from the HTML source of your site.
 * Ability to prevent people from accessing the readme.html, license.txt and wp-config-sample.php files
+* Ability to temporarily lock down the front end of your site from general visitors while you do various backend tasks (investigate security attacks, perform site upgrades, do maintenance work etc.)
 
 = Plugin Support =
 * If you have a question or problem with the All In One Security plugin, post it on the support forum and we will help you.
@@ -123,6 +125,9 @@ None
 None
 
 == Changelog ==
+= 1.7 =
+- Added a new feature which is a password strength tool which calculates how easy it is for your chosen password to be cracked using a desktop PC and the appropriate SW. This tool should help you create strong passwords.
+- Added a front-end general visitor lockout feature. This feature allows you to temporarily lock down the front end of your site while you do security investigation, site upgrades, tweaks etc.
 
 = 1.6 =
 - Added a new option in the cookie-based Brute Force Login Attack prevention feature to allow users to use this feature together with the WordPress's post/page password protection feature.

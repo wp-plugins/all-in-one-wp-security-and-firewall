@@ -7,15 +7,24 @@ class AIOWPSecurity_User_Accounts_Menu extends AIOWPSecurity_Admin_Menu
     /* Specify all the tabs of this menu in the following array */
     var $menu_tabs = array(
         'tab1' => 'WP Username', 
-        'tab2' => 'Display Name'
+        'tab2' => 'Display Name',
+        'tab3' => 'Password'
         );
     var $menu_tabs_handler = array(
         'tab1' => 'render_tab1', 
         'tab2' => 'render_tab2',
+        'tab3' => 'render_tab3',
         );
     function __construct() 
     {
         $this->render_user_account_menu_page();
+        
+        //Add the JS library for password tool - make sure we are on our password tab
+        if (isset($_GET['page']) && strpos($_GET['page'], AIOWPSEC_USER_ACCOUNTS_MENU_SLUG ) !== false) {
+            if (isset($_GET['tab']) && $_GET['tab'] == 'tab3'){
+                wp_enqueue_script('aiowpsec-pw-tool-js');
+            }
+        }
     }
     
     function get_current_tab() 
@@ -182,6 +191,41 @@ class AIOWPSecurity_User_Accounts_Menu extends AIOWPSecurity_Admin_Menu
         <?php
     }
     
+    function render_tab3()
+    {
+        ?>
+            <h2><?php _e('Password Tool', 'aiowpsecurity')?></h2>
+            <div class="aio_blue_box">
+                <?php
+                echo '<p>'.__('Poor password selection is one of the most common weak points of many sites and is usually the first thing a hacker will try to exploit when attempting to break into your site.', 'aiowpsecurity').'</p>'.
+                '<p>'.__('Many people fall into the trap of using a simple word or series of numbers as their password. Such a predictable and simple password would take a competent hacker merely minutes to guess your password by using a simple script which cycles through the easy and most common combinations.', 'aiowpsecurity').'</p>'.
+                '<p>'.__('The longer and more complex your password is the harder it is for hackers to "crack" because more complex passwords require much greater computing power and time.', 'aiowpsecurity').'</p>'.
+                '<p>'.__('This section contains a useful password strength tool which you can use to check whether your password is sufficiently strong enough.', 'aiowpsecurity').'</p>';
+                ?>
+            </div>
+
+            <div class="postbox">
+            <h3><label for="title"><?php _e('Password Strength Tool', 'aiowpsecurity')?></label></h3>
+            <div class="inside">
+                <div class="aio_grey_box aio_half_width"><p>This password tool uses an algorithm which calculates how long it would take for your password to be cracked using the computing power of an off-the-shelf current model desktop PC with high end processor, graphics card and appropriate password cracking software.</p></div>
+                <div class="aiowps_password_tool_field">
+                    <input size="40" id="aiowps_password_test" name="aiowps_password_test" type="text" />
+                    <div class="description"><?php _e('Start typing a password.', 'aiowpsecurity'); ?></div>
+                </div>
+            <div id="aiowps_pw_tool_main">
+                <div class="aiowps_password_crack_info_text">It would take a desktop PC approximately
+                <div id="aiowps_password_crack_time_calculation">1 sec</div> to crack your password!</div>
+                <!-- The rotating arrow -->
+                <div class="arrowCap"></div>
+                <div class="arrow"></div>
+
+                <p class="meterText">Password Strength</p>
+            </div>
+            </div>
+            </div>   
+        <?php
+    }
+
     function validate_change_username_form() 
     {
         global $wpdb;

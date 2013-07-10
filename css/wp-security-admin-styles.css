@@ -253,3 +253,91 @@
     text-align: center;
     padding-top:5px;
 }
+
+#aiowps_pw_tool_main{
+    width:440px;
+    margin:40px auto 120px;
+    position:relative;
+    text-align:center;
+    background: url("../images/form_bg.png") no-repeat scroll 0 0 transparent;
+    height: 450px;
+    padding-top: 50px;
+}
+
+.aiowps_password_tool_field{
+    text-align:center;
+    padding-top: 40px;
+}
+
+#aiowps_pw_tool_main .meterText {
+    color: #575757;
+    font-size: 10px;
+    left: 189px;
+    line-height: 1.1;
+    position: absolute;
+    top: 485px;
+    width: 60px;
+}
+
+
+#aiowps_pw_tool_main .arrow{
+    background: url("../images/arrow.png") no-repeat -10px 0;
+    height: 120px;
+    left: 215px;
+    position: absolute;
+    top: 299px;
+    width: 11px;
+    
+   	/* Defining a smooth CSS3 animation for turning the arrow */
+    
+    -moz-transition:0.3s;
+    -webkit-transition:0.3s;
+    -o-transition:0.3s;
+    -ms-transition:0.3s;
+    transition:0.3s;
+    
+    /* Putting the arrow in its initial position */
+    
+	-moz-transform: rotate(-134deg);
+	-webkit-transform: rotate(-134deg);
+	-o-transform: rotate(-134deg);
+	-ms-transform: rotate(-134deg);
+	transform: rotate(-134deg);
+}
+
+#aiowps_pw_tool_main .arrowCap{
+	background: url("../images/arrow.png") no-repeat -43px 0;
+	height: 20px;
+	left: 208px;
+	position: absolute;
+	top: 351px;
+	width: 20px;
+	z-index: 10;
+}
+
+#aiowps_pw_tool_main .meterText{
+	color: #575757;
+	font-size: 10px;
+	left: 189px;
+	line-height: 1.1;
+	position: absolute;
+	top: 385px;
+	width: 60px;
+}
+
+.aiowps_password_crack_info_text{
+    font-size: 2.125em;
+    line-height: 1.16667em;
+    padding-left: 6.25%;
+    padding-right: 6.25%;
+    text-align: center;
+}
+
+#aiowps_password_crack_time_calculation{
+    font-size: 1.125em;
+    line-height: 1.16667em;
+    padding-left: 6.25%;
+    padding-right: 6.25%;
+    text-align: center;
+    color: darkorange;
+}

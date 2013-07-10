@@ -81,7 +81,23 @@ class AIOWPSecurity_Settings_Menu extends AIOWPSecurity_Admin_Menu
             $this->show_msg_updated(__('All the security features have been disabled successfully!', 'aiowpsecurity'));
         }
         
-        
+        //Site lockout feature submission tasks
+        if(isset($_POST['aiowpsec_save_site_lockout']))
+        {
+            $nonce=$_REQUEST['_wpnonce'];
+            if (!wp_verify_nonce($nonce, 'aiowpsec-site-lockout'))
+            {
+                $aio_wp_security->debug_logger->log_debug("Nonce check failed on site lockout feature settings save!",4);
+                die("Nonce check failed on site lockout feature settings save!");
+            }
+
+            //Save settings if no errors
+            $aio_wp_security->configs->set_value('aiowps_site_lockout',isset($_POST["aiowps_site_lockout"])?'1':'');
+            $aio_wp_security->configs->save_config();
+
+            $this->show_msg_updated(__('Site lockout feature settings saved!', 'aiowpsecurity'));
+
+        }
         ?>
         <div class="aio_grey_box">
  	<p>For information, updates and documentation, please visit the <a href="http://www.tipsandtricks-hq.com/wordpress-security-and-firewall-plugin" target="_blank">AIO WP Security & Firewall Plugin</a> Page.</p>
@@ -115,6 +131,32 @@ class AIOWPSecurity_Settings_Menu extends AIOWPSecurity_Admin_Menu
         </div>      
         <div class="submit">
             <input type="submit" name="aiowpsec_disable_all_features" value="<?php _e('Disable All Security Features'); ?>" />
+        </div>
+        </form>   
+        </div></div>
+        <div class="postbox">
+        <h3><label for="title"><?php _e('General Visitor Lockout', 'aiowpsecurity'); ?></label></h3>
+        <div class="inside">
+        <form action="" method="POST">
+        <?php wp_nonce_field('aiowpsec-site-lockout'); ?>
+        <div class="aio_blue_box">
+            <?php
+            echo '<p>'.__('This feature allows you to lockdown the front-end of your site to all visitors except user with super admin privileges.', 'aiowpsecurity').'</p>';
+            echo '<p>'.__('Locking your site down to general visitors can be useful if you are investigating some issues on your site or perhaps you might be doing some maintenance and wish to keep out all traffic for security reasons.', 'aiowpsecurity').'</p>';
+            ?>
+        </div>
+        <table class="form-table">
+            <tr valign="top">
+                <th scope="row"><?php _e('Enable Front-end Lockout', 'aiowpsecurity')?>:</th>                
+                <td>
+                <input name="aiowps_site_lockout" type="checkbox"<?php if($aio_wp_security->configs->get_value('aiowps_site_lockout')=='1') echo ' checked="checked"'; ?> value="1"/>
+                <span class="description"><?php _e('Check this if you want all visitors except those who are logged in as administrator to be locked out of the front-end of your site.', 'aiowpsecurity'); ?></span>
+                </td>
+            </tr>            
+        </table>
+    
+        <div class="submit">
+            <input type="submit" name="aiowpsec_save_site_lockout" value="<?php _e('Save Site Lockout Settings'); ?>" />
         </div>
         </form>   
         </div></div>
