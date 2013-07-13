@@ -15,8 +15,7 @@ class AIOWPSecurity_Configure_Settings
         $aio_wp_security->configs->set_value('aiowps_remove_wp_generator_meta_info','');//Checkbox
         
         //General Settings Page
-        $aio_wp_security->configs->set_value('aiowps_site_lockout','');//Checkbox
-        
+
         //User password feature
         
         //Lockdown feature
@@ -61,7 +60,11 @@ class AIOWPSecurity_Configure_Settings
         $aio_wp_security->configs->set_value('aiowps_cookie_based_brute_force_redirect_url','http://127.0.0.1');
         $aio_wp_security->configs->set_value('aiowps_enable_brute_force_attack_prevention','');//Checkbox
         $aio_wp_security->configs->set_value('aiowps_brute_force_attack_prevention_pw_protected_exception','');//Checkbox
-        
+
+        //Maintenance menu - Visitor lockout feature
+        $aio_wp_security->configs->set_value('aiowps_site_lockout','');//Checkbox
+        $aio_wp_security->configs->set_value('aiowps_site_lockout_msg','');//Text area/msg box
+
         //TODO - keep adding default options for any fields that require it
         
         //Save it
@@ -77,7 +80,6 @@ class AIOWPSecurity_Configure_Settings
         $aio_wp_security->configs->add_value('aiowps_remove_wp_generator_meta_info','');//Checkbox
         
         //General Settings Page
-        $aio_wp_security->configs->add_value('aiowps_site_lockout','');//Checkbox
         
         //User password feature
         
@@ -122,6 +124,11 @@ class AIOWPSecurity_Configure_Settings
         $aio_wp_security->configs->add_value('aiowps_brute_force_secret_word','');
         $aio_wp_security->configs->add_value('aiowps_cookie_based_brute_force_redirect_url','http://127.0.0.1');
         $aio_wp_security->configs->add_value('aiowps_brute_force_attack_prevention_pw_protected_exception','');//Checkbox
+        
+        //Maintenance menu - Visitor lockout feature
+        $aio_wp_security->configs->add_value('aiowps_site_lockout','');//Checkbox
+        $aio_wp_security->configs->add_value('aiowps_site_lockout_msg','');//Text area/msg box
+
         
         //TODO - keep adding default options for any fields that require it
         

@@ -4,7 +4,7 @@ Donate link: http://www.tipsandtricks-hq.com
 Tags: security, secure, Anti Virus, antivirus, virus, firewall, login, lockdown, htaccess, hacking, ban hacker, malware, vulnerability, protect, phishing, database, backup, plugin, sql injection, ssl, restrict
 Requires at least: 3.5
 Tested up to: 3.6
-Stable tag: 1.7
+Stable tag: 1.8
 License: GPLv3
 
 A comprehensive, user-friendly, all in one WordPress security and firewall plugin for your site.
@@ -125,6 +125,13 @@ None
 None
 
 == Changelog ==
+
+= 1.8 =
+- Moved the front end site lockout feature to a new menu called "Maintenance".
+- Added a feature in the front-end lockout feature to allow people to specify their own message which will be displayed on the front-end to visitors who try to access the site when it is in lock out state.
+- Fixed a bug in the front-end lockout feature by adding some checks which ensure that the admin will not get locked if the feature is still active and their login session expires or they log out.
+- Added a widget in the dashboard menu to show the status of the "maintenance mode" feature.
+
 = 1.7 =
 - Added a new feature which is a password strength tool which calculates how easy it is for your chosen password to be cracked using a desktop PC and the appropriate SW. This tool should help you create strong passwords.
 - Added a front-end general visitor lockout feature. This feature allows you to temporarily lock down the front end of your site while you do security investigation, site upgrades, tweaks etc.

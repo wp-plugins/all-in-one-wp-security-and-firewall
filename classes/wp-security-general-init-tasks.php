@@ -19,7 +19,7 @@ class AIOWPSecurity_General_Init_Tasks
         
         //For site lockout feature
         if($aio_wp_security->configs->get_value('aiowps_site_lockout') == '1'){
-            if (!is_user_logged_in() && !current_user_can('administrator')) {
+            if (!is_user_logged_in() && !current_user_can('administrator') && !is_admin() && !in_array( $GLOBALS['pagenow'], array( 'wp-login.php', 'wp-register.php' ))) {
                 $this->site_lockout_tasks();
             }
         }

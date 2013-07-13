@@ -71,6 +71,7 @@ class AIOWPSecurity_Dashboard_Menu extends AIOWPSecurity_Admin_Menu
         echo "<script type='text/javascript' src='https://www.google.com/jsapi'></script>";//Include the google chart library
         
         global $aiowps_feature_mgr;
+        global $aio_wp_security;
         $feature_mgr = $aiowps_feature_mgr;
         $total_site_security_points = $feature_mgr->get_total_site_points();
         $total_security_points_achievable = $feature_mgr->get_total_achievable_points();
@@ -169,7 +170,7 @@ class AIOWPSecurity_Dashboard_Menu extends AIOWPSecurity_Admin_Menu
         $username_admin_feature = $feature_mgr->get_feature_item_by_id("user-accounts-change-admin-user");
         echo '<div class="aiowps_feature_status_container">';
         echo '<div class="aiowps_feature_status_name">'.__('Admin Username','aiowpsecurity').'</div>';
-        echo '<a href="admin.php?page='.AIOWPSEC_USER_ACCOUNTS_MENU_SLUG.'" target="_blank">';
+        echo '<a href="admin.php?page='.AIOWPSEC_USER_ACCOUNTS_MENU_SLUG.'">';
         echo '<div class="aiowps_feature_status_bar">';
         if($username_admin_feature->feature_status == $feature_mgr->feature_active){
             echo '<div class="aiowps_feature_status_label aiowps_feature_status_on">On</div>';
@@ -184,7 +185,7 @@ class AIOWPSecurity_Dashboard_Menu extends AIOWPSecurity_Admin_Menu
         $login_lockdown_feature = $feature_mgr->get_feature_item_by_id("user-login-login-lockdown");
         echo '<div class="aiowps_feature_status_container">';
         echo '<div class="aiowps_feature_status_name">'.__('Login Lockdown','aiowpsecurity').'</div>';
-        echo '<a href="admin.php?page='.AIOWPSEC_USER_LOGIN_MENU_SLUG.'" target="_blank">';
+        echo '<a href="admin.php?page='.AIOWPSEC_USER_LOGIN_MENU_SLUG.'">';
         echo '<div class="aiowps_feature_status_bar">';
         if($login_lockdown_feature->feature_status == $feature_mgr->feature_active){
             echo '<div class="aiowps_feature_status_label aiowps_feature_status_on">On</div>';
@@ -199,7 +200,7 @@ class AIOWPSecurity_Dashboard_Menu extends AIOWPSecurity_Admin_Menu
         $filesystem_feature = $feature_mgr->get_feature_item_by_id("filesystem-file-permissions");
         echo '<div class="aiowps_feature_status_container">';
         echo '<div class="aiowps_feature_status_name">'.__('File Permission','aiowpsecurity').'</div>';
-        echo '<a href="admin.php?page='.AIOWPSEC_FILESYSTEM_MENU_SLUG.'" target="_blank">';
+        echo '<a href="admin.php?page='.AIOWPSEC_FILESYSTEM_MENU_SLUG.'">';
         echo '<div class="aiowps_feature_status_bar">';
         if($filesystem_feature->feature_status == $feature_mgr->feature_active){
             echo '<div class="aiowps_feature_status_label aiowps_feature_status_on">On</div>';
@@ -214,7 +215,7 @@ class AIOWPSecurity_Dashboard_Menu extends AIOWPSecurity_Admin_Menu
         $basic_firewall_feature = $feature_mgr->get_feature_item_by_id("firewall-basic-rules");
         echo '<div class="aiowps_feature_status_container">';
         echo '<div class="aiowps_feature_status_name">'.__('Basic Firewall','aiowpsecurity').'</div>';
-        echo '<a href="admin.php?page='.AIOWPSEC_FIREWALL_MENU_SLUG.'" target="_blank">';
+        echo '<a href="admin.php?page='.AIOWPSEC_FIREWALL_MENU_SLUG.'">';
         echo '<div class="aiowps_feature_status_bar">';
         if($basic_firewall_feature->feature_status == $feature_mgr->feature_active){
             echo '<div class="aiowps_feature_status_label aiowps_feature_status_on">On</div>';
@@ -228,6 +229,36 @@ class AIOWPSecurity_Dashboard_Menu extends AIOWPSecurity_Admin_Menu
         ?>
         </div></div>
         </div><!-- aiowps_dashboard_box -->        
+
+        <div class="aiowps_dashboard_box_small">
+        <div class="postbox">
+        <h3><label for="title">Maintenance Mode Status</label></h3>
+        <div class="inside">        
+        <?php 
+        if($aio_wp_security->configs->get_value('aiowps_site_lockout') == '1'){
+            echo '<p>'.__('Maintenance mode is currently enabled. Remember to turn it off when you are done','aiowpsecurity').'</p>';
+        }
+        else{
+            echo '<p>'.__('Maintenance mode is currently off.','aiowpsecurity').'</p>';
+        }
+        
+        echo '<div class="aiowps_feature_status_container">';
+        echo '<div class="aiowps_feature_status_name">'.__('Maintenance Mode','aiowpsecurity').'</div>';
+        echo '<a href="admin.php?page='.AIOWPSEC_MAINTENANCE_MENU_SLUG.'">';
+        echo '<div class="aiowps_feature_status_bar">';
+        if($aio_wp_security->configs->get_value('aiowps_site_lockout') == '1'){//Maintenance mode is enabled
+            echo '<div class="aiowps_feature_status_label aiowps_feature_status_off">On</div>';//If enabled show red by usign the "off" class
+            echo '<div class="aiowps_feature_status_label">Off</div>';
+        }else{
+            echo '<div class="aiowps_feature_status_label">On</div>';
+            echo '<div class="aiowps_feature_status_label aiowps_feature_status_on">Off</div>';
+        }
+        echo '</div></div></a>';
+        echo '<div class="aio_clear_float"></div>';       
+        ?>
+        </div></div>
+        </div><!-- aiowps_dashboard_box -->
+
         
         <div class="aiowps_dashboard_box_small">
         <div class="postbox">
