@@ -13,6 +13,9 @@ class AIOWPSecurity_Utility_Htaccess
     public static $basic_htaccess_rules_marker_start = '#AIOWPS_BASIC_HTACCESS_RULES_START';
     public static $basic_htaccess_rules_marker_end = '#AIOWPS_BASIC_HTACCESS_RULES_END';
 
+    public static $pingback_htaccess_rules_marker_start = '#AIOWPS_PINGBACK_HTACCESS_RULES_START';
+    public static $pingback_htaccess_rules_marker_end = '#AIOWPS_PINGBACK_HTACCESS_RULES_END';
+
     public static $user_agent_blacklist_marker_start = '#AIOWPS_USER_AGENT_BLACKLIST_START';
     public static $user_agent_blacklist_marker_end = '#AIOWPS_USER_AGENT_BLACKLIST_END';
     
@@ -195,6 +198,7 @@ class AIOWPSecurity_Utility_Htaccess
         $rules = "";
         $rules .= AIOWPSecurity_Utility_Htaccess::getrules_block_wp_file_access();
         $rules .= AIOWPSecurity_Utility_Htaccess::getrules_basic_htaccess();
+        $rules .= AIOWPSecurity_Utility_Htaccess::getrules_pingback_htaccess();
         $rules .= AIOWPSecurity_Utility_Htaccess::getrules_disable_index_views();
         $rules .= AIOWPSecurity_Utility_Htaccess::getrules_blacklist();
         $rules .= AIOWPSecurity_Utility_Htaccess::getrules_disable_trace_and_track();
@@ -409,6 +413,24 @@ class AIOWPSecurity_Utility_Htaccess
 	return $rules;
     }
     
+    static function getrules_pingback_htaccess()
+    {
+        global $aio_wp_security;
+		
+        $rules = '';
+        if($aio_wp_security->configs->get_value('aiowps_enable_pingback_firewall')=='1') 
+        {
+            $rules .= AIOWPSecurity_Utility_Htaccess::$pingback_htaccess_rules_marker_start . PHP_EOL; //Add feature marker start
+            //protect the htaccess file - this is done by default with apache config file but we are including it here for good measure
+            $rules .= '<IfModule mod_alias.c>' . PHP_EOL;
+            $rules .= 'RedirectMatch 403 /(.*)/xmlrpc\.php$' . PHP_EOL;
+            $rules .= '</IfModule>' . PHP_EOL;
+            
+            $rules .= AIOWPSecurity_Utility_Htaccess::$pingback_htaccess_rules_marker_end . PHP_EOL; //Add feature marker end
+        }
+	return $rules;
+    }
+
     /*
      * This function will write some drectives to block all people who do not have a cookie 
      * when trying to access the WP login page
@@ -424,6 +446,10 @@ class AIOWPSecurity_Utility_Htaccess
             $rules .= AIOWPSecurity_Utility_Htaccess::$enable_brute_force_attack_prevention_marker_start . PHP_EOL; //Add feature marker start
             $rules .= 'RewriteEngine On' . PHP_EOL;
             $rules .= 'RewriteCond %{REQUEST_URI} (wp-admin|wp-login)'. PHP_EOL;// If URI contains wp-admin or wp-login
+            if($aio_wp_security->configs->get_value('aiowps_brute_force_attack_prevention_ajax_exception')=='1') 
+            {
+                $rules .= 'RewriteCond %{REQUEST_URI} !(wp-admin/admin-ajax.php)' . PHP_EOL; // To allow ajax requests through
+            }
             if($aio_wp_security->configs->get_value('aiowps_brute_force_attack_prevention_pw_protected_exception')=='1') 
             {
                 $rules .= 'RewriteCond %{QUERY_STRING} !(action\=postpass)' . PHP_EOL; // Possible workaround for people usign the password protected page/post feature

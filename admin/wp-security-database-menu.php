@@ -77,27 +77,38 @@ class AIOWPSecurity_Database_Menu extends AIOWPSecurity_Admin_Menu
                 $aio_wp_security->debug_logger->log_debug("Nonce check failed for DB prefix change operation!",4);
                 die(__('Nonce check failed for DB prefix change operation!','aiowpsecurity'));
             }
-            if( isset($_POST['aiowps_enable_random_prefix'])) 
-            {//User has elected to generate a random DB prefix
-                $string = AIOWPSecurity_Utility::generate_alpha_numeric_random_string('6');
-                $new_db_prefix = $string . '_';
-                $perform_db_change = true;
-            }else 
+            
+            //Let's first check if user's system allows writing to wp-config.php file. If plugin cannot write to wp-config we will not do the prefix change.
+            $config_file = ABSPATH.'wp-config.php';
+            $file_write = AIOWPSecurity_Utility_File::is_file_writable($config_file);
+            if ($file_write == false)
             {
-                if (empty($_POST['aiowps_new_manual_db_prefix']))
-                {
-                    $this->show_msg_error(__('Please enter a value for the DB prefix.', 'aiowpsecurity'));
-                }
-                else
-                {
-                    //User has chosen their own DB prefix value
-                    $new_db_prefix = wp_strip_all_tags( trim( $_POST['aiowps_new_manual_db_prefix'] ) );
-                    $error = $wpdb->set_prefix( $new_db_prefix );
-                    if(is_wp_error($error))
-                    {
-                        wp_die( __('<strong>ERROR</strong>: The table prefix can only contain numbers, letters, and underscores.', 'aiowpsecurity') );
-                    }
+                $this->show_msg_error(__('The plugin has detected that it cannot write to the wp-config.php file. This feature can only be used if the plugin can successfully write to the wp-config.php file.', 'aiowpsecurity'));
+            }
+            else
+            {
+                if( isset($_POST['aiowps_enable_random_prefix'])) 
+                {//User has elected to generate a random DB prefix
+                    $string = AIOWPSecurity_Utility::generate_alpha_numeric_random_string('6');
+                    $new_db_prefix = $string . '_';
                     $perform_db_change = true;
+                }else 
+                {
+                    if (empty($_POST['aiowps_new_manual_db_prefix']))
+                    {
+                        $this->show_msg_error(__('Please enter a value for the DB prefix.', 'aiowpsecurity'));
+                    }
+                    else
+                    {
+                        //User has chosen their own DB prefix value
+                        $new_db_prefix = wp_strip_all_tags( trim( $_POST['aiowps_new_manual_db_prefix'] ) );
+                        $error = $wpdb->set_prefix( $new_db_prefix );
+                        if(is_wp_error($error))
+                        {
+                            wp_die( __('<strong>ERROR</strong>: The table prefix can only contain numbers, letters, and underscores.', 'aiowpsecurity') );
+                        }
+                        $perform_db_change = true;
+                    }
                 }
             }
         }
@@ -334,6 +345,9 @@ class AIOWPSecurity_Database_Menu extends AIOWPSecurity_Admin_Menu
         global $wpdb, $aio_wp_security;
         $old_prefix_length = strlen( $table_old_prefix );
 
+        //Config file path
+        $config_file = ABSPATH.'wp-config.php';
+
         //Get the table resource
         $result = mysql_list_tables(DB_NAME);
 
@@ -342,12 +356,11 @@ class AIOWPSecurity_Database_Menu extends AIOWPSecurity_Admin_Menu
         $table_count = 0;
 
         //TODO - after reading up on internationalization mixed with html code I found that the WP experts say to do it as below. We will need to clean up other areas where we haven't used the following convention
-        $info_msg_string = '<p class="aio_info_with_icon">'.sprintf( __('Starting DB prefix change.....', 'aiowpsecurity')).'</p>';
+        $info_msg_string = '<p class="aio_info_with_icon">'.__('Starting DB prefix change operations.....', 'aiowpsecurity').'</p>';
+        
         $info_msg_string .= '<p class="aio_info_with_icon">'.sprintf( __('Your WordPress system has a total of %s tables and your new DB prefix will be: %s', 'aiowpsecurity'), '<strong>'.$num_rows.'</strong>', '<strong>'.$table_new_prefix.'</strong>').'</p>';
         echo ($info_msg_string);
 
-        //Config file path
-        $config_file = ABSPATH.'wp-config.php';
         //Do a back of the config file
         if(!AIOWPSecurity_Utility_File::backup_a_file($config_file))
         {

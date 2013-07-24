@@ -61,6 +61,7 @@ class AIOWPSecurity_Feature_Item_Manager
         //Firewall Menu Features
         //Basic firewall
         $this->feature_items[] = new AIOWPSecurity_Feature_Item("firewall-basic-rules", "Enable Basic Firewall", $this->feature_point_3, $this->sec_level_basic);
+        $this->feature_items[] = new AIOWPSecurity_Feature_Item("firewall-pingback-rules", "Enable Pingback Vulnerability Protection", $this->feature_point_3, $this->sec_level_basic);
         
         //Additional and Advanced firewall
         $this->feature_items[] = new AIOWPSecurity_Feature_Item("firewall-enable-brute-force-attack-prevention", "Enable Brute Force Attack Prevention", $this->feature_point_4, $this->sec_level_inter);
@@ -171,6 +172,13 @@ class AIOWPSecurity_Feature_Item_Manager
             {
                 $this->check_enable_basic_firewall_feature($item);
             }
+            
+            if($item->feature_id == "firewall-pingback-rules")
+            {
+                $this->check_enable_pingback_firewall_feature($item);
+            }
+
+            
             if($item->feature_id == "firewall-enable-brute-force-attack-prevention")
             {
                 $this->check_enable_bfap_firewall_feature($item);
@@ -381,6 +389,19 @@ class AIOWPSecurity_Feature_Item_Manager
         }
     }
 
+    function check_enable_pingback_firewall_feature($item)
+    {
+        global $aio_wp_security;
+        if ($aio_wp_security->configs->get_value('aiowps_enable_pingback_firewall') == '1') {
+            $item->set_feature_status($this->feature_active);
+        }
+        else
+        {
+            $item->set_feature_status($this->feature_inactive);
+        }
+    }
+
+    
     function check_disable_trace_track_firewall_feature($item)
     {
         global $aio_wp_security;

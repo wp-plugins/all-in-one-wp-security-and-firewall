@@ -89,6 +89,15 @@ class AIOWPSecurity_Firewall_Menu extends AIOWPSecurity_Admin_Menu
                 $aio_wp_security->configs->set_value('aiowps_enable_basic_firewall','');
             }
 
+            if(isset($_POST['aiowps_enable_pingback_firewall']))
+            {
+                $aio_wp_security->configs->set_value('aiowps_enable_pingback_firewall','1');
+            } 
+            else
+            {
+                $aio_wp_security->configs->set_value('aiowps_enable_pingback_firewall','');
+            }
+
             //Commit the config settings
             $aio_wp_security->configs->save_config();
             
@@ -100,7 +109,7 @@ class AIOWPSecurity_Firewall_Menu extends AIOWPSecurity_Admin_Menu
 
             if ($res)
             {
-                $this->show_msg_updated(__('You have successfully saved the Basic Firewall Protection configuration', 'aiowpsecurity'));
+                $this->show_msg_updated(__('Settings were successfully saved', 'aiowpsecurity'));
             }
             else if($res == -1)
             {
@@ -110,11 +119,14 @@ class AIOWPSecurity_Firewall_Menu extends AIOWPSecurity_Admin_Menu
 
         ?>
         <h2><?php _e('Firewall Settings', 'aiowpsecurity')?></h2>
+        <form action="" method="POST">
+        <?php wp_nonce_field('aiowpsec-enable-basic-firewall-nonce'); ?>            
+
         <div class="aio_blue_box">
             <?php
             $backup_tab_link = '<a href="admin.php?page='.AIOWPSEC_SETTINGS_MENU_SLUG.'&tab=tab2" target="_blank">backup</a>';
             $info_msg = sprintf( __('This should not have any impact on your site\'s general functionality but if you wish you can take a %s of your .htaccess file before proceeding.', 'aiowpsecurity'), $backup_tab_link);
-            echo '<p>'.__('This feature allows you to activate some basic firewall security protection rules for your site.', 'aiowpsecurity').
+            echo '<p>'.__('The features in this tab allow you to activate some basic firewall security protection rules for your site.', 'aiowpsecurity').
             '<br />'.__('The firewall functionality is achieved via the insertion of special code into your currently active .htaccess file.', 'aiowpsecurity').
             '<br />'.$info_msg.'</p>';
             ?>
@@ -127,8 +139,6 @@ class AIOWPSecurity_Firewall_Menu extends AIOWPSecurity_Admin_Menu
         //Display security info badge
         $aiowps_feature_mgr->output_feature_details_badge("firewall-basic-rules");
         ?>
-        <form action="" method="POST">
-        <?php wp_nonce_field('aiowpsec-enable-basic-firewall-nonce'); ?>            
         <table class="form-table">
             <tr valign="top">
                 <th scope="row"><?php _e('Enable Basic Firewall Protection', 'aiowpsecurity')?>:</th>                
@@ -150,9 +160,39 @@ class AIOWPSecurity_Firewall_Menu extends AIOWPSecurity_Admin_Menu
                 </td>
             </tr>            
         </table>
+        </div></div>
+        
+        <div class="postbox">
+        <h3><label for="title"><?php _e('WordPress Pingback Vulnerability Protection', 'aiowpsecurity'); ?></label></h3>
+        <div class="inside">
+        <?php
+        //Display security info badge
+        $aiowps_feature_mgr->output_feature_details_badge("firewall-pingback-rules");
+        ?>
+        <table class="form-table">
+            <tr valign="top">
+                <th scope="row"><?php _e('Enable Pingback Protection', 'aiowpsecurity')?>:</th>                
+                <td>
+                <input name="aiowps_enable_pingback_firewall" type="checkbox"<?php if($aio_wp_security->configs->get_value('aiowps_enable_pingback_firewall')=='1') echo ' checked="checked"'; ?> value="1"/>
+                <span class="description"><?php _e('Check this if you are not using the WP XML-RPC functionality and you want to enable protection against WordPress pingback vulnerabilities.', 'aiowpsecurity'); ?></span>
+                <span class="aiowps_more_info_anchor"><span class="aiowps_more_info_toggle_char">+</span><span class="aiowps_more_info_toggle_text"><?php _e('More Info', 'aiowpsecurity'); ?></span></span>
+                <div class="aiowps_more_info_body">
+                        <?php 
+                        echo '<p class="description">'.__('This setting will add a directive in your .htaccess to disable access to the WordPress xmlrpc.php file which is responsible for the XML-RPC functionality such as pingbacks in WordPress.', 'aiowpsecurity').'</p>';
+                        echo '<p class="description">'.__('Hackers can exploit various pingback vulnerabilities in the WordPress XML-RPC API in a number of ways such as:', 'aiowpsecurity').'</p>';
+                        echo '<p class="description">'.__('1) Denial of Service (DoS) attacks', 'aiowpsecurity').'</p>';
+                        echo '<p class="description">'.__('2) Hacking internal routers.', 'aiowpsecurity').'</p>';
+                        echo '<p class="description">'.__('3) Scanning ports in internal networks to get info from various hosts.', 'aiowpsecurity').'</p>';
+                        echo '<p class="description">'.__('Apart from the security protection benefit, this feature may also help reduce load on your server, particularly if your site currently has a lot of unwanted traffic hitting the XML-RPC API on your installation.', 'aiowpsecurity').'</p>';
+                        echo '<p class="description">'.__('NOTE: You should only enable this feature if you are not currently using the XML-RPC functionality on your WordPress installation.', 'aiowpsecurity').'</p>';
+                        ?>
+                </div>
+                </td>
+            </tr>            
+        </table>
+        </div></div>
         <input type="submit" name="aiowps_apply_basic_firewall_settings" value="<?php _e('Save Basic Firewall Settings', 'aiowpsecurity')?>" class="button-primary" />
         </form>
-        </div></div>
         <?php
     }
     
@@ -496,6 +536,7 @@ class AIOWPSecurity_Firewall_Menu extends AIOWPSecurity_Admin_Menu
     {
         global $aio_wp_security;
         global $aiowps_feature_mgr;
+        $error = false;
 
         //Save settings for brute force cookie method
         if(isset($_POST['aiowps_apply_cookie_based_bruteforce_firewall']))
@@ -512,6 +553,9 @@ class AIOWPSecurity_Firewall_Menu extends AIOWPSecurity_Admin_Menu
                 $brute_force_feature_secret_word = sanitize_text_field($_POST['aiowps_brute_force_secret_word']);
                 if(empty($brute_force_feature_secret_word)){
                     $brute_force_feature_secret_word = "aiowps_secret";
+                }else if(!ctype_alnum($brute_force_feature_secret_word)){
+                    $msg = '<p>'.__('Settings have not been saved - your secret word must consist only of alphanumeric characters, ie, letters and/or numbers only!', 'aiowpsecurity').'</p>';
+                    $error = true;
                 }
                 
                 if(filter_var($_POST['aiowps_cookie_based_brute_force_redirect_url'], FILTER_VALIDATE_URL))
@@ -522,22 +566,18 @@ class AIOWPSecurity_Firewall_Menu extends AIOWPSecurity_Admin_Menu
                 {
                     $aio_wp_security->configs->set_value('aiowps_cookie_based_brute_force_redirect_url','http://127.0.0.1');
                 }
-                
-                $aio_wp_security->configs->set_value('aiowps_brute_force_secret_word',$brute_force_feature_secret_word);
+
                 $aio_wp_security->configs->set_value('aiowps_enable_brute_force_attack_prevention','1');
-                
-                if(isset($_POST['aiowps_brute_force_attack_prevention_pw_protected_exception'])){
-                    $aio_wp_security->configs->set_value('aiowps_brute_force_attack_prevention_pw_protected_exception','1');
-                }else {
-                    $aio_wp_security->configs->set_value('aiowps_brute_force_attack_prevention_pw_protected_exception','');
+
+                if (!$error)
+                {
+                    $aio_wp_security->configs->set_value('aiowps_brute_force_secret_word',$brute_force_feature_secret_word);
+                    $msg = '<p>'.__('You have successfully enabled the cookie based brute force prevention feature', 'aiowpsecurity').'</p>';
+                    $msg .= '<p>'.__('From now on you will need to log into your WP Admin using the following URL:', 'aiowpsecurity').'</p>';
+                    $msg .= '<p><strong>'.AIOWPSEC_WP_URL.'/?'.$brute_force_feature_secret_word.'=1</strong></p>';
+                    $msg .= '<p>'.__('It is important that you save this URL value somewhere in case you forget it, OR,', 'aiowpsecurity').'</p>';
+                    $msg .= '<p>'.sprintf( __('simply remember to add a "?%s=1" to your current site URL address.', 'aiowpsecurity'), $brute_force_feature_secret_word).'</p>';
                 }
-                
-                //TODO - pretty up the following messages
-                $msg = '<p>'.__('You have successfully enabled the cookie based brute force prevention feature', 'aiowpsecurity').'</p>';
-                $msg .= '<p>'.__('From now on you will need to log into your WP Admin using the following URL:', 'aiowpsecurity').'</p>';
-                $msg .= '<p><strong>'.AIOWPSEC_WP_URL.'/?'.$brute_force_feature_secret_word.'=1</strong></p>';
-                $msg .= '<p>'.__('It is important that you save this URL value somewhere in case you forget it, OR,', 'aiowpsecurity').'</p>';
-                $msg .= '<p>'.sprintf( __('simply remember to add a "?%s=1" to your current site URL address.', 'aiowpsecurity'), $brute_force_feature_secret_word).'</p>';
             }
             else
             {
@@ -545,21 +585,45 @@ class AIOWPSecurity_Firewall_Menu extends AIOWPSecurity_Admin_Menu
                 $msg = __('You have successfully saved cookie based brute force prevention feature settings.', 'aiowpsecurity');
             }
             
-            $aio_wp_security->configs->save_config();//save the value
-            
-            //Recalculate points after the feature status/options have been altered
-            $aiowps_feature_mgr->check_feature_status_and_recalculate_points();
-            
-            $res = AIOWPSecurity_Utility_Htaccess::write_to_htaccess();
-            if ($res){
-                echo '<div id="message" class="updated fade"><p>';
-                echo $msg;
-                echo '</p></div>';
+            if(isset($_POST['aiowps_brute_force_attack_prevention_pw_protected_exception']))
+            {
+                $aio_wp_security->configs->set_value('aiowps_brute_force_attack_prevention_pw_protected_exception','1');
             }
-            else if($res == -1){
-                $this->show_msg_error(__('Could not write to the .htaccess file. Please check the file permissions.', 'aiowpsecurity'));
+            else
+            {
+                $aio_wp_security->configs->set_value('aiowps_brute_force_attack_prevention_pw_protected_exception','');
             }
-            
+
+            if(isset($_POST['aiowps_brute_force_attack_prevention_ajax_exception']))
+            {
+                $aio_wp_security->configs->set_value('aiowps_brute_force_attack_prevention_ajax_exception','1');
+            }
+            else
+            {
+                $aio_wp_security->configs->set_value('aiowps_brute_force_attack_prevention_ajax_exception','');
+            }
+
+            if (!$error)
+            {
+                $aio_wp_security->configs->save_config();//save the value
+
+                //Recalculate points after the feature status/options have been altered
+                $aiowps_feature_mgr->check_feature_status_and_recalculate_points();
+
+                $res = AIOWPSecurity_Utility_Htaccess::write_to_htaccess();
+                if ($res){
+                    echo '<div id="message" class="updated fade"><p>';
+                    echo $msg;
+                    echo '</p></div>';
+                }
+                else if($res == -1){
+                    $this->show_msg_error(__('Could not write to the .htaccess file. Please check the file permissions.', 'aiowpsecurity'));
+                }
+            }
+            else
+            {
+                $this->show_msg_error($msg);
+            }
         }
 
         ?>
@@ -603,7 +667,7 @@ class AIOWPSecurity_Firewall_Menu extends AIOWPSecurity_Admin_Menu
                         echo '<br />';
                         _e('1) Enable the checkbox.', 'aiowpsecurity');
                         echo '<br />';
-                        _e('2) Enter a secret word which will be difficult to guess. This secret word will be useful whenever you need to know the special URL which you will use to access the login page (see point below).', 'aiowpsecurity');
+                        _e('2) Enter a secret word consisting of alphanumeric characters which will be difficult to guess. This secret word will be useful whenever you need to know the special URL which you will use to access the login page (see point below).', 'aiowpsecurity');
                         echo '<br />';
                         _e('3) You will then be provided with a special login URL. You will need to use this URL to login to your WordPress site instead of the usual login URL. NOTE: The system will deposit a special cookie in your browser which will allow you access to the WordPress administration login page.', 'aiowpsecurity');
                         echo '<br />';
@@ -616,7 +680,7 @@ class AIOWPSecurity_Firewall_Menu extends AIOWPSecurity_Admin_Menu
             <tr valign="top">
                 <th scope="row"><?php _e('Secret Word', 'aiowpsecurity')?>:</th>
                 <td><input size="40" name="aiowps_brute_force_secret_word" value="<?php echo $aio_wp_security->configs->get_value('aiowps_brute_force_secret_word'); ?>" />
-                <span class="description"><?php _e('Choose a secret word which you can use to access your special URL. Your are highly encouraged to choose a word which will be difficult to guess.', 'aiowpsecurity'); ?></span>
+                <span class="description"><?php _e('Choose a secret word consisting of alphanumeric characters which you can use to access your special URL. Your are highly encouraged to choose a word which will be difficult to guess.', 'aiowpsecurity'); ?></span>
                 </td> 
             </tr>
             <tr valign="top">
@@ -661,6 +725,23 @@ class AIOWPSecurity_Firewall_Menu extends AIOWPSecurity_Admin_Menu
                         echo "<strong>".__('Helpful Tip:', 'aiowpsecurity')."</strong>";
                         echo '<br />';
                         _e('If you do not use the WordPress password protection feature for your posts or pages then it is highly recommended that you leave this checkbox disabled.', 'aiowpsecurity');
+                        ?>
+                    </p>
+                </div>
+                </td>
+            </tr>
+            <tr valign="top">
+                <th scope="row"><?php _e('My Site Has a Theme or Plugins Which Use AJAX', 'aiowpsecurity')?>:</th>                
+                <td>
+                <input name="aiowps_brute_force_attack_prevention_ajax_exception" type="checkbox"<?php if($aio_wp_security->configs->get_value('aiowps_brute_force_attack_prevention_ajax_exception')=='1') echo ' checked="checked"'; ?> value="1"/>
+                <span class="description"><?php _e('Check this if your site uses AJAX functionality.', 'aiowpsecurity'); ?></span>
+                <span class="aiowps_more_info_anchor"><span class="aiowps_more_info_toggle_char">+</span><span class="aiowps_more_info_toggle_text"><?php _e('More Info', 'aiowpsecurity'); ?></span></span>
+                <div class="aiowps_more_info_body">
+                    <p class="description">
+                        <?php 
+                        _e('In the cases where your WordPress installation has a theme or plugins which use AJAX, a few extra lines of directives and exceptions need to be added to your .htacces file to prevent AJAX requests from being automatically blocked by the brute force prevention feature.', 'aiowpsecurity');
+                        echo '<br />';
+                        _e('By enabling this checkbox the plugin will add the necessary rules and exceptions to your .htacces file so that AJAX operations will work as expected.', 'aiowpsecurity');
                         ?>
                     </p>
                 </div>

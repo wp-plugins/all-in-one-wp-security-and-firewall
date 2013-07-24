@@ -4,7 +4,7 @@ Donate link: http://www.tipsandtricks-hq.com
 Tags: security, secure, Anti Virus, antivirus, virus, firewall, login, lockdown, htaccess, hacking, ban hacker, malware, vulnerability, protect, phishing, database, backup, plugin, sql injection, ssl, restrict
 Requires at least: 3.5
 Tested up to: 3.6
-Stable tag: 1.8
+Stable tag: 1.9
 License: GPLv3
 
 A comprehensive, user-friendly, all in one WordPress security and firewall plugin for your site.
@@ -79,6 +79,7 @@ So these firewall rules will stop malicious script(s) before it gets a chance to
 * Protect against Cross Site Scripting (XSS) by activating the comprehensive advanced character string filter.
 * Instantly block Brute Force Login Attacks via our special Cookie-Based Brute Force Login Prevention feature. This firewall functionality will block all login attempts from people
 or malicious bots who do not have a special cookie in their browser. You (the site admin) will know how to set this special cookie and be able to log into your site.
+* WordPress PingBack Vulnerability Protection feature. This firewall feature allows the user to prohibit access to the xmlrpc.php file in order to protect against certain vulnerabilities in the pingback functionality. This is also helpful to block bots from constantly accessing the xmlrpc.php file and wasting your server resource.
 
 = WhoIs Lookup =
 * Perform a WhoIs lookup of a suspicious host or IP address and get full details.
@@ -125,6 +126,14 @@ None
 None
 
 == Changelog ==
+
+= 1.9 =
+- Added new WordPress PingBack Vulnerability Protection feature. This allows the user to prohibit access to the xmlrpc.php file in order to protect against certain vulnerabilities in the pingback functionality.
+- Added a configuration item in the brute force login prevention feature to allow ajax functionality to work properly when this feature is enabled.
+- Added a POT file for language translations.
+- Made the DB Prefix feature more robust by adding a check to ensure that plugin can write to the wp-config.php file. This will prevent user from losing access to their site in cases where the system changed the prefix but not the entry in the wp-config.php file.
+- Tightened the data validation for the cookie based brute force login feature to ensure that the user must enter a secret word which consists of alphanumeric characters.
+- Added edit links to the user account list in the "User Acounts" menu.
 
 = 1.8 =
 - Moved the front end site lockout feature to a new menu called "Maintenance".

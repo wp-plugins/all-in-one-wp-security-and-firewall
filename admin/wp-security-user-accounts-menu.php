@@ -175,7 +175,7 @@ class AIOWPSecurity_User_Accounts_Menu extends AIOWPSecurity_Admin_Menu
                     foreach ($login_nick_name_accounts as $usr){
                         echo '<tr valign="top">';
                        // echo '<th scope="row"><label for="UserID'.$usr['ID'].'"> Login Name: </label></th>';
-                        echo '<td><a href="'.$edit_user_page.$usr['ID'].'" target="_blank">'.$usr['user_login'].'</a>';
+                        echo '<td><a href="'.$edit_user_page.$usr['ID'].'" target="_blank">'.$usr['user_login'].'</a></td>';
                         echo '</tr>';
                     }
                     ?>
@@ -324,6 +324,8 @@ class AIOWPSecurity_User_Accounts_Menu extends AIOWPSecurity_Admin_Menu
                 }else {
                     $account_output .= '<td>'.$entry->user_login.'</td>';
                 }
+                $user_acct_edit_link = get_option('siteurl').'/wp-admin/user-edit.php?user_id=';
+                $account_output .= '<td><a href="'.$user_acct_edit_link.$entry->ID.'" target="_blank">Edit User</a></td>';
                 $account_output .= '</tr>';
             }
             $account_output .= '</table>';

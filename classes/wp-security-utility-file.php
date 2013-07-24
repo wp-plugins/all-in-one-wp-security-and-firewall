@@ -103,6 +103,23 @@ class AIOWPSecurity_Utility_File
     }
 
     /*
+     * Checks if a write operation is possible for the file in question
+     */
+    static function is_file_writable($filepath)
+    {
+        $test_string = ""; //We will attempt to append an empty string at the end of the file for the test
+        $write_result = @file_put_contents($filepath, $test_string, FILE_APPEND | LOCK_EX);
+        if ($write_result === false)
+        {
+            return false;
+        } 
+        else
+        {
+            return true;
+        }
+    }
+
+    /*
      * This function will compare the current permission value for a file or dir with the recommended value.
      * It will compare the individual "execute", "write" and "read" bits for the "public", "group" and "owner" permissions.
      * If the permissions for an actual bit value are greater than the recommended value it returns '0' (=less secure)

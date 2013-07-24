@@ -49,6 +49,7 @@ class AIOWPSecurity_Configure_Settings
 
         //Firewall features
         $aio_wp_security->configs->set_value('aiowps_enable_basic_firewall','');//Checkbox
+        $aio_wp_security->configs->set_value('aiowps_enable_pingback_firewall','');//Checkbox
         $aio_wp_security->configs->set_value('aiowps_disable_index_views','');//Checkbox
         $aio_wp_security->configs->set_value('aiowps_disable_trace_and_track','');//Checkbox
         $aio_wp_security->configs->set_value('aiowps_forbid_proxy_comments','');//Checkbox
@@ -60,6 +61,7 @@ class AIOWPSecurity_Configure_Settings
         $aio_wp_security->configs->set_value('aiowps_cookie_based_brute_force_redirect_url','http://127.0.0.1');
         $aio_wp_security->configs->set_value('aiowps_enable_brute_force_attack_prevention','');//Checkbox
         $aio_wp_security->configs->set_value('aiowps_brute_force_attack_prevention_pw_protected_exception','');//Checkbox
+        $aio_wp_security->configs->set_value('aiowps_brute_force_attack_prevention_ajax_exception','');//Checkbox
 
         //Maintenance menu - Visitor lockout feature
         $aio_wp_security->configs->set_value('aiowps_site_lockout','');//Checkbox
@@ -114,6 +116,7 @@ class AIOWPSecurity_Configure_Settings
 
         //Firewall features
         $aio_wp_security->configs->add_value('aiowps_enable_basic_firewall','');//Checkbox
+        $aio_wp_security->configs->add_value('aiowps_enable_pingback_firewall','');//Checkbox
         $aio_wp_security->configs->add_value('aiowps_disable_index_views','');//Checkbox
         $aio_wp_security->configs->add_value('aiowps_disable_trace_and_track','');//Checkbox
         $aio_wp_security->configs->add_value('aiowps_forbid_proxy_comments','');//Checkbox
@@ -124,6 +127,8 @@ class AIOWPSecurity_Configure_Settings
         $aio_wp_security->configs->add_value('aiowps_brute_force_secret_word','');
         $aio_wp_security->configs->add_value('aiowps_cookie_based_brute_force_redirect_url','http://127.0.0.1');
         $aio_wp_security->configs->add_value('aiowps_brute_force_attack_prevention_pw_protected_exception','');//Checkbox
+        $aio_wp_security->configs->add_value('aiowps_brute_force_attack_prevention_ajax_exception','');//Checkbox
+
         
         //Maintenance menu - Visitor lockout feature
         $aio_wp_security->configs->add_value('aiowps_site_lockout','');//Checkbox
