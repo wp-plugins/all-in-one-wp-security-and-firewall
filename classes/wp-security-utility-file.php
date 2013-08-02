@@ -250,4 +250,23 @@ class AIOWPSecurity_Utility_File
         return $result;
     }
 
+    /*
+     * Checks if a directory exists and creates one if it does not
+     */
+    static function create_dir($dirpath='')
+    {
+        $res = true;
+        if ($dirpath != '')
+        {
+            //TODO - maybe add some checks to make sure someone is not passing a path with a filename, ie, something which has ".<extenstion>" at the end
+            //$path_parts = pathinfo($dirpath);
+            //$dirpath = $path_parts['dirname'] . '/' . $path_parts['basename'];
+            if (!file_exists($dirpath))
+            {
+                $res = mkdir($dirpath, 0755);
+            }
+        }
+        return $res;
+    }
+    
 }

@@ -3,6 +3,7 @@ class AIOWPSecurity_Backup
 {
     var $last_backup_file_name;//Stores the name of the last backup file when execute_backup function is called
     var $last_backup_file_path;
+    var $last_backup_file_url_multisite;
     
     function __construct() 
     {
@@ -15,11 +16,23 @@ class AIOWPSecurity_Backup
     function execute_backup() 
     {
         global $wpdb, $aio_wp_security;
+        $is_multi_site = false;
         
         @ini_set( 'auto_detect_line_endings', true );
+        if (function_exists('is_multisite') && is_multisite()) 
+        {
+            //Let's get the current site's table prefix
+            $site_pref = $wpdb->escape($wpdb->prefix);
+            $db_query = "SHOW TABLES LIKE '".$site_pref."%'";
+            $tables = $wpdb->get_results( $db_query, ARRAY_N );
+            $is_multi_site = true;
+        }
+        else
+        {
+            //get all of the tables
+            $tables = $wpdb->get_results( 'SHOW TABLES', ARRAY_N );
+        }
 
-        //get all of the tables
-        $tables = $wpdb->get_results( 'SHOW TABLES', ARRAY_N );
         $return = '';
 
         //cycle through each table
@@ -58,9 +71,52 @@ class AIOWPSecurity_Backup
         }
         $return .= PHP_EOL . PHP_EOL;
 
-        //save file
-        $file = 'database-backup-' . current_time( 'timestamp' );
-        $handle = @fopen( AIO_WP_SECURITY_BACKUPS_PATH . '/' . $file . '.sql', 'w+' );
+        //Check to see if the main "backups" directory exists - create it otherwise
+        if (!AIOWPSecurity_Utility_File::create_dir(AIO_WP_SECURITY_BACKUPS_PATH))
+        {
+            $aio_wp_security->debug_logger->log_debug("Creation of DB backup directory failed!",4);
+            return false;
+        }
+
+        if ($is_multi_site)
+        {
+            global $current_blog;
+            $blog_id = $current_blog->blog_id;
+            //Get the current site name string for use later
+            $site_name = get_bloginfo('name');
+
+            $site_name = strtolower($site_name);
+            
+            //make alphaunermic
+            $site_name = preg_replace("/[^a-z0-9_\s-]/", "", $site_name);
+            
+            //Cleanup multiple instances of dashes or whitespaces
+            $site_name = preg_replace("/[\s-]+/", " ", $site_name);
+            
+            //Convert whitespaces and underscore to dash
+            $site_name = preg_replace("/[\s_]/", "-", $site_name);
+            
+            $file = 'database-backup-site-name-' . $site_name . '-' . current_time( 'timestamp' );
+            
+            //We will create a sub dir for the blog using its blog id
+            $dirpath = AIO_WP_SECURITY_BACKUPS_PATH . '/blogid_' . $blog_id . '/';
+            
+            //Create a subdirectory for this blog_id
+            if (!AIOWPSecurity_Utility_File::create_dir($dirpath))
+            {
+                $aio_wp_security->debug_logger->log_debug("Creation of DB backup directory for the following multisite blog ID: ".$blog_details->blog_id,4);
+                return false;
+            }
+            
+            $handle = @fopen( $dirpath . $file . '.sql', 'w+' );
+        }
+        else
+        {
+            $dirpath = AIO_WP_SECURITY_BACKUPS_PATH;
+            $file = 'database-backup-' . current_time( 'timestamp' );
+            $handle = @fopen( $dirpath . '/' . $file . '.sql', 'w+' );
+        }
+        
         $fw_res = @fwrite( $handle, $return );
         if (!$fw_res)
         {
@@ -72,20 +128,24 @@ class AIOWPSecurity_Backup
         if ( class_exists( 'ZipArchive' ) ) 
         {
             $zip = new ZipArchive();
-            $archive = $zip->open(AIO_WP_SECURITY_BACKUPS_PATH . '/' . $file . '.zip', ZipArchive::CREATE);
-            $zip->addFile(AIO_WP_SECURITY_BACKUPS_PATH . '/' . $file . '.sql', $file . '.sql' );
+            $archive = $zip->open($dirpath . '/' . $file . '.zip', ZipArchive::CREATE);
+            $zip->addFile($dirpath . '/' . $file . '.sql', $file . '.sql' );
             $zip->close();
 
             //delete .sql and keep zip
-            @unlink( AIO_WP_SECURITY_BACKUPS_PATH . '/' . $file . '.sql' );
+            @unlink( $dirpath . '/' . $file . '.sql' );
             $fileext = '.zip';
         } else 
         {
             $fileext = '.sql';
         }
         $this->last_backup_file_name = $file . $fileext;//database-backup-1367644822.zip or database-backup-1367644822.sql
-        $this->last_backup_file_path = AIO_WP_SECURITY_BACKUPS_PATH. '/' . $file . $fileext;
-
+        $this->last_backup_file_path = $dirpath . '/' . $file . $fileext;
+        if ($is_multi_site)
+        {
+            $this->last_backup_file_url_multisite = AIO_WP_SECURITY_URL . '/backups/blogid_' . $blog_id; 
+        }
+        
         $this->aiowps_send_backup_email(); //Send backup file via email if applicable
         $this->aiowps_delete_backup_files();
         return true;
@@ -120,7 +180,9 @@ class AIOWPSecurity_Backup
         global $aio_wp_security;
         if ( $aio_wp_security->configs->get_value('aiowps_backup_files_stored') > 0 ) 
         {
-            $files = scandir( AIO_WP_SECURITY_BACKUPS_PATH. '/', 1 );
+            $path_parts = pathinfo($this->last_backup_file_path);
+            $backups_path = $path_parts['dirname'];
+            $files = scandir( $backups_path . '/', 1 );
 
             $count = 0;
 
@@ -130,7 +192,7 @@ class AIOWPSecurity_Backup
                 {
                     if ( $count >= $aio_wp_security->configs->get_value('aiowps_backup_files_stored') ) 
                     {
-                            @unlink( AIO_WP_SECURITY_BACKUPS_PATH. '/' . $file );
+                            @unlink( $backups_path . '/' . $file );
                     }
                     $count++;
                 }

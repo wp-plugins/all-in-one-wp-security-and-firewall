@@ -136,15 +136,16 @@ class AIOWPSecurity_Settings_Menu extends AIOWPSecurity_Admin_Menu
             
             if ($result)
             {
-                if (rename(ABSPATH.'.htaccess.backup', ABSPATH.'htaccess_backup.txt'))
+                $random_prefix = AIOWPSecurity_Utility::generate_alpha_numeric_random_string(10);
+                if (rename(ABSPATH.'.htaccess.backup', AIO_WP_SECURITY_BACKUPS_PATH.'/'.$random_prefix.'_htaccess_backup.txt'))
                 {
-                    $backup_file_url = AIOWPSEC_WP_URL . '/htaccess_backup.txt';
+//                    $backup_file_url = AIOWPSEC_WP_URL . '/htaccess_backup.txt';
                     echo '<div id="message" class="updated fade"><p>';
-                    _e('Your .htaccess file was successfully backed up! Right click on the following file name and save the backup to your computer.','aiowpsecurity');
-                    echo '<p>';
-                    _e('Your .htaccess File: ');
-                    echo '<a href="'.$backup_file_url.'" target="_blank">'.$backup_file_url.'</a>';
-                    echo '</p>';
+                    _e('Your .htaccess file was successfully backed up! Using an FTP program go to the "backups" directory of this plugin to save a copy of the file to your computer.','aiowpsecurity');
+//                    echo '<p>';
+//                    _e('Your .htaccess File: ');
+//                    echo '<a href="'.$backup_file_url.'" target="_blank">'.$backup_file_url.'</a>';
+//                    echo '</p>';
                     echo '</p></div>';
                 }
                 else
@@ -275,15 +276,16 @@ class AIOWPSecurity_Settings_Menu extends AIOWPSecurity_Admin_Menu
             
             if ($result)
             {
-                if (rename(ABSPATH.'wp-config.php.backup', ABSPATH.'wp-config-backup.txt'))
+                $random_prefix = AIOWPSecurity_Utility::generate_alpha_numeric_random_string(10);
+                if (rename(ABSPATH.'wp-config.php.backup', AIO_WP_SECURITY_BACKUPS_PATH.'/'.$random_prefix.'_wp-config-backup.txt'))
                 {
-                    $backup_file_url = AIOWPSEC_WP_URL . '/wp-config-backup.txt';
+//                    $backup_file_url = AIO_WP_SECURITY_BACKUPS_PATH . '/wp-config-backup.txt';
                     echo '<div id="message" class="updated fade"><p>';
-                    _e('Your wp-config.php file was successfully backed up! Right click on the following file name and save the backup to your computer.','aiowpsecurity');
-                    echo '<p>';
-                    _e('Your wp-config.php File: ');
-                    echo '<a href="'.$backup_file_url.'" target="_blank">'.$backup_file_url.'</a>';
-                    echo '</p>';
+                    _e('Your wp-config.php file was successfully backed up! Using an FTP program go to the "backups" directory of this plugin to save a copy of the file to your computer.','aiowpsecurity');
+//                    echo '<p>';
+//                    _e('Your wp-config.php File: ');
+//                    echo '<a href="'.$backup_file_url.'" target="_blank">'.$backup_file_url.'</a>';
+//                    echo '</p>';
                     echo '</p></div>';
                 }
                 else
@@ -358,7 +360,14 @@ class AIOWPSecurity_Settings_Menu extends AIOWPSecurity_Admin_Menu
         <form action="" method="POST">
         <?php wp_nonce_field('aiowpsec-save-wp-config-nonce'); ?>
             <p class="description"><?php _e('Click the button below to backup and save the currently active wp-config.php file.', 'aiowpsecurity'); ?></p>
-            <input type="submit" name="aiowps_save_wp_config" value="<?php _e('Backup wp-config.php File', 'aiowpsecurity')?>" class="button-primary" />
+            <!--<input type="submit" name="aiowps_save_wp_config" value="<?php _e('Backup wp-config.php File', 'aiowpsecurity')?>" class="button-primary" /> -->
+        <div class="aio_yellow_box">
+            <?php
+            $info_msg = '<p>'.__('The feature to back up the wp-config.php has currently been disabled in order to prevent a potential security exploit. We are currently in the process of implementing a more secure method which we will release in a future version of the plugin.', 'aiowpsecurity').'</p>';
+            echo $info_msg;
+            ?>
+        </div>
+
         </form>
         </div></div>
         <div class="postbox">

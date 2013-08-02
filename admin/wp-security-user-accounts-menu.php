@@ -91,12 +91,12 @@ class AIOWPSecurity_User_Accounts_Menu extends AIOWPSecurity_Admin_Menu
         //display a list of all administrator accounts for this site
         $postbox_title = __('List of Administrator Accounts', 'aiowpsecurity');
         //TODO: Multi-site: might need to put separate code for multi-site, ie, check if multi-site and then call get_all_admin_accounts($blog_id).
-        //if (is_multisite()) { //get admin accounts for current site
-        //  $blog_id = get_current_blog_id();
-        //  $this->postbox($postbox_title, $this->get_all_admin_accounts($blog_id));
-        //} else {
+        if (AIOWPSecurity_Utility::is_multisite_install()) { //get admin accounts for current site
+          $blog_id = get_current_blog_id();
+          $this->postbox($postbox_title, $this->get_all_admin_accounts($blog_id));
+        } else {
             $this->postbox($postbox_title, $this->get_all_admin_accounts());
-        //}
+        }
         ?>
         <div class="postbox">
         <h3><label for="title"><?php _e('Change Admin Username', 'aiowpsecurity')?></label></h3>
@@ -264,6 +264,13 @@ class AIOWPSecurity_User_Accounts_Menu extends AIOWPSecurity_Admin_Menu
                         return $return_msg;
                     }
 
+                    //multisite considerations
+                    if ( AIOWPSecurity_Utility::is_multisite_install() ) { //process sitemeta if we're in a multi-site situation
+                        $oldAdmins = $wpdb->get_var( "SELECT meta_value FROM `" . $wpdb->sitemeta . "` WHERE meta_key = 'site_admins'" );
+                        $newAdmins = str_replace( '5:"admin"', strlen( $new_username ) . ':"' . $wpdb->escape( $new_username ) . '"', $oldAdmins );
+                        $wpdb->query( "UPDATE `" . $wpdb->sitemeta . "` SET meta_value = '" . $wpdb->escape( $newAdmins ) . "' WHERE meta_key = 'site_admins'" );
+                    }
+
                     //If user is logged in with username "admin" then log user out and send to login page so they can login again
                     if ($username_is_admin) {
                         //Lets logout the user
@@ -275,13 +282,6 @@ class AIOWPSecurity_User_Accounts_Menu extends AIOWPSecurity_Admin_Menu
                         $logout_url = AIOWPSecurity_Utility::add_query_data_to_url($logout_url, 'al_additional_data', $encrypted_payload);
                         AIOWPSecurity_Utility::redirect_to_url($logout_url);
                     }
-
-                    //TODO - multisite considerations
-//                                if ( is_multisite() ) { //process sitemeta if we're in a multi-site situation
-//                                    $oldAdmins = $wpdb->get_var( "SELECT meta_value FROM `" . $wpdb->sitemeta . "` WHERE meta_key = 'site_admins'" );
-//                                    $newAdmins = str_replace( '5:"admin"', strlen( $newuser ) . ':"' . $wpdb->escape( $new_username ) . '"', $oldAdmins );
-//                                    $wpdb->query( "UPDATE `" . $wpdb->sitemeta . "` SET meta_value = '" . $wpdb->escape( $newAdmins ) . "' WHERE meta_key = 'site_admins'" );
-//                                }
                 }
             } 
             else {//An invalid username was entered

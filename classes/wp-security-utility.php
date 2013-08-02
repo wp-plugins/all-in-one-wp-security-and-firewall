@@ -53,7 +53,22 @@ class AIOWPSecurity_Utility
         if ( $username == '' ) {
             return false;
         }
-
+        
+        //If multisite 
+        if (AIOWPSecurity_Utility::is_multisite_install()){
+            $blog_id = get_current_blog_id();
+            $admin_users = get_users('blog_id='.$blog_id.'orderby=login&role=administrator');
+            $acct_name_exists = false;
+            foreach ($admin_users as $user)
+            {
+                if ($user->user_login == $username){
+                    $acct_name_exists = true;
+                    break;
+                }
+            }
+            return $acct_name_exists;
+        }
+        
         //check users table
         $user = $wpdb->get_var( "SELECT user_login FROM `" . $wpdb->users . "` WHERE user_login='" . sanitize_text_field( $username ) . "';" );
         $userid = $wpdb->get_var( "SELECT ID FROM `" . $wpdb->users . "` WHERE ID='" . sanitize_text_field( $username ) . "';" );
@@ -117,5 +132,14 @@ class AIOWPSecurity_Utility
             return $_COOKIE[$cookie_name];
         }
         return "";
+    }
+    
+    static function is_multisite_install()
+    {
+	if (function_exists('is_multisite') && is_multisite()){
+            return true;
+	}else{
+            return false;
+	}
     }
 }

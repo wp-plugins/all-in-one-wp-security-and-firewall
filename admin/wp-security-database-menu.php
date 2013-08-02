@@ -196,7 +196,14 @@ class AIOWPSecurity_Database_Menu extends AIOWPSecurity_Admin_Menu
             if ($result)
             {
                 $backup_file_name = $aio_wp_security->backup_obj->last_backup_file_name;
-                $backup_file_url = AIO_WP_SECURITY_URL . '/backups/'. $backup_file_name;
+                if (function_exists('is_multisite') && is_multisite()) 
+                {
+                    $backup_file_url = $aio_wp_security->backup_obj->last_backup_file_url_multisite . '/' . $backup_file_name;
+                }
+                else
+                {
+                    $backup_file_url = AIO_WP_SECURITY_URL . '/backups/'. $backup_file_name;
+                }
                 echo '<div id="message" class="updated fade"><p>';
                 _e('DB Backup was successfully completed! Right click on the following file name and save the backup to your computer.','aiowpsecurity');
                 echo '<p>';

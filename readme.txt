@@ -4,7 +4,7 @@ Donate link: http://www.tipsandtricks-hq.com
 Tags: security, secure, Anti Virus, antivirus, virus, firewall, login, lockdown, htaccess, hacking, ban hacker, malware, vulnerability, protect, phishing, database, backup, plugin, sql injection, ssl, restrict
 Requires at least: 3.5
 Tested up to: 3.6
-Stable tag: 1.9
+Stable tag: 2.0
 License: GPLv3
 
 A comprehensive, user-friendly, all in one WordPress security and firewall plugin for your site.
@@ -77,9 +77,11 @@ So these firewall rules will stop malicious script(s) before it gets a chance to
 * Disable trace and track
 * Deny bad or malicious query strings
 * Protect against Cross Site Scripting (XSS) by activating the comprehensive advanced character string filter.
-* Instantly block Brute Force Login Attacks via our special Cookie-Based Brute Force Login Prevention feature. This firewall functionality will block all login attempts from people
 or malicious bots who do not have a special cookie in their browser. You (the site admin) will know how to set this special cookie and be able to log into your site.
 * WordPress PingBack Vulnerability Protection feature. This firewall feature allows the user to prohibit access to the xmlrpc.php file in order to protect against certain vulnerabilities in the pingback functionality. This is also helpful to block bots from constantly accessing the xmlrpc.php file and wasting your server resource.
+
+= Brute force login attack prevention =
+* Instantly block Brute Force Login Attacks via our special Cookie-Based Brute Force Login Prevention feature. This firewall functionality will block all login attempts from people and bots.
 
 = WhoIs Lookup =
 * Perform a WhoIs lookup of a suspicious host or IP address and get full details.
@@ -126,6 +128,12 @@ None
 None
 
 == Changelog ==
+
+= 2.0 =
+- Fixed a bug for general DB backup functionality.
+- Fixed multi-site DB backup - the plugin will now backup only the tables relevant for the sub-site in question.
+- Added blank index.html files in various folders inside the plugin.
+- Disabled the wp-config.php file backup feature until we find a more secure method of doing the backup.
 
 = 1.9 =
 - Added new WordPress PingBack Vulnerability Protection feature. This allows the user to prohibit access to the xmlrpc.php file in order to protect against certain vulnerabilities in the pingback functionality.
