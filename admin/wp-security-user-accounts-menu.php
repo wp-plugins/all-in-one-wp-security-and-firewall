@@ -255,7 +255,7 @@ class AIOWPSecurity_User_Accounts_Menu extends AIOWPSecurity_Admin_Menu
                         $username_is_admin = FALSE;
                     }
                     //Now let's change the username
-                    $result = $wpdb->query("UPDATE `" . $wpdb->users . "` SET user_login = '" . $wpdb->escape($new_username) . "' WHERE user_login='admin';");
+                    $result = $wpdb->query("UPDATE `" . $wpdb->users . "` SET user_login = '" . esc_sql($new_username) . "' WHERE user_login='admin';");
                     if (!$result) {
                         //There was an error updating the users table
                         $user_update_error = __('The database update operation of the user account failed!', 'aiowpsecurity');
@@ -267,8 +267,8 @@ class AIOWPSecurity_User_Accounts_Menu extends AIOWPSecurity_Admin_Menu
                     //multisite considerations
                     if ( AIOWPSecurity_Utility::is_multisite_install() ) { //process sitemeta if we're in a multi-site situation
                         $oldAdmins = $wpdb->get_var( "SELECT meta_value FROM `" . $wpdb->sitemeta . "` WHERE meta_key = 'site_admins'" );
-                        $newAdmins = str_replace( '5:"admin"', strlen( $new_username ) . ':"' . $wpdb->escape( $new_username ) . '"', $oldAdmins );
-                        $wpdb->query( "UPDATE `" . $wpdb->sitemeta . "` SET meta_value = '" . $wpdb->escape( $newAdmins ) . "' WHERE meta_key = 'site_admins'" );
+                        $newAdmins = str_replace( '5:"admin"', strlen( $new_username ) . ':"' . esc_sql( $new_username ) . '"', $oldAdmins );
+                        $wpdb->query( "UPDATE `" . $wpdb->sitemeta . "` SET meta_value = '" . esc_sql( $newAdmins ) . "' WHERE meta_key = 'site_admins'" );
                     }
 
                     //If user is logged in with username "admin" then log user out and send to login page so they can login again

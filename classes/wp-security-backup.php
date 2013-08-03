@@ -22,7 +22,7 @@ class AIOWPSecurity_Backup
         if (function_exists('is_multisite') && is_multisite()) 
         {
             //Let's get the current site's table prefix
-            $site_pref = $wpdb->escape($wpdb->prefix);
+            $site_pref = esc_sql($wpdb->prefix);
             $db_query = "SHOW TABLES LIKE '".$site_pref."%'";
             $tables = $wpdb->get_results( $db_query, ARRAY_N );
             $is_multi_site = true;

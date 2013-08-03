@@ -113,7 +113,7 @@ class AIOWPSecurity_User_Login
         $ip_range = AIOWPSecurity_Utility_IP::get_sanitized_ip_range($ip); //Get the IP range of the current user
         $locked_user = $wpdb->get_var("SELECT user_id FROM $login_lockdown_table " .
                                         "WHERE release_date > now() AND " .
-                                        "failed_login_IP LIKE '" . $wpdb->escape($ip_range) . "%'");
+                                        "failed_login_IP LIKE '" . esc_sql($ip_range) . "%'");
         return $locked_user;
     }
 
@@ -130,7 +130,7 @@ class AIOWPSecurity_User_Login
         $login_failures = $wpdb->get_var("SELECT COUNT(ID) FROM $failed_logins_table " . 
                                 "WHERE failed_login_date + INTERVAL " .
                                 $login_retry_interval . " MINUTE > now() AND " . 
-                                "login_attempt_ip LIKE '" . $wpdb->escape($ip_range) . "%'");
+                                "login_attempt_ip LIKE '" . esc_sql($ip_range) . "%'");
         return $login_failures;
     }
 
@@ -157,7 +157,7 @@ class AIOWPSecurity_User_Login
         
         $insert = "INSERT INTO " . $login_lockdown_table . " (user_id, user_login, lockdown_date, release_date, failed_login_IP) " .
                         "VALUES ('" . $user_id . "', '" . $username . "', now(), date_add(now(), INTERVAL " .
-                        $lockout_time_length . " MINUTE), '" . $wpdb->escape($ip_range) . "')";
+                        $lockout_time_length . " MINUTE), '" . esc_sql($ip_range) . "')";
         $result = $wpdb->query($insert);
         if ($result > 0)
         {
@@ -194,7 +194,7 @@ class AIOWPSecurity_User_Login
             $user_id = '';
         }
         $insert = "INSERT INTO " . $login_fails_table . " (user_id, user_login, failed_login_date, login_attempt_ip) " .
-                        "VALUES ('" . $user_id . "', '" . $username . "', now(), '" . $wpdb->escape($ip_range) . "')";
+                        "VALUES ('" . $user_id . "', '" . $username . "', now(), '" . esc_sql($ip_range) . "')";
         $result = $wpdb->query($insert);
         if ($result == FALSE)
         {

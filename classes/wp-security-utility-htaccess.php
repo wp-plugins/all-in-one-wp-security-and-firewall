@@ -148,7 +148,7 @@ class AIOWPSecurity_Utility_Htaccess
      * This function will delete the code which has been added to the .htaccess file by this plugin
      * It will try to find the comment markers "# BEGIN All In One WP Security" and "# END All In One WP Security" and delete contents in between
      */
-    function delete_from_htaccess($section = 'All In One WP Security')
+    static function delete_from_htaccess($section = 'All In One WP Security')
     {
         //TODO
         $htaccess = ABSPATH . '.htaccess';

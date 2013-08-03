@@ -89,14 +89,7 @@ class AIOWPSecurity_Firewall_Menu extends AIOWPSecurity_Admin_Menu
                 $aio_wp_security->configs->set_value('aiowps_enable_basic_firewall','');
             }
 
-            if(isset($_POST['aiowps_enable_pingback_firewall']))
-            {
-                $aio_wp_security->configs->set_value('aiowps_enable_pingback_firewall','1');
-            } 
-            else
-            {
-                $aio_wp_security->configs->set_value('aiowps_enable_pingback_firewall','');
-            }
+            $aio_wp_security->configs->set_value('aiowps_enable_pingback_firewall',isset($_POST["aiowps_enable_pingback_firewall"])?'1':'');
 
             //Commit the config settings
             $aio_wp_security->configs->save_config();
