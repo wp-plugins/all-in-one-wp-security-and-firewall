@@ -4,7 +4,7 @@ Donate link: http://www.tipsandtricks-hq.com
 Tags: security, secure, Anti Virus, antivirus, virus, firewall, login, lockdown, htaccess, hacking, ban hacker, malware, vulnerability, protect, phishing, database, backup, plugin, sql injection, ssl, restrict
 Requires at least: 3.5
 Tested up to: 3.6
-Stable tag: 2.1
+Stable tag: 2.1.1
 License: GPLv3
 
 A comprehensive, user-friendly, all in one WordPress security and firewall plugin for your site.
@@ -128,6 +128,9 @@ None
 None
 
 == Changelog ==
+
+= 2.1.1 =
+- Fixed a version tagging issue.
 
 = 2.1 =
 - Fixed an issue with install time error on some sites for WordPress 3.6
