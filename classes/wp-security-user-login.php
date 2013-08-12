@@ -59,9 +59,12 @@ class AIOWPSecurity_User_Login
         {
             //This means an unknown username is being used for login
             $this->increment_failed_logins($username);
-            if($login_attempts_permitted <= $this->get_login_fail_count())
+            if($aio_wp_security->configs->get_value('aiowps_enable_login_lockdown')=='1')
             {
-                $this->lock_the_user(__('unknown','aiowpsecurity'));
+                if($login_attempts_permitted <= $this->get_login_fail_count())
+                {
+                    $this->lock_the_user($username);
+                }
             }
             if($aio_wp_security->configs->get_value('aiowps_set_generic_login_msg')=='1')
             {
@@ -82,9 +85,12 @@ class AIOWPSecurity_User_Login
         {
             //This means wrong password was entered
             $this->increment_failed_logins($username);
-            if($login_attempts_permitted <= $this->get_login_fail_count())
+            if($aio_wp_security->configs->get_value('aiowps_enable_login_lockdown')=='1')
             {
-                $this->lock_the_user($username);
+                if($login_attempts_permitted <= $this->get_login_fail_count())
+                {
+                    $this->lock_the_user($username);
+                }
             }
             if($aio_wp_security->configs->get_value('aiowps_set_generic_login_msg')=='1')
             {

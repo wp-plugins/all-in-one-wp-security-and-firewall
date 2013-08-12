@@ -72,6 +72,8 @@ class AIOWPSecurity_Feature_Item_Manager
         $this->feature_items[] = new AIOWPSecurity_Feature_Item("firewall-advanced-character-string-filter", "Advanced Character String Filter", $this->feature_point_3, $this->sec_level_advanced);
         $this->feature_items[] = new AIOWPSecurity_Feature_Item("firewall-enable-5g-blacklist", "5G Blacklist", $this->feature_point_4, $this->sec_level_advanced);
 
+        //SPAM Prevention
+        $this->feature_items[] = new AIOWPSecurity_Feature_Item("block-spambots", "Block Spambots", $this->feature_point_2, $this->sec_level_basic);
     }
     
     function get_feature_item_by_id($feature_id)
@@ -208,6 +210,10 @@ class AIOWPSecurity_Feature_Item_Manager
                 $this->check_enable_5G_blacklist_firewall_feature($item);
             }
             
+            if($item->feature_id == "block-spambots")
+            {
+                $this->check_enable_block_spambots_feature($item);
+            }
         }
     }
     
@@ -486,4 +492,15 @@ class AIOWPSecurity_Feature_Item_Manager
         }
     }
     
+    function check_enable_block_spambots_feature($item)
+    {
+        global $aio_wp_security;
+        if ($aio_wp_security->configs->get_value('aiowps_enable_spambot_blocking') == '1') {
+            $item->set_feature_status($this->feature_active);
+        }
+        else
+        {
+            $item->set_feature_status($this->feature_inactive);
+        }
+    }
 }

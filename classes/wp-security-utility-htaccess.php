@@ -40,6 +40,9 @@ class AIOWPSecurity_Utility_Htaccess
     public static $five_g_blacklist_marker_start = '#AIOWPS_FIVE_G_BLACKLIST_START';
     public static $five_g_blacklist_marker_end = '#AIOWPS_FIVE_G_BLACKLIST_END';
     
+    public static $block_spambots_marker_start = '#AIOWPS_BLOCK_SPAMBOTS_START';
+    public static $block_spambots_marker_end = '#AIOWPS_BLOCK_SPAMBOTS_END';
+
     // TODO - enter more markers as new .htaccess features are added
     
     function __construct(){
@@ -207,6 +210,7 @@ class AIOWPSecurity_Utility_Htaccess
         $rules .= AIOWPSecurity_Utility_Htaccess::getrules_advanced_character_string_filter();
         $rules .= AIOWPSecurity_Utility_Htaccess::getrules_5g_blacklist();
         $rules .= AIOWPSecurity_Utility_Htaccess::getrules_enable_brute_force_prevention();
+        $rules .= AIOWPSecurity_Utility_Htaccess::getrules_block_spambots();
         //TODO: The following utility functions are ready to use when we write the menu pages for these features
 
         //Add more functions for features as needed
@@ -761,6 +765,35 @@ class AIOWPSecurity_Utility_Htaccess
         
 	return $rules;
     }
+    
+    /*
+     * This function will write some directives to block all comments which do not originate from the blog's domain
+     * OR if the user agent is empty. All blocked requests will be redirected to 127.0.0.1
+     */
+    static function getrules_block_spambots()  
+    {
+        global $aio_wp_security;
+        $rules = '';
+        if($aio_wp_security->configs->get_value('aiowps_enable_spambot_blocking')=='1') 
+        {
+            $url_string = AIOWPSecurity_Utility_Htaccess::return_regularized_url(AIOWPSEC_WP_URL);
+            if ($url_string == FALSE){
+                $url_string = AIOWPSEC_WP_URL;
+            }
+            $rules .= AIOWPSecurity_Utility_Htaccess::$block_spambots_marker_start . PHP_EOL; //Add feature marker start
+            $rules .= '<IfModule mod_rewrite.c>
+                        RewriteCond %{REQUEST_METHOD} POST
+                        RewriteCond %{REQUEST_URI} ^(.*)?wp-comments-post\.php(.*)$' . PHP_EOL;
+            $rules .= ' RewriteCond %{HTTP_REFERER} !^'.$url_string.' [NC,OR]' . PHP_EOL;
+            $rules .= ' RewriteCond %{HTTP_USER_AGENT} ^$
+                        RewriteRule .* http://127.0.0.1 [L]
+                       </IfModule>' . PHP_EOL;
+            $rules .= AIOWPSecurity_Utility_Htaccess::$block_spambots_marker_end . PHP_EOL; //Add feature marker end
+        }
+        
+	return $rules;
+    }
+    
 
     /*
      * This function will do a quick check to see if a file's contents are actually .htaccess specific.
@@ -795,6 +828,38 @@ class AIOWPSecurity_Utility_Htaccess
         else
         {
             return -1;
+        }
+    }
+    
+    /*
+     * This function will take a URL string and convert it to a form useful for using in htaccess rules.
+     * Example: If URL passed to function = "http://www.mysite.com"
+     * Result = "http://(.*)?mysite\.com"
+     */
+
+    static function return_regularized_url($url)
+    {
+        if(filter_var($url, FILTER_VALIDATE_URL)){
+            $xyz = explode('.', $url);
+            $y = '';
+            if (count($xyz) > 1){
+                $j = 1;
+                foreach ($xyz as $x){
+                    if (strpos($x,'www') !== false) {
+                        $y .= str_replace('www', '(.*)?', $x);
+                    } else if($j==1){
+                        $y .= $x;
+                    } else if($j>1){
+                        $y .= '\.'.$x;
+                    }
+                    $j++;
+                }
+                return $y;
+            }else {
+                return $url;
+            }
+        } else{
+            return FALSE;
         }
     }
 }

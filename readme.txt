@@ -4,7 +4,7 @@ Donate link: http://www.tipsandtricks-hq.com
 Tags: security, secure, Anti Virus, antivirus, virus, firewall, login, lockdown, htaccess, hacking, ban hacker, malware, vulnerability, protect, phishing, database, backup, plugin, sql injection, ssl, restrict
 Requires at least: 3.5
 Tested up to: 3.6
-Stable tag: 2.1.1
+Stable tag: 2.2
 License: GPLv3
 
 A comprehensive, user-friendly, all in one WordPress security and firewall plugin for your site.
@@ -63,7 +63,6 @@ via email whenever somebody gets locked out due to too many login attempts.
 = Blacklist Functionality =
 * Ban users by specifying IP addresses or use a wild card to specify IP ranges.
 * Ban users by specifying user agents.
-* Monitor the most active IP addresses which persistently produce the most SPAM comments and instantly block them with the click of a button.
 
 = Firewall Functionality =
 
@@ -85,6 +84,10 @@ or malicious bots who do not have a special cookie in their browser. You (the si
 
 = WhoIs Lookup =
 * Perform a WhoIs lookup of a suspicious host or IP address and get full details.
+
+= Comment SPAM Security =
+* Monitor the most active IP addresses which persistently produce the most SPAM comments and instantly block them with the click of a button.
+* Prevent comments from being submitted if it doesn't originate from your domain (this should reduce some SPAM bot comment posting on your site).
 
 = Regular updates and additions of new security features =
 * WordPress Security is something that evolves over time. We will be updating the All In One WP Security plugin with new security features (and fixes if required) on a regular basis so you can rest assured that your site will be on the cutting edge of security protection techniques.
@@ -122,12 +125,21 @@ Check the following page for screenshots:
 http://www.tipsandtricks-hq.com/wordpress-security-and-firewall-plugin
 
 == Frequently Asked Questions ==
-None
+Check the following page for F.A.Q:
+http://www.tipsandtricks-hq.com/wordpress-security-and-firewall-plugin
 
 == Upgrade Notice ==
 None
 
 == Changelog ==
+
+= 2.2 =
+- Added a new feature which will block some spambots from submitting comments.
+- Moved Comment SPAM IP monitoring interface to the new "SPAM Prevention" menu.
+- Fixed a bug with login lockdown feature for both multi and single site.
+- Improved firewall feature for multi-site by making the "Firewall" menu available only for the main site and not the sub-sites.
+- Added random prefix to backup file names.
+- Fixed a bug for WP multi-site install where DB tables do not get created when new blog are created in the network.
 
 = 2.1.1 =
 - Fixed a version tagging issue.

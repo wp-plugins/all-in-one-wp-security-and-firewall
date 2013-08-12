@@ -16,6 +16,7 @@ class AIOWPSecurity_Admin_Init
     var $blacklist_menu;
     var $firewall_menu;
     var $maintenance_menu;
+    var $spam_menu;
 
     function __construct()
     {
@@ -146,7 +147,12 @@ class AIOWPSecurity_Admin_Init
         add_submenu_page(AIOWPSEC_MAIN_MENU_SLUG, __('Filesystem Security', 'aiowpsecurity'),  __('Filesystem Security', 'aiowpsecurity') , AIOWPSEC_MANAGEMENT_PERMISSION, AIOWPSEC_FILESYSTEM_MENU_SLUG, array(&$this, 'handle_filesystem_menu_rendering'));
         add_submenu_page(AIOWPSEC_MAIN_MENU_SLUG, __('WHOIS Lookup', 'aiowpsecurity'),  __('WHOIS Lookup', 'aiowpsecurity') , AIOWPSEC_MANAGEMENT_PERMISSION, AIOWPSEC_WHOIS_MENU_SLUG, array(&$this, 'handle_whois_menu_rendering'));
         add_submenu_page(AIOWPSEC_MAIN_MENU_SLUG, __('Blacklist Manager', 'aiowpsecurity'),  __('Blacklist Manager', 'aiowpsecurity') , AIOWPSEC_MANAGEMENT_PERMISSION, AIOWPSEC_BLACKLIST_MENU_SLUG, array(&$this, 'handle_blacklist_menu_rendering'));
-        add_submenu_page(AIOWPSEC_MAIN_MENU_SLUG, __('Firewall', 'aiowpsecurity'),  __('Firewall', 'aiowpsecurity') , AIOWPSEC_MANAGEMENT_PERMISSION, AIOWPSEC_FIREWALL_MENU_SLUG, array(&$this, 'handle_firewall_menu_rendering'));
+        if (AIOWPSecurity_Utility::is_multisite_install() && get_current_blog_id() != 1){
+            //Suppress the firewall menu if site is a multi site AND not the main site
+        }else{
+            add_submenu_page(AIOWPSEC_MAIN_MENU_SLUG, __('Firewall', 'aiowpsecurity'),  __('Firewall', 'aiowpsecurity') , AIOWPSEC_MANAGEMENT_PERMISSION, AIOWPSEC_FIREWALL_MENU_SLUG, array(&$this, 'handle_firewall_menu_rendering'));
+        }
+        add_submenu_page(AIOWPSEC_MAIN_MENU_SLUG, __('SPAM Prevention', 'aiowpsecurity'),  __('SPAM Prevention', 'aiowpsecurity') , AIOWPSEC_MANAGEMENT_PERMISSION, AIOWPSEC_SPAM_MENU_SLUG, array(&$this, 'handle_spam_menu_rendering'));
         add_submenu_page(AIOWPSEC_MAIN_MENU_SLUG, __('Maintenance', 'aiowpsecurity'),  __('Maintenance', 'aiowpsecurity') , AIOWPSEC_MANAGEMENT_PERMISSION, AIOWPSEC_MAINTENANCE_MENU_SLUG, array(&$this, 'handle_maintenance_menu_rendering'));
         do_action('aiowpsecurity_admin_menu_created');
     }
@@ -211,6 +217,13 @@ class AIOWPSecurity_Admin_Init
         include_once('wp-security-maintenance-menu.php');
         $this->maintenance_menu = new AIOWPSecurity_Maintenance_Menu();
     }
+    
+    function handle_spam_menu_rendering()
+    {
+        include_once('wp-security-spam-menu.php');
+        $this->spam_menu = new AIOWPSecurity_Spam_Menu();
+    }
+    
     
 }//End of class
 

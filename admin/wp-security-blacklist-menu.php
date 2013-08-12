@@ -7,12 +7,10 @@ class AIOWPSecurity_Blacklist_Menu extends AIOWPSecurity_Admin_Menu
     /* Specify all the tabs of this menu in the following array */
     var $menu_tabs = array(
         'tab1' => 'Ban Users',
-        'tab2' => 'SPAM Comments IP Monitoring', 
         );
 
     var $menu_tabs_handler = array(
         'tab1' => 'render_tab1',
-        'tab2' => 'render_tab2',
         );
     
     function __construct() 
@@ -204,104 +202,6 @@ class AIOWPSecurity_Blacklist_Menu extends AIOWPSecurity_Admin_Menu
         </table>
         <input type="submit" name="aiowps_save_blacklist_settings" value="<?php _e('Save Settings', 'aiowpsecurity')?>" class="button-primary" />
         </form>
-        </div></div>
-        <?php
-    }
-    
-    function render_tab2()
-    {
-        global $aio_wp_security;
-        include_once 'wp-security-list-comment-spammer-ip.php'; //For rendering the AIOWPSecurity_List_Table in tab2
-        $spammer_ip_list = new AIOWPSecurity_List_Comment_Spammer_IP();
-        
-        if (isset($_POST['aiowps_ip_spam_comment_search']))
-        {
-            $error = '';
-            $nonce=$_REQUEST['_wpnonce'];
-            if (!wp_verify_nonce($nonce, 'aiowpsec-spammer-ip-list-nonce'))
-            {
-                $aio_wp_security->debug_logger->log_debug("Nonce check failed for list SPAM comment IPs!",4);
-                die(__('Nonce check failed for list SPAM comment IPs!','aiowpsecurity'));
-            }
-
-            $min_comments_per_ip = sanitize_text_field($_POST['aiowps_spam_ip_min_comments']);
-            if(!is_numeric($min_comments_per_ip))
-            {
-                $error .= '<br />'.__('You entered a non numeric value for the minimum SPAM comments per IP field. It has been set to the default value.','aiowpsecurity');
-                $min_comments_per_ip = '5';//Set it to the default value for this field
-            }
-            
-            if($error)
-            {
-                $this->show_msg_error(__('Attention!','aiowpsecurity').$error);
-            }
-            
-            //Save all the form values to the options
-            $aio_wp_security->configs->set_value('aiowps_spam_ip_min_comments',absint($min_comments_per_ip));
-            $aio_wp_security->configs->save_config();
-            $info_msg_string = sprintf( __('Displaying results for IP addresses which have posted a minimum of %s SPAM comments', 'aiowpsecurity'), $min_comments_per_ip);
-            $this->show_msg_updated($info_msg_string);
-            
-        }
-        
-        if(isset($_REQUEST['action'])) //Do list table form row action tasks
-        {
-            if($_REQUEST['action'] == 'block_spammer_ip')
-            { //The "block" link was clicked for a row in the list table
-                $spammer_ip_list->block_spammer_ip_records(strip_tags($_REQUEST['spammer_ip']));
-            }
-        }
-
-        ?>
-        <div class="aio_blue_box">
-            <?php
-            echo '<p>'.__('This tab displays a list of the IP addresses of the people or bots who have left SPAM comments on your site.', 'aiowpsecurity').'
-                <br />'.__('This information can be handy for identifying the most persistent IP addresses or ranges used by spammers.', 'aiowpsecurity').'
-                <br />'.__('By inspecting the IP address data coming from spammers you will be in a better position to determine which addresses or address ranges you should block by adding them to your blacklist.', 'aiowpsecurity').'
-                <br />'.__('To add one or more of the IP addresses displayed in the table below to your blacklist, simply click the "Block" link for the individual row or select more than one address 
-                            using the checkboxes and then choose the "block" option from the Bulk Actions dropdown list and click the "Apply" button.', 'aiowpsecurity').'
-            </p>';
-            ?>
-        </div>
-        <div class="postbox">
-        <h3><label for="title"><?php _e('List SPAMMER IP Addresses', 'aiowpsecurity'); ?></label></h3>
-        <div class="inside">
-        <form action="" method="POST">
-        <?php wp_nonce_field('aiowpsec-spammer-ip-list-nonce'); ?>
-        <table class="form-table">
-            <tr valign="top">
-                <th scope="row"><?php _e('Minimum number of SPAM comments per IP', 'aiowpsecurity')?>:</th>
-                <td><input size="5" name="aiowps_spam_ip_min_comments" value="<?php echo $aio_wp_security->configs->get_value('aiowps_spam_ip_min_comments'); ?>" />
-                <span class="description"><?php _e('This field allows you to list only those IP addresses which have been used to post X or more SPAM comments.', 'aiowpsecurity');?></span>
-                <span class="aiowps_more_info_anchor"><span class="aiowps_more_info_toggle_char">+</span><span class="aiowps_more_info_toggle_text"><?php _e('More Info', 'aiowpsecurity'); ?></span></span>
-                <div class="aiowps_more_info_body">
-                    <?php 
-                    echo '<p class="description">'.__('Example 1: Setting this value to "0" or "1" will list ALL IP addresses which were used to submit SPAM comments.', 'aiowpsecurity').'</p>';
-                    echo '<p class="description">'.__('Example 2: Setting this value to "5" will list only those IP addresses which were used to submit 5 SPAM comments or more on your site.', 'aiowpsecurity').'</p>';
-                    ?>
-                </div>
-
-                </td> 
-            </tr>
-        </table>
-        <input type="submit" name="aiowps_ip_spam_comment_search" value="<?php _e('Find IP Addresses', 'aiowpsecurity')?>" class="button-primary" />
-        </form>
-        </div></div>
-        <div class="postbox">
-        <h3><label for="title"><?php _e('SPAMMER IP Address Results', 'aiowpsecurity'); ?></label></h3>
-        <div class="inside">
-            <?php 
-            //Fetch, prepare, sort, and filter our data...
-            $spammer_ip_list->prepare_items();
-            //echo "put table of locked entries here"; 
-            ?>
-            <form id="tables-filter" method="get" onSubmit="return confirm('Are you sure you want to perform this bulk operation on the selected entries?');">
-            <!-- For plugins, we also need to ensure that the form posts back to our current page -->
-            <input type="hidden" name="page" value="<?php echo $_REQUEST['page']; ?>" />
-            <input type="hidden" name="tab" value="<?php echo $_REQUEST['tab']; ?>" />
-            <!-- Now we can render the completed list table -->
-            <?php $spammer_ip_list->display(); ?>
-            </form>
         </div></div>
         <?php
     }

@@ -52,7 +52,8 @@ class AIOWPSecurity_Backup
                 for( $j=0; $j < $num_fields; $j++ ) {
 
                     $row[$j] = addslashes( $row[$j] );
-                    $row[$j] = ereg_replace( PHP_EOL, "\n", $row[$j] );
+                    //$row[$j] = ereg_replace( PHP_EOL, "\n", $row[$j] ); //deprecated!
+                    $row[$j] = preg_replace( "/".PHP_EOL."/", "\n", $row[$j] );
 
                     if ( isset( $row[$j] ) ) { 
                             $return .= '"' . $row[$j] . '"' ; 
@@ -78,6 +79,9 @@ class AIOWPSecurity_Backup
             return false;
         }
 
+        //Generate a random prefix for more secure filenames
+        $random_prefix = $random_prefix = AIOWPSecurity_Utility::generate_alpha_numeric_random_string(10);
+
         if ($is_multi_site)
         {
             global $current_blog;
@@ -96,7 +100,7 @@ class AIOWPSecurity_Backup
             //Convert whitespaces and underscore to dash
             $site_name = preg_replace("/[\s_]/", "-", $site_name);
             
-            $file = 'database-backup-site-name-' . $site_name . '-' . current_time( 'timestamp' );
+            $file = $random_prefix.'-database-backup-site-name-' . $site_name . '-' . current_time( 'timestamp' );
             
             //We will create a sub dir for the blog using its blog id
             $dirpath = AIO_WP_SECURITY_BACKUPS_PATH . '/blogid_' . $blog_id . '/';
@@ -113,7 +117,7 @@ class AIOWPSecurity_Backup
         else
         {
             $dirpath = AIO_WP_SECURITY_BACKUPS_PATH;
-            $file = 'database-backup-' . current_time( 'timestamp' );
+            $file = $random_prefix.'-database-backup-' . current_time( 'timestamp' );
             $handle = @fopen( $dirpath . '/' . $file . '.sql', 'w+' );
         }
         

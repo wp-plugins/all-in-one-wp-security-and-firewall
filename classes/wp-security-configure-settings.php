@@ -67,6 +67,9 @@ class AIOWPSecurity_Configure_Settings
         $aio_wp_security->configs->set_value('aiowps_site_lockout','');//Checkbox
         $aio_wp_security->configs->set_value('aiowps_site_lockout_msg','');//Text area/msg box
 
+        //SPAM Prevention menu
+        $aio_wp_security->configs->set_value('aiowps_enable_spambot_blocking','');//Checkbox
+
         //TODO - keep adding default options for any fields that require it
         
         //Save it
@@ -134,6 +137,8 @@ class AIOWPSecurity_Configure_Settings
         $aio_wp_security->configs->add_value('aiowps_site_lockout','');//Checkbox
         $aio_wp_security->configs->add_value('aiowps_site_lockout_msg','');//Text area/msg box
 
+        //SPAM Prevention menu
+        $aio_wp_security->configs->add_value('aiowps_enable_spambot_blocking','');//Checkbox
         
         //TODO - keep adding default options for any fields that require it
         

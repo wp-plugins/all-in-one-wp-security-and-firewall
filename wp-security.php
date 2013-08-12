@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: All In One WP Security
-Version: v2.1.1
+Version: v2.2
 Plugin URI: http://www.tipsandtricks-hq.com/
 Author: Tips and Tricks HQ, Peter, Ruhul Amin
 Author URI: http://www.tipsandtricks-hq.com/
@@ -24,3 +24,18 @@ function aiowps_show_plugin_settings_link($links, $file)
     return $links;
 }
 add_filter('plugin_action_links', 'aiowps_show_plugin_settings_link', 10, 2 );
+
+function aiowps_ms_handle_new_blog_creation($blog_id, $user_id, $domain, $path, $site_id, $meta ){
+    global $wpdb; 	
+    if (is_plugin_active_for_network(__FILE__)) 
+    {
+        if(!class_exists('AIOWPSecurity_Installer')){
+            include_once('classes/wp-security-installer.php');
+        }
+        $old_blog = $wpdb->blogid;
+        switch_to_blog($blog_id);
+        AIOWPSecurity_Installer::create_db_tables();
+        switch_to_blog($old_blog);
+    }
+}
+add_action('wpmu_new_blog', 'aiowps_ms_handle_new_blog_creation', 10, 6);
