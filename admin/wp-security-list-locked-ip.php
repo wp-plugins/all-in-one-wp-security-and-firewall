@@ -18,11 +18,11 @@ class AIOWPSecurity_List_Locked_IP extends AIOWPSecurity_List_Table {
     }
         
     function column_failed_login_ip($item){
-        $tab = strip_tags($_REQUEST['tab']);
+        //$tab = strip_tags($_REQUEST['tab']);
         //Build row actions
         $actions = array(
-            'unlock' => sprintf('<a href="admin.php?page=%s&tab=%s&action=%s&lockdown_id=%s" onclick="return confirm(\'Are you sure you want to unlock this address range?\')">Unlock</a>',AIOWPSEC_USER_LOGIN_MENU_SLUG,$tab,'unlock_ip',$item['id']),
-            'delete' => sprintf('<a href="admin.php?page=%s&tab=%s&action=%s&lockdown_id=%s" onclick="return confirm(\'Are you sure you want to delete this item?\')">Delete</a>',AIOWPSEC_USER_LOGIN_MENU_SLUG,$tab,'delete_blocked_ip',$item['id']),
+            'unlock' => sprintf('<a href="admin.php?page=%s&action=%s&lockdown_id=%s" onclick="return confirm(\'Are you sure you want to unlock this address range?\')">Unlock</a>',AIOWPSEC_USER_LOGIN_MENU_SLUG,'unlock_ip',$item['id']),
+            'delete' => sprintf('<a href="admin.php?page=%s&action=%s&lockdown_id=%s" onclick="return confirm(\'Are you sure you want to delete this item?\')">Delete</a>',AIOWPSEC_USER_LOGIN_MENU_SLUG,'delete_blocked_ip',$item['id']),
         );
         
         //Return the user_login contents

@@ -69,6 +69,18 @@ class AIOWPSecurity_Configure_Settings
 
         //SPAM Prevention menu
         $aio_wp_security->configs->set_value('aiowps_enable_spambot_blocking','');//Checkbox
+        
+        //Filescan features
+        //File change detection feature
+        $aio_wp_security->configs->set_value('aiowps_enable_automated_fcd_scan','');//Checkbox
+        $aio_wp_security->configs->set_value('aiowps_fcd_scan_frequency','4');
+        $aio_wp_security->configs->set_value('aiowps_fcd_scan_interval','2'); //Dropdown box where (0,1,2) => (hours,days,weeks)
+        $aio_wp_security->configs->set_value('aiowps_fcd_exclude_filetypes','');
+        $aio_wp_security->configs->set_value('aiowps_fcd_exclude_files','');
+        $aio_wp_security->configs->set_value('aiowps_send_fcd_scan_email','');//Checkbox
+        $aio_wp_security->configs->set_value('aiowps_fcd_scan_email_address',$blog_email_address);
+        $aio_wp_security->configs->set_value('aiowps_fcds_change_detected',FALSE); //used to display a global alert on site when file change detected
+
 
         //TODO - keep adding default options for any fields that require it
         
@@ -139,6 +151,17 @@ class AIOWPSecurity_Configure_Settings
 
         //SPAM Prevention menu
         $aio_wp_security->configs->add_value('aiowps_enable_spambot_blocking','');//Checkbox
+        
+        //Filescan features
+        //File change detection feature
+        $aio_wp_security->configs->add_value('aiowps_enable_automated_fcd_scan','');//Checkbox
+        $aio_wp_security->configs->add_value('aiowps_fcd_scan_frequency','4');
+        $aio_wp_security->configs->add_value('aiowps_fcd_scan_interval','2'); //Dropdown box where (0,1,2) => (hours,days,weeks)
+        $aio_wp_security->configs->add_value('aiowps_fcd_exclude_filetypes','');
+        $aio_wp_security->configs->add_value('aiowps_fcd_exclude_files','');
+        $aio_wp_security->configs->add_value('aiowps_send_fcd_scan_email','');//Checkbox
+        $aio_wp_security->configs->add_value('aiowps_fcd_scan_email_address',$blog_email_address);
+        $aio_wp_security->configs->add_value('aiowps_fcds_change_detected',FALSE); //used to display a global alert on site when file change detected
         
         //TODO - keep adding default options for any fields that require it
         

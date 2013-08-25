@@ -3,8 +3,8 @@
 if (!class_exists('AIO_WP_Security')){
 
 class AIO_WP_Security{
-    var $version = '2.2';
-    var $db_version = '1.2';
+    var $version = '2.3';
+    var $db_version = '1.3';
     var $plugin_url;
     var $plugin_path;
     var $configs;
@@ -13,6 +13,7 @@ class AIO_WP_Security{
     var $cron_handler;
     var $user_login_obj;
     var $backup_obj;
+    var $filescan_obj;
 
     function __construct()
     {
@@ -65,11 +66,13 @@ class AIO_WP_Security{
         define('AIOWPSEC_FIREWALL_MENU_SLUG', 'aiowpsec_firewall');
         define('AIOWPSEC_MAINTENANCE_MENU_SLUG', 'aiowpsec_maintenance');
         define('AIOWPSEC_SPAM_MENU_SLUG', 'aiowpsec_spam');
+        define('AIOWPSEC_FILESCAN_MENU_SLUG', 'aiowpsec_filescan');
         
         global $wpdb;
         define('AIOWPSEC_TBL_LOGIN_LOCKDOWN', $wpdb->prefix . 'aiowps_login_lockdown');
         define('AIOWPSEC_TBL_FAILED_LOGINS', $wpdb->prefix . 'aiowps_failed_logins');
         define('AIOWPSEC_TBL_USER_LOGIN_ACTIVITY', $wpdb->prefix . 'aiowps_login_activity');
+        define('AIOWPSEC_TBL_GLOBAL_META_DATA', $wpdb->prefix . 'aiowps_global_meta');
 
     }
 
@@ -85,6 +88,7 @@ class AIO_WP_Security{
         
         include_once('classes/wp-security-user-login.php');
         include_once('classes/wp-security-backup.php');
+        include_once('classes/wp-security-file-scan.php');
         include_once('classes/wp-security-cronjob-handler.php');
         include_once('classes/grade-system/wp-security-feature-item.php');
         include_once('classes/grade-system/wp-security-feature-item-manager.php');
@@ -151,7 +155,8 @@ class AIO_WP_Security{
 
         //Actions, filters, shortcodes goes here       
         $this->user_login_obj = new AIOWPSecurity_User_Login();//Do the user login operation tasks
-        $this->backup_obj = new AIOWPSecurity_Backup();//Object to handle backup tasks    
+        $this->backup_obj = new AIOWPSecurity_Backup();//Object to handle backup tasks
+        $this->filescan_obj = new AIOWPSecurity_Filescan();//Object to handle backup tasks 
         $this->cron_handler = new AIOWPSecurity_Cronjob_Handler();
         
         add_action('wp_head',array(&$this, 'aiowps_header_content'));

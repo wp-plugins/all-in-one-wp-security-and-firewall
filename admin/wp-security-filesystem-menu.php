@@ -1,6 +1,6 @@
 <?php
 
-class AIOWPSecurity_Filescan_Menu extends AIOWPSecurity_Admin_Menu
+class AIOWPSecurity_Filesystem_Menu extends AIOWPSecurity_Admin_Menu
 {
     var $menu_page_slug = AIOWPSEC_FILESYSTEM_MENU_SLUG;
     
@@ -554,7 +554,7 @@ class AIOWPSecurity_Filescan_Menu extends AIOWPSecurity_Admin_Menu
         if (!$error_file_contents)
         {
             //TODO - error could not read file, display notice???
-            $aio_wp_security->debug_logger->log_debug("AIOWPSecurity_Filescan_Menu - Unable to read file: ".$filepath,4);
+            $aio_wp_security->debug_logger->log_debug("AIOWPSecurity_Filesystem_Menu - Unable to read file: ".$filepath,4);
             
         }
         $last_50_entries = array_slice($error_file_contents, -50); //extract the last 50 entries

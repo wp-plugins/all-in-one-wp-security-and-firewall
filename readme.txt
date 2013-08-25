@@ -1,10 +1,10 @@
 === All In One WP Security & Firewall ===
 Contributors: Tips and Tricks HQ, wpsolutions, Peter Petreski, Ruhul Amin 
 Donate link: http://www.tipsandtricks-hq.com
-Tags: security, secure, Anti Virus, antivirus, virus, firewall, login, lockdown, htaccess, hacking, ban hacker, malware, vulnerability, protect, phishing, database, backup, plugin, sql injection, ssl, restrict
+Tags: security, secure, Anti Virus, antivirus, ban, ban hacker, virus, firewall, login, lockdown, htaccess, hack, malware, vulnerability, protect, protection, phishing, database, backup, plugin, sql injection, ssl, restrict
 Requires at least: 3.5
 Tested up to: 3.6
-Stable tag: 2.2
+Stable tag: 2.3
 License: GPLv3
 
 A comprehensive, user-friendly, all in one WordPress security and firewall plugin for your site.
@@ -85,6 +85,9 @@ or malicious bots who do not have a special cookie in their browser. You (the si
 = WhoIs Lookup =
 * Perform a WhoIs lookup of a suspicious host or IP address and get full details.
 
+= Security Scanner =
+* The file change detection scanner can alert you if any files have changed in your WordPress system. You can then investigate and see if that was a legitimate change or some bad code was injected.
+
 = Comment SPAM Security =
 * Monitor the most active IP addresses which persistently produce the most SPAM comments and instantly block them with the click of a button.
 * Prevent comments from being submitted if it doesn't originate from your domain (this should reduce some SPAM bot comment posting on your site).
@@ -132,6 +135,14 @@ http://www.tipsandtricks-hq.com/wordpress-security-and-firewall-plugin
 None
 
 == Changelog ==
+
+= 2.3 =
+- Added new menu called Scanner with a new feature called File Change Detection. This feature will alert you if any files have changed, added or removed from your system.
+- Fixed "Deny Bad Query Strings" rules to not break the ability to drag components in the WordPress "Appearance->Menus" page
+- Fixed an activation time warning (on sites with WP_DEBUG option enabled)
+- Re-implemented the wp-config.php file content backup feature. It now directly downloads the contents of the file to your computer.
+- Multi-site enhancements: Suppressed access to configuration settings for features which are not allowed to be configured from subsites of multi-site installations.
+- Fixed a bug with login lockdown feature.
 
 = 2.2 =
 - Added a new feature which will block some spambots from submitting comments.

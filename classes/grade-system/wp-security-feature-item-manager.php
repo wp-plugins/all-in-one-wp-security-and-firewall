@@ -74,6 +74,11 @@ class AIOWPSecurity_Feature_Item_Manager
 
         //SPAM Prevention
         $this->feature_items[] = new AIOWPSecurity_Feature_Item("block-spambots", "Block Spambots", $this->feature_point_2, $this->sec_level_basic);
+        
+        //Filescan
+        //File change detection
+        $this->feature_items[] = new AIOWPSecurity_Feature_Item("scan-file-change-detection", "File Change Detection", $this->feature_point_4, $this->sec_level_inter);       
+
     }
     
     function get_feature_item_by_id($feature_id)
@@ -214,6 +219,12 @@ class AIOWPSecurity_Feature_Item_Manager
             {
                 $this->check_enable_block_spambots_feature($item);
             }
+            
+            if($item->feature_id == "scan-file-change-detection")
+            {
+                $this->check_enable_fcd_scan_feature($item);
+            }
+            
         }
     }
     
@@ -503,4 +514,17 @@ class AIOWPSecurity_Feature_Item_Manager
             $item->set_feature_status($this->feature_inactive);
         }
     }
+    
+    function check_enable_fcd_scan_feature($item)
+    {
+        global $aio_wp_security;
+        if ($aio_wp_security->configs->get_value('aiowps_enable_automated_fcd_scan') == '1') {
+            $item->set_feature_status($this->feature_active);
+        }
+        else
+        {
+            $item->set_feature_status($this->feature_inactive);
+        }
+    }
+    
 }

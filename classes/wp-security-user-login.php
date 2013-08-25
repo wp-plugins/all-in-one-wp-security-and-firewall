@@ -35,7 +35,7 @@ class AIOWPSecurity_User_Login
         
         $user_locked = $this->check_locked_user();
         if ($user_locked != NULL) {
-            $aio_wp_security->debug_logger->log_debug("Login attempt from blocked IP range - ".$user_locked['failed_login_IP'],2);
+            $aio_wp_security->debug_logger->log_debug("Login attempt from blocked IP range - ".$user_locked['failed_login_ip'],2);
             return new WP_Error('authentication_failed', __('<strong>ERROR</strong>: Login failed because your IP address has been blocked due to too many failed login attempts.
                                 Please contact the administrator.', 'aiowpsecurity'));
         }
@@ -117,9 +117,9 @@ class AIOWPSecurity_User_Login
         $login_lockdown_table = AIOWPSEC_TBL_LOGIN_LOCKDOWN;
         $ip = AIOWPSecurity_Utility_IP::get_user_ip_address(); //Get the IP address of user
         $ip_range = AIOWPSecurity_Utility_IP::get_sanitized_ip_range($ip); //Get the IP range of the current user
-        $locked_user = $wpdb->get_var("SELECT user_id FROM $login_lockdown_table " .
+        $locked_user = $wpdb->get_row("SELECT * FROM $login_lockdown_table " .
                                         "WHERE release_date > now() AND " .
-                                        "failed_login_IP LIKE '" . esc_sql($ip_range) . "%'");
+                                        "failed_login_ip LIKE '" . esc_sql($ip_range) . "%'", ARRAY_A);
         return $locked_user;
     }
 

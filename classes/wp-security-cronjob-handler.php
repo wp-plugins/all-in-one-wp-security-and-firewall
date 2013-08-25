@@ -16,6 +16,7 @@ class AIOWPSecurity_Cronjob_Handler {
         //do_action('aiowps_force_logout_check');
         //do_action('aiowps_check_password_stuff');   
         do_action('aiowps_perform_scheduled_backup_tasks');
+        do_action('aiowps_perform_fcd_scan_tasks');
     }
     
 //    function aiowps_daily_cron_event_handler()

@@ -142,4 +142,14 @@ class AIOWPSecurity_Utility
             return false;
 	}
     }
+    
+    //This is a general yellow box message for when we want to suppress a feature's config items because site is subsite of multi-site
+    static function display_multisite_message()
+    {
+        echo '<div class="aio_yellow_box">';
+        echo '<p>'.__('The plugin has detected that you are using a Multi-Site WordPress installation.', 'aiowpsecurity').'</p>
+              <p>'.__('This feature can only be configured by the "superadmin" on the main site.', 'aiowpsecurity').'</p>';
+        echo '</div>';
+    }
+    
 }

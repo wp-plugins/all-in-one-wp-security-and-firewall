@@ -7,7 +7,7 @@ class AIOWPSecurity_Backup
     
     function __construct() 
     {
-        add_action('aiowps_perform_scheduled_backup_tasks', array(&$this, 'aiowps_scheduled_backup_handler')); //TODO - this action never gets fired - need to investigate
+        add_action('aiowps_perform_scheduled_backup_tasks', array(&$this, 'aiowps_scheduled_backup_handler'));
     }
     
     /**
@@ -163,7 +163,7 @@ class AIOWPSecurity_Backup
             //Get the right email address.
             if ( is_email( $aio_wp_security->configs->get_value('aiowps_send_backup_email_address') ) ) 
             {
-                    $toaddress = $aio_wp_security->configs->get_value('aiowps_send_backup_email_address');
+                    $toaddress = $aio_wp_security->configs->get_value('aiowps_backup_email_address');
             } else 
             {
                     $toaddress = get_site_option( 'admin_email' );

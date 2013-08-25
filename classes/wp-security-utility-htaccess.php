@@ -557,7 +557,7 @@ class AIOWPSecurity_Utility_Htaccess
             //$rules .= 'RewriteCond %{QUERY_STRING} ^.*(%22|%27|%3C|%3E|%5C|%7B|%7C).* [NC,OR]' . PHP_EOL;
             //$rules .= 'RewriteCond %{QUERY_STRING} ^.*(%0|%A|%B|%C|%D|%E|%F|127.0).* [NC,OR]' . PHP_EOL;
             $rules .= 'RewriteCond %{QUERY_STRING} ^.*(globals|encode|config|localhost|loopback).* [NC,OR]' . PHP_EOL;
-            $rules .= 'RewriteCond %{QUERY_STRING} ^.*(request|insert|union|declare|drop).* [NC]' . PHP_EOL;
+            $rules .= 'RewriteCond %{QUERY_STRING} (\;|\'|\"|%22).*(request|insert|union|declare|drop) [NC]' . PHP_EOL;
             $rules .= 'RewriteRule ^(.*)$ - [F,L]' . PHP_EOL;
             $rules .= AIOWPSecurity_Utility_Htaccess::$deny_bad_query_strings_marker_end . PHP_EOL; //Add feature marker end
         }

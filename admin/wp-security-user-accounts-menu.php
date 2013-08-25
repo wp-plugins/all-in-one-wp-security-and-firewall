@@ -90,8 +90,7 @@ class AIOWPSecurity_User_Accounts_Menu extends AIOWPSecurity_Admin_Menu
         <?php
         //display a list of all administrator accounts for this site
         $postbox_title = __('List of Administrator Accounts', 'aiowpsecurity');
-        //TODO: Multi-site: might need to put separate code for multi-site, ie, check if multi-site and then call get_all_admin_accounts($blog_id).
-        if (AIOWPSecurity_Utility::is_multisite_install()) { //get admin accounts for current site
+        if (AIOWPSecurity_Utility::is_multisite_install()) { //Multi-site: get admin accounts for current site
           $blog_id = get_current_blog_id();
           $this->postbox($postbox_title, $this->get_all_admin_accounts($blog_id));
         } else {

@@ -21,9 +21,14 @@ class AIOWPSecurity_List_Comment_Spammer_IP extends AIOWPSecurity_List_Table {
     function column_comment_author_IP($item){
         $tab = strip_tags($_REQUEST['tab']);
         //Build row actions
-        $actions = array(
-            'block' => sprintf('<a href="admin.php?page=%s&tab=%s&action=%s&spammer_ip=%s" onclick="return confirm(\'Are you sure you want to add this IP address to your blacklist?\')">Block</a>',AIOWPSEC_BLACKLIST_MENU_SLUG,$tab,'block_spammer_ip',$item['comment_author_IP']),
-        );
+        if (AIOWPSecurity_Utility::is_multisite_install() && get_current_blog_id() != 1){
+            //Suppress the block link if site is a multi site AND not the main site
+            $actions = array(); //blank array
+        }else{
+            $actions = array(
+                'block' => sprintf('<a href="admin.php?page=%s&tab=%s&action=%s&spammer_ip=%s" onclick="return confirm(\'Are you sure you want to add this IP address to your blacklist?\')">Block</a>',AIOWPSEC_BLACKLIST_MENU_SLUG,$tab,'block_spammer_ip',$item['comment_author_IP']),
+            );
+        }
         
         //Return the user_login contents
         return sprintf('%1$s <span style="color:silver"></span>%2$s',
@@ -59,9 +64,14 @@ class AIOWPSecurity_List_Comment_Spammer_IP extends AIOWPSecurity_List_Table {
     }
     
     function get_bulk_actions() {
-        $actions = array(
-            'block' => 'Block'
-        );
+        if (AIOWPSecurity_Utility::is_multisite_install() && get_current_blog_id() != 1){
+            //Suppress the block link if site is a multi site AND not the main site
+            $actions = array(); //blank array
+        }else{
+            $actions = array(
+                'block' => 'Block'
+            );
+        }
         return $actions;
     }
 

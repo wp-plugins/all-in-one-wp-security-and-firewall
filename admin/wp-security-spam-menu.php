@@ -116,6 +116,13 @@ class AIOWPSecurity_Spam_Menu extends AIOWPSecurity_Admin_Menu
         <?php
         //Display security info badge
         $aiowps_feature_mgr->output_feature_details_badge("block-spambots");
+        if (AIOWPSecurity_Utility::is_multisite_install() && get_current_blog_id() != 1)
+        {
+           //Hide config settings if MS and not main site
+           AIOWPSecurity_Utility::display_multisite_message();
+        }
+        else
+        {
         ?>
         <table class="form-table">
             <tr valign="top">
@@ -135,6 +142,7 @@ class AIOWPSecurity_Spam_Menu extends AIOWPSecurity_Admin_Menu
                 </td>
             </tr>            
         </table>
+        <?php } //End if statement ?>
         </div></div>
 
         <input type="submit" name="aiowps_apply_comment_spam_prevention_settings" value="<?php _e('Save Settings', 'aiowpsecurity')?>" class="button-primary" />
@@ -224,7 +232,15 @@ class AIOWPSecurity_Spam_Menu extends AIOWPSecurity_Admin_Menu
         <div class="postbox">
         <h3><label for="title"><?php _e('SPAMMER IP Address Results', 'aiowpsecurity'); ?></label></h3>
         <div class="inside">
-            <?php 
+            <?php
+            if (AIOWPSecurity_Utility::is_multisite_install() && get_current_blog_id() != 1)
+            {
+                    echo '<div class="aio_yellow_box">';
+                    echo '<p>'.__('The plugin has detected that you are using a Multi-Site WordPress installation.', 'aiowpsecurity').'</p>
+                          <p>'.__('Only the "superadmin" can block IP addresses from the main site.', 'aiowpsecurity').'</p>
+                          <p>'.__('Take note of the IP addresses you want blocked and ask the superadmin to add these to the blacklist using the "Blacklist Manager" on the main site.', 'aiowpsecurity').'</p>';
+                    echo '</div>';
+            }
             //Fetch, prepare, sort, and filter our data...
             $spammer_ip_list->prepare_items();
             //echo "put table of locked entries here"; 

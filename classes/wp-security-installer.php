@@ -35,6 +35,7 @@ class AIOWPSecurity_Installer
 	$lockdown_tbl_name = AIOWPSEC_TBL_LOGIN_LOCKDOWN;
         $failed_login_tbl_name = AIOWPSEC_TBL_FAILED_LOGINS;
         $user_login_activity_tbl_name = AIOWPSEC_TBL_USER_LOGIN_ACTIVITY;
+        $aiowps_global_meta_tbl_name = AIOWPSEC_TBL_GLOBAL_META_DATA;
 
 	$ld_tbl_sql = "CREATE TABLE " . $lockdown_tbl_name . " (
         id bigint(20) NOT NULL AUTO_INCREMENT,
@@ -70,6 +71,23 @@ class AIOWPSecurity_Installer
         )ENGINE=MyISAM DEFAULT CHARSET=utf8;";
 	dbDelta($ula_tbl_sql);
 
+        $gm_tbl_sql = "CREATE TABLE " . $aiowps_global_meta_tbl_name . " (
+        meta_id bigint(20) NOT NULL auto_increment,
+        date_time datetime NOT NULL default '0000-00-00 00:00:00',
+        meta_key1 varchar(255) NOT NULL,
+        meta_key2 varchar(255) NOT NULL,
+        meta_key3 varchar(255) NOT NULL,
+        meta_key4 varchar(255) NOT NULL,
+        meta_key5 varchar(255) NOT NULL,
+        meta_value1 varchar(255) NOT NULL,
+        meta_value2 text NOT NULL,
+        meta_value3 text NOT NULL,
+        meta_value4 longtext NOT NULL,
+        meta_value5 longtext NOT NULL,
+        PRIMARY KEY  (meta_id)
+        )ENGINE=MyISAM DEFAULT CHARSET=utf8;";
+        dbDelta($gm_tbl_sql);
+                
 	update_option("aiowpsec_db_version", AIO_WP_SECURITY_DB_VERSION);
     }
 }

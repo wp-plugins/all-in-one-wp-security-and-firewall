@@ -90,7 +90,7 @@ class AIOWPSecurity_Settings_Menu extends AIOWPSecurity_Admin_Menu
         <h3><label for="title"><?php _e('WP Security Plugin', 'aiowpsecurity'); ?></label></h3>
         <div class="inside">
         <p><?php _e('Thank you for using our WordPress security plugin. There are a lot of security features in this plugin.', 'aiowpsecurity'); ?></p>
-        <p><?php _e('Go through each menu items and enable the security options to add more security to your site.', 'aiowpsecurity'); ?></p>
+        <p><?php _e('Go through each menu items and enable the security options to add more security to your site. Start by activating the basic features first.', 'aiowpsecurity'); ?></p>
         <p><?php _e('It is a good practice to take a backup of your .htaccess file, database and wp-config.php file before activating the security features. This plugin has options that you can use to backup those resources easily.', 'aiowpsecurity'); ?></p>
         <p>
         <ul class="aiowps_admin_ul_grp1">
@@ -213,7 +213,15 @@ class AIOWPSecurity_Settings_Menu extends AIOWPSecurity_Admin_Menu
             </p>';
             ?>
         </div>
-
+        <?php 
+        if (AIOWPSecurity_Utility::is_multisite_install() && get_current_blog_id() != 1)
+        {
+           //Hide config settings if MS and not main site
+           AIOWPSecurity_Utility::display_multisite_message();
+        }
+        else
+        {
+        ?>
         <div class="postbox">
         <h3><label for="title"><?php _e('Save the current .htaccess file', 'aiowpsecurity'); ?></label></h3>
         <div class="inside">
@@ -257,49 +265,12 @@ class AIOWPSecurity_Settings_Menu extends AIOWPSecurity_Admin_Menu
         </div></div>
 
         <?php
+        } // End if statement
     }
 
     function render_tab3()
     {
         global $aio_wp_security;
-
-        if(isset($_POST['aiowps_save_wp_config']))//Do form submission tasks
-        {
-            $nonce=$_REQUEST['_wpnonce'];
-            if (!wp_verify_nonce($nonce, 'aiowpsec-save-wp-config-nonce'))
-            {
-                $aio_wp_security->debug_logger->log_debug("Nonce check failed on wp_config file save!",4);
-                die("Nonce check failed on wp_config file save!");
-            }
-            $wp_config_path = ABSPATH . 'wp-config.php';
-            $result = AIOWPSecurity_Utility_File::backup_a_file($wp_config_path); //Backup the wp_config.php file
-            
-            if ($result)
-            {
-                $random_prefix = AIOWPSecurity_Utility::generate_alpha_numeric_random_string(10);
-                if (rename(ABSPATH.'wp-config.php.backup', AIO_WP_SECURITY_BACKUPS_PATH.'/'.$random_prefix.'_wp-config-backup.txt'))
-                {
-//                    $backup_file_url = AIO_WP_SECURITY_BACKUPS_PATH . '/wp-config-backup.txt';
-                    echo '<div id="message" class="updated fade"><p>';
-                    _e('Your wp-config.php file was successfully backed up! Using an FTP program go to the "backups" directory of this plugin to save a copy of the file to your computer.','aiowpsecurity');
-//                    echo '<p>';
-//                    _e('Your wp-config.php File: ');
-//                    echo '<a href="'.$backup_file_url.'" target="_blank">'.$backup_file_url.'</a>';
-//                    echo '</p>';
-                    echo '</p></div>';
-                }
-                else
-                {
-                    $aio_wp_security->debug_logger->log_debug("wp-config.php file rename failed during backup!",4);
-                    $this->show_msg_error(__('wp-config.php file rename failed during backup. Please check your root directory for the backup file using FTP.','aiowpsecurity'));
-                }
-            } 
-            else
-            {
-                $aio_wp_security->debug_logger->log_debug("wp-config.php - Backup operation failed!",4);
-                $this->show_msg_error(__('wp-config.php backup failed.','aiowpsecurity'));
-            }
-        }
         
         if(isset($_POST['aiowps_restore_wp_config_button']))//Do form submission tasks
         {
@@ -353,20 +324,22 @@ class AIOWPSecurity_Settings_Menu extends AIOWPSecurity_Admin_Menu
             </p>';
             ?>
         </div>
-
+        <?php 
+        if (AIOWPSecurity_Utility::is_multisite_install() && get_current_blog_id() != 1)
+        {
+           //Hide config settings if MS and not main site
+           AIOWPSecurity_Utility::display_multisite_message();
+        }
+        else
+        {
+        ?>
         <div class="postbox">
         <h3><label for="title"><?php _e('Save the current wp-config.php file', 'aiowpsecurity'); ?></label></h3>
         <div class="inside">
         <form action="" method="POST">
         <?php wp_nonce_field('aiowpsec-save-wp-config-nonce'); ?>
-            <p class="description"><?php _e('Click the button below to backup and save the currently active wp-config.php file.', 'aiowpsecurity'); ?></p>
-            <!--<input type="submit" name="aiowps_save_wp_config" value="<?php _e('Backup wp-config.php File', 'aiowpsecurity')?>" class="button-primary" /> -->
-        <div class="aio_yellow_box">
-            <?php
-            $info_msg = '<p>'.__('The feature to back up the wp-config.php has currently been disabled in order to prevent a potential security exploit. We are currently in the process of implementing a more secure method which we will release in a future version of the plugin.', 'aiowpsecurity').'</p>';
-            echo $info_msg;
-            ?>
-        </div>
+            <p class="description"><?php _e('Click the button below to backup and download the contents of the currently active wp-config.php file.', 'aiowpsecurity'); ?></p>
+            <input type="submit" name="aiowps_save_wp_config" value="<?php _e('Backup wp-config.php File', 'aiowpsecurity')?>" class="button-primary" />
 
         </form>
         </div></div>
@@ -403,6 +376,7 @@ class AIOWPSecurity_Settings_Menu extends AIOWPSecurity_Admin_Menu
         </div></div>
 
         <?php
+        } //End if statement
     }
     
     function render_tab4()

@@ -62,8 +62,7 @@ class AIOWPSecurity_Blacklist_Menu extends AIOWPSecurity_Admin_Menu
     
     function render_tab1() 
     {
-        //if this is the case there is no need to display a "fix permissions" button
-        global $wpdb, $aio_wp_security;
+        global $aio_wp_security;
         global $aiowps_feature_mgr;
         $result = 1;
         if (isset($_POST['aiowps_save_blacklist_settings']))

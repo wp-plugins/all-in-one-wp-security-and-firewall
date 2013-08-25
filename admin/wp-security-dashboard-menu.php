@@ -267,6 +267,9 @@ class AIOWPSecurity_Dashboard_Menu extends AIOWPSecurity_Admin_Menu
         
         <p>We are working to make your WordPress site more secure. Please support us, here is how:</p>
         <p>
+            <a href="https://plus.google.com/102469783420435518783/" target="_blank">Follow us on Google+</a>
+        </p>
+        <p>
             <a href="http://twitter.com/intent/tweet?url=http://www.tipsandtricks-hq.com/wordpress-security-and-firewall-plugin&text=I love the All In One WP Security and Firewall plugin!" target="_blank" class="aio_tweet_link">Post to Twitter</a>
         </p>
         <p>

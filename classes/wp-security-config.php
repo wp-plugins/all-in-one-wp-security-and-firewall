@@ -21,6 +21,8 @@ class AIOWPSecurity_Config{
     }
     
     function add_value($key, $value){
+        if(!is_array($this->configs)){$this->configs = array();}
+
     	if (array_key_exists($key, $this->configs)){
             //Don't update the value for this key
     	}

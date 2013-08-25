@@ -17,6 +17,7 @@ class AIOWPSecurity_Admin_Init
     var $firewall_menu;
     var $maintenance_menu;
     var $spam_menu;
+    var $filescan_menu;
 
     function __construct()
     {
@@ -133,6 +134,19 @@ class AIOWPSecurity_Admin_Init
                 $aio_wp_security->configs->save_config();//save the value
             }
         }
+
+        if(isset($_POST['aiowps_save_wp_config']))//the wp-config backup operation
+        {
+            $nonce=$_REQUEST['_wpnonce'];
+            if (!wp_verify_nonce($nonce, 'aiowpsec-save-wp-config-nonce'))
+            {
+                $aio_wp_security->debug_logger->log_debug("Nonce check failed on wp_config file save!",4);
+                die("Nonce check failed on wp_config file save!");
+            }
+            $wp_config_path = ABSPATH . 'wp-config.php';
+            $result = AIOWPSecurity_Utility_File::backup_a_file($wp_config_path); //Backup the wp_config.php file
+            AIOWPSecurity_Utility_File::download_a_file_option1($wp_config_path, "wp-config-backup.txt");
+        }
     }
     
     function create_admin_menus()
@@ -144,15 +158,28 @@ class AIOWPSecurity_Admin_Init
         add_submenu_page(AIOWPSEC_MAIN_MENU_SLUG, __('User Accounts', 'aiowpsecurity'),  __('User Accounts', 'aiowpsecurity') , AIOWPSEC_MANAGEMENT_PERMISSION, AIOWPSEC_USER_ACCOUNTS_MENU_SLUG, array(&$this, 'handle_user_accounts_menu_rendering'));
         add_submenu_page(AIOWPSEC_MAIN_MENU_SLUG, __('User Login', 'aiowpsecurity'),  __('User Login', 'aiowpsecurity') , AIOWPSEC_MANAGEMENT_PERMISSION, AIOWPSEC_USER_LOGIN_MENU_SLUG, array(&$this, 'handle_user_login_menu_rendering'));
         add_submenu_page(AIOWPSEC_MAIN_MENU_SLUG, __('Database Security', 'aiowpsecurity'),  __('Database Security', 'aiowpsecurity') , AIOWPSEC_MANAGEMENT_PERMISSION, AIOWPSEC_DB_SEC_MENU_SLUG, array(&$this, 'handle_database_menu_rendering'));
-        add_submenu_page(AIOWPSEC_MAIN_MENU_SLUG, __('Filesystem Security', 'aiowpsecurity'),  __('Filesystem Security', 'aiowpsecurity') , AIOWPSEC_MANAGEMENT_PERMISSION, AIOWPSEC_FILESYSTEM_MENU_SLUG, array(&$this, 'handle_filesystem_menu_rendering'));
+        if (AIOWPSecurity_Utility::is_multisite_install() && get_current_blog_id() != 1){
+            //Suppress the firewall menu if site is a multi site AND not the main site
+        }else{
+            add_submenu_page(AIOWPSEC_MAIN_MENU_SLUG, __('Filesystem Security', 'aiowpsecurity'),  __('Filesystem Security', 'aiowpsecurity') , AIOWPSEC_MANAGEMENT_PERMISSION, AIOWPSEC_FILESYSTEM_MENU_SLUG, array(&$this, 'handle_filesystem_menu_rendering'));
+        }
         add_submenu_page(AIOWPSEC_MAIN_MENU_SLUG, __('WHOIS Lookup', 'aiowpsecurity'),  __('WHOIS Lookup', 'aiowpsecurity') , AIOWPSEC_MANAGEMENT_PERMISSION, AIOWPSEC_WHOIS_MENU_SLUG, array(&$this, 'handle_whois_menu_rendering'));
-        add_submenu_page(AIOWPSEC_MAIN_MENU_SLUG, __('Blacklist Manager', 'aiowpsecurity'),  __('Blacklist Manager', 'aiowpsecurity') , AIOWPSEC_MANAGEMENT_PERMISSION, AIOWPSEC_BLACKLIST_MENU_SLUG, array(&$this, 'handle_blacklist_menu_rendering'));
+        if (AIOWPSecurity_Utility::is_multisite_install() && get_current_blog_id() != 1){
+            //Suppress the firewall menu if site is a multi site AND not the main site
+        }else{
+            add_submenu_page(AIOWPSEC_MAIN_MENU_SLUG, __('Blacklist Manager', 'aiowpsecurity'),  __('Blacklist Manager', 'aiowpsecurity') , AIOWPSEC_MANAGEMENT_PERMISSION, AIOWPSEC_BLACKLIST_MENU_SLUG, array(&$this, 'handle_blacklist_menu_rendering'));
+        }
         if (AIOWPSecurity_Utility::is_multisite_install() && get_current_blog_id() != 1){
             //Suppress the firewall menu if site is a multi site AND not the main site
         }else{
             add_submenu_page(AIOWPSEC_MAIN_MENU_SLUG, __('Firewall', 'aiowpsecurity'),  __('Firewall', 'aiowpsecurity') , AIOWPSEC_MANAGEMENT_PERMISSION, AIOWPSEC_FIREWALL_MENU_SLUG, array(&$this, 'handle_firewall_menu_rendering'));
         }
         add_submenu_page(AIOWPSEC_MAIN_MENU_SLUG, __('SPAM Prevention', 'aiowpsecurity'),  __('SPAM Prevention', 'aiowpsecurity') , AIOWPSEC_MANAGEMENT_PERMISSION, AIOWPSEC_SPAM_MENU_SLUG, array(&$this, 'handle_spam_menu_rendering'));
+        if (AIOWPSecurity_Utility::is_multisite_install() && get_current_blog_id() != 1){
+            //Suppress the filescan menu if site is a multi site AND not the main site
+        }else{
+            add_submenu_page(AIOWPSEC_MAIN_MENU_SLUG, __('Scanner', 'aiowpsecurity'),  __('Scanner', 'aiowpsecurity') , AIOWPSEC_MANAGEMENT_PERMISSION, AIOWPSEC_FILESCAN_MENU_SLUG, array(&$this, 'handle_filescan_menu_rendering'));
+        }
         add_submenu_page(AIOWPSEC_MAIN_MENU_SLUG, __('Maintenance', 'aiowpsecurity'),  __('Maintenance', 'aiowpsecurity') , AIOWPSEC_MANAGEMENT_PERMISSION, AIOWPSEC_MAINTENANCE_MENU_SLUG, array(&$this, 'handle_maintenance_menu_rendering'));
         do_action('aiowpsecurity_admin_menu_created');
     }
@@ -191,7 +218,7 @@ class AIOWPSecurity_Admin_Init
     function handle_filesystem_menu_rendering()
     {
         include_once('wp-security-filesystem-menu.php');
-        $this->filesystem_menu = new AIOWPSecurity_Filescan_Menu();
+        $this->filesystem_menu = new AIOWPSecurity_Filesystem_Menu();
     }
 
     function handle_whois_menu_rendering()
@@ -224,6 +251,11 @@ class AIOWPSecurity_Admin_Init
         $this->spam_menu = new AIOWPSecurity_Spam_Menu();
     }
     
+    function handle_filescan_menu_rendering()
+    {
+        include_once('wp-security-filescan-menu.php');
+        $this->filescan_menu = new AIOWPSecurity_Filescan_Menu();
+    }
     
 }//End of class
 

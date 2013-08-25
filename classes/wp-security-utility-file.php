@@ -119,6 +119,25 @@ class AIOWPSecurity_Utility_File
         }
     }
 
+    static function download_a_file_option1($file_path, $file_name = '')
+    {
+        $file = $file_path;//Full ABS path to the file
+        if(empty($file_name)){$file_name = basename($file);}
+
+        header('Content-Description: File Transfer');
+        header('Content-Type: application/octet-stream');
+        header('Content-Disposition: attachment; filename='.$file_name);
+        header('Content-Transfer-Encoding: binary');
+        header('Expires: 0');
+        header('Cache-Control: must-revalidate');
+        header('Pragma: public');
+        header('Content-Length: ' . filesize($file));
+        //ob_clean();
+        //flush();
+        readfile($file);
+        exit;
+    }
+    
     /*
      * This function will compare the current permission value for a file or dir with the recommended value.
      * It will compare the individual "execute", "write" and "read" bits for the "public", "group" and "owner" permissions.
