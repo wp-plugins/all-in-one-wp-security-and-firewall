@@ -121,6 +121,7 @@ class AIOWPSecurity_User_Login_Menu extends AIOWPSecurity_Admin_Menu
             $aio_wp_security->configs->set_value('aiowps_retry_time_period',absint($login_retry_time_period));
             $aio_wp_security->configs->set_value('aiowps_lockout_time_length',absint($lockout_time_length));
             $aio_wp_security->configs->set_value('aiowps_set_generic_login_msg',isset($_POST["aiowps_set_generic_login_msg"])?'1':'');
+            $aio_wp_security->configs->set_value('aiowps_enable_invalid_username_lockdown',isset($_POST["aiowps_enable_invalid_username_lockdown"])?'1':'');
             $aio_wp_security->configs->set_value('aiowps_enable_email_notify',isset($_POST["aiowps_enable_email_notify"])?'1':'');
             $aio_wp_security->configs->set_value('aiowps_email_address',$email_address);
             $aio_wp_security->configs->save_config();
@@ -197,7 +198,15 @@ class AIOWPSecurity_User_Login_Menu extends AIOWPSecurity_Admin_Menu
                 <input name="aiowps_set_generic_login_msg" type="checkbox"<?php if($aio_wp_security->configs->get_value('aiowps_set_generic_login_msg')=='1') echo ' checked="checked"'; ?> value="1"/>
                 <span class="description"><?php _e('Check this if you want to show a generic error message when a login attempt fails', 'aiowpsecurity'); ?></span>
                 </td>
+            </tr>
+            <tr valign="top">
+                <th scope="row"><?php _e('Instantly Lockout Invalid Usernames', 'aiowpsecurity')?>:</th>                
+                <td>
+                <input name="aiowps_enable_invalid_username_lockdown" type="checkbox"<?php if($aio_wp_security->configs->get_value('aiowps_enable_invalid_username_lockdown')=='1') echo ' checked="checked"'; ?> value="1"/>
+                <span class="description"><?php _e('Check this if you want to instantly lockout login attempts with usernames which do not exist on your system', 'aiowpsecurity'); ?></span>
+                </td>
             </tr>            
+            
             <tr valign="top">
                 <th scope="row"><?php _e('Notify By Email', 'aiowpsecurity')?>:</th>
                 <td>

@@ -73,7 +73,10 @@ class AIOWPSecurity_Backup
         $return .= PHP_EOL . PHP_EOL;
 
         //Check to see if the main "backups" directory exists - create it otherwise
-        if (!AIOWPSecurity_Utility_File::create_dir(AIO_WP_SECURITY_BACKUPS_PATH))
+        $upload_dir = wp_upload_dir();
+	$aiowps_backup_dir = $upload_dir['basedir'] . '/'.AIO_WP_SECURITY_BACKUPS_DIR_NAME;           
+        $aiowps_backup_url = $upload_dir['baseurl'] . '/'.AIO_WP_SECURITY_BACKUPS_DIR_NAME;
+        if (!AIOWPSecurity_Utility_File::create_dir($aiowps_backup_dir))
         {
             $aio_wp_security->debug_logger->log_debug("Creation of DB backup directory failed!",4);
             return false;
@@ -103,12 +106,12 @@ class AIOWPSecurity_Backup
             $file = $random_prefix.'-database-backup-site-name-' . $site_name . '-' . current_time( 'timestamp' );
             
             //We will create a sub dir for the blog using its blog id
-            $dirpath = AIO_WP_SECURITY_BACKUPS_PATH . '/blogid_' . $blog_id . '/';
+            $dirpath = $aiowps_backup_dir . '/blogid_' . $blog_id . '/';
             
             //Create a subdirectory for this blog_id
             if (!AIOWPSecurity_Utility_File::create_dir($dirpath))
             {
-                $aio_wp_security->debug_logger->log_debug("Creation of DB backup directory for the following multisite blog ID: ".$blog_details->blog_id,4);
+                $aio_wp_security->debug_logger->log_debug("Creation failed of DB backup directory for the following multisite blog ID: ".$blog_details->blog_id,4);
                 return false;
             }
             
@@ -116,7 +119,7 @@ class AIOWPSecurity_Backup
         }
         else
         {
-            $dirpath = AIO_WP_SECURITY_BACKUPS_PATH;
+            $dirpath = $aiowps_backup_dir;
             $file = $random_prefix.'-database-backup-' . current_time( 'timestamp' );
             $handle = @fopen( $dirpath . '/' . $file . '.sql', 'w+' );
         }
@@ -147,7 +150,7 @@ class AIOWPSecurity_Backup
         $this->last_backup_file_path = $dirpath . '/' . $file . $fileext;
         if ($is_multi_site)
         {
-            $this->last_backup_file_url_multisite = AIO_WP_SECURITY_URL . '/backups/blogid_' . $blog_id; 
+            $this->last_backup_file_url_multisite = $aiowps_backup_url . '/blogid_' . $blog_id; //AIO_WP_SECURITY_URL . '/backups/blogid_' . $blog_id; 
         }
         
         $this->aiowps_send_backup_email(); //Send backup file via email if applicable
@@ -161,7 +164,7 @@ class AIOWPSecurity_Backup
         if ( $aio_wp_security->configs->get_value('aiowps_send_backup_email_address') == '1' ) 
         {
             //Get the right email address.
-            if ( is_email( $aio_wp_security->configs->get_value('aiowps_send_backup_email_address') ) ) 
+            if ( is_email( $aio_wp_security->configs->get_value('aiowps_backup_email_address') ) ) 
             {
                     $toaddress = $aio_wp_security->configs->get_value('aiowps_backup_email_address');
             } else 

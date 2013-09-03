@@ -28,7 +28,8 @@ class AIOWPSecurity_Configure_Settings
         $aio_wp_security->configs->set_value('aiowps_email_address',$blog_email_address);//text field
         $aio_wp_security->configs->set_value('aiowps_enable_forced_logout','');//Checkbox
         $aio_wp_security->configs->set_value('aiowps_logout_time_period','60');
-        
+        $aio_wp_security->configs->set_value('aiowps_enable_invalid_username_lockdown','');//Checkbox
+
         //DB Security feature
         //$aio_wp_security->configs->set_value('aiowps_new_manual_db_pefix',''); //text field
         $aio_wp_security->configs->set_value('aiowps_enable_random_prefix','');//Checkbox
@@ -79,7 +80,7 @@ class AIOWPSecurity_Configure_Settings
         $aio_wp_security->configs->set_value('aiowps_fcd_exclude_files','');
         $aio_wp_security->configs->set_value('aiowps_send_fcd_scan_email','');//Checkbox
         $aio_wp_security->configs->set_value('aiowps_fcd_scan_email_address',$blog_email_address);
-        $aio_wp_security->configs->set_value('aiowps_fcds_change_detected',FALSE); //used to display a global alert on site when file change detected
+        $aio_wp_security->configs->set_value('aiowps_fcds_change_detected', FALSE); //used to display a global alert on site when file change detected
 
 
         //TODO - keep adding default options for any fields that require it
@@ -110,6 +111,7 @@ class AIOWPSecurity_Configure_Settings
         $aio_wp_security->configs->add_value('aiowps_email_address',$blog_email_address);//text field
         $aio_wp_security->configs->add_value('aiowps_enable_forced_logout','');//Checkbox
         $aio_wp_security->configs->add_value('aiowps_logout_time_period','60');
+        $aio_wp_security->configs->add_value('aiowps_enable_invalid_username_lockdown','');//Checkbox
         
         //DB Security feature
         //$aio_wp_security->configs->add_value('aiowps_new_manual_db_pefix',''); //text field

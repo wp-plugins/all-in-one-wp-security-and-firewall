@@ -202,7 +202,9 @@ class AIOWPSecurity_Database_Menu extends AIOWPSecurity_Admin_Menu
                 }
                 else
                 {
-                    $backup_file_url = AIO_WP_SECURITY_URL . '/backups/'. $backup_file_name;
+                    $upload_dir = wp_upload_dir();
+                    $aiowps_backup_url = $upload_dir['baseurl'] . '/'.AIO_WP_SECURITY_BACKUPS_DIR_NAME;
+                    $backup_file_url = $aiowps_backup_url . '/'. $backup_file_name;
                 }
                 echo '<div id="message" class="updated fade"><p>';
                 _e('DB Backup was successfully completed! Right click on the following file name and save the backup to your computer.','aiowpsecurity');

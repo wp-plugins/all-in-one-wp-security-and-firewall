@@ -259,6 +259,26 @@ class AIOWPSecurity_Dashboard_Menu extends AIOWPSecurity_Admin_Menu
         </div></div>
         </div><!-- aiowps_dashboard_box -->
 
+        <?php
+        if($aio_wp_security->configs->get_value('aiowps_enable_automated_fcd_scan') == '1'){
+      
+        echo '<div class="aiowps_dashboard_box_small">';
+        echo '<div class="postbox">';
+        echo '<h3><label for="title">File Change Detection</label></h3>';
+        echo '<div class="inside">';
+        
+        if($aio_wp_security->configs->get_value('aiowps_fcds_change_detected')){
+            echo '<div class="aio_red_box aio_padding_10">File change detected!</div>';
+            echo '<p>Please review the changes from the <a href="admin.php?page='.AIOWPSEC_FILESCAN_MENU_SLUG.'">scanner menu</a></p>';
+        }
+        else{
+            echo '<div class="aio_green_box aio_padding_10">No recent file changes detected.</div>';
+        }
+        
+        echo '</div></div>';
+        echo '</div>';//<!-- aiowps_dashboard_box -->     
+        } 
+        ?>
         
         <div class="aiowps_dashboard_box_small">
         <div class="postbox">

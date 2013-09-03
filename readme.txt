@@ -4,7 +4,7 @@ Donate link: http://www.tipsandtricks-hq.com
 Tags: security, secure, Anti Virus, antivirus, ban, ban hacker, virus, firewall, login, lockdown, htaccess, hack, malware, vulnerability, protect, protection, phishing, database, backup, plugin, sql injection, ssl, restrict
 Requires at least: 3.5
 Tested up to: 3.6
-Stable tag: 2.3
+Stable tag: 2.4
 License: GPLv3
 
 A comprehensive, user-friendly, all in one WordPress security and firewall plugin for your site.
@@ -45,6 +45,7 @@ via email whenever somebody gets locked out due to too many login attempts.
 * Monitor/View failed login attempts which show the user's IP address, User ID/Username and Date/Time of the failed login attempt
 
 * Monitor/View the account activity of all user accounts on your system by keeping track of the username, IP address, login date/time, and logout date/time.
+* Ability to automatically lockout IP address ranges which attempt to login with an invalid username.
 
 = Database Security =
 * Easily the default WP prefix to a value of your choice with the click of a button.
@@ -135,6 +136,16 @@ http://www.tipsandtricks-hq.com/wordpress-security-and-firewall-plugin
 None
 
 == Changelog ==
+= 2.4 =
+- Added new feature/checkbox which will instantly lockout IP address ranges which attempt to login with an invalid username.
+- Fixed a bug in the Comment SPAM IP Monitoring page where trying to block one or more IPs was failing.
+- Removed the word "config" from the list of bad query strings check (to add compatibility with a few more plugins)
+- Added a notice in the dashboard menu to show you if there are any recent file changes that the plugin detected.
+- Fixed bug with php File Editing feature. Code now also handles older style wp-config.php files which have the php end tag "?>"
+- Fixed bug with "Disable All Security Features" button functionality. When clicked, this will now also make the appropriate changes to the .htacces and wp-config.php files if necessary.
+- Changed the storage of backup files from the plugin's directory to the uploads directory. Also added a .htaccess file for security.
+- Fixed the way user-agent strings were written to the .htacess file from the Blacklist feature. The code now will correctly identify and represent spaces and escaped chars.
+- Fixed a bug related to sending backup to correct email address.
 
 = 2.3 =
 - Added new menu called Scanner with a new feature called File Change Detection. This feature will alert you if any files have changed, added or removed from your system.

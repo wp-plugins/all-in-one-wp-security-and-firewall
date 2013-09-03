@@ -18,12 +18,14 @@ class AIOWPSecurity_Installer
                     AIOWPSecurity_Installer::create_db_tables();
                     AIOWPSecurity_Configure_Settings::add_option_values();
                 }
+                AIOWPSecurity_Installer::create_db_backup_dir(); //Create a backup dir in the WP uploads directory
                 switch_to_blog($old_blog);
                 return;
             }
         }
         AIOWPSecurity_Installer::create_db_tables();
         AIOWPSecurity_Configure_Settings::add_option_values();
+        AIOWPSecurity_Installer::create_db_backup_dir(); //Create a backup dir in the WP uploads directory
     }
     
     static function create_db_tables()
@@ -90,4 +92,30 @@ class AIOWPSecurity_Installer
                 
 	update_option("aiowpsec_db_version", AIO_WP_SECURITY_DB_VERSION);
     }
+    
+    static function create_db_backup_dir()
+    {
+        //Create our folder in the "uploads" directory
+	$upload_dir = wp_upload_dir();
+	$aiowps_dir = $upload_dir['basedir'] . '/'.AIO_WP_SECURITY_BACKUPS_DIR_NAME;           
+        if(!is_dir($aiowps_dir)) {
+            mkdir($aiowps_dir , 0755, true);
+            //Let's also create an empty index.html file in this folder
+            $index_file = $aiowps_dir.'/index.html';
+            $handle = fopen($index_file, 'w'); //or die('Cannot open file:  '.$index_file);
+            fclose($handle);
+            
+            //Create an .htacces file
+            //Write some rules which will only allow people originating from wp admin page to download the DB backup
+            $rules = '';
+            $rules .= '<IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteCond %{HTTP_REFERER} !(wp-admin/admin.php) [NC]
+RewriteRule .* http://127.0.0.1 [L]
+</IfModule>' . PHP_EOL;
+            $file = $aiowps_dir.'/.htaccess';
+            file_put_contents($file, $rules);
+        }
+    }
+
 }

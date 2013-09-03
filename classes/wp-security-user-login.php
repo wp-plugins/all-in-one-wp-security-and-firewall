@@ -36,7 +36,7 @@ class AIOWPSecurity_User_Login
         $user_locked = $this->check_locked_user();
         if ($user_locked != NULL) {
             $aio_wp_security->debug_logger->log_debug("Login attempt from blocked IP range - ".$user_locked['failed_login_ip'],2);
-            return new WP_Error('authentication_failed', __('<strong>ERROR</strong>: Login failed because your IP address has been blocked due to too many failed login attempts.
+            return new WP_Error('authentication_failed', __('<strong>ERROR</strong>: Login failed because your IP address has been blocked.
                                 Please contact the administrator.', 'aiowpsecurity'));
         }
         
@@ -61,7 +61,7 @@ class AIOWPSecurity_User_Login
             $this->increment_failed_logins($username);
             if($aio_wp_security->configs->get_value('aiowps_enable_login_lockdown')=='1')
             {
-                if($login_attempts_permitted <= $this->get_login_fail_count())
+                if($login_attempts_permitted <= $this->get_login_fail_count()  || $aio_wp_security->configs->get_value('aiowps_enable_invalid_username_lockdown')=='1')
                 {
                     $this->lock_the_user($username);
                 }
@@ -160,10 +160,10 @@ class AIOWPSecurity_User_Login
             //If the login attempt was made using a non-existent user then let's set user_id to blank and record the attempted user login name for DB storage later on
             $user_id = '';
         }
-        
+        $ip_range_str = esc_sql($ip_range).'.*';
         $insert = "INSERT INTO " . $login_lockdown_table . " (user_id, user_login, lockdown_date, release_date, failed_login_IP) " .
                         "VALUES ('" . $user_id . "', '" . $username . "', now(), date_add(now(), INTERVAL " .
-                        $lockout_time_length . " MINUTE), '" . esc_sql($ip_range) . "')";
+                        $lockout_time_length . " MINUTE), '" . $ip_range_str . "')";
         $result = $wpdb->query($insert);
         if ($result > 0)
         {
@@ -199,8 +199,9 @@ class AIOWPSecurity_User_Login
             //If the login attempt was made using a non-existent user then let's set user_id to blank and record the attempted user login name for DB storage later on
             $user_id = '';
         }
+        $ip_range_str = esc_sql($ip_range).'.*';
         $insert = "INSERT INTO " . $login_fails_table . " (user_id, user_login, failed_login_date, login_attempt_ip) " .
-                        "VALUES ('" . $user_id . "', '" . $username . "', now(), '" . esc_sql($ip_range) . "')";
+                        "VALUES ('" . $user_id . "', '" . $username . "', now(), '" . $ip_range_str . "')";
         $result = $wpdb->query($insert);
         if ($result == FALSE)
         {
@@ -221,9 +222,9 @@ class AIOWPSecurity_User_Login
         if ($email_notification_enabled == 1)
         {
             $subject = '['.get_option('siteurl').'] '. __('Site Lockout Notification','aiowpsecurity');
-            $email_msg .= __('A lockdown event has occurred due to too many failed login attempts with the following user details','aiowpsecurity')."\n";
+            $email_msg .= __('A lockdown event has occurred due to too many failed login attempts or invalid username:','aiowpsecurity')."\n";
             $email_msg .= __('Username: '.($username?$username:"Unknown"),'aiowpsecurity')."\n";
-            $email_msg .= __('IP Range: '.$ip_range,'aiowpsecurity')."\n\n";
+            $email_msg .= __('IP Range: '.$ip_range.'.*','aiowpsecurity')."\n\n";
             $email_msg .= __('Log into your site\'s WordPress administration panel to see the duration of the lockout or to unlock the user.','aiowpsecurity')."\n";
             $email_header = 'From: '.get_bloginfo( 'name' ).' <'.get_bloginfo('admin_email').'>' . "\r\n\\";
             $sendMail = wp_mail($to_email_address, $subject, $email_msg, $email_header);

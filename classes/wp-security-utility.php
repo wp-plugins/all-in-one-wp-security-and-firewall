@@ -152,4 +152,144 @@ class AIOWPSecurity_Utility
         echo '</div>';
     }
     
+    /*
+     * Modifies the wp-config.php file to disable PHP file editing from the admin panel
+     * This func will add the following code:
+     * define('DISALLOW_FILE_EDIT', false);
+     * 
+     * NOTE: This function will firstly check if the above code already exists and it will modify the bool value, otherwise it will insert the code mentioned above
+     */
+    static function disable_file_edits()
+    {
+        global $aio_wp_security;
+        $edit_file_config_entry_exists = false;
+        
+        //Config file path
+        $config_file = ABSPATH.'wp-config.php';
+
+        //Get wp-config.php file contents so we can check if the "DISALLOW_FILE_EDIT" variable already exists
+        $config_contents = file($config_file);
+
+        foreach ($config_contents as $line_num => $line) 
+        {
+            if (strpos($line, "'DISALLOW_FILE_EDIT', false"))
+            {
+                $config_contents[$line_num] = str_replace('false', 'true', $line);
+                $edit_file_config_entry_exists = true;
+                //$this->show_msg_updated(__('Settings Saved - The ability to edit PHP files via the admin the panel has been DISABLED.', 'aiowpsecurity'));
+            } else if(strpos($line, "'DISALLOW_FILE_EDIT', true"))
+            {
+                $edit_file_config_entry_exists = true;
+                //$this->show_msg_updated(__('Your system config file is already configured to disallow PHP file editing.', 'aiowpsecurity'));
+                return true;
+                
+            }
+	}
+        
+        if ($edit_file_config_entry_exists)
+        {
+            //Now let's modify the wp-config.php file
+            if (AIOWPSecurity_Utility_File::write_content_to_file($config_file, $config_contents))
+            {
+                //$this->show_msg_updated(__('Settings Saved - Your system is now configured to not allow PHP file editing.', 'aiowpsecurity'));
+                return true;
+            }else
+            {
+                //$this->show_msg_error(__('Operation failed! Unable to modify wp-config.php file!', 'aiowpsecurity'));
+                $aio_wp_security->debug_logger->log_debug("Disable PHP File Edit - Unable to modify wp-config.php",4);
+                return false;
+            }
+        }else
+        {
+            //Make a backup of the config file
+            if(!AIOWPSecurity_Utility_File::backup_a_file($config_file))
+            {
+                $this->show_msg_error(__('Failed to make a backup of the wp-config.php file. This operation will not go ahead.', 'aiowpsecurity'));
+                //$aio_wp_security->debug_logger->log_debug("Disable PHP File Edit - Failed to make a backup of the wp-config.php file.",4);
+                return false;
+            }
+            else{
+                //$this->show_msg_updated(__('A backup copy of your wp-config.php file was created successfully....', 'aiowpsecurity'));
+            }
+
+            //Construct the config code which we will insert into wp-config.php
+            $new_snippet = "//Disable File Edits\n";
+            $new_snippet .= 'define(\'DISALLOW_FILE_EDIT\', true);';
+            
+            //Check for php ending tags for cases of wp-config file inherited from older WP systems.
+            $last_line = end($config_contents);
+            if (strrpos($last_line, "?>") !== false)
+            {
+                $fh = fopen($config_file, 'r+');
+                $new_snippet .= '?>';
+                fseek($fh, -2, SEEK_END);
+                $write_result = fwrite($fh, $new_snippet);
+                fclose($fh);
+            }
+            else
+            {
+                $write_result = file_put_contents($config_file, $new_snippet, FILE_APPEND | LOCK_EX);
+            }
+            if ($write_result === false)
+            {
+                return false;
+            }else
+            {
+                return true;
+            }
+        }
+    }
+
+    /*
+     * Modifies the wp-config.php file to allow PHP file editing from the admin panel
+     * This func will modify the following code by replacing "true" with "false":
+     * define('DISALLOW_FILE_EDIT', true);
+     */
+    
+    static function enable_file_edits()
+    {
+        global $aio_wp_security;
+        $edit_file_config_entry_exists = false;
+        
+        //Config file path
+        $config_file = ABSPATH.'wp-config.php';
+
+        //Get wp-config.php file contents
+        $config_contents = file($config_file);
+	foreach ($config_contents as $line_num => $line) 
+        {
+            if (strpos($line, "'DISALLOW_FILE_EDIT', true"))
+            {
+                $config_contents[$line_num] = str_replace('true', 'false', $line);
+                $edit_file_config_entry_exists = true;
+            } else if(strpos($line, "'DISALLOW_FILE_EDIT', false"))
+            {
+                $edit_file_config_entry_exists = true;
+                //$this->show_msg_updated(__('Your system config file is already configured to allow PHP file editing.', 'aiowpsecurity'));
+                return true;
+            }
+        }
+        
+        if (!$edit_file_config_entry_exists)
+        {
+            //if the DISALLOW_FILE_EDIT settings don't exist in wp-config.php then we don't need to do anything
+            //$this->show_msg_updated(__('Your system config file is already configured to allow PHP file editing.', 'aiowpsecurity'));
+            return true;
+        } else
+        {
+            //Now let's modify the wp-config.php file
+            if (AIOWPSecurity_Utility_File::write_content_to_file($config_file, $config_contents))
+            {
+                //$this->show_msg_updated(__('Settings Saved - Your system is now configured to allow PHP file editing.', 'aiowpsecurity'));
+                return true;
+            }else
+            {
+                //$this->show_msg_error(__('Operation failed! Unable to modify wp-config.php file!', 'aiowpsecurity'));
+                //$aio_wp_security->debug_logger->log_debug("Disable PHP File Edit - Unable to modify wp-config.php",4);
+                return false;
+            }
+        }
+    }
+    
+    
 }

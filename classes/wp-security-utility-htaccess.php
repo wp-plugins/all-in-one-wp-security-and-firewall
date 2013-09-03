@@ -338,7 +338,12 @@ class AIOWPSecurity_Utility_Htaccess
                     $count = 1;
                     foreach ( $user_agents as $agent )
                     {
-                        $rules .= "RewriteCond %{HTTP_USER_AGENT} ^" . trim( $agent );
+                        $agent_escaped = quotemeta($agent);
+                        $pattern = '/\s/'; //Find spaces in the string
+                        $replacement = '\s'; //Replace spaces with \s so apache can understand
+                        $agent_sanitized = preg_replace($pattern, $replacement, $agent_escaped);
+                         
+                        $rules .= "RewriteCond %{HTTP_USER_AGENT} ^" . trim( $agent_sanitized );
 			if ( $count < sizeof( $user_agents ) )
                         {
                             $rules .= " [NC,OR]" . PHP_EOL;
@@ -556,7 +561,7 @@ class AIOWPSecurity_Utility_Htaccess
             //$rules .= 'RewriteCond %{QUERY_STRING} ^.*([|]|(|)||\'|"|;|?|*).* [NC,OR]' . PHP_EOL;
             //$rules .= 'RewriteCond %{QUERY_STRING} ^.*(%22|%27|%3C|%3E|%5C|%7B|%7C).* [NC,OR]' . PHP_EOL;
             //$rules .= 'RewriteCond %{QUERY_STRING} ^.*(%0|%A|%B|%C|%D|%E|%F|127.0).* [NC,OR]' . PHP_EOL;
-            $rules .= 'RewriteCond %{QUERY_STRING} ^.*(globals|encode|config|localhost|loopback).* [NC,OR]' . PHP_EOL;
+            $rules .= 'RewriteCond %{QUERY_STRING} ^.*(globals|encode|localhost|loopback).* [NC,OR]' . PHP_EOL;
             $rules .= 'RewriteCond %{QUERY_STRING} (\;|\'|\"|%22).*(request|insert|union|declare|drop) [NC]' . PHP_EOL;
             $rules .= 'RewriteRule ^(.*)$ - [F,L]' . PHP_EOL;
             $rules .= AIOWPSecurity_Utility_Htaccess::$deny_bad_query_strings_marker_end . PHP_EOL; //Add feature marker end

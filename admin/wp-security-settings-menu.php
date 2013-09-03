@@ -78,7 +78,25 @@ class AIOWPSecurity_Settings_Menu extends AIOWPSecurity_Admin_Menu
                 die("Nonce check failed on disable all security features!");
             }
             AIOWPSecurity_Configure_Settings::turn_off_all_security_features();
-            $this->show_msg_updated(__('All the security features have been disabled successfully!', 'aiowpsecurity'));
+            //Now let's clear the applicable rules from the .htaccess file
+            $res = AIOWPSecurity_Utility_Htaccess::write_to_htaccess();
+            
+            //Now let's revert the disable editing setting in the wp-config.php file if necessary
+            $res2 = AIOWPSecurity_Utility::enable_file_edits();
+
+            if ($res)
+            {
+                $this->show_msg_updated(__('All the security features have been disabled successfully!', 'aiowpsecurity'));
+            }
+            else if($res == -1)
+            {
+                $this->show_msg_error(__('Could not write to the .htaccess file. Please restore your .htaccess file manually using the restore functionality in the ".htaccess File".', 'aiowpsecurity'));
+            }
+
+            if(!$res2)
+            {
+                $this->show_msg_error(__('Could not write to the wp-config.php. Please restore your wp-config.php file manually using the restore functionality in the "wp-config.php File".', 'aiowpsecurity'));
+            }
         }
         ?>
         <div class="aio_grey_box">

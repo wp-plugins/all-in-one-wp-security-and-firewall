@@ -204,6 +204,16 @@ class AIOWPSecurity_Filescan_Menu extends AIOWPSecurity_Admin_Menu
 
         
         ?>
+        <div class="aio_blue_box">
+            <?php
+            echo '<p>'.__('If given an opportunity hackers can insert their code or files into your system which they can then use to carry out malicious acts on your site.', 'aiowpsecurity').
+            '<br />'.__('Being informed of any changes in your files can be a good way to quickly prevent a hacker from causing damage to your website.', 'aiowpsecurity').
+            '<br />'.__('In general, WordPress core and plugin files and file types such as ".php" or ".js" should not change often and when they do, it is important that you are made aware when a change occurs and which file was affected.', 'aiowpsecurity').
+            '<br />'.__('The "File Change Detection Feature" will notify you of any file change which occurs on your system, including the addition and deletion of files by performing a regular automated or manual scan of your system\'s files.', 'aiowpsecurity').
+            '<br />'.__('This feature also allows you to exclude certain files or folders from the scan in cases where you know that they change often as part of their normal operation. (For example log files and certain caching plugin files may change often and hence you may choose to exclude such files from the file change detection scan)', 'aiowpsecurity').'</p>';
+            ?>
+        </div>
+
         <div class="postbox">
         <h3><label for="title"><?php _e('Manual File Change Detection Scan', 'aiowpsecurity'); ?></label></h3>
         <div class="inside">

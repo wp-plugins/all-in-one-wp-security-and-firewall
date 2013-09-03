@@ -217,7 +217,7 @@ class AIOWPSecurity_Blacklist_Menu extends AIOWPSecurity_Admin_Menu
         {
             foreach ($submitted_agents as $agent)
             {
-                $text = quotemeta(sanitize_text_field($agent));
+                $text = sanitize_text_field($agent);
                 $agents[] = $text;
             }
         }

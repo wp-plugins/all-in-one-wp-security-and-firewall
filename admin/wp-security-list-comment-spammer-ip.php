@@ -26,7 +26,7 @@ class AIOWPSecurity_List_Comment_Spammer_IP extends AIOWPSecurity_List_Table {
             $actions = array(); //blank array
         }else{
             $actions = array(
-                'block' => sprintf('<a href="admin.php?page=%s&tab=%s&action=%s&spammer_ip=%s" onclick="return confirm(\'Are you sure you want to add this IP address to your blacklist?\')">Block</a>',AIOWPSEC_BLACKLIST_MENU_SLUG,$tab,'block_spammer_ip',$item['comment_author_IP']),
+                'block' => sprintf('<a href="admin.php?page=%s&tab=%s&action=%s&spammer_ip=%s" onclick="return confirm(\'Are you sure you want to add this IP address to your blacklist?\')">Block</a>',AIOWPSEC_SPAM_MENU_SLUG,$tab,'block_spammer_ip',$item['comment_author_IP']),
             );
         }
         
