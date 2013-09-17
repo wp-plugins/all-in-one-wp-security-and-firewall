@@ -51,7 +51,7 @@
     border-radius: 3px 3px 3px 3px;
     border-style: solid;
     border-width: 1px;   
-    padding: 0 0 0 1em;
+    padding: 0 1em 0 1em;
 }
 
 .aio_red_box {
@@ -62,7 +62,7 @@
     border-radius: 3px 3px 3px 3px;
     border-style: solid;
     border-width: 1px;   
-    padding: 0 0 0 1em; 
+    padding: 0 1em 0 1em; 
 }
 
 .aio_success_with_icon {
@@ -148,6 +148,9 @@
     border-style: solid;
     border-width: 1px;   
     padding: 0 0 0 1em;
+}
+
+.aiowps_spread_the_word_widget{
 }
 
 .aiowps_dashboard_box_small{

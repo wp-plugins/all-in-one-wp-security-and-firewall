@@ -3,7 +3,7 @@
 if (!class_exists('AIO_WP_Security')){
 
 class AIO_WP_Security{
-    var $version = '2.4';
+    var $version = '2.5';
     var $db_version = '1.3';
     var $plugin_url;
     var $plugin_path;
@@ -125,8 +125,18 @@ class AIO_WP_Security{
     static function deactivate_handler()
     {
         //Only runs with the pluign is deactivated
+        include_once ('classes/wp-security-deactivation-tasks.php');
+        //AIOWPSecurity_Deactivation::run_deactivation_tasks();
         wp_clear_scheduled_hook('aiowps_hourly_cron_event');
         //wp_clear_scheduled_hook('aiowps_daily_cron_event');
+        if (AIOWPSecurity_Utility::is_multisite_install())
+        {
+            delete_site_transient('users_online');
+        }
+        else
+        {
+            delete_transient('users_online');
+        }
     }
     
     function db_upgrade_handler()

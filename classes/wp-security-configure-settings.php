@@ -60,7 +60,6 @@ class AIOWPSecurity_Configure_Settings
         $aio_wp_security->configs->set_value('aiowps_enable_brute_force_attack_prevention','');//Checkbox
         $aio_wp_security->configs->set_value('aiowps_brute_force_secret_word','');
         $aio_wp_security->configs->set_value('aiowps_cookie_based_brute_force_redirect_url','http://127.0.0.1');
-        $aio_wp_security->configs->set_value('aiowps_enable_brute_force_attack_prevention','');//Checkbox
         $aio_wp_security->configs->set_value('aiowps_brute_force_attack_prevention_pw_protected_exception','');//Checkbox
         $aio_wp_security->configs->set_value('aiowps_brute_force_attack_prevention_ajax_exception','');//Checkbox
 
@@ -176,6 +175,28 @@ class AIOWPSecurity_Configure_Settings
         AIOWPSecurity_Configure_Settings::set_default_settings();
     }
     
+    static function turn_off_all_firewall_rules()
+    {
+        global $aio_wp_security;
+        $aio_wp_security->configs->set_value('aiowps_enable_blacklisting','');//Checkbox
+        
+        $aio_wp_security->configs->set_value('aiowps_enable_basic_firewall','');//Checkbox
+        $aio_wp_security->configs->set_value('aiowps_enable_pingback_firewall','');//Checkbox
+        $aio_wp_security->configs->set_value('aiowps_disable_index_views','');//Checkbox
+        $aio_wp_security->configs->set_value('aiowps_disable_trace_and_track','');//Checkbox
+        $aio_wp_security->configs->set_value('aiowps_forbid_proxy_comments','');//Checkbox
+        $aio_wp_security->configs->set_value('aiowps_deny_bad_query_strings','');//Checkbox
+        $aio_wp_security->configs->set_value('aiowps_advanced_char_string_filter','');//Checkbox
+        $aio_wp_security->configs->set_value('aiowps_enable_5g_firewall','');//Checkbox
+        $aio_wp_security->configs->set_value('aiowps_enable_brute_force_attack_prevention','');//Checkbox
+
+        $aio_wp_security->configs->set_value('aiowps_prevent_default_wp_file_access','');//Checkbox
+        
+        $aio_wp_security->configs->set_value('aiowps_enable_spambot_blocking','');//Checkbox
+        
+        $aio_wp_security->configs->save_config();
+    }
+
     static function restore_to_factory_default()
     {
         //TOOD - complete the implementation

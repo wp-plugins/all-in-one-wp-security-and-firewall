@@ -282,6 +282,55 @@ class AIOWPSecurity_Dashboard_Menu extends AIOWPSecurity_Admin_Menu
         
         <div class="aiowps_dashboard_box_small">
         <div class="postbox">
+        <h3><label for="title">Logged In Users</label></h3>
+        <div class="inside">        
+        <?php
+        $users_online_link = '<a href="admin.php?page='.AIOWPSEC_USER_LOGIN_MENU_SLUG.'&tab=tab5">Logged In Users</a>';
+        if (AIOWPSecurity_Utility::is_multisite_install())
+        {
+            $logged_in_users = get_site_transient('users_online');
+            $num_users = count($logged_in_users);
+            if($num_users > 1)
+            {
+                echo '<div class="aio_red_box"><p>'.__('Number of users currently logged in site-wide is:','aiowpsecurity').' <strong>'.$num_users.'</strong></p>';
+                $info_msg = '<p>'.sprintf( __('Go to the %s menu to see more details', 'aiowpsecurity'), $users_online_link).'</p>';
+                echo $info_msg.'</div>';
+            }
+            else
+            {
+                echo '<div class="aio_green_box"><p>'.__('There are no other site-wide users currently logged in.','aiowpsecurity').'</p></div>';
+            }
+        }
+        else
+        {
+            $logged_in_users = get_transient('users_online');
+            if ($logged_in_users === false || $logged_in_users == NULL)
+            {
+                $num_users = 0;
+            }
+            else
+            {
+                $num_users = count($logged_in_users);
+            }
+            if($num_users > 1)
+            {
+                echo '<div class="aio_red_box"><p>'.__('Number of users currently logged into your site is:','aiowpsecurity').' <strong>'.$num_users.'</strong></p>';
+                $info_msg = '<p>'.sprintf( __('Go to the %s menu to see more details', 'aiowpsecurity'), $users_online_link).'</p>';
+                echo $info_msg.'</div>';
+            }
+            else
+            {
+                echo '<div class="aio_green_box"><p>'.__('There are no other users currently logged in.','aiowpsecurity').'</p></div>';
+            }
+        }
+        ?>
+        </div></div>
+        </div><!-- aiowps_dashboard_box -->
+        
+        <div class="aio_clear_float"></div>
+        
+        <div class="aiowps_dashboard_box_small aiowps_spread_the_word_widget">
+        <div class="postbox">
         <h3><label for="title">Spread the Word</label></h3>
         <div class="inside">
         

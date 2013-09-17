@@ -98,6 +98,28 @@ class AIOWPSecurity_Settings_Menu extends AIOWPSecurity_Admin_Menu
                 $this->show_msg_error(__('Could not write to the wp-config.php. Please restore your wp-config.php file manually using the restore functionality in the "wp-config.php File".', 'aiowpsecurity'));
             }
         }
+
+        if(isset($_POST['aiowpsec_disable_all_firewall_rules']))//Do form submission tasks
+        {
+            $nonce=$_REQUEST['_wpnonce'];
+            if (!wp_verify_nonce($nonce, 'aiowpsec-disable-all-firewall-rules'))
+            {
+                $aio_wp_security->debug_logger->log_debug("Nonce check failed on disable all firewall rules!",4);
+                die("Nonce check failed on disable all firewall rules!");
+            }
+            AIOWPSecurity_Configure_Settings::turn_off_all_firewall_rules();
+            //Now let's clear the applicable rules from the .htaccess file
+            $res = AIOWPSecurity_Utility_Htaccess::write_to_htaccess();
+            
+            if ($res)
+            {
+                $this->show_msg_updated(__('All firewall rules have been disabled successfully!', 'aiowpsecurity'));
+            }
+            else if($res == -1)
+            {
+                $this->show_msg_error(__('Could not write to the .htaccess file. Please restore your .htaccess file manually using the restore functionality in the ".htaccess File".', 'aiowpsecurity'));
+            }
+        }
         ?>
         <div class="aio_grey_box">
  	<p>For information, updates and documentation, please visit the <a href="http://www.tipsandtricks-hq.com/wordpress-security-and-firewall-plugin" target="_blank">AIO WP Security & Firewall Plugin</a> Page.</p>
@@ -130,7 +152,23 @@ class AIOWPSecurity_Settings_Menu extends AIOWPSecurity_Admin_Menu
             ?>
         </div>      
         <div class="submit">
-            <input type="submit" name="aiowpsec_disable_all_features" value="<?php _e('Disable All Security Features'); ?>" />
+            <input type="submit" class="button" name="aiowpsec_disable_all_features" value="<?php _e('Disable All Security Features'); ?>" />
+        </div>
+        </form>   
+        </div></div>
+
+        <div class="postbox">
+        <h3><label for="title"><?php _e('Disable All Firewall Rules', 'aiowpsecurity'); ?></label></h3>
+        <div class="inside">
+        <form method="post" action="<?php echo $_SERVER["REQUEST_URI"]; ?>">
+        <?php wp_nonce_field('aiowpsec-disable-all-firewall-rules'); ?>
+        <div class="aio_blue_box">
+            <?php
+            echo '<p>'.__('This feature will disable all firewall rules which are currently active in this plugin and it will also delete these rules from your .htacess file. Use it if you think one of the firewall rules is causing an issue on your site.', 'aiowpsecurity').'</p>';
+            ?>
+        </div>      
+        <div class="submit">
+            <input type="submit" class="button" name="aiowpsec_disable_all_firewall_rules" value="<?php _e('Disable All Firewall Rules'); ?>" />
         </div>
         </form>   
         </div></div>

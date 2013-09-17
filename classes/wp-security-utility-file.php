@@ -51,7 +51,35 @@ class AIOWPSecurity_Utility_File
             return false;
         }
         return true;
-    } 
+    }
+    
+    //Function which reads entire contents of a file and stores serialized contents into our global_meta table
+    static function backup_file_contents_to_db($src_file_path, $key_description)
+    {
+        global $wpdb, $aio_wp_security;
+        $file_contents = AIOWPSecurity_Utility_File::get_file_contents($src_file_path);
+        
+        $payload = serialize($file_contents);
+        $date_time = current_time('mysql');
+        $data = array('date_time' => $date_time, 'meta_key1' => $key_description, 'meta_value2' => $payload);
+
+        //First check if a backup entry already exists in the global_meta table
+        $aiowps_global_meta_tbl_name = AIOWPSEC_TBL_GLOBAL_META_DATA;
+        $resultset = $wpdb->get_row("SELECT * FROM $aiowps_global_meta_tbl_name WHERE meta_key1 = '$key_description'", OBJECT);
+        if($resultset){
+            $where = array('meta_key1' => $key_description);
+            $res = $wpdb->update($aiowps_global_meta_tbl_name, $data, $where);
+        }else{
+            $res = $wpdb->insert($aiowps_global_meta_tbl_name, $data);
+        }
+
+        if($res === false)
+        {
+            $aio_wp_security->debug_logger->log_debug("AIOWPSecurity_Utility_File::backup_file_contents_to_db() - Unable to write entry to DB",4);
+        }
+        return;
+    }
+    
     
     static function recursive_file_search($pattern='*', $flags = 0, $path='')
     {

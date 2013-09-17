@@ -9,13 +9,16 @@ class AIOWPSecurity_User_Login_Menu extends AIOWPSecurity_Admin_Menu
         'tab1' => 'Login Lockdown', 
         'tab2' => 'Failed Login Records',
         'tab3' => 'Force Logout',
-        'tab4' => 'Account Activity',
+        'tab4' => 'Account Activity Logs',
+        'tab5' => 'Logged In Users',
+
         );
     var $menu_tabs_handler = array(
         'tab1' => 'render_tab1', 
         'tab2' => 'render_tab2',
         'tab3' => 'render_tab3',
         'tab4' => 'render_tab4',
+        'tab5' => 'render_tab5',
         );
     
     function __construct() 
@@ -393,7 +396,6 @@ class AIOWPSecurity_User_Login_Menu extends AIOWPSecurity_Admin_Menu
     
     function render_tab4()
     {
-        //TODO - needs completing...
         include_once 'wp-security-list-acct-activity.php'; //For rendering the AIOWPSecurity_List_Table in tab4
         $acct_activity_list = new AIOWPSecurity_List_Account_Activity(); //For rendering the AIOWPSecurity_List_Table in tab2
         if(isset($_REQUEST['action'])) //Do row action tasks for list table form for login activity display
@@ -429,6 +431,67 @@ class AIOWPSecurity_User_Login_Menu extends AIOWPSecurity_Admin_Menu
         <?php
     }
     
+    function render_tab5()
+    {
+        $logged_in_users = (AIOWPSecurity_Utility::is_multisite_install() ? get_site_transient('users_online') : get_transient('users_online'));
+        
+        global $aio_wp_security;
+        include_once 'wp-security-list-logged-in-users.php'; //For rendering the AIOWPSecurity_List_Table
+        $user_list = new AIOWPSecurity_List_Logged_In_Users();
+        
+        if (isset($_POST['aiowps_refresh_logged_in_user_list']))
+        {
+            $nonce=$_REQUEST['_wpnonce'];
+            if (!wp_verify_nonce($nonce, 'aiowpsec-logged-in-users-nonce'))
+            {
+                $aio_wp_security->debug_logger->log_debug("Nonce check failed for users logged in list!",4);
+                die(__('Nonce check failed for users logged in list!','aiowpsecurity'));
+            }
+            
+            $user_list->prepare_items();
+        
+//        if(isset($_REQUEST['action'])) //Do list table form row action tasks
+//        {
+            //no actions for now
+//        }
+        }
+
+        ?>
+        <div class="postbox">
+        <h3><label for="title"><?php _e('Refresh Logged In User Data', 'aiowpsecurity'); ?></label></h3>
+        <div class="inside">
+        <form action="" method="POST">
+        <?php wp_nonce_field('aiowpsec-logged-in-users-nonce'); ?>
+        <input type="submit" name="aiowps_refresh_logged_in_user_list" value="<?php _e('Refresh Data', 'aiowpsecurity')?>" class="button-primary" />
+        </form>
+        </div></div>
+        
+        <div class="aio_blue_box">
+            <?php
+            echo '<p>'.__('This tab displays all users who are currently logged into your site.', 'aiowpsecurity').'
+                <br />'.__('If you suspect there is a user or users who are logged in which should not be, you can block them by inspecting the IP addresses from the data below and adding them to your blacklist.', 'aiowpsecurity').'
+            </p>';
+            ?>
+        </div>
+        <div class="postbox">
+        <h3><label for="title"><?php _e('Currently Logged In Users', 'aiowpsecurity'); ?></label></h3>
+        <div class="inside">
+            <?php
+            //Fetch, prepare, sort, and filter our data...
+            $user_list->prepare_items();
+            //echo "put table of locked entries here"; 
+            ?>
+            <form id="tables-filter" method="get" onSubmit="return confirm('Are you sure you want to perform this bulk operation on the selected entries?');">
+            <!-- For plugins, we also need to ensure that the form posts back to our current page -->
+            <input type="hidden" name="page" value="<?php echo $_REQUEST['page']; ?>" />
+            <input type="hidden" name="tab" value="<?php echo $_REQUEST['tab']; ?>" />
+            <!-- Now we can render the completed list table -->
+            <?php $user_list->display(); ?>
+            </form>
+        </div></div>
+        <?php
+
+    }
 
     /*
      * This function will unlock an IP range by modifying the "release_date" column of a record in the "login_lockdown" table

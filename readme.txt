@@ -3,8 +3,8 @@ Contributors: Tips and Tricks HQ, wpsolutions, Peter Petreski, Ruhul Amin
 Donate link: http://www.tipsandtricks-hq.com
 Tags: security, secure, Anti Virus, antivirus, ban, ban hacker, virus, firewall, login, lockdown, htaccess, hack, malware, vulnerability, protect, protection, phishing, database, backup, plugin, sql injection, ssl, restrict
 Requires at least: 3.5
-Tested up to: 3.6
-Stable tag: 2.4
+Tested up to: 3.6.1
+Stable tag: 2.5
 License: GPLv3
 
 A comprehensive, user-friendly, all in one WordPress security and firewall plugin for your site.
@@ -46,6 +46,7 @@ via email whenever somebody gets locked out due to too many login attempts.
 
 * Monitor/View the account activity of all user accounts on your system by keeping track of the username, IP address, login date/time, and logout date/time.
 * Ability to automatically lockout IP address ranges which attempt to login with an invalid username.
+* Ability to see a list of all the users who are currently logged into your site.
 
 = Database Security =
 * Easily the default WP prefix to a value of your choice with the click of a button.
@@ -136,6 +137,12 @@ http://www.tipsandtricks-hq.com/wordpress-security-and-firewall-plugin
 None
 
 == Changelog ==
+
+= 2.5 =
+- Added a new feature which will list the currently logged in users who have been active within the last 15 minutes.
+- Added a new feature in settings menu which will disable all firewall rules and clear all applicable directives in the .htaccess file.
+- Improved the way the wp-config.php file is handled when it contains an ending PHP tag "?>" (older sites that were using PHP4 earlier).
+
 = 2.4 =
 - Added new feature/checkbox which will instantly lockout IP address ranges which attempt to login with an invalid username.
 - Fixed a bug in the Comment SPAM IP Monitoring page where trying to block one or more IPs was failing.
