@@ -43,6 +43,8 @@ class AIOWPSecurity_Utility_Htaccess
     public static $block_spambots_marker_start = '#AIOWPS_BLOCK_SPAMBOTS_START';
     public static $block_spambots_marker_end = '#AIOWPS_BLOCK_SPAMBOTS_END';
 
+    public static $enable_login_whitelist_marker_start = '#AIOWPS_LOGIN_WHITELIST_START';
+    public static $enable_login_whitelist_marker_end = '#AIOWPS_LOGIN_WHITELIST_END';
     // TODO - enter more markers as new .htaccess features are added
     
     function __construct(){
@@ -73,16 +75,19 @@ class AIOWPSecurity_Utility_Htaccess
     }
     
     static function write_to_htaccess()
-    {   
+    {
+       global $aio_wp_security;
         //figure out what server is being used
         if (AIOWPSecurity_Utility_Htaccess::get_server_type() == -1) 
         {
+            $aio_wp_security->debug_logger->log_debug("Unable to write to .htaccess - server type not supported!",4);
             return -1; //unable to write to the file
         }
 
         //clean up old rules first
         if (AIOWPSecurity_Utility_Htaccess::delete_from_htaccess() == -1) 
         {
+            $aio_wp_security->debug_logger->log_debug("Delete operation of .htaccess file failed!",4);
             return -1; //unable to write to the file
         }
 
@@ -103,6 +108,7 @@ class AIOWPSecurity_Utility_Htaccess
             @chmod( $htaccess, 0644 );
             if (!$f = @fopen( $htaccess, 'a+')) 
             {
+                $aio_wp_security->debug_logger->log_debug("chmod operation on .htaccess failed!",4);
                 return -1;
             }					
         }
@@ -113,6 +119,7 @@ class AIOWPSecurity_Utility_Htaccess
         $rules = AIOWPSecurity_Utility_Htaccess::getrules();
         if ($rules == -1)
         {
+            $aio_wp_security->debug_logger->log_debug("Unable to retrieve rules in .htaccess file!",4);
             return -1;
         }
         
@@ -121,6 +128,7 @@ class AIOWPSecurity_Utility_Htaccess
         
         if (!$f = @fopen($htaccess, 'w+')) 
         {
+            $aio_wp_security->debug_logger->log_debug("Write operation on .htaccess failed!",4);
             return -1; //we can't write to the file
         }
         
@@ -211,6 +219,7 @@ class AIOWPSecurity_Utility_Htaccess
         $rules .= AIOWPSecurity_Utility_Htaccess::getrules_5g_blacklist();
         $rules .= AIOWPSecurity_Utility_Htaccess::getrules_enable_brute_force_prevention();
         $rules .= AIOWPSecurity_Utility_Htaccess::getrules_block_spambots();
+        $rules .= AIOWPSecurity_Utility_Htaccess::getrules_enable_login_whitelist();
         //TODO: The following utility functions are ready to use when we write the menu pages for these features
 
         //Add more functions for features as needed
@@ -472,6 +481,79 @@ class AIOWPSecurity_Utility_Htaccess
 	return $rules;
     }
 
+
+    /*
+     * This function will write some directives to allow IPs in the whitelist to access login.php
+     */
+    static function getrules_enable_login_whitelist()  
+    {
+        global $aio_wp_security;
+        $rules = '';
+        
+        if($aio_wp_security->configs->get_value('aiowps_enable_whitelisting')=='1') 
+        {
+            $site_url = AIOWPSEC_WP_URL;
+            $parse_url = parse_url($site_url);
+            $hostname = $parse_url['host'];
+            $host_ip = gethostbyname($hostname);
+            $rules .= AIOWPSecurity_Utility_Htaccess::$enable_login_whitelist_marker_start . PHP_EOL; //Add feature marker start
+            $rules .= '<FilesMatch "^(wp-login\.php)">' . PHP_EOL;
+            $rules .= 'Order Allow,Deny'. PHP_EOL;
+            $rules .= 'Allow from '.$hostname.PHP_EOL;
+            $rules .= 'Allow from '.$host_ip. PHP_EOL;
+            
+            //Let's get list of whitelisted IPs
+            $hosts = explode(PHP_EOL, $aio_wp_security->configs->get_value('aiowps_allowed_ip_addresses'));
+            if (!empty($hosts) && !(sizeof($hosts) == 1 && trim($hosts[0]) == ''))
+            {
+                $phosts = array();
+                foreach ($hosts as $host)
+                {
+                    $host = trim($host);
+                    if (!in_array($host, $phosts))
+                    {
+                        if (strstr($host, '*'))
+                        {
+                            $parts = array_reverse (explode('.', $host));
+                            $netmask = 32;
+                            foreach ($parts as $part)
+                            {
+                                if (strstr(trim($part), '*'))
+                                {
+                                    $netmask = $netmask - 8;
+									
+                                }
+                            }
+                            $dhost = trim( str_replace('*', '0', implode( '.', array_reverse( $parts ) ) ) . '/' . $netmask );
+                            if (strlen($dhost) > 4)
+                            {
+                                $trule = "Allow from " . $dhost . PHP_EOL;
+                                if (trim($trule) != 'Allow from')
+                                {
+                                    $rules .= $trule;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            $dhost = trim( $host );
+                            if (strlen($dhost) > 4)
+                            {
+                                $rules .= "Allow from " . $dhost . PHP_EOL;
+                            }
+                        }
+                    }
+                    $phosts[] = $host;
+                }
+            }
+            
+//            $rules .= 'Allow from '.$white_ip. PHP_EOL;
+            $rules .= '</FilesMatch>' . PHP_EOL;
+            $rules .= AIOWPSecurity_Utility_Htaccess::$enable_login_whitelist_marker_end . PHP_EOL; //Add feature marker end
+        }
+        
+	return $rules;
+    }
 
     /*
      * This function will disable directory listings for all directories, add this line to the

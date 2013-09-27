@@ -3,7 +3,7 @@ class AIOWPSecurity_Backup
 {
     var $last_backup_file_name;//Stores the name of the last backup file when execute_backup function is called
     var $last_backup_file_path;
-    var $last_backup_file_url_multisite;
+    var $last_backup_file_dir_multisite;
     
     function __construct() 
     {
@@ -73,9 +73,9 @@ class AIOWPSecurity_Backup
         $return .= PHP_EOL . PHP_EOL;
 
         //Check to see if the main "backups" directory exists - create it otherwise
-        $upload_dir = wp_upload_dir();
-	$aiowps_backup_dir = $upload_dir['basedir'] . '/'.AIO_WP_SECURITY_BACKUPS_DIR_NAME;           
-        $aiowps_backup_url = $upload_dir['baseurl'] . '/'.AIO_WP_SECURITY_BACKUPS_DIR_NAME;
+        
+        $aiowps_backup_dir = WP_CONTENT_DIR.'/'.AIO_WP_SECURITY_BACKUPS_DIR_NAME;
+        $aiowps_backup_url = content_url().'/'.AIO_WP_SECURITY_BACKUPS_DIR_NAME;
         if (!AIOWPSecurity_Utility_File::create_dir($aiowps_backup_dir))
         {
             $aio_wp_security->debug_logger->log_debug("Creation of DB backup directory failed!",4);
@@ -150,7 +150,7 @@ class AIOWPSecurity_Backup
         $this->last_backup_file_path = $dirpath . '/' . $file . $fileext;
         if ($is_multi_site)
         {
-            $this->last_backup_file_url_multisite = $aiowps_backup_url . '/blogid_' . $blog_id; //AIO_WP_SECURITY_URL . '/backups/blogid_' . $blog_id; 
+            $this->last_backup_file_dir_multisite = $aiowps_backup_dir . '/blogid_' . $blog_id; 
         }
         
         $this->aiowps_send_backup_email(); //Send backup file via email if applicable

@@ -3,7 +3,7 @@
 if (!class_exists('AIO_WP_Security')){
 
 class AIO_WP_Security{
-    var $version = '2.5';
+    var $version = '2.6';
     var $db_version = '1.3';
     var $plugin_url;
     var $plugin_path;
@@ -162,7 +162,7 @@ class AIO_WP_Security{
     function wp_security_plugin_init()
     {
         //Set up localisation
-	load_plugin_textdomain('aiowpsecurity', false, AIO_WP_SECURITY_PATH . "/languages" );
+	load_plugin_textdomain('aiowpsecurity', false, dirname(plugin_basename(__FILE__ )) . '/languages/');
 
         //Actions, filters, shortcodes goes here       
         $this->user_login_obj = new AIOWPSecurity_User_Login();//Do the user login operation tasks

@@ -84,7 +84,7 @@ class AIOWPSecurity_Blacklist_Menu extends AIOWPSecurity_Admin_Menu
                 {
                     $ip_addresses = $_POST['aiowps_banned_ip_addresses'];
                     $ip_list_array = AIOWPSecurity_Utility_IP::create_ip_list_array_from_string_with_newline($ip_addresses);
-                    $payload = AIOWPSecurity_Utility_IP::validate_ip_list($ip_list_array);
+                    $payload = AIOWPSecurity_Utility_IP::validate_ip_list($ip_list_array, 'blacklist');
                     if($payload[0] == 1){
                         //success case
                         $result = 1;

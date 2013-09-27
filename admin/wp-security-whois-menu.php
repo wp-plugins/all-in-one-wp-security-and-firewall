@@ -76,7 +76,6 @@ class AIOWPSecurity_WhoIs_Menu extends AIOWPSecurity_Admin_Menu
         <div class="postbox">
         <h3><label for="title"><?php _e('Perform a WHOIS Lookup for an IP or Domain Name', 'aiowpsecurity'); ?></label></h3>
         <div class="inside">
-            <p>Please click the button below to view the latest system logs:</p>
             <form action="" method="POST">
                 <?php wp_nonce_field('aiowpsec-whois-lookup-nonce'); ?>
                 <table class="form-table">

@@ -168,7 +168,7 @@ class AIOWPSecurity_User_Login
         if ($result > 0)
         {
             do_action('aiowps_lockdown_event', $ip_range, $username);
-            $this->send_notification_email($username, $ip_range);
+            $this->send_ip_lock_notification_email($username, $ip_range, $ip);
             $aio_wp_security->debug_logger->log_debug("The following IP address range has been locked out for exceeding the maximum login attempts: ".$ip_range,2);//Log the lockdown event
         }
         else if ($result == FALSE)
@@ -213,7 +213,7 @@ class AIOWPSecurity_User_Login
     /*
      * This function queries the aiowps_failed_logins table and returns the number of failures for current IP range within allowed failure period
      */
-    function send_notification_email($username, $ip_range)
+    function send_ip_lock_notification_email($username, $ip_range, $ip)
     {
         global $aio_wp_security;
         $email_notification_enabled = $aio_wp_security->configs->get_value('aiowps_enable_email_notify');
@@ -224,6 +224,7 @@ class AIOWPSecurity_User_Login
             $subject = '['.get_option('siteurl').'] '. __('Site Lockout Notification','aiowpsecurity');
             $email_msg .= __('A lockdown event has occurred due to too many failed login attempts or invalid username:','aiowpsecurity')."\n";
             $email_msg .= __('Username: '.($username?$username:"Unknown"),'aiowpsecurity')."\n";
+            $email_msg .= __('IP Address: '.$ip,'aiowpsecurity')."\n\n";
             $email_msg .= __('IP Range: '.$ip_range.'.*','aiowpsecurity')."\n\n";
             $email_msg .= __('Log into your site\'s WordPress administration panel to see the duration of the lockout or to unlock the user.','aiowpsecurity')."\n";
             $email_header = 'From: '.get_bloginfo( 'name' ).' <'.get_bloginfo('admin_email').'>' . "\r\n\\";

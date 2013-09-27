@@ -312,13 +312,14 @@ class AIOWPSecurity_Filescan_Menu extends AIOWPSecurity_Admin_Menu
      */
     function display_last_scan_results()
     {
-        global $wpdb;
+        global $wpdb, $aio_wp_security;
         //Let's get the results array from the DB
         $query = "SELECT * FROM ".AIOWPSEC_TBL_GLOBAL_META_DATA." WHERE meta_key1='file_change_detection'";
         $scan_db_data = $wpdb->get_row($query, ARRAY_A);
         if ($scan_db_data === NULL)
         {
             //TODO: Failure scenario
+            $aio_wp_security->debug_logger->log_debug("display_last_scan_results() - DB query for scan results data from global meta table returned NULL!",4);
             return;
         }
         $date_last_scan = $scan_db_data['date_time'];

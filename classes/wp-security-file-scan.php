@@ -25,7 +25,7 @@ class AIOWPSecurity_Filescan
                 //This means there was a change detected
                 $aio_wp_security->configs->set_value('aiowps_fcds_change_detected', TRUE);
                 $aio_wp_security->configs->save_config();
-                $aio_wp_security->debug_logger->log_debug_cron("File Change Detection Feature: change to filesystem detected!");
+                $aio_wp_security->debug_logger->log_debug("File Change Detection Feature: change to filesystem detected!");
                 
                 $this->aiowps_send_file_change_alert_email(); //Send file change scan results via email if applicable
             }
@@ -134,7 +134,7 @@ class AIOWPSecurity_Filescan
     function get_last_scan_data()
     {
         global $wpdb;
-        //For scanced data the meta_key1 column valu is 'file_change_detection', meta_value1 column value is 'file_scan_data'. Then the data is stored in meta_value4 column.
+        //For scanned data the meta_key1 column valu is 'file_change_detection', meta_value1 column value is 'file_scan_data'. Then the data is stored in meta_value4 column.
         $aiowps_global_meta_tbl_name = AIOWPSEC_TBL_GLOBAL_META_DATA;
         $resultset = $wpdb->get_row("SELECT * FROM $aiowps_global_meta_tbl_name WHERE meta_key1 = 'file_change_detection' AND meta_value1='file_scan_data'", OBJECT);
         if($resultset){
@@ -146,22 +146,28 @@ class AIOWPSecurity_Filescan
     
     function save_scan_data_to_db($scanned_data, $save_type = 'insert', $scan_result = array())
     {
-        global $wpdb;
-        //For scanced data the meta_key1 column valu is 'file_change_detection', meta_value1 column value is 'file_scan_data'. Then the data is stored in meta_value4 column.
+        global $wpdb, $aio_wp_security;
+        $result = '';
+        //For scanned data the meta_key1 column value is 'file_change_detection', meta_value1 column value is 'file_scan_data'. Then the data is stored in meta_value4 column.
         $aiowps_global_meta_tbl_name = AIOWPSEC_TBL_GLOBAL_META_DATA;
         $payload = serialize($scanned_data);
         $scan_result = serialize($scan_result);
         $date_time = current_time('mysql');
         $data = array('date_time' => $date_time, 'meta_key1' => 'file_change_detection', 'meta_value1' => 'file_scan_data', 'meta_value4' => $payload, 'meta_key5' => 'last_scan_result', 'meta_value5' => $scan_result);
         if($save_type == 'insert'){
-            $wpdb->insert($aiowps_global_meta_tbl_name, $data);
+            $result = $wpdb->insert($aiowps_global_meta_tbl_name, $data);
         }
         else{
             $where = array('meta_key1' => 'file_change_detection', 'meta_value1' => 'file_scan_data');
-            $wpdb->update($aiowps_global_meta_tbl_name, $data, $where);
+            $result = $wpdb->update($aiowps_global_meta_tbl_name, $data, $where);
             
         }
-        return true;
+        if ($result === false){
+            $aio_wp_security->debug_logger->log_debug("save_scan_data_to_db() - Error inserting data to DB!",4);
+            return false;
+        }else{
+            return true;
+        }
     }
     
     function do_file_change_scan($start_dir=ABSPATH)

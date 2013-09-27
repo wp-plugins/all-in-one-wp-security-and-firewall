@@ -96,26 +96,26 @@ class AIOWPSecurity_Installer
     
     static function create_db_backup_dir()
     {
-        //Create our folder in the "uploads" directory
-	$upload_dir = wp_upload_dir();
-	$aiowps_dir = $upload_dir['basedir'] . '/'.AIO_WP_SECURITY_BACKUPS_DIR_NAME;           
+        global $aio_wp_security;
+        //Create our folder in the "wp-content" directory
+        $aiowps_dir = WP_CONTENT_DIR.'/'.AIO_WP_SECURITY_BACKUPS_DIR_NAME;
         if(!is_dir($aiowps_dir)) {
             mkdir($aiowps_dir , 0755, true);
             //Let's also create an empty index.html file in this folder
             $index_file = $aiowps_dir.'/index.html';
             $handle = fopen($index_file, 'w'); //or die('Cannot open file:  '.$index_file);
             fclose($handle);
-            
-            //Create an .htacces file
-            //Write some rules which will only allow people originating from wp admin page to download the DB backup
-            $rules = '';
-            $rules .= '<IfModule mod_rewrite.c>
-RewriteEngine On
-RewriteCond %{HTTP_REFERER} !(wp-admin/admin.php) [NC]
-RewriteRule .* http://127.0.0.1 [L]
-</IfModule>' . PHP_EOL;
-            $file = $aiowps_dir.'/.htaccess';
-            file_put_contents($file, $rules);
+        }
+        //Create an .htacces file
+        //Write some rules which will only allow people originating from wp admin page to download the DB backup
+        $rules = '';
+        $rules .= 'order deny,allow
+deny from all' . PHP_EOL;
+        $file = $aiowps_dir.'/.htaccess';
+        $write_result = file_put_contents($file, $rules);
+        if ($write_result === false)
+        {
+            $aio_wp_security->debug_logger->log_debug("Creation of .htaccess file in ".AIO_WP_SECURITY_BACKUPS_DIR_NAME." directory failed!",4);
         }
     }
 

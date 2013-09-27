@@ -198,19 +198,18 @@ class AIOWPSecurity_Database_Menu extends AIOWPSecurity_Admin_Menu
                 $backup_file_name = $aio_wp_security->backup_obj->last_backup_file_name;
                 if (function_exists('is_multisite') && is_multisite()) 
                 {
-                    $backup_file_url = $aio_wp_security->backup_obj->last_backup_file_url_multisite . '/' . $backup_file_name;
+                    $aiowps_backup_file_path = $aio_wp_security->backup_obj->last_backup_file_dir_multisite . '/' . $backup_file_name;
                 }
                 else
                 {
-                    $upload_dir = wp_upload_dir();
-                    $aiowps_backup_url = $upload_dir['baseurl'] . '/'.AIO_WP_SECURITY_BACKUPS_DIR_NAME;
-                    $backup_file_url = $aiowps_backup_url . '/'. $backup_file_name;
+                    $aiowps_backup_dir = WP_CONTENT_DIR.'/'.AIO_WP_SECURITY_BACKUPS_DIR_NAME;
+                    $aiowps_backup_file_path = $aiowps_backup_dir. '/' . $backup_file_name;
                 }
                 echo '<div id="message" class="updated fade"><p>';
-                _e('DB Backup was successfully completed! Right click on the following file name and save the backup to your computer.','aiowpsecurity');
+                _e('DB Backup was successfully completed! You will receive the backup file via email if you have enabled "Send Backup File Via Email", otherwise you can retrieve it via FTP from the following directory:','aiowpsecurity');
                 echo '<p>';
-                _e('Your DB Backup File: ');
-                echo '<a href="'.$backup_file_url.'" target="_blank">'.$backup_file_name.'</a>';
+                _e('Your DB Backup File location: ');
+                echo '<strong>'.$aiowps_backup_file_path.'</strong>';
                 echo '</p>';
                 echo '</p></div>';
             } 

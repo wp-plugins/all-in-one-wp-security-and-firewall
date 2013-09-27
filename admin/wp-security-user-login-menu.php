@@ -7,10 +7,11 @@ class AIOWPSecurity_User_Login_Menu extends AIOWPSecurity_Admin_Menu
     /* Specify all the tabs of this menu in the following array */
     var $menu_tabs = array(
         'tab1' => 'Login Lockdown', 
-        'tab2' => 'Failed Login Records',
-        'tab3' => 'Force Logout',
-        'tab4' => 'Account Activity Logs',
-        'tab5' => 'Logged In Users',
+        'tab2' => 'Login Whitelist',
+        'tab3' => 'Failed Login Records',
+        'tab4' => 'Force Logout',
+        'tab5' => 'Account Activity Logs',
+        'tab6' => 'Logged In Users',
 
         );
     var $menu_tabs_handler = array(
@@ -19,6 +20,7 @@ class AIOWPSecurity_User_Login_Menu extends AIOWPSecurity_Admin_Menu
         'tab3' => 'render_tab3',
         'tab4' => 'render_tab4',
         'tab5' => 'render_tab5',
+        'tab6' => 'render_tab6',
         );
     
     function __construct() 
@@ -242,7 +244,135 @@ class AIOWPSecurity_User_Login_Menu extends AIOWPSecurity_Admin_Menu
         <?php
     }
     
-    function render_tab2()
+    function render_tab2() 
+    {
+        global $aio_wp_security;
+        global $aiowps_feature_mgr;
+        $result = 1;
+        $your_ip_address = AIOWPSecurity_Utility_IP::get_user_ip_address();
+        if (isset($_POST['aiowps_save_whitelist_settings']))
+        {
+            $nonce=$_REQUEST['_wpnonce'];
+            if (!wp_verify_nonce($nonce, 'aiowpsec-whitelist-settings-nonce'))
+            {
+                $aio_wp_security->debug_logger->log_debug("Nonce check failed for save whitelist settings!",4);
+                die(__('Nonce check failed for save whitelist settings!','aiowpsecurity'));
+            }
+            
+            if (isset($_POST["aiowps_enable_whitelisting"]) && empty($_POST['aiowps_allowed_ip_addresses']))
+            {
+                $this->show_msg_error('You must submit at least one IP address!','aiowpsecurity');
+            }
+            else
+            {
+                if (!empty($_POST['aiowps_allowed_ip_addresses']))
+                {
+                    $ip_addresses = $_POST['aiowps_allowed_ip_addresses'];
+                    $ip_list_array = AIOWPSecurity_Utility_IP::create_ip_list_array_from_string_with_newline($ip_addresses);
+                    $payload = AIOWPSecurity_Utility_IP::validate_ip_list($ip_list_array, 'whitelist');
+                    if($payload[0] == 1){
+                        //success case
+                        $result = 1;
+                        $list = $payload[1];
+                        $banned_ip_data = implode(PHP_EOL, $list);
+                        $aio_wp_security->configs->set_value('aiowps_allowed_ip_addresses',$banned_ip_data);
+                        $_POST['aiowps_allowed_ip_addresses'] = ''; //Clear the post variable for the banned address list
+                    }
+                    else{
+                        $result = -1;
+                        $error_msg = $payload[1][0];
+                        $this->show_msg_error($error_msg);
+                    }
+                    
+                }
+                else
+                {
+                    $aio_wp_security->configs->set_value('aiowps_allowed_ip_addresses',''); //Clear the IP address config value
+                }
+
+                if ($result == 1)
+                {
+                    $aio_wp_security->configs->set_value('aiowps_enable_whitelisting',isset($_POST["aiowps_enable_whitelisting"])?'1':'');
+                    $aio_wp_security->configs->save_config(); //Save the configuration
+                    
+                    //Recalculate points after the feature status/options have been altered
+                    $aiowps_feature_mgr->check_feature_status_and_recalculate_points();
+                    
+                    $this->show_msg_settings_updated();
+
+                    $write_result = AIOWPSecurity_Utility_Htaccess::write_to_htaccess(); //now let's write to the .htaccess file
+                    if ($write_result == -1)
+                    {
+                        $this->show_msg_error(__('The plugin was unable to write to the .htaccess file. Please edit file manually.','aiowpsecurity'));
+                        $aio_wp_security->debug_logger->log_debug("AIOWPSecurity_whitelist_Menu - The plugin was unable to write to the .htaccess file.");
+                    }
+                }
+            }
+        }
+        ?>
+        <h2><?php _e('Login Whitelist', 'aiowpsecurity')?></h2>
+        <div class="aio_blue_box">
+            <?php
+            echo '<p>'.__('The All In One WP Security Whitelist feature gives you the option of only allowing certain IP addresses or ranges to have access to your WordPress login page.', 'aiowpsecurity').'
+            <br />'.__('This feature will deny login access for all IP addresses which are not in your whitelist as configured in the settings below.', 'aiowpsecurity').'
+            <br />'.__('The plugin achieves this by writing the appropriate directives to your .htaccess file.', 'aiowpsecurity').'
+            <br />'.__('By allowing/blocking IP addresses via the .htaccess file your are using the most secure first line of defence because login access will only be granted to whitelisted IP addresses and other addresses will be blocked as soon as they try to access your login page.', 'aiowpsecurity').'    
+            </p>';
+            ?>
+        </div>
+
+        <div class="postbox">
+        <h3><label for="title"><?php _e('Login IP Whitelist Settings', 'aiowpsecurity'); ?></label></h3>
+        <div class="inside">
+        <?php
+        //Display security info badge
+        global $aiowps_feature_mgr;
+        $aiowps_feature_mgr->output_feature_details_badge("whitelist-manager-ip-login-whitelisting");
+        ?>    
+        <form action="" method="POST">
+        <?php wp_nonce_field('aiowpsec-whitelist-settings-nonce'); ?>            
+        <table class="form-table">
+            <tr valign="top">
+                <th scope="row"><?php _e('Enable IP Whitelisting', 'aiowpsecurity')?>:</th>                
+                <td>
+                <input name="aiowps_enable_whitelisting" type="checkbox"<?php if($aio_wp_security->configs->get_value('aiowps_enable_whitelisting')=='1') echo ' checked="checked"'; ?> value="1"/>
+                <span class="description"><?php _e('Check this if you want to enable the whitelisting of selected IP addresses specified in the settings below', 'aiowpsecurity'); ?></span>
+                </td>
+            </tr>            
+            <tr valign="top">
+                <th scope="row"><?php _e('Your Current IP Address', 'aiowpsecurity')?>:</th>                
+                <td>
+                <input size="20" name="aiowps_user_ip" type="text" value="<?php echo $your_ip_address; ?>" disabled/>
+                <span class="description"><?php _e('You can copy and paste this address in the text box below if you want to include it in your login whitelist.', 'aiowpsecurity'); ?></span>
+                </td>
+            </tr>            
+            <tr valign="top">
+                <th scope="row"><?php _e('Enter Whitelisted IP Addresses:', 'aiowpsecurity')?></th>
+                <td>
+                    <textarea name="aiowps_allowed_ip_addresses" rows="5" cols="50"><?php echo ($result == -1)?$_POST['aiowps_allowed_ip_addresses']:$aio_wp_security->configs->get_value('aiowps_allowed_ip_addresses'); ?></textarea>
+                    <br />
+                    <span class="description"><?php _e('Enter one or more IP addresses or IP ranges you wish to include in your whitelist. Only the addresses specified here will have access to the WordPress login page.','aiowpsecurity');?></span>
+                    <span class="aiowps_more_info_anchor"><span class="aiowps_more_info_toggle_char">+</span><span class="aiowps_more_info_toggle_text"><?php _e('More Info', 'aiowpsecurity'); ?></span></span>
+                    <div class="aiowps_more_info_body">
+                            <?php 
+                            echo '<p class="description">'.__('Each IP address must be on a new line.', 'aiowpsecurity').'</p>';
+                            echo '<p class="description">'.__('To specify an IP range use a wildcard "*" character. Acceptable ways to use wildcards is shown in the examples below:', 'aiowpsecurity').'</p>';
+                            echo '<p class="description">'.__('Example 1: 195.47.89.*', 'aiowpsecurity').'</p>';
+                            echo '<p class="description">'.__('Example 2: 195.47.*.*', 'aiowpsecurity').'</p>';
+                            echo '<p class="description">'.__('Example 3: 195.*.*.*', 'aiowpsecurity').'</p>';
+                            ?>
+                    </div>
+
+                </td>
+            </tr>
+        </table>
+        <input type="submit" name="aiowps_save_whitelist_settings" value="<?php _e('Save Settings', 'aiowpsecurity')?>" class="button-primary" />
+        </form>
+        </div></div>
+        <?php
+    }
+
+    function render_tab3()
     {
         global $aio_wp_security, $wpdb;
         if (isset($_POST['aiowps_delete_failed_login_records']))
@@ -317,7 +447,7 @@ class AIOWPSecurity_User_Login_Menu extends AIOWPSecurity_Admin_Menu
         <?php
     }
 
-    function render_tab3()
+    function render_tab4()
     {
         global $aio_wp_security;
         global $aiowps_feature_mgr;
@@ -394,7 +524,7 @@ class AIOWPSecurity_User_Login_Menu extends AIOWPSecurity_Admin_Menu
         <?php
     }
     
-    function render_tab4()
+    function render_tab5()
     {
         include_once 'wp-security-list-acct-activity.php'; //For rendering the AIOWPSecurity_List_Table in tab4
         $acct_activity_list = new AIOWPSecurity_List_Account_Activity(); //For rendering the AIOWPSecurity_List_Table in tab2
@@ -431,7 +561,7 @@ class AIOWPSecurity_User_Login_Menu extends AIOWPSecurity_Admin_Menu
         <?php
     }
     
-    function render_tab5()
+    function render_tab6()
     {
         $logged_in_users = (AIOWPSecurity_Utility::is_multisite_install() ? get_site_transient('users_online') : get_transient('users_online'));
         
@@ -469,7 +599,7 @@ class AIOWPSecurity_User_Login_Menu extends AIOWPSecurity_Admin_Menu
         <div class="aio_blue_box">
             <?php
             echo '<p>'.__('This tab displays all users who are currently logged into your site.', 'aiowpsecurity').'
-                <br />'.__('If you suspect there is a user or users who are logged in which should not be, you can block them by inspecting the IP addresses from the data below and adding them to your blacklist.', 'aiowpsecurity').'
+                <br />'.__('If you suspect there is a user or users who are logged in which should not be, you can block them by inspecting the IP addresses from the data below and adding them to your whitelist.', 'aiowpsecurity').'
             </p>';
             ?>
         </div>

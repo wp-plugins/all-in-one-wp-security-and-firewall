@@ -4,7 +4,7 @@ Donate link: http://www.tipsandtricks-hq.com
 Tags: security, secure, Anti Virus, antivirus, ban, ban hacker, virus, firewall, login, lockdown, htaccess, hack, malware, vulnerability, protect, protection, phishing, database, backup, plugin, sql injection, ssl, restrict
 Requires at least: 3.5
 Tested up to: 3.6.1
-Stable tag: 2.5
+Stable tag: 2.6
 License: GPLv3
 
 A comprehensive, user-friendly, all in one WordPress security and firewall plugin for your site.
@@ -137,6 +137,15 @@ http://www.tipsandtricks-hq.com/wordpress-security-and-firewall-plugin
 None
 
 == Changelog ==
+
+= 2.6 =
+- Added a new Login Whitelist feature. This feature enables you to specify one or more IP addresses in a special whitelist which will have access to your WP login page.
+All other IP addresses trying to access your WP login page which are not in the whitelist will be automatically blocked.
+- The IP address will also be included in the email that gets sent to the admin for the ip address lockout notification.
+- Language file loading fix for Chinese language.
+- Tweaked the code which creates a .htaccess file in the backup directory to ensure it gets run even if the directory already existed.
+- Made DB backups more secure.
+- Added more useful debug logs for .htaccess file manipulation failure scenarios.
 
 = 2.5 =
 - Added a new feature which will list the currently logged in users who have been active within the last 15 minutes.
