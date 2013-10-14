@@ -37,6 +37,8 @@ class AIOWPSecurity_Feature_Item_Manager
         //User Login Menu Features
         //Locking Lockdown
         $this->feature_items[] = new AIOWPSecurity_Feature_Item("user-login-login-lockdown", "Login Lockdown", $this->feature_point_4, $this->sec_level_basic);
+        //Login Captcha
+        $this->feature_items[] = new AIOWPSecurity_Feature_Item("user-login-captcha", "Login Captcha", $this->feature_point_4, $this->sec_level_basic);
         //Login whitelisting
         $this->feature_items[] = new AIOWPSecurity_Feature_Item("whitelist-manager-ip-login-whitelisting", "Login IP Whitelisting", $this->feature_point_3, $this->sec_level_inter);
         //Force Logout
@@ -153,6 +155,10 @@ class AIOWPSecurity_Feature_Item_Manager
             if($item->feature_id == "user-login-login-lockdown")
             {
                 $this->check_login_lockdown_feature($item);
+            }
+            if($item->feature_id == "user-login-captcha")
+            {
+                $this->check_login_captcha_feature($item);
             }
             if($item->feature_id == "whitelist-manager-ip-login-whitelisting")
             {
@@ -305,6 +311,18 @@ class AIOWPSecurity_Feature_Item_Manager
         }
     }
     
+    function check_login_captcha_feature($item)
+    {
+        global $aio_wp_security;
+        if ($aio_wp_security->configs->get_value('aiowps_enable_login_captcha') == '1') {
+            $item->set_feature_status($this->feature_active);
+        }
+        else
+        {
+            $item->set_feature_status($this->feature_inactive);
+        }
+    }
+
     function check_login_whitelist_feature($item)
     {
         global $aio_wp_security;

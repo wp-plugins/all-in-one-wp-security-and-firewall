@@ -6,12 +6,13 @@ class AIOWPSecurity_User_Login_Menu extends AIOWPSecurity_Admin_Menu
     
     /* Specify all the tabs of this menu in the following array */
     var $menu_tabs = array(
-        'tab1' => 'Login Lockdown', 
-        'tab2' => 'Login Whitelist',
-        'tab3' => 'Failed Login Records',
-        'tab4' => 'Force Logout',
-        'tab5' => 'Account Activity Logs',
-        'tab6' => 'Logged In Users',
+        'tab1' => 'Login Lockdown',
+        'tab2' => 'Login Captcha',
+        'tab3' => 'Login Whitelist',
+        'tab4' => 'Failed Login Records',
+        'tab5' => 'Force Logout',
+        'tab6' => 'Account Activity Logs',
+        'tab7' => 'Logged In Users',
 
         );
     var $menu_tabs_handler = array(
@@ -21,6 +22,7 @@ class AIOWPSecurity_User_Login_Menu extends AIOWPSecurity_Admin_Menu
         'tab4' => 'render_tab4',
         'tab5' => 'render_tab5',
         'tab6' => 'render_tab6',
+        'tab7' => 'render_tab7',
         );
     
     function __construct() 
@@ -243,8 +245,68 @@ class AIOWPSecurity_User_Login_Menu extends AIOWPSecurity_Admin_Menu
         </div></div>
         <?php
     }
+
+    function render_tab2()
+    {
+        global $aio_wp_security;
+        global $aiowps_feature_mgr;
+        
+        if(isset($_POST['aiowpsec_save_captcha_settings']))//Do form submission tasks
+        {
+            $error = '';
+            $nonce=$_REQUEST['_wpnonce'];
+            if (!wp_verify_nonce($nonce, 'aiowpsec-captcha-settings-nonce'))
+            {
+                $aio_wp_security->debug_logger->log_debug("Nonce check failed on captcha settings save!",4);
+                die("Nonce check failed on captcha settings save!");
+            }
+
+
+            //Save all the form values to the options
+            $aio_wp_security->configs->set_value('aiowps_enable_login_captcha',isset($_POST["aiowps_enable_login_captcha"])?'1':'');
+            $aio_wp_security->configs->save_config();
+            
+            //Recalculate points after the feature status/options have been altered
+            $aiowps_feature_mgr->check_feature_status_and_recalculate_points();
+            
+            $this->show_msg_settings_updated();
+        }
+        ?>
+        <div class="aio_blue_box">
+            <?php
+            echo '<p>'.__('This feature allows you to add a captcha form on the WordPress login page.', 'aiowpsecurity').'
+            <br />'.__('Users who attempt to login will also need to enter the answer to a simple mathematical question - if they enter the wrong answer, the plugin will not allow them login even if they entered the correct username and password.', 'aiowpsecurity').'
+                <br />'.__('Therefore, adding a captcha form on the login page is another effective yet simple "Brute Force" prevention technique.', 'aiowpsecurity').'
+            </p>';
+            ?>
+        </div>
+        <div class="postbox">
+        <h3><label for="title"><?php _e('Captcha Settings', 'aiowpsecurity'); ?></label></h3>
+        <div class="inside">
+        <?php
+        //Display security info badge
+        global $aiowps_feature_mgr;
+        $aiowps_feature_mgr->output_feature_details_badge("user-login-captcha");
+        ?>
+
+        <form action="" method="POST">
+        <?php wp_nonce_field('aiowpsec-captcha-settings-nonce'); ?>
+        <table class="form-table">
+            <tr valign="top">
+                <th scope="row"><?php _e('Enable Captcha On Login Page', 'aiowpsecurity')?>:</th>                
+                <td>
+                <input name="aiowps_enable_login_captcha" type="checkbox"<?php if($aio_wp_security->configs->get_value('aiowps_enable_login_captcha')=='1') echo ' checked="checked"'; ?> value="1"/>
+                <span class="description"><?php _e('Check this if you want to insert a captcha form on the login page', 'aiowpsecurity'); ?></span>
+                </td>
+            </tr>            
+        </table>
+        <input type="submit" name="aiowpsec_save_captcha_settings" value="<?php _e('Save Settings', 'aiowpsecurity')?>" class="button-primary" />
+        </form>
+        </div></div>        
+        <?php
+    }
     
-    function render_tab2() 
+    function render_tab3() 
     {
         global $aio_wp_security;
         global $aiowps_feature_mgr;
@@ -372,7 +434,7 @@ class AIOWPSecurity_User_Login_Menu extends AIOWPSecurity_Admin_Menu
         <?php
     }
 
-    function render_tab3()
+    function render_tab4()
     {
         global $aio_wp_security, $wpdb;
         if (isset($_POST['aiowps_delete_failed_login_records']))
@@ -447,7 +509,7 @@ class AIOWPSecurity_User_Login_Menu extends AIOWPSecurity_Admin_Menu
         <?php
     }
 
-    function render_tab4()
+    function render_tab5()
     {
         global $aio_wp_security;
         global $aiowps_feature_mgr;
@@ -524,7 +586,7 @@ class AIOWPSecurity_User_Login_Menu extends AIOWPSecurity_Admin_Menu
         <?php
     }
     
-    function render_tab5()
+    function render_tab6()
     {
         include_once 'wp-security-list-acct-activity.php'; //For rendering the AIOWPSecurity_List_Table in tab4
         $acct_activity_list = new AIOWPSecurity_List_Account_Activity(); //For rendering the AIOWPSecurity_List_Table in tab2
@@ -561,7 +623,7 @@ class AIOWPSecurity_User_Login_Menu extends AIOWPSecurity_Admin_Menu
         <?php
     }
     
-    function render_tab6()
+    function render_tab7()
     {
         $logged_in_users = (AIOWPSecurity_Utility::is_multisite_install() ? get_site_transient('users_online') : get_transient('users_online'));
         

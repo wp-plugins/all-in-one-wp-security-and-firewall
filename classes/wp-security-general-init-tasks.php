@@ -24,6 +24,13 @@ class AIOWPSecurity_General_Init_Tasks
             }
         }
         
+        //For login captcha feature
+        if($aio_wp_security->configs->get_value('aiowps_enable_login_captcha') == '1'){
+            if (!is_user_logged_in() && !current_user_can('administrator') && !is_admin() && in_array( $GLOBALS['pagenow'], array( 'wp-login.php'))) {
+                add_action('login_form', array(&$this, 'insert_captcha_form_login_page'));
+            }
+        }
+
         //For feature which displays logged in users
         $this->update_logged_in_user_transient();
         
@@ -89,15 +96,19 @@ class AIOWPSecurity_General_Init_Tasks
                     //Update transient if the last activity was less than 15 min ago for this user
                     $logged_in_users[$item_index] = $current_user_info;
                     AIOWPSecurity_Utility::is_multisite_install() ? set_site_transient('users_online', $logged_in_users, 30 * 60) : set_transient('users_online', $logged_in_users, 30 * 60);
-                    //set_transient('users_online', $logged_in_users, 30 * 60); //Set transient with the data obtained above and also set the expire to 30min
                 }else if($do_nothing){
                     //Do nothing
                 }else{
                     $logged_in_users[] = $current_user_info;
                     AIOWPSecurity_Utility::is_multisite_install() ? set_site_transient('users_online', $logged_in_users, 30 * 60) : set_transient('users_online', $logged_in_users, 30 * 60);
-                    //set_transient('users_online', $logged_in_users, 30 * 60); //Set transient with the data obtained above and also set the expire to 30min
                 }
             }
         }
+    }
+    
+    function insert_captcha_form_login_page(){
+        if(is_admin()) return;
+        global $aio_wp_security;
+        $aio_wp_security->captcha_obj->display_captcha_form();
     }
 }

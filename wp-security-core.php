@@ -3,7 +3,7 @@
 if (!class_exists('AIO_WP_Security')){
 
 class AIO_WP_Security{
-    var $version = '2.6';
+    var $version = '2.7';
     var $db_version = '1.3';
     var $plugin_url;
     var $plugin_path;
@@ -14,6 +14,7 @@ class AIO_WP_Security{
     var $user_login_obj;
     var $backup_obj;
     var $filescan_obj;
+    var $captcha_obj;
 
     function __construct()
     {
@@ -88,6 +89,7 @@ class AIO_WP_Security{
         include_once('classes/wp-security-general-init-tasks.php');
         
         include_once('classes/wp-security-user-login.php');
+        include_once('classes/wp-security-captcha.php');
         include_once('classes/wp-security-backup.php');
         include_once('classes/wp-security-file-scan.php');
         include_once('classes/wp-security-cronjob-handler.php');
@@ -166,6 +168,7 @@ class AIO_WP_Security{
 
         //Actions, filters, shortcodes goes here       
         $this->user_login_obj = new AIOWPSecurity_User_Login();//Do the user login operation tasks
+        $this->captcha_obj = new AIOWPSecurity_Captcha();//Do the captcha tasks
         $this->backup_obj = new AIOWPSecurity_Backup();//Object to handle backup tasks
         $this->filescan_obj = new AIOWPSecurity_Filescan();//Object to handle backup tasks 
         $this->cron_handler = new AIOWPSecurity_Cronjob_Handler();

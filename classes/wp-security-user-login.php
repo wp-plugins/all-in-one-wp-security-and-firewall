@@ -40,6 +40,30 @@ class AIOWPSecurity_User_Login
                                 Please contact the administrator.', 'aiowpsecurity'));
         }
         
+        //Check if captcha enabled
+        if ($aio_wp_security->configs->get_value('aiowps_enable_login_captcha') == '1')
+        {
+            if(isset($_POST['aiowps-captcha-answer']) && $_POST['aiowps-captcha-answer'] !== ''){
+                if(strip_tags(trim($_POST['aiowps-captcha-answer'])) !== get_transient('aiowps_captcha'))
+                {
+                    //This means a wrong answer was entered
+                    $this->increment_failed_logins($username);
+                    if($aio_wp_security->configs->get_value('aiowps_enable_login_lockdown')=='1')
+                    {
+                        if($login_attempts_permitted <= $this->get_login_fail_count()  || $aio_wp_security->configs->get_value('aiowps_enable_invalid_username_lockdown')=='1')
+                        {
+                            $this->lock_the_user($username);
+                        }
+                        else
+                        {
+                            return new WP_Error('authentication_failed', __('<strong>ERROR</strong>: Your answer was incorrect - please try again.', 'aiowpsecurity'));
+                        }
+                    }
+                    return new WP_Error('authentication_failed', __('<strong>ERROR</strong>: Your answer was incorrect - please try again.', 'aiowpsecurity'));
+                }
+            }
+        }
+        
         if ( is_a($user, 'WP_User') ) { return $user; } //Existing WP core code
         
         if ( empty($username) || empty($password) ) { //Existing WP core code

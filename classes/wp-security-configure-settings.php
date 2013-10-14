@@ -29,6 +29,9 @@ class AIOWPSecurity_Configure_Settings
         $aio_wp_security->configs->set_value('aiowps_enable_forced_logout','');//Checkbox
         $aio_wp_security->configs->set_value('aiowps_logout_time_period','60');
         $aio_wp_security->configs->set_value('aiowps_enable_invalid_username_lockdown','');//Checkbox
+        
+        //Captcha feature
+        $aio_wp_security->configs->set_value('aiowps_enable_login_captcha','');//Checkbox
 
         //Login Whitelist feature
         $aio_wp_security->configs->set_value('aiowps_enable_whitelisting','');//Checkbox
@@ -116,6 +119,9 @@ class AIOWPSecurity_Configure_Settings
         $aio_wp_security->configs->add_value('aiowps_logout_time_period','60');
         $aio_wp_security->configs->add_value('aiowps_enable_invalid_username_lockdown','');//Checkbox
         
+        //Captcha feature
+        $aio_wp_security->configs->add_value('aiowps_enable_login_captcha','');//Checkbox
+
         //Login Whitelist feature
         $aio_wp_security->configs->add_value('aiowps_enable_whitelisting','');//Checkbox
         $aio_wp_security->configs->add_value('aiowps_allowed_ip_addresses','');

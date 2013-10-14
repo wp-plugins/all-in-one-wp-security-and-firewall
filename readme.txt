@@ -4,7 +4,7 @@ Donate link: http://www.tipsandtricks-hq.com
 Tags: security, secure, Anti Virus, antivirus, ban, ban hacker, virus, firewall, login, lockdown, htaccess, hack, malware, vulnerability, protect, protection, phishing, database, backup, plugin, sql injection, ssl, restrict
 Requires at least: 3.5
 Tested up to: 3.6.1
-Stable tag: 2.6
+Stable tag: 2.7
 License: GPLv3
 
 A comprehensive, user-friendly, all in one WordPress security and firewall plugin for your site.
@@ -47,6 +47,7 @@ via email whenever somebody gets locked out due to too many login attempts.
 * Monitor/View the account activity of all user accounts on your system by keeping track of the username, IP address, login date/time, and logout date/time.
 * Ability to automatically lockout IP address ranges which attempt to login with an invalid username.
 * Ability to see a list of all the users who are currently logged into your site.
+* Allows you to specify one or more IP addresses in a special whitelist. The whitelisted IP addresses will have access to your WP login page.
 
 = Database Security =
 * Easily the default WP prefix to a value of your choice with the click of a button.
@@ -83,6 +84,7 @@ or malicious bots who do not have a special cookie in their browser. You (the si
 
 = Brute force login attack prevention =
 * Instantly block Brute Force Login Attacks via our special Cookie-Based Brute Force Login Prevention feature. This firewall functionality will block all login attempts from people and bots.
+* Ability to add a simple math captcha to the WordPress login form to fight against brute force login attacks.
 
 = WhoIs Lookup =
 * Perform a WhoIs lookup of a suspicious host or IP address and get full details.
@@ -137,6 +139,9 @@ http://www.tipsandtricks-hq.com/wordpress-security-and-firewall-plugin
 None
 
 == Changelog ==
+
+= 2.7 =
+- Added a simple math captcha functionality for the WP login page. This is another easy yet effective way to combat Brute Force Login Attacks. You can enable this new feature from the user login security menu.
 
 = 2.6 =
 - Added a new Login Whitelist feature. This feature enables you to specify one or more IP addresses in a special whitelist which will have access to your WP login page.
