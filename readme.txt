@@ -48,6 +48,7 @@ via email whenever somebody gets locked out due to too many login attempts.
 * Ability to automatically lockout IP address ranges which attempt to login with an invalid username.
 * Ability to see a list of all the users who are currently logged into your site.
 * Allows you to specify one or more IP addresses in a special whitelist. The whitelisted IP addresses will have access to your WP login page.
+* Add captcha to WordPress Login form
 
 = Database Security =
 * Easily the default WP prefix to a value of your choice with the click of a button.
