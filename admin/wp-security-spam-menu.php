@@ -69,13 +69,14 @@ class AIOWPSecurity_Spam_Menu extends AIOWPSecurity_Admin_Menu
         if(isset($_POST['aiowps_apply_comment_spam_prevention_settings']))//Do form submission tasks
         {
             $nonce=$_REQUEST['_wpnonce'];
-            if (!wp_verify_nonce($nonce, 'aiowpsec-block-spambots-nonce'))
+            if (!wp_verify_nonce($nonce, 'aiowpsec-comment-spam-settings-nonce'))
             {
-                $aio_wp_security->debug_logger->log_debug("Nonce check failed on enable basic firewall settings!",4);
-                die("Nonce check failed on enable basic firewall settings!");
+                $aio_wp_security->debug_logger->log_debug("Nonce check failed on save comment spam settings!",4);
+                die("Nonce check failed on save comment spam settings!");
             }
 
             //Save settings
+            $aio_wp_security->configs->set_value('aiowps_enable_comment_captcha',isset($_POST["aiowps_enable_comment_captcha"])?'1':'');
             $aio_wp_security->configs->set_value('aiowps_enable_spambot_blocking',isset($_POST["aiowps_enable_spambot_blocking"])?'1':'');
 
             //Commit the config settings
@@ -100,8 +101,43 @@ class AIOWPSecurity_Spam_Menu extends AIOWPSecurity_Admin_Menu
         ?>
         <h2><?php _e('Comment SPAM Settings', 'aiowpsecurity')?></h2>
         <form action="" method="POST">
-        <?php wp_nonce_field('aiowpsec-block-spambots-nonce'); ?>            
+        <?php wp_nonce_field('aiowpsec-comment-spam-settings-nonce'); ?>            
 
+        <div class="postbox">
+        <h3><label for="title"><?php _e('Add Captcha To Comments Form', 'aiowpsecurity'); ?></label></h3>
+        <div class="inside">
+        <div class="aio_blue_box">
+            <?php
+            echo '<p>'.__('This feature will add a simple math captcha field in the WordPress comments form.', 'aiowpsecurity').
+            '<br />Adding a captcha field in the comment form is a simple way of greatly reducing SPAM comments from bots without using .htaccess rules.</p>';
+            ?>
+        </div>
+        <?php
+        //Display security info badge
+        $aiowps_feature_mgr->output_feature_details_badge("comment-form-captcha");
+        if (AIOWPSecurity_Utility::is_multisite_install() && get_current_blog_id() != 1)
+        {
+           //Hide config settings if MS and not main site
+           AIOWPSecurity_Utility::display_multisite_message();
+        }
+        else
+        {
+        ?>
+        <table class="form-table">
+            <tr valign="top">
+                <th scope="row"><?php _e('Enable Captcha On Comment Forms', 'aiowpsecurity')?>:</th>                
+                <td>
+                <input name="aiowps_enable_comment_captcha" type="checkbox"<?php if($aio_wp_security->configs->get_value('aiowps_enable_comment_captcha')=='1') echo ' checked="checked"'; ?> value="1"/>
+                <span class="description"><?php _e('Check this if you want to insert a captcha field on the comment forms', 'aiowpsecurity'); ?></span>
+                </td>
+            </tr>            
+        </table>
+        <?php } //End if statement ?>
+        </div></div>
+            
+        <div class="postbox">
+        <h3><label for="title"><?php _e('Block Spambot Comments', 'aiowpsecurity'); ?></label></h3>
+        <div class="inside">
         <div class="aio_blue_box">
             <?php
             echo '<p>'.__('A large portion of WordPress blog comment SPAM is mainly produced by automated bots and not necessarily by humans. ', 'aiowpsecurity').
@@ -109,10 +145,6 @@ class AIOWPSecurity_Spam_Menu extends AIOWPSecurity_Admin_Menu
             '<br />In other words, if the comment was not submitted by a human who physically submitted the comment on your site, the request will be blocked.</p>';
             ?>
         </div>
-
-        <div class="postbox">
-        <h3><label for="title"><?php _e('Block Spambot Comments', 'aiowpsecurity'); ?></label></h3>
-        <div class="inside">
         <?php
         //Display security info badge
         $aiowps_feature_mgr->output_feature_details_badge("block-spambots");

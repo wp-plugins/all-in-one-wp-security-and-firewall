@@ -238,7 +238,12 @@ class AIOWPSecurity_User_Login_Menu extends AIOWPSecurity_Admin_Menu
             <form id="tables-filter" method="get" onSubmit="return confirm('Are you sure you want to perform this bulk operation on the selected entries?');">
             <!-- For plugins, we also need to ensure that the form posts back to our current page -->
             <input type="hidden" name="page" value="<?php echo $_REQUEST['page']; ?>" />
-            <input type="hidden" name="tab" value="<?php echo $_REQUEST['tab']; ?>" />
+            <?php
+            if(isset($_REQUEST["tab"]))
+            {
+                echo '<input type="hidden" name="tab" value="'.$_REQUEST["tab"].'" />';
+            }
+            ?>
             <!-- Now we can render the completed list table -->
             <?php $locked_ip_list->display(); ?>
             </form>
@@ -661,7 +666,7 @@ class AIOWPSecurity_User_Login_Menu extends AIOWPSecurity_Admin_Menu
         <div class="aio_blue_box">
             <?php
             echo '<p>'.__('This tab displays all users who are currently logged into your site.', 'aiowpsecurity').'
-                <br />'.__('If you suspect there is a user or users who are logged in which should not be, you can block them by inspecting the IP addresses from the data below and adding them to your whitelist.', 'aiowpsecurity').'
+                <br />'.__('If you suspect there is a user or users who are logged in which should not be, you can block them by inspecting the IP addresses from the data below and adding them to your blacklist.', 'aiowpsecurity').'
             </p>';
             ?>
         </div>

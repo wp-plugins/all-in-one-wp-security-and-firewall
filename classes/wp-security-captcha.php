@@ -25,16 +25,23 @@ class AIOWPSecurity_Captcha
         $operand_display = array('word', 'number');
         
         //let's now generate an equation
-        $first_digit = rand(1,20);
+        $operator = $operator_type[rand(0,2)];
+
+        if($operator === '&#215;'){
+            //Don't make the question too hard if multiplication
+            $first_digit = rand(1,5);    
+            $second_digit = rand(1,5); 
+        }else{
+            $first_digit = rand(1,20);
+            $second_digit = rand(1,20); 
+        }
+        
         if($operand_display[rand(0,1)] == 'word'){
             $first_operand = $this->number_word_mapping($first_digit);
         }else{
             $first_operand = $first_digit;
         }
         
-        $operator = $operator_type[rand(0,2)];
-        
-        $second_digit = rand(1,20); 
         if($operand_display[rand(0,1)] == 'word'){
             $second_operand = $this->number_word_mapping($second_digit);
         }else{

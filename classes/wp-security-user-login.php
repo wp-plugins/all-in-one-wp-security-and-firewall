@@ -43,8 +43,10 @@ class AIOWPSecurity_User_Login
         //Check if captcha enabled
         if ($aio_wp_security->configs->get_value('aiowps_enable_login_captcha') == '1')
         {
-            if(isset($_POST['aiowps-captcha-answer']) && $_POST['aiowps-captcha-answer'] !== ''){
-                if(strip_tags(trim($_POST['aiowps-captcha-answer'])) !== get_transient('aiowps_captcha'))
+            if (array_key_exists('aiowps-captcha-answer', $_POST)) //If the login form with captcha was submitted then do some processing
+            {
+                isset($_POST['aiowps-captcha-answer'])?$captcha_answer = strip_tags(trim($_POST['aiowps-captcha-answer'])): $captcha_answer = '';
+                if($captcha_answer !== get_transient('aiowps_captcha'))
                 {
                     //This means a wrong answer was entered
                     $this->increment_failed_logins($username);

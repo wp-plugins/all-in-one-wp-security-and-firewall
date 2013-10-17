@@ -1,10 +1,10 @@
 === All In One WP Security & Firewall ===
 Contributors: Tips and Tricks HQ, wpsolutions, Peter Petreski, Ruhul Amin 
 Donate link: http://www.tipsandtricks-hq.com
-Tags: security, secure, Anti Virus, antivirus, ban, ban hacker, virus, firewall, login, lockdown, htaccess, hack, malware, vulnerability, protect, protection, phishing, database, backup, plugin, sql injection, ssl, restrict
+Tags: security, secure, Anti Virus, antivirus, ban, ban hacker, virus, firewall, firewall security, login, lockdown, htaccess, hack, malware, vulnerability, protect, protection, phishing, database, backup, plugin, sql injection, ssl, restrict, login captcha
 Requires at least: 3.5
 Tested up to: 3.6.1
-Stable tag: 2.7
+Stable tag: 2.8
 License: GPLv3
 
 A comprehensive, user-friendly, all in one WordPress security and firewall plugin for your site.
@@ -96,6 +96,7 @@ or malicious bots who do not have a special cookie in their browser. You (the si
 = Comment SPAM Security =
 * Monitor the most active IP addresses which persistently produce the most SPAM comments and instantly block them with the click of a button.
 * Prevent comments from being submitted if it doesn't originate from your domain (this should reduce some SPAM bot comment posting on your site).
+* Add a captcha to your wordpress comment form to add security against comment spam.
 
 = Regular updates and additions of new security features =
 * WordPress Security is something that evolves over time. We will be updating the All In One WP Security plugin with new security features (and fixes if required) on a regular basis so you can rest assured that your site will be on the cutting edge of security protection techniques.
@@ -133,13 +134,18 @@ Check the following page for screenshots:
 http://www.tipsandtricks-hq.com/wordpress-security-and-firewall-plugin
 
 == Frequently Asked Questions ==
-Check the following page for F.A.Q:
+Check the following page for F.A.Q (see the faq section):
 http://www.tipsandtricks-hq.com/wordpress-security-and-firewall-plugin
 
 == Upgrade Notice ==
 None
 
 == Changelog ==
+
+= 2.8 =
+- Added a feature to insert a simple math captcha to the WordPress comment form (to reduce comment spam). Check the spam prevention menu for this new feature.
+- Fixed a minor bug with bulk unlock/delete in user login menu
+- Fixed a minor bug with math captcha logic.
 
 = 2.7 =
 - Added a simple math captcha functionality for the WP login page. This is another easy yet effective way to combat Brute Force Login Attacks. You can enable this new feature from the user login security menu.

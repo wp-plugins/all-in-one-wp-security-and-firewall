@@ -76,6 +76,7 @@ class AIOWPSecurity_Configure_Settings
 
         //SPAM Prevention menu
         $aio_wp_security->configs->set_value('aiowps_enable_spambot_blocking','');//Checkbox
+        $aio_wp_security->configs->set_value('aiowps_enable_comment_captcha','');//Checkbox
         
         //Filescan features
         //File change detection feature
@@ -166,7 +167,8 @@ class AIOWPSecurity_Configure_Settings
 
         //SPAM Prevention menu
         $aio_wp_security->configs->add_value('aiowps_enable_spambot_blocking','');//Checkbox
-        
+        $aio_wp_security->configs->add_value('aiowps_enable_comment_captcha','');//Checkbox
+
         //Filescan features
         //File change detection feature
         $aio_wp_security->configs->add_value('aiowps_enable_automated_fcd_scan','');//Checkbox
@@ -208,6 +210,9 @@ class AIOWPSecurity_Configure_Settings
         $aio_wp_security->configs->set_value('aiowps_prevent_default_wp_file_access','');//Checkbox
         
         $aio_wp_security->configs->set_value('aiowps_enable_spambot_blocking','');//Checkbox
+        $aio_wp_security->configs->set_value('aiowps_enable_login_captcha','');//Checkbox
+        $aio_wp_security->configs->set_value('aiowps_enable_comment_captcha','');//Checkbox
+
         
         $aio_wp_security->configs->save_config();
     }

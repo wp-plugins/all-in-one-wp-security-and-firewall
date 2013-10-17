@@ -26,9 +26,16 @@ class AIOWPSecurity_General_Init_Tasks
         
         //For login captcha feature
         if($aio_wp_security->configs->get_value('aiowps_enable_login_captcha') == '1'){
-            if (!is_user_logged_in() && !current_user_can('administrator') && !is_admin() && in_array( $GLOBALS['pagenow'], array( 'wp-login.php'))) {
-                add_action('login_form', array(&$this, 'insert_captcha_form_login_page'));
+            if (!is_user_logged_in()) {
+                add_action('login_form', array(&$this, 'insert_captcha_question_form'));
             }
+        }
+
+        //For comment captcha feature
+        if($aio_wp_security->configs->get_value('aiowps_enable_comment_captcha') == '1'){
+            add_action( 'comment_form_after_fields', array(&$this, 'insert_captcha_question_form'), 1 );
+            add_action( 'comment_form_logged_in_after', array(&$this, 'insert_captcha_question_form'), 1 );
+            add_filter( 'preprocess_comment', array(&$this, 'process_comment_post') );
         }
 
         //For feature which displays logged in users
@@ -106,9 +113,42 @@ class AIOWPSecurity_General_Init_Tasks
         }
     }
     
-    function insert_captcha_form_login_page(){
-        if(is_admin()) return;
+    function insert_captcha_question_form(){
         global $aio_wp_security;
         $aio_wp_security->captcha_obj->display_captcha_form();
+    }
+    
+    function process_comment_post( $comment ) 
+    {	
+        if (is_user_logged_in()) {
+                return $comment;
+        }
+
+        //Don't process captcha for comment replies inside admin menu
+        if (isset( $_REQUEST['action'] ) && $_REQUEST['action'] == 'replyto-comment' &&
+        (check_ajax_referer('replyto-comment', '_ajax_nonce', false) || check_ajax_referer('replyto-comment', '_ajax_nonce-replyto-comment', false))) {
+            return $comment;
+        }
+
+        //Don't do captcha for pingback/trackback
+        if ($comment['comment_type'] != '' && $comment['comment_type'] != 'comment') {
+            return $comment;
+        }
+
+        if (isset($_REQUEST['aiowps-captcha-answer']))
+        {
+            // If answer is empty
+            if ($_REQUEST['aiowps-captcha-answer'] == ''){
+                wp_die( __('Please enter an answer in the CAPTCHA field.', 'aiowpsecurity' ) );
+            }
+            
+            if ($_REQUEST['aiowps-captcha-answer'] === get_transient('aiowps_captcha')){
+                //Correct answer given
+                return($comment);
+            }else{
+                //Wrong answer
+                wp_die( __('Error: You entered an incorrect CAPTCHA answer. Please go back and try again.', 'aiowpsecurity'));
+            }
+        }
     }
 }
