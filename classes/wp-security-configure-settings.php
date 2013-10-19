@@ -32,6 +32,7 @@ class AIOWPSecurity_Configure_Settings
         
         //Captcha feature
         $aio_wp_security->configs->set_value('aiowps_enable_login_captcha','');//Checkbox
+        $aio_wp_security->configs->set_value('aiowps_captcha_secret_key',AIOWPSecurity_Utility::generate_alpha_numeric_random_string(20));//Hidden secret value which will be used to do some captcha processing. This will be assigned a random string generated when captcha settings saved
 
         //Login Whitelist feature
         $aio_wp_security->configs->set_value('aiowps_enable_whitelisting','');//Checkbox
@@ -122,6 +123,7 @@ class AIOWPSecurity_Configure_Settings
         
         //Captcha feature
         $aio_wp_security->configs->add_value('aiowps_enable_login_captcha','');//Checkbox
+        $aio_wp_security->configs->add_value('aiowps_captcha_secret_key',AIOWPSecurity_Utility::generate_alpha_numeric_random_string(20));//Hidden secret value which will be used to do some captcha processing. This will be assigned a random string generated when captcha settings saved
 
         //Login Whitelist feature
         $aio_wp_security->configs->add_value('aiowps_enable_whitelisting','');//Checkbox
@@ -210,9 +212,6 @@ class AIOWPSecurity_Configure_Settings
         $aio_wp_security->configs->set_value('aiowps_prevent_default_wp_file_access','');//Checkbox
         
         $aio_wp_security->configs->set_value('aiowps_enable_spambot_blocking','');//Checkbox
-        $aio_wp_security->configs->set_value('aiowps_enable_login_captcha','');//Checkbox
-        $aio_wp_security->configs->set_value('aiowps_enable_comment_captcha','');//Checkbox
-
         
         $aio_wp_security->configs->save_config();
     }

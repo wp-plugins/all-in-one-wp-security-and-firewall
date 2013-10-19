@@ -3,7 +3,7 @@
 if (!class_exists('AIO_WP_Security')){
 
 class AIO_WP_Security{
-    var $version = '2.8';
+    var $version = '2.8.1';
     var $db_version = '1.3';
     var $plugin_url;
     var $plugin_path;
@@ -55,7 +55,7 @@ class AIO_WP_Security{
         define('AIO_WP_SECURITY_BACKUPS_DIR_NAME', 'aiowps_backups');
         define('AIO_WP_SECURITY_BACKUPS_PATH', AIO_WP_SECURITY_PATH.'/backups');
         define('AIO_WP_SECURITY_LIB_PATH', AIO_WP_SECURITY_PATH.'/lib');
-        define('AIOWPSEC_MANAGEMENT_PERMISSION', 'add_users');
+        define('AIOWPSEC_MANAGEMENT_PERMISSION', 'manage_options');
         define('AIOWPSEC_MENU_SLUG_PREFIX', 'aiowpsec');
         define('AIOWPSEC_MAIN_MENU_SLUG', 'aiowpsec');
         define('AIOWPSEC_SETTINGS_MENU_SLUG', 'aiowpsec_settings');

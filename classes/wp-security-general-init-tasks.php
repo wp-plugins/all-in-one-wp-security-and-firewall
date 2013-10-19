@@ -119,7 +119,8 @@ class AIOWPSecurity_General_Init_Tasks
     }
     
     function process_comment_post( $comment ) 
-    {	
+    {
+        global $aio_wp_security;
         if (is_user_logged_in()) {
                 return $comment;
         }
@@ -141,8 +142,10 @@ class AIOWPSecurity_General_Init_Tasks
             if ($_REQUEST['aiowps-captcha-answer'] == ''){
                 wp_die( __('Please enter an answer in the CAPTCHA field.', 'aiowpsecurity' ) );
             }
-            
-            if ($_REQUEST['aiowps-captcha-answer'] === get_transient('aiowps_captcha')){
+            $captcha_answer = trim($_REQUEST['aiowps-captcha-answer']);
+            $captcha_secret_string = $aio_wp_security->configs->get_value('aiowps_captcha_secret_key');
+            $submitted_encoded_string = base64_encode($_POST['aiowps-captcha-temp-string'].$captcha_secret_string.$captcha_answer);
+            if ($_REQUEST['aiowps-captcha-string-info'] === $submitted_encoded_string){
                 //Correct answer given
                 return($comment);
             }else{

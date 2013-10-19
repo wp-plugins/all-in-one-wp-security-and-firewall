@@ -142,6 +142,10 @@ None
 
 == Changelog ==
 
+= 2.8.1 =
+- Improved the login captcha implementation
+- Changed the management permission to manage_options
+
 = 2.8 =
 - Added a feature to insert a simple math captcha to the WordPress comment form (to reduce comment spam). Check the spam prevention menu for this new feature.
 - Fixed a minor bug with bulk unlock/delete in user login menu

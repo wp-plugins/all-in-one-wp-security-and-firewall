@@ -76,6 +76,9 @@ class AIOWPSecurity_Spam_Menu extends AIOWPSecurity_Admin_Menu
             }
 
             //Save settings
+            $random_20_digit_string = AIOWPSecurity_Utility::generate_alpha_numeric_random_string(20); //Generate random 20 char string for use during captcha encode/decode
+            $aio_wp_security->configs->set_value('aiowps_captcha_secret_key', $random_20_digit_string);
+
             $aio_wp_security->configs->set_value('aiowps_enable_comment_captcha',isset($_POST["aiowps_enable_comment_captcha"])?'1':'');
             $aio_wp_security->configs->set_value('aiowps_enable_spambot_blocking',isset($_POST["aiowps_enable_spambot_blocking"])?'1':'');
 

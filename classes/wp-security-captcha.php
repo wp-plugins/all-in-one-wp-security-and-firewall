@@ -18,6 +18,7 @@ class AIOWPSecurity_Captcha
     
     function generate_maths_question()
     {
+        global $aio_wp_security;
         //For now we will only do plus, minus, multiplication
         $equation_string = '';
         $operator_type = array('&#43;', '&#8722;', '&#215;');
@@ -53,30 +54,34 @@ class AIOWPSecurity_Captcha
         {
             //Addition
             $result = $first_digit+$second_digit;
-            $equation_string = $first_operand . ' ' . $operator . ' ' . $second_operand . ' = ';
+            $equation_string .= $first_operand . ' ' . $operator . ' ' . $second_operand . ' = ';
         }
         else if($operator === '&#8722;')
         {
             //Subtraction
             //If we are going to be negative let's swap operands around
             if($first_digit < $second_digit){
-                $equation_string = $second_operand . ' ' . $operator . ' ' . $first_operand . ' = ';
+                $equation_string .= $second_operand . ' ' . $operator . ' ' . $first_operand . ' = ';
                 $result = $second_digit-$first_digit;
             }else{
-                $equation_string = $first_operand . ' ' . $operator . ' ' . $second_operand . ' = ';
+                $equation_string .= $first_operand . ' ' . $operator . ' ' . $second_operand . ' = ';
                 $result = $first_digit-$second_digit;
             }
         }
         elseif($operator === '&#215;')
         {
             //Multiplication
-            $equation_string = $first_operand . ' ' . $operator . ' ' . $second_operand . ' = ';
+            $equation_string .= $first_operand . ' ' . $operator . ' ' . $second_operand . ' = ';
             $result = $first_digit*$second_digit;
         }
         
+        //Let's encode correct answer
+        $captcha_secret_string = $aio_wp_security->configs->get_value('aiowps_captcha_secret_key');
+        $current_time = time();
+        $enc_result = base64_encode($current_time.$captcha_secret_string.$result);
+        $equation_string .= '<input type="hidden" name="aiowps-captcha-string-info" id="aiowps-captcha-string-info" value="'.$enc_result.'" />';
+        $equation_string .= '<input type="hidden" name="aiowps-captcha-temp-string" id="aiowps-captcha-temp-string" value="'.$current_time.'" />';
         $equation_string .= '<input type="text" size="2" length="2" id="aiowps-captcha-answer" name="aiowps-captcha-answer" value="" />';
-        //Save the result in a transient
-        AIOWPSecurity_Utility::is_multisite_install() ? set_site_transient('aiowps_captcha', $result, 120) : set_transient('aiowps_captcha', $result, 120);
         return $equation_string;
     }
     
