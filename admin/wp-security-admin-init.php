@@ -10,6 +10,7 @@ class AIOWPSecurity_Admin_Init
     var $settings_menu;
     var $user_accounts_menu;
     var $user_login_menu;
+    var $user_registration_menu;
     var $db_security_menu;
     var $filesystem_menu;
     var $whois_menu;
@@ -157,6 +158,7 @@ class AIOWPSecurity_Admin_Init
         add_submenu_page(AIOWPSEC_MAIN_MENU_SLUG, __('Settings', 'aiowpsecurity'),  __('Settings', 'aiowpsecurity') , AIOWPSEC_MANAGEMENT_PERMISSION, AIOWPSEC_SETTINGS_MENU_SLUG, array(&$this, 'handle_settings_menu_rendering'));
         add_submenu_page(AIOWPSEC_MAIN_MENU_SLUG, __('User Accounts', 'aiowpsecurity'),  __('User Accounts', 'aiowpsecurity') , AIOWPSEC_MANAGEMENT_PERMISSION, AIOWPSEC_USER_ACCOUNTS_MENU_SLUG, array(&$this, 'handle_user_accounts_menu_rendering'));
         add_submenu_page(AIOWPSEC_MAIN_MENU_SLUG, __('User Login', 'aiowpsecurity'),  __('User Login', 'aiowpsecurity') , AIOWPSEC_MANAGEMENT_PERMISSION, AIOWPSEC_USER_LOGIN_MENU_SLUG, array(&$this, 'handle_user_login_menu_rendering'));
+        add_submenu_page(AIOWPSEC_MAIN_MENU_SLUG, __('User Registration', 'aiowpsecurity'),  __('User Registration', 'aiowpsecurity') , AIOWPSEC_MANAGEMENT_PERMISSION, AIOWPSEC_USER_REGISTRATION_MENU_SLUG, array(&$this, 'handle_user_registration_menu_rendering'));
         add_submenu_page(AIOWPSEC_MAIN_MENU_SLUG, __('Database Security', 'aiowpsecurity'),  __('Database Security', 'aiowpsecurity') , AIOWPSEC_MANAGEMENT_PERMISSION, AIOWPSEC_DB_SEC_MENU_SLUG, array(&$this, 'handle_database_menu_rendering'));
         if (AIOWPSecurity_Utility::is_multisite_install() && get_current_blog_id() != 1){
             //Suppress the firewall menu if site is a multi site AND not the main site
@@ -209,6 +211,12 @@ class AIOWPSecurity_Admin_Init
         $this->user_login_menu = new AIOWPSecurity_User_Login_Menu();
     }
     
+    function handle_user_registration_menu_rendering()
+    {
+        include_once('wp-security-user-registration-menu.php');
+        $this->user_registration_menu = new AIOWPSecurity_User_Registration_Menu();
+    }
+
     function handle_database_menu_rendering()
     {
         include_once('wp-security-database-menu.php');

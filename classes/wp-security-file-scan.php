@@ -176,7 +176,7 @@ class AIOWPSecurity_Filescan
         $filescan_data = array();
         $dit = new RecursiveDirectoryIterator($start_dir);
         $rit = new RecursiveIteratorIterator(
-            $dit, RecursiveIteratorIterator::SELF_FIRST);
+            $dit, RecursiveIteratorIterator::SELF_FIRST, RecursiveIteratorIterator::CATCH_GET_CHILD);
         
         $file_types_to_skip = $aio_wp_security->configs->get_value('aiowps_fcd_exclude_filetypes');
 

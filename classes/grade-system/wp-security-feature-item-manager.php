@@ -44,6 +44,10 @@ class AIOWPSecurity_Feature_Item_Manager
         //Force Logout
         $this->feature_items[] = new AIOWPSecurity_Feature_Item("user-login-force-logout", "Force Logout", $this->feature_point_1, $this->sec_level_basic);
 
+        //User Registration
+        //Manually approve registrations
+        $this->feature_items[] = new AIOWPSecurity_Feature_Item("manually-approve-registrations", "Registration Approval", $this->feature_point_4, $this->sec_level_basic);
+        
         //Database Security Menu Features
         //DB Prefix
         $this->feature_items[] = new AIOWPSecurity_Feature_Item("db-security-db-prefix", "DB Prefix", $this->feature_point_2, $this->sec_level_inter);
@@ -174,6 +178,12 @@ class AIOWPSecurity_Feature_Item_Manager
             {
                 $this->check_force_logout_feature($item);
             }
+            
+            if($item->feature_id == "manually-approve-registrations")
+            {
+                $this->check_registration_approval_feature($item);
+            }
+            
             
             if($item->feature_id == "filesystem-file-permissions")
             {
@@ -364,7 +374,19 @@ class AIOWPSecurity_Feature_Item_Manager
             $item->set_feature_status($this->feature_inactive);
         }
     }
-
+    
+    function check_registration_approval_feature($item)
+    {
+        global $aio_wp_security;
+        if ($aio_wp_security->configs->get_value('aiowps_enable_manual_registration_approval') == '1') {
+            $item->set_feature_status($this->feature_active);
+        }
+        else
+        {
+            $item->set_feature_status($this->feature_inactive);
+        }
+    }
+    
     function check_db_security_db_prefix_feature($item)
     {
         global $wpdb;

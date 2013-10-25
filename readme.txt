@@ -3,8 +3,8 @@ Contributors: Tips and Tricks HQ, wpsolutions, Peter Petreski, Ruhul Amin
 Donate link: http://www.tipsandtricks-hq.com
 Tags: security, secure, Anti Virus, antivirus, ban, ban hacker, virus, firewall, firewall security, login, lockdown, htaccess, hack, malware, vulnerability, protect, protection, phishing, database, backup, plugin, sql injection, ssl, restrict, login captcha
 Requires at least: 3.5
-Tested up to: 3.6.1
-Stable tag: 2.8.1
+Tested up to: 3.7
+Stable tag: 2.9
 License: GPLv3
 
 A comprehensive, user-friendly, all in one WordPress security and firewall plugin for your site.
@@ -49,6 +49,9 @@ via email whenever somebody gets locked out due to too many login attempts.
 * Ability to see a list of all the users who are currently logged into your site.
 * Allows you to specify one or more IP addresses in a special whitelist. The whitelisted IP addresses will have access to your WP login page.
 * Add captcha to WordPress Login form
+
+= User Registration Security =
+* Enable manual approval of WordPress user accounts. If your site allows people to create their own accounts via the WordPress registration form, then you can minimize SPAM or bogus registrations by manually approving each registration.
 
 = Database Security =
 * Easily the default WP prefix to a value of your choice with the click of a button.
@@ -141,6 +144,11 @@ http://www.tipsandtricks-hq.com/wordpress-security-and-firewall-plugin
 None
 
 == Changelog ==
+
+= 2.9 =
+- Added new feature which automatically sets the status of newly registered wordpress user accounts to "pending" and allows manual approval by an administrator.
+- Improved robustness of file change detection iteration code.
+- WordPress 3.7 compatibility
 
 = 2.8.1 =
 - Improved the login captcha implementation

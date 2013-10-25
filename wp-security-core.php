@@ -3,7 +3,7 @@
 if (!class_exists('AIO_WP_Security')){
 
 class AIO_WP_Security{
-    var $version = '2.8.1';
+    var $version = '2.9';
     var $db_version = '1.3';
     var $plugin_url;
     var $plugin_path;
@@ -12,6 +12,7 @@ class AIO_WP_Security{
     var $debug_logger;
     var $cron_handler;
     var $user_login_obj;
+    var $user_registration_obj;
     var $backup_obj;
     var $filescan_obj;
     var $captcha_obj;
@@ -61,6 +62,7 @@ class AIO_WP_Security{
         define('AIOWPSEC_SETTINGS_MENU_SLUG', 'aiowpsec_settings');
         define('AIOWPSEC_USER_ACCOUNTS_MENU_SLUG', 'aiowpsec_useracc');
         define('AIOWPSEC_USER_LOGIN_MENU_SLUG', 'aiowpsec_userlogin');
+        define('AIOWPSEC_USER_REGISTRATION_MENU_SLUG', 'aiowpsec_user_registration');
         define('AIOWPSEC_DB_SEC_MENU_SLUG', 'aiowpsec_database');
         define('AIOWPSEC_FILESYSTEM_MENU_SLUG', 'aiowpsec_filesystem');
         define('AIOWPSEC_WHOIS_MENU_SLUG', 'aiowpsec_whois');
@@ -89,6 +91,7 @@ class AIO_WP_Security{
         include_once('classes/wp-security-general-init-tasks.php');
         
         include_once('classes/wp-security-user-login.php');
+        include_once('classes/wp-security-user-registration.php');
         include_once('classes/wp-security-captcha.php');
         include_once('classes/wp-security-backup.php');
         include_once('classes/wp-security-file-scan.php');
@@ -168,6 +171,7 @@ class AIO_WP_Security{
 
         //Actions, filters, shortcodes goes here       
         $this->user_login_obj = new AIOWPSecurity_User_Login();//Do the user login operation tasks
+        $this->user_registration_obj = new AIOWPSecurity_User_Registration();//Do the user login operation tasks
         $this->captcha_obj = new AIOWPSecurity_Captcha();//Do the captcha tasks
         $this->backup_obj = new AIOWPSecurity_Backup();//Object to handle backup tasks
         $this->filescan_obj = new AIOWPSecurity_Filescan();//Object to handle backup tasks 

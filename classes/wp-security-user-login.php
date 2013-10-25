@@ -30,7 +30,7 @@ class AIOWPSecurity_User_Login
      */
     function aiowp_auth_login($user, $username, $password)
     {
-        global $aio_wp_security;
+        global $wpdb, $aio_wp_security;
         $login_attempts_permitted = $aio_wp_security->configs->get_value('aiowps_max_login_attempts');
         
         $user_locked = $this->check_locked_user();
@@ -129,7 +129,17 @@ class AIOWPSecurity_User_Login
                 return new WP_Error('incorrect_password', sprintf(__('<strong>ERROR</strong>: Incorrect password. <a href="%s" title="Password Lost and Found">Lost your password</a>?', 'aiowpsecurity'), site_url('wp-login.php?action=lostpassword', 'login')));
             }
         }
-
+        
+        //Check if auto pending new account status feature is enabled
+        if ($aio_wp_security->configs->get_value('aiowps_enable_manual_registration_approval') == '1')
+        {
+                $cap_key_name = $wpdb->prefix.'capabilities';
+                $user_meta_info = get_user_meta($userdata->ID, 'aiowps_account_status', TRUE);
+                if ($user_meta_info == 'pending'){
+                    //Return generic error message if configured
+                    return new WP_Error('authentication_failed', __('<strong>ACCOUNT PENDING</strong>: Your account is currently not active. An administrator needs to activate your account before you can login.', 'aiowpsecurity'));
+                }
+        }
         $user =  new WP_User($userdata->ID);
         return $user;
     }

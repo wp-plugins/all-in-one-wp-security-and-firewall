@@ -228,7 +228,7 @@ class AIOWPSecurity_Filescan_Menu extends AIOWPSecurity_Admin_Menu
         </form>
         </div></div>
         <div class="postbox">
-        <h3><label for="title"><?php _e('Automated File Change Detection', 'aiowpsecurity'); ?></label></h3>
+        <h3><label for="title"><?php _e('File Change Detection Settings', 'aiowpsecurity'); ?></label></h3>
         <div class="inside">
         <?php
         //Display security info badge
