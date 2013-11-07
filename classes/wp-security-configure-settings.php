@@ -38,6 +38,10 @@ class AIOWPSecurity_Configure_Settings
         $aio_wp_security->configs->set_value('aiowps_enable_whitelisting','');//Checkbox
         $aio_wp_security->configs->set_value('aiowps_allowed_ip_addresses','');
 
+        //User registration
+        $aio_wp_security->configs->set_value('aiowps_enable_manual_registration_approval','');//Checkbox
+        $aio_wp_security->configs->set_value('aiowps_enable_registration_page_captcha','');//Checkbox
+        
         //DB Security feature
         //$aio_wp_security->configs->set_value('aiowps_new_manual_db_pefix',''); //text field
         $aio_wp_security->configs->set_value('aiowps_enable_random_prefix','');//Checkbox
@@ -121,14 +125,17 @@ class AIOWPSecurity_Configure_Settings
         $aio_wp_security->configs->add_value('aiowps_logout_time_period','60');
         $aio_wp_security->configs->add_value('aiowps_enable_invalid_username_lockdown','');//Checkbox
         
+        //Login Whitelist feature
+        $aio_wp_security->configs->add_value('aiowps_enable_whitelisting','');//Checkbox
+        $aio_wp_security->configs->add_value('aiowps_allowed_ip_addresses','');
         //Captcha feature
         $aio_wp_security->configs->add_value('aiowps_enable_login_captcha','');//Checkbox
         $aio_wp_security->configs->add_value('aiowps_captcha_secret_key',AIOWPSecurity_Utility::generate_alpha_numeric_random_string(20));//Hidden secret value which will be used to do some captcha processing. This will be assigned a random string generated when captcha settings saved
 
-        //Login Whitelist feature
-        $aio_wp_security->configs->add_value('aiowps_enable_whitelisting','');//Checkbox
-        $aio_wp_security->configs->add_value('aiowps_allowed_ip_addresses','');
-
+        //User registration
+        $aio_wp_security->configs->add_value('aiowps_enable_manual_registration_approval','');//Checkbox
+        $aio_wp_security->configs->add_value('aiowps_enable_registration_page_captcha','');//Checkbox
+        
         //DB Security feature
         //$aio_wp_security->configs->add_value('aiowps_new_manual_db_pefix',''); //text field
         $aio_wp_security->configs->add_value('aiowps_enable_random_prefix','');//Checkbox

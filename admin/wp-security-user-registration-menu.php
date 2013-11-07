@@ -7,10 +7,12 @@ class AIOWPSecurity_User_Registration_Menu extends AIOWPSecurity_Admin_Menu
     /* Specify all the tabs of this menu in the following array */
     var $menu_tabs = array(
         'tab1' => 'Manual Approval',
+        'tab2' => 'Registration Captcha',
         );
 
     var $menu_tabs_handler = array(
         'tab1' => 'render_tab1',
+        'tab2' => 'render_tab2',
         );
     
     function __construct() 
@@ -153,5 +155,68 @@ class AIOWPSecurity_User_Registration_Menu extends AIOWPSecurity_Admin_Menu
         </div></div>
         <?php
     }
+    
+    function render_tab2()
+    {
+        global $aio_wp_security;
+        global $aiowps_feature_mgr;
+        
+        if(isset($_POST['aiowpsec_save_registration_captcha_settings']))//Do form submission tasks
+        {
+            $error = '';
+            $nonce=$_REQUEST['_wpnonce'];
+            if (!wp_verify_nonce($nonce, 'aiowpsec-registration-captcha-settings-nonce'))
+            {
+                $aio_wp_security->debug_logger->log_debug("Nonce check failed on registration captcha settings save!",4);
+                die("Nonce check failed on registration captcha settings save!");
+            }
+
+
+            //Save all the form values to the options
+            $random_20_digit_string = AIOWPSecurity_Utility::generate_alpha_numeric_random_string(20); //Generate random 20 char string for use during captcha encode/decode
+            $aio_wp_security->configs->set_value('aiowps_captcha_secret_key', $random_20_digit_string);
+            $aio_wp_security->configs->set_value('aiowps_enable_registration_page_captcha',isset($_POST["aiowps_enable_registration_page_captcha"])?'1':'');
+            $aio_wp_security->configs->save_config();
+            
+            //Recalculate points after the feature status/options have been altered
+            $aiowps_feature_mgr->check_feature_status_and_recalculate_points();
+            
+            $this->show_msg_settings_updated();
+        }
+        ?>
+        <div class="aio_blue_box">
+            <?php
+            echo '<p>'.__('This feature allows you to add a captcha form on the WordPress registration page.', 'aiowpsecurity').'
+            <br />'.__('Users who attempt to register will also need to enter the answer to a simple mathematical question - if they enter the wrong answer, the plugin will not allow them to register.', 'aiowpsecurity').'
+            <br />'.__('Therefore, adding a captcha form on the registration page is another effective yet simple SPAM registration prevention technique.', 'aiowpsecurity').'
+            </p>';
+            ?>
+        </div>
+        <div class="postbox">
+        <h3><label for="title"><?php _e('Registration Page Captcha Settings', 'aiowpsecurity'); ?></label></h3>
+        <div class="inside">
+        <?php
+        //Display security info badge
+        global $aiowps_feature_mgr;
+        $aiowps_feature_mgr->output_feature_details_badge("user-registration-captcha");
+        ?>
+
+        <form action="" method="POST">
+        <?php wp_nonce_field('aiowpsec-registration-captcha-settings-nonce'); ?>
+        <table class="form-table">
+            <tr valign="top">
+                <th scope="row"><?php _e('Enable Captcha On Registration Page', 'aiowpsecurity')?>:</th>                
+                <td>
+                <input name="aiowps_enable_registration_page_captcha" type="checkbox"<?php if($aio_wp_security->configs->get_value('aiowps_enable_registration_page_captcha')=='1') echo ' checked="checked"'; ?> value="1"/>
+                <span class="description"><?php _e('Check this if you want to insert a captcha form on the WordPress user registration page (if you allow user registration).', 'aiowpsecurity'); ?></span>
+                </td>
+            </tr>            
+        </table>
+        <input type="submit" name="aiowpsec_save_registration_captcha_settings" value="<?php _e('Save Settings', 'aiowpsecurity')?>" class="button-primary" />
+        </form>
+        </div></div>        
+        <?php
+    }
+    
         
 } //end class

@@ -389,6 +389,13 @@ class AIOWPSecurity_User_Login_Menu extends AIOWPSecurity_Admin_Menu
             </p>';
             ?>
         </div>
+        <div class="aio_yellow_box">
+            <?php
+            $brute_force_login_feature_link = '<a href="admin.php?page='.AIOWPSEC_FIREWALL_MENU_SLUG.'&tab=tab4" target="_blank">Cookie-Based Brute Force Login Prevention</a>';
+            echo '<p>'.sprintf( __('Attention: If in addition to enabling the white list feature, you also have the %s feature enabled, <strong>you will still need to use your secret word in the URL when trying to access your WordPress login page</strong>.', 'aiowpsecurity'), $brute_force_login_feature_link).'</p>            
+            <p>'.__('These features are NOT functionally related. Having both of them enabled on your site means you are creating 2 layers of security.', 'aiowpsecurity').'</p>';
+            ?>
+        </div>
 
         <div class="postbox">
         <h3><label for="title"><?php _e('Login IP Whitelist Settings', 'aiowpsecurity'); ?></label></h3>

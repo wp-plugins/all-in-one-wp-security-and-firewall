@@ -31,6 +31,13 @@ class AIOWPSecurity_General_Init_Tasks
             }
         }
 
+        //For registration page captcha feature
+        if($aio_wp_security->configs->get_value('aiowps_enable_registration_page_captcha') == '1'){
+            if (!is_user_logged_in()) {
+                add_action('register_form', array(&$this, 'insert_captcha_question_form'));
+            }
+        }
+
         //For comment captcha feature
         if($aio_wp_security->configs->get_value('aiowps_enable_comment_captcha') == '1'){
             add_action( 'comment_form_after_fields', array(&$this, 'insert_captcha_question_form'), 1 );

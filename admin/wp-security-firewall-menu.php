@@ -625,12 +625,22 @@ class AIOWPSecurity_Firewall_Menu extends AIOWPSecurity_Admin_Menu
         <div class="aio_blue_box">
             <?php
             //TODO - need to fix the following message
-            $backup_tab_link = '<a href="admin.php?page='.AIOWPSEC_SETTINGS_MENU_SLUG.'&tab=tab2" target="_blank">backup</a>';
-            $info_msg = sprintf( __('This should not have any impact on your site\'s general functionality but if you wish you can take a %s of your .htaccess file before proceeding.', 'aiowpsecurity'), $backup_tab_link);
             echo '<p>'.__('A Brute Force Attack is when a hacker tries many combinations of usernames and passwords until they succeed in guessing the right combination.', 'aiowpsecurity').
             '<br />'.__('Due to the fact that at any one time there may be many concurrent login attempts occurring on your site via malicious automated robots, this also has a negative impact on your server\'s memory and performance.', 'aiowpsecurity').
-            '<br />'.__('The features in this tab will stop the majority of Brute Force Login Attacks at the .htaccess level thus providing even better protection for your WP login page and also reducing the load on your server because the system does not have to run PHP code to process the login attempts.', 'aiowpsecurity').
-            '<br />'.$info_msg.'</p>';
+            '<br />'.__('The features in this tab will stop the majority of Brute Force Login Attacks at the .htaccess level thus providing even better protection for your WP login page and also reducing the load on your server because the system does not have to run PHP code to process the login attempts.', 'aiowpsecurity').'</p>';
+            ?>
+        </div>
+        <div class="aio_yellow_box">
+            <?php
+            $backup_tab_link = '<a href="admin.php?page='.AIOWPSEC_SETTINGS_MENU_SLUG.'&tab=tab2" target="_blank">backup</a>';
+            $video_link = '<a href="http://www.tipsandtricks-hq.com/all-in-one-wp-security-plugin-cookie-based-brute-force-login-attack-prevention-feature-5994" target="_blank">video tutorial</a>';
+            $info_msg = sprintf( __('Even though this feature should not have any impact on your site\'s general functionality <strong>you are strongly encouraged to take a %s of your .htaccess file before proceeding</strong>.', 'aiowpsecurity'), $backup_tab_link);
+            $info_msg1 = __('If this feature is not used correctly, you can get locked out of your site. A backup file will come in handy if that happens.', 'aiowpsecurity');
+            $info_msg2 = sprintf( __('To learn more about how to use this feature please watch the following %s.', 'aiowpsecurity'), $video_link);
+            $brute_force_login_feature_link = '<a href="admin.php?page='.AIOWPSEC_FIREWALL_MENU_SLUG.'&tab=tab4" target="_blank">Cookie-Based Brute Force Login Prevention</a>';
+            echo '<p>'.$info_msg.
+            '<br />'.$info_msg1.
+            '<br />'.$info_msg2.'</p>';
             ?>
         </div>
 

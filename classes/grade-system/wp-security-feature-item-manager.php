@@ -47,6 +47,8 @@ class AIOWPSecurity_Feature_Item_Manager
         //User Registration
         //Manually approve registrations
         $this->feature_items[] = new AIOWPSecurity_Feature_Item("manually-approve-registrations", "Registration Approval", $this->feature_point_4, $this->sec_level_basic);
+        //Registration Captcha
+        $this->feature_items[] = new AIOWPSecurity_Feature_Item("user-registration-captcha", "Registration Captcha", $this->feature_point_4, $this->sec_level_basic);
         
         //Database Security Menu Features
         //DB Prefix
@@ -72,7 +74,7 @@ class AIOWPSecurity_Feature_Item_Manager
         $this->feature_items[] = new AIOWPSecurity_Feature_Item("firewall-pingback-rules", "Enable Pingback Vulnerability Protection", $this->feature_point_3, $this->sec_level_basic);
         
         //Additional and Advanced firewall
-        $this->feature_items[] = new AIOWPSecurity_Feature_Item("firewall-enable-brute-force-attack-prevention", "Enable Brute Force Attack Prevention", $this->feature_point_4, $this->sec_level_inter);
+        $this->feature_items[] = new AIOWPSecurity_Feature_Item("firewall-enable-brute-force-attack-prevention", "Enable Brute Force Attack Prevention", $this->feature_point_4, $this->sec_level_advanced);
         $this->feature_items[] = new AIOWPSecurity_Feature_Item("firewall-disable-index-views", "Disable Index Views", $this->feature_point_1, $this->sec_level_inter);
         $this->feature_items[] = new AIOWPSecurity_Feature_Item("firewall-disable-trace-track", "Disable Trace and Track", $this->feature_point_2, $this->sec_level_advanced);
         $this->feature_items[] = new AIOWPSecurity_Feature_Item("firewall-forbid-proxy-comments", "Forbid Proxy Comments", $this->feature_point_2, $this->sec_level_advanced);
@@ -182,6 +184,10 @@ class AIOWPSecurity_Feature_Item_Manager
             if($item->feature_id == "manually-approve-registrations")
             {
                 $this->check_registration_approval_feature($item);
+            }
+            if($item->feature_id == "user-registration-captcha")
+            {
+                $this->check_registration_captcha_feature($item);
             }
             
             
@@ -386,6 +392,19 @@ class AIOWPSecurity_Feature_Item_Manager
             $item->set_feature_status($this->feature_inactive);
         }
     }
+    
+    function check_registration_captcha_feature($item)
+    {
+        global $aio_wp_security;
+        if ($aio_wp_security->configs->get_value('aiowps_enable_registration_page_captcha') == '1') {
+            $item->set_feature_status($this->feature_active);
+        }
+        else
+        {
+            $item->set_feature_status($this->feature_inactive);
+        }
+    }
+    
     
     function check_db_security_db_prefix_feature($item)
     {
