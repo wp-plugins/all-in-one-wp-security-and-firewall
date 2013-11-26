@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: AIOWPS\n"
-"POT-Creation-Date: 2013-10-03 18:18+1000\n"
-"PO-Revision-Date: 2013-10-03 18:18+1000\n"
+"POT-Creation-Date: 2013-11-16 12:31+1000\n"
+"PO-Revision-Date: 2013-11-16 12:31+1000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -10,58 +10,62 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Poedit 1.5.7\n"
 "X-Poedit-KeywordsList: __;_e\n"
-"X-Poedit-Basepath: ./\n"
-"X-Poedit-SearchPath-0: all-in-one-wp-security\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-SearchPath-0: .\n"
 
-#: all-in-one-wp-security/admin/wp-security-admin-init.php:155
+#: all-in-one-wp-security/admin/wp-security-admin-init.php:156
 msgid "WP Security"
 msgstr ""
 
-#: all-in-one-wp-security/admin/wp-security-admin-init.php:156
+#: all-in-one-wp-security/admin/wp-security-admin-init.php:157
 msgid "Dashboard"
 msgstr ""
 
-#: all-in-one-wp-security/admin/wp-security-admin-init.php:157
+#: all-in-one-wp-security/admin/wp-security-admin-init.php:158
 msgid "Settings"
 msgstr ""
 
-#: all-in-one-wp-security/admin/wp-security-admin-init.php:158
+#: all-in-one-wp-security/admin/wp-security-admin-init.php:159
 msgid "User Accounts"
 msgstr ""
 
-#: all-in-one-wp-security/admin/wp-security-admin-init.php:159
+#: all-in-one-wp-security/admin/wp-security-admin-init.php:160
 msgid "User Login"
 msgstr ""
 
-#: all-in-one-wp-security/admin/wp-security-admin-init.php:160
+#: all-in-one-wp-security/admin/wp-security-admin-init.php:161
+msgid "User Registration"
+msgstr ""
+
+#: all-in-one-wp-security/admin/wp-security-admin-init.php:162
 msgid "Database Security"
 msgstr ""
 
-#: all-in-one-wp-security/admin/wp-security-admin-init.php:164
+#: all-in-one-wp-security/admin/wp-security-admin-init.php:166
 msgid "Filesystem Security"
 msgstr ""
 
-#: all-in-one-wp-security/admin/wp-security-admin-init.php:166
+#: all-in-one-wp-security/admin/wp-security-admin-init.php:168
 msgid "WHOIS Lookup"
 msgstr ""
 
-#: all-in-one-wp-security/admin/wp-security-admin-init.php:170
+#: all-in-one-wp-security/admin/wp-security-admin-init.php:172
 msgid "Blacklist Manager"
 msgstr ""
 
-#: all-in-one-wp-security/admin/wp-security-admin-init.php:175
+#: all-in-one-wp-security/admin/wp-security-admin-init.php:177
 msgid "Firewall"
 msgstr ""
 
-#: all-in-one-wp-security/admin/wp-security-admin-init.php:177
+#: all-in-one-wp-security/admin/wp-security-admin-init.php:179
 msgid "SPAM Prevention"
 msgstr ""
 
-#: all-in-one-wp-security/admin/wp-security-admin-init.php:181
+#: all-in-one-wp-security/admin/wp-security-admin-init.php:183
 msgid "Scanner"
 msgstr ""
 
-#: all-in-one-wp-security/admin/wp-security-admin-init.php:183
+#: all-in-one-wp-security/admin/wp-security-admin-init.php:185
 msgid "Maintenance"
 msgstr ""
 
@@ -79,7 +83,7 @@ msgstr ""
 
 #: all-in-one-wp-security/admin/wp-security-blacklist-menu.php:126
 #: all-in-one-wp-security/admin/wp-security-list-comment-spammer-ip.php:147
-#: all-in-one-wp-security/admin/wp-security-user-login-menu.php:306
+#: all-in-one-wp-security/admin/wp-security-user-login-menu.php:375
 msgid ""
 "The plugin was unable to write to the .htaccess file. Please edit file "
 "manually."
@@ -149,40 +153,40 @@ msgstr ""
 #: all-in-one-wp-security/admin/wp-security-firewall-menu.php:391
 #: all-in-one-wp-security/admin/wp-security-firewall-menu.php:420
 #: all-in-one-wp-security/admin/wp-security-firewall-menu.php:508
-#: all-in-one-wp-security/admin/wp-security-firewall-menu.php:653
-#: all-in-one-wp-security/admin/wp-security-firewall-menu.php:687
-#: all-in-one-wp-security/admin/wp-security-firewall-menu.php:710
-#: all-in-one-wp-security/admin/wp-security-firewall-menu.php:731
-#: all-in-one-wp-security/admin/wp-security-spam-menu.php:133
-#: all-in-one-wp-security/admin/wp-security-spam-menu.php:218
-#: all-in-one-wp-security/admin/wp-security-user-login-menu.php:355
+#: all-in-one-wp-security/admin/wp-security-firewall-menu.php:663
+#: all-in-one-wp-security/admin/wp-security-firewall-menu.php:697
+#: all-in-one-wp-security/admin/wp-security-firewall-menu.php:720
+#: all-in-one-wp-security/admin/wp-security-firewall-menu.php:741
+#: all-in-one-wp-security/admin/wp-security-spam-menu.php:168
+#: all-in-one-wp-security/admin/wp-security-spam-menu.php:253
+#: all-in-one-wp-security/admin/wp-security-user-login-menu.php:431
 msgid "More Info"
 msgstr ""
 
 #: all-in-one-wp-security/admin/wp-security-blacklist-menu.php:171
-#: all-in-one-wp-security/admin/wp-security-user-login-menu.php:358
+#: all-in-one-wp-security/admin/wp-security-user-login-menu.php:434
 msgid "Each IP address must be on a new line."
 msgstr ""
 
 #: all-in-one-wp-security/admin/wp-security-blacklist-menu.php:172
-#: all-in-one-wp-security/admin/wp-security-user-login-menu.php:359
+#: all-in-one-wp-security/admin/wp-security-user-login-menu.php:435
 msgid ""
 "To specify an IP range use a wildcard \"*\" character. Acceptable ways to "
 "use wildcards is shown in the examples below:"
 msgstr ""
 
 #: all-in-one-wp-security/admin/wp-security-blacklist-menu.php:173
-#: all-in-one-wp-security/admin/wp-security-user-login-menu.php:360
+#: all-in-one-wp-security/admin/wp-security-user-login-menu.php:436
 msgid "Example 1: 195.47.89.*"
 msgstr ""
 
 #: all-in-one-wp-security/admin/wp-security-blacklist-menu.php:174
-#: all-in-one-wp-security/admin/wp-security-user-login-menu.php:361
+#: all-in-one-wp-security/admin/wp-security-user-login-menu.php:437
 msgid "Example 2: 195.47.*.*"
 msgstr ""
 
 #: all-in-one-wp-security/admin/wp-security-blacklist-menu.php:175
-#: all-in-one-wp-security/admin/wp-security-user-login-menu.php:362
+#: all-in-one-wp-security/admin/wp-security-user-login-menu.php:438
 msgid "Example 3: 195.*.*.*"
 msgstr ""
 
@@ -211,10 +215,13 @@ msgstr ""
 #: all-in-one-wp-security/admin/wp-security-filescan-menu.php:303
 #: all-in-one-wp-security/admin/wp-security-filesystem-menu.php:225
 #: all-in-one-wp-security/admin/wp-security-settings-menu.php:491
-#: all-in-one-wp-security/admin/wp-security-spam-menu.php:148
-#: all-in-one-wp-security/admin/wp-security-user-login-menu.php:225
-#: all-in-one-wp-security/admin/wp-security-user-login-menu.php:369
-#: all-in-one-wp-security/admin/wp-security-user-login-menu.php:521
+#: all-in-one-wp-security/admin/wp-security-spam-menu.php:183
+#: all-in-one-wp-security/admin/wp-security-user-login-menu.php:227
+#: all-in-one-wp-security/admin/wp-security-user-login-menu.php:310
+#: all-in-one-wp-security/admin/wp-security-user-login-menu.php:445
+#: all-in-one-wp-security/admin/wp-security-user-login-menu.php:597
+#: all-in-one-wp-security/admin/wp-security-user-registration-menu.php:140
+#: all-in-one-wp-security/admin/wp-security-user-registration-menu.php:215
 msgid "Save Settings"
 msgstr ""
 
@@ -428,7 +435,7 @@ msgstr ""
 
 #: all-in-one-wp-security/admin/wp-security-database-menu.php:250
 #: all-in-one-wp-security/admin/wp-security-filescan-menu.php:150
-#: all-in-one-wp-security/admin/wp-security-user-login-menu.php:114
+#: all-in-one-wp-security/admin/wp-security-user-login-menu.php:116
 msgid ""
 "You have entered an incorrect email address format. It has been set to your "
 "WordPress admin email as default."
@@ -436,9 +443,9 @@ msgstr ""
 
 #: all-in-one-wp-security/admin/wp-security-database-menu.php:256
 #: all-in-one-wp-security/admin/wp-security-filescan-menu.php:156
-#: all-in-one-wp-security/admin/wp-security-spam-menu.php:178
-#: all-in-one-wp-security/admin/wp-security-user-login-menu.php:120
-#: all-in-one-wp-security/admin/wp-security-user-login-menu.php:474
+#: all-in-one-wp-security/admin/wp-security-spam-menu.php:213
+#: all-in-one-wp-security/admin/wp-security-user-login-menu.php:122
+#: all-in-one-wp-security/admin/wp-security-user-login-menu.php:550
 msgid "Attention!"
 msgstr ""
 
@@ -513,7 +520,7 @@ msgstr ""
 
 #: all-in-one-wp-security/admin/wp-security-database-menu.php:337
 #: all-in-one-wp-security/admin/wp-security-filescan-menu.php:299
-#: all-in-one-wp-security/admin/wp-security-user-login-menu.php:221
+#: all-in-one-wp-security/admin/wp-security-user-login-menu.php:223
 msgid "Enter an email address"
 msgstr ""
 
@@ -672,7 +679,7 @@ msgid "Perform Scan Now"
 msgstr ""
 
 #: all-in-one-wp-security/admin/wp-security-filescan-menu.php:231
-msgid "Automated File Change Detection"
+msgid "File Change Detection Settings"
 msgstr ""
 
 #: all-in-one-wp-security/admin/wp-security-filescan-menu.php:243
@@ -922,7 +929,7 @@ msgstr ""
 #: all-in-one-wp-security/admin/wp-security-firewall-menu.php:263
 #: all-in-one-wp-security/admin/wp-security-firewall-menu.php:474
 #: all-in-one-wp-security/admin/wp-security-firewall-menu.php:613
-#: all-in-one-wp-security/admin/wp-security-spam-menu.php:96
+#: all-in-one-wp-security/admin/wp-security-spam-menu.php:100
 msgid ""
 "Could not write to the .htaccess file. Please check the file permissions."
 msgstr ""
@@ -1016,7 +1023,8 @@ msgid "Showing latest entries of error_log file: %s"
 msgstr ""
 
 #: all-in-one-wp-security/admin/wp-security-firewall-menu.php:105
-#: all-in-one-wp-security/admin/wp-security-spam-menu.php:92
+#: all-in-one-wp-security/admin/wp-security-spam-menu.php:96
+#: all-in-one-wp-security/admin/wp-security-user-registration-menu.php:90
 msgid "Settings were successfully saved"
 msgstr ""
 
@@ -1026,7 +1034,6 @@ msgid "Firewall Settings"
 msgstr ""
 
 #: all-in-one-wp-security/admin/wp-security-firewall-menu.php:121
-#: all-in-one-wp-security/admin/wp-security-firewall-menu.php:629
 #, php-format
 msgid ""
 "This should not have any impact on your site's general functionality but if "
@@ -1440,20 +1447,20 @@ msgstr ""
 msgid "Brute Force Prevention Firewall Settings"
 msgstr ""
 
-#: all-in-one-wp-security/admin/wp-security-firewall-menu.php:630
+#: all-in-one-wp-security/admin/wp-security-firewall-menu.php:628
 msgid ""
 "A Brute Force Attack is when a hacker tries many combinations of usernames "
 "and passwords until they succeed in guessing the right combination."
 msgstr ""
 
-#: all-in-one-wp-security/admin/wp-security-firewall-menu.php:631
+#: all-in-one-wp-security/admin/wp-security-firewall-menu.php:629
 msgid ""
 "Due to the fact that at any one time there may be many concurrent login "
 "attempts occurring on your site via malicious automated robots, this also "
 "has a negative impact on your server's memory and performance."
 msgstr ""
 
-#: all-in-one-wp-security/admin/wp-security-firewall-menu.php:632
+#: all-in-one-wp-security/admin/wp-security-firewall-menu.php:630
 msgid ""
 "The features in this tab will stop the majority of Brute Force Login Attacks "
 "at the .htaccess level thus providing even better protection for your WP "
@@ -1461,34 +1468,54 @@ msgid ""
 "not have to run PHP code to process the login attempts."
 msgstr ""
 
+#: all-in-one-wp-security/admin/wp-security-firewall-menu.php:637
+#, php-format
+msgid ""
+"Even though this feature should not have any impact on your site's general "
+"functionality <strong>you are strongly encouraged to take a %s of your ."
+"htaccess file before proceeding</strong>."
+msgstr ""
+
 #: all-in-one-wp-security/admin/wp-security-firewall-menu.php:638
+msgid ""
+"If this feature is not used correctly, you can get locked out of your site. "
+"A backup file will come in handy if that happens."
+msgstr ""
+
+#: all-in-one-wp-security/admin/wp-security-firewall-menu.php:639
+#, php-format
+msgid ""
+"To learn more about how to use this feature please watch the following %s."
+msgstr ""
+
+#: all-in-one-wp-security/admin/wp-security-firewall-menu.php:648
 msgid "Cookie Based Brute Force Login Prevention"
 msgstr ""
 
-#: all-in-one-wp-security/admin/wp-security-firewall-menu.php:649
+#: all-in-one-wp-security/admin/wp-security-firewall-menu.php:659
 msgid "Enable Brute Force Attack Prevention"
 msgstr ""
 
-#: all-in-one-wp-security/admin/wp-security-firewall-menu.php:652
+#: all-in-one-wp-security/admin/wp-security-firewall-menu.php:662
 msgid ""
 "Check this if you want to protect your login page from Brute Force Attack."
 msgstr ""
 
-#: all-in-one-wp-security/admin/wp-security-firewall-menu.php:657
+#: all-in-one-wp-security/admin/wp-security-firewall-menu.php:667
 msgid ""
 "This feature will deny access to your WordPress login page for all people "
 "except those who have a special cookie in their browser."
 msgstr ""
 
-#: all-in-one-wp-security/admin/wp-security-firewall-menu.php:659
+#: all-in-one-wp-security/admin/wp-security-firewall-menu.php:669
 msgid "To use this feature do the following:"
 msgstr ""
 
-#: all-in-one-wp-security/admin/wp-security-firewall-menu.php:661
+#: all-in-one-wp-security/admin/wp-security-firewall-menu.php:671
 msgid "1) Enable the checkbox."
 msgstr ""
 
-#: all-in-one-wp-security/admin/wp-security-firewall-menu.php:663
+#: all-in-one-wp-security/admin/wp-security-firewall-menu.php:673
 msgid ""
 "2) Enter a secret word consisting of alphanumeric characters which will be "
 "difficult to guess. This secret word will be useful whenever you need to "
@@ -1496,7 +1523,7 @@ msgid ""
 "below)."
 msgstr ""
 
-#: all-in-one-wp-security/admin/wp-security-firewall-menu.php:665
+#: all-in-one-wp-security/admin/wp-security-firewall-menu.php:675
 msgid ""
 "3) You will then be provided with a special login URL. You will need to use "
 "this URL to login to your WordPress site instead of the usual login URL. "
@@ -1504,73 +1531,73 @@ msgid ""
 "allow you access to the WordPress administration login page."
 msgstr ""
 
-#: all-in-one-wp-security/admin/wp-security-firewall-menu.php:667
+#: all-in-one-wp-security/admin/wp-security-firewall-menu.php:677
 msgid ""
 "Any person trying to access your login page who does not have the special "
 "cookie in their browser will be automatically blocked."
 msgstr ""
 
-#: all-in-one-wp-security/admin/wp-security-firewall-menu.php:674
+#: all-in-one-wp-security/admin/wp-security-firewall-menu.php:684
 msgid "Secret Word"
 msgstr ""
 
-#: all-in-one-wp-security/admin/wp-security-firewall-menu.php:676
+#: all-in-one-wp-security/admin/wp-security-firewall-menu.php:686
 msgid ""
 "Choose a secret word consisting of alphanumeric characters which you can use "
 "to access your special URL. Your are highly encouraged to choose a word "
 "which will be difficult to guess."
 msgstr ""
 
-#: all-in-one-wp-security/admin/wp-security-firewall-menu.php:680
+#: all-in-one-wp-security/admin/wp-security-firewall-menu.php:690
 msgid "Re-direct URL"
 msgstr ""
 
-#: all-in-one-wp-security/admin/wp-security-firewall-menu.php:684
+#: all-in-one-wp-security/admin/wp-security-firewall-menu.php:694
 msgid ""
 "Specify a URL to redirect a hacker to when they try to access your WordPress "
 "login page."
 msgstr ""
 
-#: all-in-one-wp-security/admin/wp-security-firewall-menu.php:691
+#: all-in-one-wp-security/admin/wp-security-firewall-menu.php:701
 msgid ""
 "The URL specified here can be any site's URL and does not have to be your "
 "own. For example you can be as creative as you like and send hackers to the "
 "CIA or NSA home page."
 msgstr ""
 
-#: all-in-one-wp-security/admin/wp-security-firewall-menu.php:693
+#: all-in-one-wp-security/admin/wp-security-firewall-menu.php:703
 msgid ""
 "This field will default to: http://127.0.0.1 if you do not enter a value."
 msgstr ""
 
-#: all-in-one-wp-security/admin/wp-security-firewall-menu.php:695
+#: all-in-one-wp-security/admin/wp-security-firewall-menu.php:705
 msgid "Useful Tip:"
 msgstr ""
 
-#: all-in-one-wp-security/admin/wp-security-firewall-menu.php:697
+#: all-in-one-wp-security/admin/wp-security-firewall-menu.php:707
 msgid ""
 "It's a good idea to not redirect attempted brute force login attempts to "
 "your site because it increases the load on your server."
 msgstr ""
 
-#: all-in-one-wp-security/admin/wp-security-firewall-menu.php:699
+#: all-in-one-wp-security/admin/wp-security-firewall-menu.php:709
 msgid ""
 "Redirecting a hacker or malicious bot back to \"http://127.0.0.1\" is ideal "
 "because it deflects them back to their own local host and puts the load on "
 "their server instead of yours."
 msgstr ""
 
-#: all-in-one-wp-security/admin/wp-security-firewall-menu.php:706
+#: all-in-one-wp-security/admin/wp-security-firewall-menu.php:716
 msgid "My Site Has Posts Or Pages Which Are Password Protected"
 msgstr ""
 
-#: all-in-one-wp-security/admin/wp-security-firewall-menu.php:709
+#: all-in-one-wp-security/admin/wp-security-firewall-menu.php:719
 msgid ""
 "Check this if you are using the native WordPress password protection feature "
 "for some or all of your blog posts or pages."
 msgstr ""
 
-#: all-in-one-wp-security/admin/wp-security-firewall-menu.php:714
+#: all-in-one-wp-security/admin/wp-security-firewall-menu.php:724
 msgid ""
 "In the cases where you are protecting some of your posts or pages using the "
 "in-built WordPress password protection feature, a few extra lines of "
@@ -1578,32 +1605,32 @@ msgid ""
 "people trying to access pages are not automatically blocked."
 msgstr ""
 
-#: all-in-one-wp-security/admin/wp-security-firewall-menu.php:716
+#: all-in-one-wp-security/admin/wp-security-firewall-menu.php:726
 msgid ""
 "By enabling this checkbox the plugin will add the necessary rules and "
 "exceptions to your .htacces file so that people trying to access these pages "
 "are not automatically blocked."
 msgstr ""
 
-#: all-in-one-wp-security/admin/wp-security-firewall-menu.php:718
+#: all-in-one-wp-security/admin/wp-security-firewall-menu.php:728
 msgid "Helpful Tip:"
 msgstr ""
 
-#: all-in-one-wp-security/admin/wp-security-firewall-menu.php:720
+#: all-in-one-wp-security/admin/wp-security-firewall-menu.php:730
 msgid ""
 "If you do not use the WordPress password protection feature for your posts "
 "or pages then it is highly recommended that you leave this checkbox disabled."
 msgstr ""
 
-#: all-in-one-wp-security/admin/wp-security-firewall-menu.php:727
+#: all-in-one-wp-security/admin/wp-security-firewall-menu.php:737
 msgid "My Site Has a Theme or Plugins Which Use AJAX"
 msgstr ""
 
-#: all-in-one-wp-security/admin/wp-security-firewall-menu.php:730
+#: all-in-one-wp-security/admin/wp-security-firewall-menu.php:740
 msgid "Check this if your site uses AJAX functionality."
 msgstr ""
 
-#: all-in-one-wp-security/admin/wp-security-firewall-menu.php:735
+#: all-in-one-wp-security/admin/wp-security-firewall-menu.php:745
 msgid ""
 "In the cases where your WordPress installation has a theme or plugins which "
 "use AJAX, a few extra lines of directives and exceptions need to be added to "
@@ -1611,35 +1638,35 @@ msgid ""
 "by the brute force prevention feature."
 msgstr ""
 
-#: all-in-one-wp-security/admin/wp-security-firewall-menu.php:737
+#: all-in-one-wp-security/admin/wp-security-firewall-menu.php:747
 msgid ""
 "By enabling this checkbox the plugin will add the necessary rules and "
 "exceptions to your .htacces file so that AJAX operations will work as "
 "expected."
 msgstr ""
 
-#: all-in-one-wp-security/admin/wp-security-firewall-menu.php:752
+#: all-in-one-wp-security/admin/wp-security-firewall-menu.php:762
 msgid "The cookie test was successful. You can now enable this feature."
 msgstr ""
 
-#: all-in-one-wp-security/admin/wp-security-firewall-menu.php:755
+#: all-in-one-wp-security/admin/wp-security-firewall-menu.php:765
 msgid "Save Feature Settings"
 msgstr ""
 
-#: all-in-one-wp-security/admin/wp-security-firewall-menu.php:762
+#: all-in-one-wp-security/admin/wp-security-firewall-menu.php:772
 msgid ""
 "The cookie test failed on this server. So this feature cannot be used on "
 "this site."
 msgstr ""
 
-#: all-in-one-wp-security/admin/wp-security-firewall-menu.php:768
+#: all-in-one-wp-security/admin/wp-security-firewall-menu.php:778
 msgid ""
 "Before using this feature you are required to perform a cookie test first. "
 "This is to make sure that your browser cookie is working correctly and that "
 "you won't lock yourself out."
 msgstr ""
 
-#: all-in-one-wp-security/admin/wp-security-firewall-menu.php:770
+#: all-in-one-wp-security/admin/wp-security-firewall-menu.php:780
 msgid "Perform Cookie Test"
 msgstr ""
 
@@ -1648,6 +1675,8 @@ msgstr ""
 #: all-in-one-wp-security/admin/wp-security-list-locked-ip.php:80
 #: all-in-one-wp-security/admin/wp-security-list-locked-ip.php:91
 #: all-in-one-wp-security/admin/wp-security-list-login-fails.php:78
+#: all-in-one-wp-security/admin/wp-security-list-registered-users.php:82
+#: all-in-one-wp-security/admin/wp-security-list-registered-users.php:93
 msgid "Please select some records using the checkboxes"
 msgstr ""
 
@@ -1686,13 +1715,29 @@ msgid ""
 msgstr ""
 
 #: all-in-one-wp-security/admin/wp-security-list-locked-ip.php:115
-#: all-in-one-wp-security/admin/wp-security-user-login-menu.php:641
+#: all-in-one-wp-security/admin/wp-security-user-login-menu.php:717
 msgid "The selected IP ranges were unlocked successfully!"
 msgstr ""
 
 #: all-in-one-wp-security/admin/wp-security-list-locked-ip.php:124
-#: all-in-one-wp-security/admin/wp-security-user-login-menu.php:650
+#: all-in-one-wp-security/admin/wp-security-user-login-menu.php:726
 msgid "The selected IP range was unlocked successfully!"
+msgstr ""
+
+#: all-in-one-wp-security/admin/wp-security-list-registered-users.php:118
+msgid "The selected accounts were approved successfully!"
+msgstr ""
+
+#: all-in-one-wp-security/admin/wp-security-list-registered-users.php:125
+msgid "The selected account was approved successfully!"
+msgstr ""
+
+#: all-in-one-wp-security/admin/wp-security-list-registered-users.php:146
+msgid "The selected accounts were deleted successfully!"
+msgstr ""
+
+#: all-in-one-wp-security/admin/wp-security-list-registered-users.php:154
+msgid "The selected account was deleted successfully!"
 msgstr ""
 
 #: all-in-one-wp-security/admin/wp-security-maintenance-menu.php:82
@@ -2036,101 +2081,119 @@ msgid ""
 "all pages"
 msgstr ""
 
-#: all-in-one-wp-security/admin/wp-security-spam-menu.php:101
+#: all-in-one-wp-security/admin/wp-security-spam-menu.php:105
 msgid "Comment SPAM Settings"
 msgstr ""
 
-#: all-in-one-wp-security/admin/wp-security-spam-menu.php:107
+#: all-in-one-wp-security/admin/wp-security-spam-menu.php:110
+msgid "Add Captcha To Comments Form"
+msgstr ""
+
+#: all-in-one-wp-security/admin/wp-security-spam-menu.php:114
+msgid ""
+"This feature will add a simple math captcha field in the WordPress comments "
+"form."
+msgstr ""
+
+#: all-in-one-wp-security/admin/wp-security-spam-menu.php:131
+msgid "Enable Captcha On Comment Forms"
+msgstr ""
+
+#: all-in-one-wp-security/admin/wp-security-spam-menu.php:134
+msgid "Check this if you want to insert a captcha field on the comment forms"
+msgstr ""
+
+#: all-in-one-wp-security/admin/wp-security-spam-menu.php:142
+msgid "Block Spambot Comments"
+msgstr ""
+
+#: all-in-one-wp-security/admin/wp-security-spam-menu.php:146
 msgid ""
 "A large portion of WordPress blog comment SPAM is mainly produced by "
 "automated bots and not necessarily by humans. "
 msgstr ""
 
-#: all-in-one-wp-security/admin/wp-security-spam-menu.php:108
+#: all-in-one-wp-security/admin/wp-security-spam-menu.php:147
 msgid ""
 "This feature will greatly minimize the useless and unecessary traffic and "
 "load on your server resulting from SPAM comments by blocking all comment "
 "requests which do not originate from your domain."
 msgstr ""
 
-#: all-in-one-wp-security/admin/wp-security-spam-menu.php:114
-msgid "Block Spambot Comments"
-msgstr ""
-
-#: all-in-one-wp-security/admin/wp-security-spam-menu.php:129
+#: all-in-one-wp-security/admin/wp-security-spam-menu.php:164
 msgid "Block Spambots From Posting Comments"
 msgstr ""
 
-#: all-in-one-wp-security/admin/wp-security-spam-menu.php:132
+#: all-in-one-wp-security/admin/wp-security-spam-menu.php:167
 msgid ""
 "Check this if you want to apply a firewall rule which will block comments "
 "originating from spambots."
 msgstr ""
 
-#: all-in-one-wp-security/admin/wp-security-spam-menu.php:136
+#: all-in-one-wp-security/admin/wp-security-spam-menu.php:171
 msgid ""
 "This feature will implement a firewall rule to block all comment attempts "
 "which do not originate from your domain."
 msgstr ""
 
-#: all-in-one-wp-security/admin/wp-security-spam-menu.php:137
+#: all-in-one-wp-security/admin/wp-security-spam-menu.php:172
 msgid ""
 "A legitimate comment is one which is submitted by a human who physically "
 "fills out the comment form and clicks the submit button. For such events, "
 "the HTTP_REFERRER is always set to your own domain."
 msgstr ""
 
-#: all-in-one-wp-security/admin/wp-security-spam-menu.php:138
+#: all-in-one-wp-security/admin/wp-security-spam-menu.php:173
 msgid ""
 "A comment submitted by a spambot is done by directly calling the comments."
 "php file, which usually means that the HTTP_REFERRER value is not your "
 "domain and often times empty."
 msgstr ""
 
-#: all-in-one-wp-security/admin/wp-security-spam-menu.php:139
+#: all-in-one-wp-security/admin/wp-security-spam-menu.php:174
 msgid ""
 "This feature will check and block comment requests which are not referred by "
 "your domain thus greatly reducing your overall blog SPAM and PHP requests "
 "done by the server to process these comments."
 msgstr ""
 
-#: all-in-one-wp-security/admin/wp-security-spam-menu.php:166
+#: all-in-one-wp-security/admin/wp-security-spam-menu.php:201
 msgid "Nonce check failed for list SPAM comment IPs!"
 msgstr ""
 
-#: all-in-one-wp-security/admin/wp-security-spam-menu.php:172
+#: all-in-one-wp-security/admin/wp-security-spam-menu.php:207
 msgid ""
 "You entered a non numeric value for the minimum SPAM comments per IP field. "
 "It has been set to the default value."
 msgstr ""
 
-#: all-in-one-wp-security/admin/wp-security-spam-menu.php:184
+#: all-in-one-wp-security/admin/wp-security-spam-menu.php:219
 #, php-format
 msgid ""
 "Displaying results for IP addresses which have posted a minimum of %s SPAM "
 "comments"
 msgstr ""
 
-#: all-in-one-wp-security/admin/wp-security-spam-menu.php:200
+#: all-in-one-wp-security/admin/wp-security-spam-menu.php:235
 msgid ""
 "This tab displays a list of the IP addresses of the people or bots who have "
 "left SPAM comments on your site."
 msgstr ""
 
-#: all-in-one-wp-security/admin/wp-security-spam-menu.php:201
+#: all-in-one-wp-security/admin/wp-security-spam-menu.php:236
 msgid ""
 "This information can be handy for identifying the most persistent IP "
 "addresses or ranges used by spammers."
 msgstr ""
 
-#: all-in-one-wp-security/admin/wp-security-spam-menu.php:202
+#: all-in-one-wp-security/admin/wp-security-spam-menu.php:237
 msgid ""
 "By inspecting the IP address data coming from spammers you will be in a "
 "better position to determine which addresses or address ranges you should "
 "block by adding them to your blacklist."
 msgstr ""
 
-#: all-in-one-wp-security/admin/wp-security-spam-menu.php:203
+#: all-in-one-wp-security/admin/wp-security-spam-menu.php:238
 msgid ""
 "To add one or more of the IP addresses displayed in the table below to your "
 "blacklist, simply click the \"Block\" link for the individual row or select "
@@ -2139,52 +2202,52 @@ msgid ""
 "\" option from the Bulk Actions dropdown list and click the \"Apply\" button."
 msgstr ""
 
-#: all-in-one-wp-security/admin/wp-security-spam-menu.php:209
+#: all-in-one-wp-security/admin/wp-security-spam-menu.php:244
 msgid "List SPAMMER IP Addresses"
 msgstr ""
 
-#: all-in-one-wp-security/admin/wp-security-spam-menu.php:215
+#: all-in-one-wp-security/admin/wp-security-spam-menu.php:250
 msgid "Minimum number of SPAM comments per IP"
 msgstr ""
 
-#: all-in-one-wp-security/admin/wp-security-spam-menu.php:217
+#: all-in-one-wp-security/admin/wp-security-spam-menu.php:252
 msgid ""
 "This field allows you to list only those IP addresses which have been used "
 "to post X or more SPAM comments."
 msgstr ""
 
-#: all-in-one-wp-security/admin/wp-security-spam-menu.php:221
+#: all-in-one-wp-security/admin/wp-security-spam-menu.php:256
 msgid ""
 "Example 1: Setting this value to \"0\" or \"1\" will list ALL IP addresses "
 "which were used to submit SPAM comments."
 msgstr ""
 
-#: all-in-one-wp-security/admin/wp-security-spam-menu.php:222
+#: all-in-one-wp-security/admin/wp-security-spam-menu.php:257
 msgid ""
 "Example 2: Setting this value to \"5\" will list only those IP addresses "
 "which were used to submit 5 SPAM comments or more on your site."
 msgstr ""
 
-#: all-in-one-wp-security/admin/wp-security-spam-menu.php:229
+#: all-in-one-wp-security/admin/wp-security-spam-menu.php:264
 msgid "Find IP Addresses"
 msgstr ""
 
-#: all-in-one-wp-security/admin/wp-security-spam-menu.php:233
+#: all-in-one-wp-security/admin/wp-security-spam-menu.php:268
 msgid "SPAMMER IP Address Results"
 msgstr ""
 
-#: all-in-one-wp-security/admin/wp-security-spam-menu.php:239
+#: all-in-one-wp-security/admin/wp-security-spam-menu.php:274
 #: all-in-one-wp-security/classes/wp-security-utility.php:150
 msgid ""
 "The plugin has detected that you are using a Multi-Site WordPress "
 "installation."
 msgstr ""
 
-#: all-in-one-wp-security/admin/wp-security-spam-menu.php:240
+#: all-in-one-wp-security/admin/wp-security-spam-menu.php:275
 msgid "Only the \"superadmin\" can block IP addresses from the main site."
 msgstr ""
 
-#: all-in-one-wp-security/admin/wp-security-spam-menu.php:241
+#: all-in-one-wp-security/admin/wp-security-spam-menu.php:276
 msgid ""
 "Take note of the IP addresses you want blocked and ask the superadmin to add "
 "these to the blacklist using the \"Blacklist Manager\" on the main site."
@@ -2393,161 +2456,191 @@ msgstr ""
 msgid "Account Login Name"
 msgstr ""
 
-#: all-in-one-wp-security/admin/wp-security-user-login-menu.php:93
+#: all-in-one-wp-security/admin/wp-security-user-login-menu.php:95
 msgid ""
 "You entered a non numeric value for the max login attempts field. It has "
 "been set to the default value."
 msgstr ""
 
-#: all-in-one-wp-security/admin/wp-security-user-login-menu.php:100
+#: all-in-one-wp-security/admin/wp-security-user-login-menu.php:102
 msgid ""
 "You entered a non numeric value for the login retry time period field. It "
 "has been set to the default value."
 msgstr ""
 
-#: all-in-one-wp-security/admin/wp-security-user-login-menu.php:107
+#: all-in-one-wp-security/admin/wp-security-user-login-menu.php:109
 msgid ""
 "You entered a non numeric value for the lockout time length field. It has "
 "been set to the default value."
 msgstr ""
 
-#: all-in-one-wp-security/admin/wp-security-user-login-menu.php:152
+#: all-in-one-wp-security/admin/wp-security-user-login-menu.php:154
 msgid "Login Lockdown Configuration"
 msgstr ""
 
-#: all-in-one-wp-security/admin/wp-security-user-login-menu.php:156
+#: all-in-one-wp-security/admin/wp-security-user-login-menu.php:158
 msgid "One of the ways hackers try to compromise sites is via a "
 msgstr ""
 
-#: all-in-one-wp-security/admin/wp-security-user-login-menu.php:156
+#: all-in-one-wp-security/admin/wp-security-user-login-menu.php:158
 msgid "Brute Force Login Attack"
 msgstr ""
 
-#: all-in-one-wp-security/admin/wp-security-user-login-menu.php:157
+#: all-in-one-wp-security/admin/wp-security-user-login-menu.php:159
 msgid ""
 "This is where attackers use repeated login attempts until they guess the "
 "password."
 msgstr ""
 
-#: all-in-one-wp-security/admin/wp-security-user-login-menu.php:158
+#: all-in-one-wp-security/admin/wp-security-user-login-menu.php:160
 msgid ""
 "Apart from choosing strong passwords, monitoring and blocking IP addresses "
 "which are involved in repeated login failures in a short period of time is a "
 "very effective way to stop these types of attacks."
 msgstr ""
 
-#: all-in-one-wp-security/admin/wp-security-user-login-menu.php:159
+#: all-in-one-wp-security/admin/wp-security-user-login-menu.php:161
 #, php-format
 msgid ""
 "You may also want to checkout our %s feature for another secure way to "
 "protect against these types of attacks."
 msgstr ""
 
-#: all-in-one-wp-security/admin/wp-security-user-login-menu.php:164
+#: all-in-one-wp-security/admin/wp-security-user-login-menu.php:166
 msgid "Login Lockdown Options"
 msgstr ""
 
-#: all-in-one-wp-security/admin/wp-security-user-login-menu.php:176
+#: all-in-one-wp-security/admin/wp-security-user-login-menu.php:178
 msgid "Enable Login Lockdown Feature"
 msgstr ""
 
-#: all-in-one-wp-security/admin/wp-security-user-login-menu.php:179
+#: all-in-one-wp-security/admin/wp-security-user-login-menu.php:181
 msgid ""
 "Check this if you want to enable the login lockdown feature and apply the "
 "settings below"
 msgstr ""
 
-#: all-in-one-wp-security/admin/wp-security-user-login-menu.php:183
+#: all-in-one-wp-security/admin/wp-security-user-login-menu.php:185
 msgid "Max Login Attempts"
 msgstr ""
 
-#: all-in-one-wp-security/admin/wp-security-user-login-menu.php:185
+#: all-in-one-wp-security/admin/wp-security-user-login-menu.php:187
 msgid ""
 "Set the value for the maximum login retries before IP address is locked out"
 msgstr ""
 
-#: all-in-one-wp-security/admin/wp-security-user-login-menu.php:189
+#: all-in-one-wp-security/admin/wp-security-user-login-menu.php:191
 msgid "Login Retry Time Period (min)"
 msgstr ""
 
-#: all-in-one-wp-security/admin/wp-security-user-login-menu.php:191
+#: all-in-one-wp-security/admin/wp-security-user-login-menu.php:193
 msgid ""
 "If the maximum number of failed login attempts for a particular IP address "
 "occur within this time period the plugin will lock out that address"
 msgstr ""
 
-#: all-in-one-wp-security/admin/wp-security-user-login-menu.php:195
+#: all-in-one-wp-security/admin/wp-security-user-login-menu.php:197
 msgid "Time Length of Lockout (min)"
 msgstr ""
 
-#: all-in-one-wp-security/admin/wp-security-user-login-menu.php:197
+#: all-in-one-wp-security/admin/wp-security-user-login-menu.php:199
 msgid ""
 "Set the length of time for which a particular IP address will be prevented "
 "from logging in"
 msgstr ""
 
-#: all-in-one-wp-security/admin/wp-security-user-login-menu.php:201
+#: all-in-one-wp-security/admin/wp-security-user-login-menu.php:203
 msgid "Display Generic Error Message"
 msgstr ""
 
-#: all-in-one-wp-security/admin/wp-security-user-login-menu.php:204
+#: all-in-one-wp-security/admin/wp-security-user-login-menu.php:206
 msgid ""
 "Check this if you want to show a generic error message when a login attempt "
 "fails"
 msgstr ""
 
-#: all-in-one-wp-security/admin/wp-security-user-login-menu.php:208
+#: all-in-one-wp-security/admin/wp-security-user-login-menu.php:210
 msgid "Instantly Lockout Invalid Usernames"
 msgstr ""
 
-#: all-in-one-wp-security/admin/wp-security-user-login-menu.php:211
+#: all-in-one-wp-security/admin/wp-security-user-login-menu.php:213
 msgid ""
 "Check this if you want to instantly lockout login attempts with usernames "
 "which do not exist on your system"
 msgstr ""
 
-#: all-in-one-wp-security/admin/wp-security-user-login-menu.php:216
+#: all-in-one-wp-security/admin/wp-security-user-login-menu.php:218
 msgid "Notify By Email"
 msgstr ""
 
-#: all-in-one-wp-security/admin/wp-security-user-login-menu.php:219
+#: all-in-one-wp-security/admin/wp-security-user-login-menu.php:221
 msgid ""
 "Check this if you want to receive an email when someone has been locked out "
 "due to maximum failed login attempts"
 msgstr ""
 
-#: all-in-one-wp-security/admin/wp-security-user-login-menu.php:229
+#: all-in-one-wp-security/admin/wp-security-user-login-menu.php:231
 msgid "Currently Locked Out IP Address Ranges"
 msgstr ""
 
-#: all-in-one-wp-security/admin/wp-security-user-login-menu.php:259
+#: all-in-one-wp-security/admin/wp-security-user-login-menu.php:284
+msgid ""
+"This feature allows you to add a captcha form on the WordPress login page."
+msgstr ""
+
+#: all-in-one-wp-security/admin/wp-security-user-login-menu.php:285
+msgid ""
+"Users who attempt to login will also need to enter the answer to a simple "
+"mathematical question - if they enter the wrong answer, the plugin will not "
+"allow them login even if they entered the correct username and password."
+msgstr ""
+
+#: all-in-one-wp-security/admin/wp-security-user-login-menu.php:286
+msgid ""
+"Therefore, adding a captcha form on the login page is another effective yet "
+"simple \"Brute Force\" prevention technique."
+msgstr ""
+
+#: all-in-one-wp-security/admin/wp-security-user-login-menu.php:291
+msgid "Captcha Settings"
+msgstr ""
+
+#: all-in-one-wp-security/admin/wp-security-user-login-menu.php:303
+msgid "Enable Captcha On Login Page"
+msgstr ""
+
+#: all-in-one-wp-security/admin/wp-security-user-login-menu.php:306
+msgid "Check this if you want to insert a captcha form on the login page"
+msgstr ""
+
+#: all-in-one-wp-security/admin/wp-security-user-login-menu.php:328
 msgid "Nonce check failed for save whitelist settings!"
 msgstr ""
 
-#: all-in-one-wp-security/admin/wp-security-user-login-menu.php:313
+#: all-in-one-wp-security/admin/wp-security-user-login-menu.php:382
 msgid "Login Whitelist"
 msgstr ""
 
-#: all-in-one-wp-security/admin/wp-security-user-login-menu.php:316
+#: all-in-one-wp-security/admin/wp-security-user-login-menu.php:385
 msgid ""
 "The All In One WP Security Whitelist feature gives you the option of only "
 "allowing certain IP addresses or ranges to have access to your WordPress "
 "login page."
 msgstr ""
 
-#: all-in-one-wp-security/admin/wp-security-user-login-menu.php:317
+#: all-in-one-wp-security/admin/wp-security-user-login-menu.php:386
 msgid ""
 "This feature will deny login access for all IP addresses which are not in "
 "your whitelist as configured in the settings below."
 msgstr ""
 
-#: all-in-one-wp-security/admin/wp-security-user-login-menu.php:318
+#: all-in-one-wp-security/admin/wp-security-user-login-menu.php:387
 msgid ""
 "The plugin achieves this by writing the appropriate directives to your ."
 "htaccess file."
 msgstr ""
 
-#: all-in-one-wp-security/admin/wp-security-user-login-menu.php:319
+#: all-in-one-wp-security/admin/wp-security-user-login-menu.php:388
 msgid ""
 "By allowing/blocking IP addresses via the .htaccess file your are using the "
 "most secure first line of defence because login access will only be granted "
@@ -2555,170 +2648,260 @@ msgid ""
 "they try to access your login page."
 msgstr ""
 
-#: all-in-one-wp-security/admin/wp-security-user-login-menu.php:325
+#: all-in-one-wp-security/admin/wp-security-user-login-menu.php:395
+#, php-format
+msgid ""
+"Attention: If in addition to enabling the white list feature, you also have "
+"the %s feature enabled, <strong>you will still need to use your secret word "
+"in the URL when trying to access your WordPress login page</strong>."
+msgstr ""
+
+#: all-in-one-wp-security/admin/wp-security-user-login-menu.php:396
+msgid ""
+"These features are NOT functionally related. Having both of them enabled on "
+"your site means you are creating 2 layers of security."
+msgstr ""
+
+#: all-in-one-wp-security/admin/wp-security-user-login-menu.php:401
 msgid "Login IP Whitelist Settings"
 msgstr ""
 
-#: all-in-one-wp-security/admin/wp-security-user-login-menu.php:336
+#: all-in-one-wp-security/admin/wp-security-user-login-menu.php:412
 msgid "Enable IP Whitelisting"
 msgstr ""
 
-#: all-in-one-wp-security/admin/wp-security-user-login-menu.php:339
+#: all-in-one-wp-security/admin/wp-security-user-login-menu.php:415
 msgid ""
 "Check this if you want to enable the whitelisting of selected IP addresses "
 "specified in the settings below"
 msgstr ""
 
-#: all-in-one-wp-security/admin/wp-security-user-login-menu.php:343
+#: all-in-one-wp-security/admin/wp-security-user-login-menu.php:419
 msgid "Your Current IP Address"
 msgstr ""
 
-#: all-in-one-wp-security/admin/wp-security-user-login-menu.php:346
+#: all-in-one-wp-security/admin/wp-security-user-login-menu.php:422
 msgid ""
 "You can copy and paste this address in the text box below if you want to "
 "include it in your login whitelist."
 msgstr ""
 
-#: all-in-one-wp-security/admin/wp-security-user-login-menu.php:350
+#: all-in-one-wp-security/admin/wp-security-user-login-menu.php:426
 msgid "Enter Whitelisted IP Addresses:"
 msgstr ""
 
-#: all-in-one-wp-security/admin/wp-security-user-login-menu.php:354
+#: all-in-one-wp-security/admin/wp-security-user-login-menu.php:430
 msgid ""
 "Enter one or more IP addresses or IP ranges you wish to include in your "
 "whitelist. Only the addresses specified here will have access to the "
 "WordPress login page."
 msgstr ""
 
-#: all-in-one-wp-security/admin/wp-security-user-login-menu.php:384
+#: all-in-one-wp-security/admin/wp-security-user-login-menu.php:460
 msgid "Nonce check failed for delete all failed login records operation!"
 msgstr ""
 
-#: all-in-one-wp-security/admin/wp-security-user-login-menu.php:393
+#: all-in-one-wp-security/admin/wp-security-user-login-menu.php:469
 msgid "User Login Feature - Delete all failed login records operation failed!"
 msgstr ""
 
-#: all-in-one-wp-security/admin/wp-security-user-login-menu.php:397
+#: all-in-one-wp-security/admin/wp-security-user-login-menu.php:473
 msgid "All records from the Failed Logins table were deleted successfully!"
 msgstr ""
 
-#: all-in-one-wp-security/admin/wp-security-user-login-menu.php:412
+#: all-in-one-wp-security/admin/wp-security-user-login-menu.php:488
 msgid "This tab displays the failed login attempts for your site."
 msgstr ""
 
-#: all-in-one-wp-security/admin/wp-security-user-login-menu.php:413
+#: all-in-one-wp-security/admin/wp-security-user-login-menu.php:489
 msgid ""
 "The information below can be handy if you need to do security investigations "
 "because it will show you the IP range, username and ID (if applicable) and "
 "the time/date of the failed login attempt."
 msgstr ""
 
-#: all-in-one-wp-security/admin/wp-security-user-login-menu.php:418
+#: all-in-one-wp-security/admin/wp-security-user-login-menu.php:494
 msgid "Failed Login Records"
 msgstr ""
 
-#: all-in-one-wp-security/admin/wp-security-user-login-menu.php:434
-#: all-in-one-wp-security/admin/wp-security-user-login-menu.php:443
+#: all-in-one-wp-security/admin/wp-security-user-login-menu.php:510
+#: all-in-one-wp-security/admin/wp-security-user-login-menu.php:519
 msgid "Delete All Failed Login Records"
 msgstr ""
 
-#: all-in-one-wp-security/admin/wp-security-user-login-menu.php:440
+#: all-in-one-wp-security/admin/wp-security-user-login-menu.php:516
 msgid ""
 "Click this button if you wish to delete all failed login records in one go."
 msgstr ""
 
-#: all-in-one-wp-security/admin/wp-security-user-login-menu.php:468
+#: all-in-one-wp-security/admin/wp-security-user-login-menu.php:544
 msgid ""
 "You entered a non numeric value for the logout time period field. It has "
 "been set to the default value."
 msgstr ""
 
-#: all-in-one-wp-security/admin/wp-security-user-login-menu.php:490
+#: all-in-one-wp-security/admin/wp-security-user-login-menu.php:566
 msgid ""
 "Setting an expiry period for your WP administration session is a simple way "
 "to protect against unauthorized access to your site from your computer."
 msgstr ""
 
-#: all-in-one-wp-security/admin/wp-security-user-login-menu.php:491
+#: all-in-one-wp-security/admin/wp-security-user-login-menu.php:567
 msgid ""
 "This feature allows you to specify a time period in minutes after which the "
 "admin session will expire and the user will be forced to log back in."
 msgstr ""
 
-#: all-in-one-wp-security/admin/wp-security-user-login-menu.php:496
+#: all-in-one-wp-security/admin/wp-security-user-login-menu.php:572
 msgid "Force User Logout Options"
 msgstr ""
 
-#: all-in-one-wp-security/admin/wp-security-user-login-menu.php:508
+#: all-in-one-wp-security/admin/wp-security-user-login-menu.php:584
 msgid "Enable Force WP User Logout"
 msgstr ""
 
-#: all-in-one-wp-security/admin/wp-security-user-login-menu.php:511
+#: all-in-one-wp-security/admin/wp-security-user-login-menu.php:587
 msgid ""
 "Check this if you want to force a wp user to be logged out after a "
 "configured amount of time"
 msgstr ""
 
-#: all-in-one-wp-security/admin/wp-security-user-login-menu.php:515
+#: all-in-one-wp-security/admin/wp-security-user-login-menu.php:591
 msgid "Logout the WP User After XX Minutes"
 msgstr ""
 
-#: all-in-one-wp-security/admin/wp-security-user-login-menu.php:517
+#: all-in-one-wp-security/admin/wp-security-user-login-menu.php:593
 msgid ""
 "(Minutes) The user will be forced to log back in after this time period has "
 "elapased."
 msgstr ""
 
-#: all-in-one-wp-security/admin/wp-security-user-login-menu.php:540
+#: all-in-one-wp-security/admin/wp-security-user-login-menu.php:616
 msgid ""
 "This tab displays the login activity for WordPress admin accounts registered "
 "with your site."
 msgstr ""
 
-#: all-in-one-wp-security/admin/wp-security-user-login-menu.php:541
+#: all-in-one-wp-security/admin/wp-security-user-login-menu.php:617
 msgid ""
 "The information below can be handy if you need to do security investigations "
 "because it will show you the last 50 recent login events by username, IP "
 "address and time/date."
 msgstr ""
 
-#: all-in-one-wp-security/admin/wp-security-user-login-menu.php:546
+#: all-in-one-wp-security/admin/wp-security-user-login-menu.php:622
 msgid "Account Activity Logs"
 msgstr ""
 
-#: all-in-one-wp-security/admin/wp-security-user-login-menu.php:578
+#: all-in-one-wp-security/admin/wp-security-user-login-menu.php:654
 msgid "Nonce check failed for users logged in list!"
 msgstr ""
 
-#: all-in-one-wp-security/admin/wp-security-user-login-menu.php:591
+#: all-in-one-wp-security/admin/wp-security-user-login-menu.php:667
 msgid "Refresh Logged In User Data"
 msgstr ""
 
-#: all-in-one-wp-security/admin/wp-security-user-login-menu.php:595
+#: all-in-one-wp-security/admin/wp-security-user-login-menu.php:671
 msgid "Refresh Data"
 msgstr ""
 
-#: all-in-one-wp-security/admin/wp-security-user-login-menu.php:601
+#: all-in-one-wp-security/admin/wp-security-user-login-menu.php:677
 msgid "This tab displays all users who are currently logged into your site."
 msgstr ""
 
-#: all-in-one-wp-security/admin/wp-security-user-login-menu.php:602
+#: all-in-one-wp-security/admin/wp-security-user-login-menu.php:678
 msgid ""
 "If you suspect there is a user or users who are logged in which should not "
 "be, you can block them by inspecting the IP addresses from the data below "
-"and adding them to your whitelist."
+"and adding them to your blacklist."
 msgstr ""
 
-#: all-in-one-wp-security/admin/wp-security-user-login-menu.php:607
+#: all-in-one-wp-security/admin/wp-security-user-login-menu.php:683
 msgid "Currently Logged In Users"
 msgstr ""
 
-#: all-in-one-wp-security/admin/wp-security-user-login-menu.php:672
+#: all-in-one-wp-security/admin/wp-security-user-login-menu.php:748
 msgid "The selected records were deleted successfully!"
 msgstr ""
 
-#: all-in-one-wp-security/admin/wp-security-user-login-menu.php:681
+#: all-in-one-wp-security/admin/wp-security-user-login-menu.php:757
 msgid "The selected record was deleted successfully!"
+msgstr ""
+
+#: all-in-one-wp-security/admin/wp-security-user-registration-menu.php:106
+msgid "User Registration Settings"
+msgstr ""
+
+#: all-in-one-wp-security/admin/wp-security-user-registration-menu.php:110
+msgid "Manually Approve New Registrations"
+msgstr ""
+
+#: all-in-one-wp-security/admin/wp-security-user-registration-menu.php:114
+msgid ""
+"If your site allows people to create their own accounts via the WordPress "
+"registration form, then you can minimize SPAM or bogus registrations by "
+"manually approving each registration."
+msgstr ""
+
+#: all-in-one-wp-security/admin/wp-security-user-registration-menu.php:115
+msgid ""
+"This feature will automatically set a newly registered account to \"pending"
+"\" until the administrator activates it. Therefore undesirable registrants "
+"will be unable to log in without your express approval."
+msgstr ""
+
+#: all-in-one-wp-security/admin/wp-security-user-registration-menu.php:116
+msgid ""
+"You can view all accounts which have been newly registered via the handy "
+"table below and you can also perform bulk activation/deactivation/deletion "
+"tasks on each account."
+msgstr ""
+
+#: all-in-one-wp-security/admin/wp-security-user-registration-menu.php:132
+msgid "Enable manual approval of new registrations"
+msgstr ""
+
+#: all-in-one-wp-security/admin/wp-security-user-registration-menu.php:135
+msgid ""
+"Check this if you want to automatically disable all newly registered "
+"accounts so that you can approve them manually."
+msgstr ""
+
+#: all-in-one-wp-security/admin/wp-security-user-registration-menu.php:144
+msgid "Approve Registered Users"
+msgstr ""
+
+#: all-in-one-wp-security/admin/wp-security-user-registration-menu.php:189
+msgid ""
+"This feature allows you to add a captcha form on the WordPress registration "
+"page."
+msgstr ""
+
+#: all-in-one-wp-security/admin/wp-security-user-registration-menu.php:190
+msgid ""
+"Users who attempt to register will also need to enter the answer to a simple "
+"mathematical question - if they enter the wrong answer, the plugin will not "
+"allow them to register."
+msgstr ""
+
+#: all-in-one-wp-security/admin/wp-security-user-registration-menu.php:191
+msgid ""
+"Therefore, adding a captcha form on the registration page is another "
+"effective yet simple SPAM registration prevention technique."
+msgstr ""
+
+#: all-in-one-wp-security/admin/wp-security-user-registration-menu.php:196
+msgid "Registration Page Captcha Settings"
+msgstr ""
+
+#: all-in-one-wp-security/admin/wp-security-user-registration-menu.php:208
+msgid "Enable Captcha On Registration Page"
+msgstr ""
+
+#: all-in-one-wp-security/admin/wp-security-user-registration-menu.php:211
+msgid ""
+"Check this if you want to insert a captcha form on the WordPress user "
+"registration page (if you allow user registration)."
 msgstr ""
 
 #: all-in-one-wp-security/admin/wp-security-whois-menu.php:68
@@ -2809,6 +2992,90 @@ msgstr ""
 msgid " generated on"
 msgstr ""
 
+#: all-in-one-wp-security/classes/wp-security-captcha.php:12
+msgid "Please enter an answer in digits:"
+msgstr ""
+
+#: all-in-one-wp-security/classes/wp-security-captcha.php:91
+msgid "one"
+msgstr ""
+
+#: all-in-one-wp-security/classes/wp-security-captcha.php:92
+msgid "two"
+msgstr ""
+
+#: all-in-one-wp-security/classes/wp-security-captcha.php:93
+msgid "three"
+msgstr ""
+
+#: all-in-one-wp-security/classes/wp-security-captcha.php:94
+msgid "four"
+msgstr ""
+
+#: all-in-one-wp-security/classes/wp-security-captcha.php:95
+msgid "five"
+msgstr ""
+
+#: all-in-one-wp-security/classes/wp-security-captcha.php:96
+msgid "six"
+msgstr ""
+
+#: all-in-one-wp-security/classes/wp-security-captcha.php:97
+msgid "seven"
+msgstr ""
+
+#: all-in-one-wp-security/classes/wp-security-captcha.php:98
+msgid "eight"
+msgstr ""
+
+#: all-in-one-wp-security/classes/wp-security-captcha.php:99
+msgid "nine"
+msgstr ""
+
+#: all-in-one-wp-security/classes/wp-security-captcha.php:100
+msgid "ten"
+msgstr ""
+
+#: all-in-one-wp-security/classes/wp-security-captcha.php:101
+msgid "eleven"
+msgstr ""
+
+#: all-in-one-wp-security/classes/wp-security-captcha.php:102
+msgid "twelve"
+msgstr ""
+
+#: all-in-one-wp-security/classes/wp-security-captcha.php:103
+msgid "thirteen"
+msgstr ""
+
+#: all-in-one-wp-security/classes/wp-security-captcha.php:104
+msgid "fourteen"
+msgstr ""
+
+#: all-in-one-wp-security/classes/wp-security-captcha.php:105
+msgid "fifteen"
+msgstr ""
+
+#: all-in-one-wp-security/classes/wp-security-captcha.php:106
+msgid "sixteen"
+msgstr ""
+
+#: all-in-one-wp-security/classes/wp-security-captcha.php:107
+msgid "seventeen"
+msgstr ""
+
+#: all-in-one-wp-security/classes/wp-security-captcha.php:108
+msgid "eighteen"
+msgstr ""
+
+#: all-in-one-wp-security/classes/wp-security-captcha.php:109
+msgid "nineteen"
+msgstr ""
+
+#: all-in-one-wp-security/classes/wp-security-captcha.php:110
+msgid "twenty"
+msgstr ""
+
 #: all-in-one-wp-security/classes/wp-security-file-scan.php:58
 msgid "All In One WP Security - File change detected!"
 msgstr ""
@@ -2825,6 +3092,15 @@ msgstr ""
 msgid "Login to your site to view the scan details."
 msgstr ""
 
+#: all-in-one-wp-security/classes/wp-security-general-init-tasks.php:150
+msgid "Please enter an answer in the CAPTCHA field."
+msgstr ""
+
+#: all-in-one-wp-security/classes/wp-security-general-init-tasks.php:160
+msgid ""
+"Error: You entered an incorrect CAPTCHA answer. Please go back and try again."
+msgstr ""
+
 #: all-in-one-wp-security/classes/wp-security-user-login.php:39
 msgid ""
 "<strong>ERROR</strong>: Login failed because your IP address has been "
@@ -2832,72 +3108,89 @@ msgid ""
 "                                Please contact the administrator."
 msgstr ""
 
-#: all-in-one-wp-security/classes/wp-security-user-login.php:48
+#: all-in-one-wp-security/classes/wp-security-user-login.php:63
+#: all-in-one-wp-security/classes/wp-security-user-login.php:66
+#: all-in-one-wp-security/classes/wp-security-user-registration.php:59
+msgid "<strong>ERROR</strong>: Your answer was incorrect - please try again."
+msgstr ""
+
+#: all-in-one-wp-security/classes/wp-security-user-login.php:76
 msgid "<strong>ERROR</strong>: The username field is empty."
 msgstr ""
 
-#: all-in-one-wp-security/classes/wp-security-user-login.php:52
+#: all-in-one-wp-security/classes/wp-security-user-login.php:80
 msgid "<strong>ERROR</strong>: The password field is empty."
 msgstr ""
 
-#: all-in-one-wp-security/classes/wp-security-user-login.php:72
-#: all-in-one-wp-security/classes/wp-security-user-login.php:98
+#: all-in-one-wp-security/classes/wp-security-user-login.php:100
+#: all-in-one-wp-security/classes/wp-security-user-login.php:126
 msgid "<strong>ERROR</strong>: Invalid login credentials."
 msgstr ""
 
-#: all-in-one-wp-security/classes/wp-security-user-login.php:75
+#: all-in-one-wp-security/classes/wp-security-user-login.php:103
 msgid "<strong>ERROR</strong>: Invalid username."
 msgstr ""
 
-#: all-in-one-wp-security/classes/wp-security-user-login.php:101
+#: all-in-one-wp-security/classes/wp-security-user-login.php:129
 #, php-format
 msgid ""
 "<strong>ERROR</strong>: Incorrect password. <a href=\"%s\" title=\"Password "
 "Lost and Found\">Lost your password</a>?"
 msgstr ""
 
-#: all-in-one-wp-security/classes/wp-security-user-login.php:224
+#: all-in-one-wp-security/classes/wp-security-user-login.php:140
+msgid ""
+"<strong>ACCOUNT PENDING</strong>: Your account is currently not active. An "
+"administrator needs to activate your account before you can login."
+msgstr ""
+
+#: all-in-one-wp-security/classes/wp-security-user-login.php:263
 msgid "Site Lockout Notification"
 msgstr ""
 
-#: all-in-one-wp-security/classes/wp-security-user-login.php:225
+#: all-in-one-wp-security/classes/wp-security-user-login.php:264
 msgid ""
 "A lockdown event has occurred due to too many failed login attempts or "
 "invalid username:"
 msgstr ""
 
-#: all-in-one-wp-security/classes/wp-security-user-login.php:226
+#: all-in-one-wp-security/classes/wp-security-user-login.php:265
 msgid "Username: "
 msgstr ""
 
-#: all-in-one-wp-security/classes/wp-security-user-login.php:227
+#: all-in-one-wp-security/classes/wp-security-user-login.php:266
 msgid "IP Address: "
 msgstr ""
 
-#: all-in-one-wp-security/classes/wp-security-user-login.php:228
+#: all-in-one-wp-security/classes/wp-security-user-login.php:267
 msgid "IP Range: "
 msgstr ""
 
-#: all-in-one-wp-security/classes/wp-security-user-login.php:229
+#: all-in-one-wp-security/classes/wp-security-user-login.php:268
 msgid ""
 "Log into your site's WordPress administration panel to see the duration of "
 "the lockout or to unlock the user."
 msgstr ""
 
-#: all-in-one-wp-security/classes/wp-security-user-login.php:386
+#: all-in-one-wp-security/classes/wp-security-user-login.php:425
 #, php-format
 msgid ""
 "Your session has expired because it has been over %d minutes since your last "
 "login."
 msgstr ""
 
-#: all-in-one-wp-security/classes/wp-security-user-login.php:387
-#: all-in-one-wp-security/classes/wp-security-user-login.php:391
+#: all-in-one-wp-security/classes/wp-security-user-login.php:426
+#: all-in-one-wp-security/classes/wp-security-user-login.php:430
 msgid "Please log back in to continue."
 msgstr ""
 
-#: all-in-one-wp-security/classes/wp-security-user-login.php:390
+#: all-in-one-wp-security/classes/wp-security-user-login.php:429
 msgid "You were logged out because you just changed the \"admin\" username."
+msgstr ""
+
+#: all-in-one-wp-security/classes/wp-security-utility.php:151
+msgid ""
+"This feature can only be configured by the \"superadmin\" on the main site."
 msgstr ""
 
 #: all-in-one-wp-security/classes/wp-security-utility-ip-address.php:79
@@ -2909,9 +3202,4 @@ msgstr ""
 
 #: all-in-one-wp-security/classes/wp-security-utility-ip-address.php:136
 msgid "You cannot ban your own IP address: "
-msgstr ""
-
-#: all-in-one-wp-security/classes/wp-security-utility.php:151
-msgid ""
-"This feature can only be configured by the \"superadmin\" on the main site."
 msgstr ""

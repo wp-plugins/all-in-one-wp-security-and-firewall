@@ -271,6 +271,7 @@ class AIOWPSecurity_User_Login_Menu extends AIOWPSecurity_Admin_Menu
             $random_20_digit_string = AIOWPSecurity_Utility::generate_alpha_numeric_random_string(20); //Generate random 20 char string for use during captcha encode/decode
             $aio_wp_security->configs->set_value('aiowps_captcha_secret_key', $random_20_digit_string);
             $aio_wp_security->configs->set_value('aiowps_enable_login_captcha',isset($_POST["aiowps_enable_login_captcha"])?'1':'');
+            $aio_wp_security->configs->set_value('aiowps_enable_lost_password_captcha',isset($_POST["aiowps_enable_lost_password_captcha"])?'1':'');
             $aio_wp_security->configs->save_config();
             
             //Recalculate points after the feature status/options have been altered
@@ -287,8 +288,9 @@ class AIOWPSecurity_User_Login_Menu extends AIOWPSecurity_Admin_Menu
             </p>';
             ?>
         </div>
+        <form action="" method="POST">
         <div class="postbox">
-        <h3><label for="title"><?php _e('Captcha Settings', 'aiowpsecurity'); ?></label></h3>
+        <h3><label for="title"><?php _e('Login Form Captcha Settings', 'aiowpsecurity'); ?></label></h3>
         <div class="inside">
         <?php
         //Display security info badge
@@ -296,7 +298,6 @@ class AIOWPSecurity_User_Login_Menu extends AIOWPSecurity_Admin_Menu
         $aiowps_feature_mgr->output_feature_details_badge("user-login-captcha");
         ?>
 
-        <form action="" method="POST">
         <?php wp_nonce_field('aiowpsec-captcha-settings-nonce'); ?>
         <table class="form-table">
             <tr valign="top">
@@ -307,9 +308,28 @@ class AIOWPSecurity_User_Login_Menu extends AIOWPSecurity_Admin_Menu
                 </td>
             </tr>            
         </table>
+        </div></div>        
+        <div class="postbox">
+        <h3><label for="title"><?php _e('Lost Password Form Captcha Settings', 'aiowpsecurity'); ?></label></h3>
+        <div class="inside">
+        <?php
+        //Display security info badge
+        global $aiowps_feature_mgr;
+        $aiowps_feature_mgr->output_feature_details_badge("lost-password-captcha");
+        ?>
+
+        <table class="form-table">
+            <tr valign="top">
+                <th scope="row"><?php _e('Enable Captcha On Lost Password Page', 'aiowpsecurity')?>:</th>                
+                <td>
+                <input name="aiowps_enable_lost_password_captcha" type="checkbox"<?php if($aio_wp_security->configs->get_value('aiowps_enable_lost_password_captcha')=='1') echo ' checked="checked"'; ?> value="1"/>
+                <span class="description"><?php _e('Check this if you want to insert a captcha form on the lost password page', 'aiowpsecurity'); ?></span>
+                </td>
+            </tr>            
+        </table>
+        </div></div>        
         <input type="submit" name="aiowpsec_save_captcha_settings" value="<?php _e('Save Settings', 'aiowpsecurity')?>" class="button-primary" />
         </form>
-        </div></div>        
         <?php
     }
     

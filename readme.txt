@@ -4,7 +4,7 @@ Donate link: http://www.tipsandtricks-hq.com
 Tags: security, secure, Anti Virus, antivirus, ban, ban hacker, virus, firewall, firewall security, login, lockdown, htaccess, hack, malware, vulnerability, protect, protection, phishing, database, backup, plugin, sql injection, ssl, restrict, login captcha
 Requires at least: 3.5
 Tested up to: 3.7.1
-Stable tag: 3.0
+Stable tag: 3.1
 License: GPLv3
 
 A comprehensive, user-friendly, all in one WordPress security and firewall plugin for your site.
@@ -48,7 +48,8 @@ via email whenever somebody gets locked out due to too many login attempts.
 * Ability to automatically lockout IP address ranges which attempt to login with an invalid username.
 * Ability to see a list of all the users who are currently logged into your site.
 * Allows you to specify one or more IP addresses in a special whitelist. The whitelisted IP addresses will have access to your WP login page.
-* Add captcha to WordPress Login form
+* Add captcha to WordPress Login form.
+* Add captcha to the forgot password form of your WP Login system.
 
 = User Registration Security =
 * Enable manual approval of WordPress user accounts. If your site allows people to create their own accounts via the WordPress registration form, then you can minimize SPAM or bogus registrations by manually approving each registration.
@@ -145,6 +146,12 @@ http://www.tipsandtricks-hq.com/wordpress-security-and-firewall-plugin
 None
 
 == Changelog ==
+
+= 3.1 =
+- Added a new feature that will allow you to add a captcha to the lost password form (useful if you are allowing user registration on your site).
+- Added ability to specify a system log file in the "Host System Logs" tab of the "File System Security" menu
+- Fixed a tab link bug. One link was going to the wrong menu tab.
+- Updated the POT file of the plugin.
 
 = 3.0 =
 - Added a new feature which allows you to add captcha to the Wordpress user registration page.

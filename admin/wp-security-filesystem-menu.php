@@ -307,7 +307,20 @@ class AIOWPSecurity_Filesystem_Menu extends AIOWPSecurity_Admin_Menu
     function render_tab4()
     {
         global $aio_wp_security;
-
+        
+        if (isset($_POST['aiowps_system_log_file'])){
+            if ($_POST['aiowps_system_log_file'] != NULL){
+                $sys_log_file = sanitize_text_field($_POST['aiowps_system_log_file']);
+                $aio_wp_security->configs->set_value('aiowps_system_log_file',$sys_log_file);
+            }else{
+                $sys_log_file = 'error_log';
+                $aio_wp_security->configs->set_value('aiowps_system_log_file',$sys_log_file);
+            }
+            $aio_wp_security->configs->save_config();
+        }else{
+            $sys_log_file = $aio_wp_security->configs->get_value('aiowps_system_log_file');
+        }
+        
         ?>
         <h2><?php _e('System Logs', 'aiowpsecurity')?></h2>
         <div class="aio_blue_box">
@@ -325,6 +338,11 @@ class AIOWPSecurity_Filesystem_Menu extends AIOWPSecurity_Admin_Menu
             <p>Please click the button below to view the latest system logs:</p>
             <form action="" method="POST">
                 <?php wp_nonce_field('aiowpsec-view-system-logs-nonce'); ?>
+                <div><?php _e('Enter System Log File Name', 'aiowpsecurity')?>:
+                <input size="25" name="aiowps_system_log_file" value="<?php echo $sys_log_file; ?>" />
+                <span class="description"><?php _e('Enter your system log file name. (Defaults to error_log)', 'aiowpsecurity'); ?></span>
+                </div>
+                <div class="aio_spacer_15"></div>
                 <input type="submit" name="aiowps_search_error_files" value="<?php _e('View Latest System Logs', 'aiowpsecurity'); ?>" class="button-primary search-error-files" />
                 <span class="aiowps_loading_1">
                     <img src="<?php echo AIO_WP_SECURITY_URL.'/images/loading.gif'; ?>" alt="<?php __('Loading...', 'aiowpsecurity'); ?>" />
@@ -340,8 +358,8 @@ class AIOWPSecurity_Filesystem_Menu extends AIOWPSecurity_Admin_Menu
                 $aio_wp_security->debug_logger->log_debug("Nonce check failed on view system log operation!",4);
                 die("Nonce check failed on view system log operation!");
             }
-
-            $logResults = AIOWPSecurity_Utility_File::recursive_file_search('error_log', 0, ABSPATH);
+            
+            $logResults = AIOWPSecurity_Utility_File::recursive_file_search($sys_log_file, 0, ABSPATH);
             if (empty($logResults) || $logResults == NULL || $logResults == '' || $logResults === FALSE)
             {
                 $this->show_msg_updated(__('No system logs were found!', 'aiowpsecurity'));

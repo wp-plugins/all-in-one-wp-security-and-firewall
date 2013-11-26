@@ -32,6 +32,7 @@ class AIOWPSecurity_Configure_Settings
         
         //Captcha feature
         $aio_wp_security->configs->set_value('aiowps_enable_login_captcha','');//Checkbox
+        $aio_wp_security->configs->set_value('aiowps_enable_lost_password_captcha','');//Checkbox
         $aio_wp_security->configs->set_value('aiowps_captcha_secret_key',AIOWPSecurity_Utility::generate_alpha_numeric_random_string(20));//Hidden secret value which will be used to do some captcha processing. This will be assigned a random string generated when captcha settings saved
 
         //Login Whitelist feature
@@ -55,6 +56,7 @@ class AIOWPSecurity_Configure_Settings
         //Filesystem Security feature
         $aio_wp_security->configs->set_value('aiowps_disable_file_editing','');//Checkbox
         $aio_wp_security->configs->set_value('aiowps_prevent_default_wp_file_access','');//Checkbox
+        $aio_wp_security->configs->set_value('aiowps_system_log_file','error_log');
 
         //Blacklist feature
         $aio_wp_security->configs->set_value('aiowps_enable_blacklisting','');//Checkbox
@@ -149,6 +151,8 @@ class AIOWPSecurity_Configure_Settings
         //Filesystem Security feature
         $aio_wp_security->configs->add_value('aiowps_disable_file_editing','');//Checkbox
         $aio_wp_security->configs->add_value('aiowps_prevent_default_wp_file_access','');//Checkbox
+        $aio_wp_security->configs->add_value('aiowps_system_log_file','error_log');
+
 
         //Blacklist feature
         $aio_wp_security->configs->add_value('aiowps_enable_blacklisting','');//Checkbox

@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: All In One WP Security
-Version: v3.0
+Version: v3.1
 Plugin URI: http://www.tipsandtricks-hq.com/wordpress-security-and-firewall-plugin
 Author: Tips and Tricks HQ, Peter, Ruhul Amin
 Author URI: http://www.tipsandtricks-hq.com/

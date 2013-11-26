@@ -45,7 +45,7 @@ class AIOWPSecurity_User_Login
         {
             if (array_key_exists('aiowps-captcha-answer', $_POST)) //If the login form with captcha was submitted then do some processing
             {
-                isset($_POST['aiowps-captcha-answer'])?$captcha_answer = strip_tags(trim($_POST['aiowps-captcha-answer'])): $captcha_answer = '';
+                isset($_POST['aiowps-captcha-answer'])?($captcha_answer = strip_tags(trim($_POST['aiowps-captcha-answer']))):($captcha_answer = '');
                 $captcha_secret_string = $aio_wp_security->configs->get_value('aiowps_captcha_secret_key');
                 $submitted_encoded_string = base64_encode($_POST['aiowps-captcha-temp-string'].$captcha_secret_string.$captcha_answer);
                 if($submitted_encoded_string !== $_POST['aiowps-captcha-string-info'])
@@ -190,6 +190,7 @@ class AIOWPSecurity_User_Login
         $ip_range = AIOWPSecurity_Utility_IP::get_sanitized_ip_range($ip); //Get the IP range of the current user
         $username = sanitize_user($username);
 	$user = get_user_by('login',$username); //Returns WP_User object if exists
+        $ip_range = apply_filters('aiowps_before_lockdown', $ip_range);
         if ($user)
         {
             //If the login attempt was made using a valid user set variables for DB storage later on

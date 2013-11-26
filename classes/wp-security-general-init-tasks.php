@@ -31,6 +31,14 @@ class AIOWPSecurity_General_Init_Tasks
             }
         }
 
+        //For lost password captcha feature
+        if($aio_wp_security->configs->get_value('aiowps_enable_lost_password_captcha') == '1'){
+            if (!is_user_logged_in()) {
+                add_action('lostpassword_form', array(&$this, 'insert_captcha_question_form'));
+                add_action('lostpassword_post', array(&$this, 'process_lost_password_form_post'));
+            }
+        }
+
         //For registration page captcha feature
         if($aio_wp_security->configs->get_value('aiowps_enable_registration_page_captcha') == '1'){
             if (!is_user_logged_in()) {
@@ -161,4 +169,31 @@ class AIOWPSecurity_General_Init_Tasks
             }
         }
     }
+    
+    function process_lost_password_form_post() 
+    {
+        global $aio_wp_security;
+        //Check if captcha enabled
+        if ($aio_wp_security->configs->get_value('aiowps_enable_lost_password_captcha') == '1')
+        {
+            if (array_key_exists('aiowps-captcha-answer', $_POST)) //If the lost pass form with captcha was submitted then do some processing
+            {
+                isset($_POST['aiowps-captcha-answer'])?($captcha_answer = strip_tags(trim($_POST['aiowps-captcha-answer']))):($captcha_answer = '');
+                $captcha_secret_string = $aio_wp_security->configs->get_value('aiowps_captcha_secret_key');
+                $submitted_encoded_string = base64_encode($_POST['aiowps-captcha-temp-string'].$captcha_secret_string.$captcha_answer);
+                if($submitted_encoded_string !== $_POST['aiowps-captcha-string-info'])
+                {
+                    add_filter('allow_password_reset', array(&$this, 'add_lostpassword_captcha_error_msg'));
+                }
+            }
+        }
+        
+    }
+    
+    function add_lostpassword_captcha_error_msg()
+    {
+        //Insert an error just before the password reset process kicks in
+        return new WP_Error('aiowps_captcha_error',__('<strong>ERROR</strong>: Your answer was incorrect - please try again.', 'aiowpsecurity'));;
+    }
+    
 }
