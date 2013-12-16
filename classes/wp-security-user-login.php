@@ -35,9 +35,16 @@ class AIOWPSecurity_User_Login
         
         $user_locked = $this->check_locked_user();
         if ($user_locked != NULL) {
+            if($aio_wp_security->configs->get_value('aiowps_allow_unlock_requests')=='1')
+            {
+                add_action('login_form', array(&$this, 'insert_unlock_request_form'));
+            }
             $aio_wp_security->debug_logger->log_debug("Login attempt from blocked IP range - ".$user_locked['failed_login_ip'],2);
             return new WP_Error('authentication_failed', __('<strong>ERROR</strong>: Login failed because your IP address has been blocked.
                                 Please contact the administrator.', 'aiowpsecurity'));
+            //$unlock_msg_form = $this->user_unlock_message();
+            //return new WP_Error('authentication_failed', __('<strong>ERROR</strong>: Login failed because your IP address has been blocked.
+              //                  Please contact the administrator.', 'aiowpsecurity').$unlock_msg_form);
         }
         
         //Check if captcha enabled
@@ -273,6 +280,69 @@ class AIOWPSecurity_User_Login
 
     
     /*
+     * This function generates a special random string and inserts into the lockdown table for the relevant user
+     * It then generates an unlock request link which will be used to send to the user
+     */
+    static function generate_unlock_request_link($username)
+    {
+        //Get the locked user row from lockdown table
+        global $wpdb, $aio_wp_security;
+        $unlock_link = '';
+        $lockdown_table_name = AIOWPSEC_TBL_LOGIN_LOCKDOWN;
+        $secret_rand_key = (md5(uniqid(rand(), true)));
+        $sql = "UPDATE $lockdown_table_name SET unlock_key = '$secret_rand_key' WHERE release_date > now() AND user_login = '$username'";
+        //$res = $wpdb->get_results("SELECT * FROM $lockdown_table_name WHERE release_date > now() AND user_login = '$username'", ARRAY_A);
+        $res = $wpdb->query($sql);
+        if($res == NULL){
+            $aio_wp_security->debug_logger->log_debug("No locked user found with username ".$username,4);
+            return false;
+        }else{
+            $query_param = array('aiowps_auth_key'=>$secret_rand_key);
+            $wp_site_url = AIOWPSEC_WP_URL;
+            $unlock_link = add_query_arg($query_param, $wp_site_url); 
+        }
+        return $unlock_link;
+    }
+
+    /*
+     * This function will process an unlock request when someone clicks on the special URL
+     * It will check if the special random code matches that in lockdown table for the relevant user
+     * If so, it will unlock the user
+     */
+    static function process_unlock_request($unlock_key)
+    {
+        global $wpdb, $aio_wp_security;
+        $lockdown_table_name = AIOWPSEC_TBL_LOGIN_LOCKDOWN;
+        
+        $unlock_command = "UPDATE ".$lockdown_table_name." SET release_date = now() WHERE unlock_key = '".$unlock_key."'";
+        $result = $wpdb->query($unlock_command);
+        if($result === false)
+        {
+            $aio_wp_security->debug_logger->log_debug("Error unlocking user with unlock_key ".$unlock_key,4);
+        }
+        else
+        {
+            AIOWPSecurity_Utility::redirect_to_url(wp_login_url());
+        }
+    }
+    
+    /*
+     * This function sends an unlock request email to a locked out user
+     */
+    static function send_unlock_request_email($username, $email, $unlock_link)
+    {
+        global $aio_wp_security;
+        $to_email_address = $email;
+        $email_msg = '';
+        $subject = '['.get_option('siteurl').'] '. __('Unlock Request Notification','aiowpsecurity');
+        $email_msg .= __('You have requested for the account with username '.$username.' to be unlocked. Please click the link below to unlock your account:','aiowpsecurity')."\n";
+        $email_msg .= __('Unlock link: '.$unlock_link,'aiowpsecurity')."\n\n";
+        $email_msg .= __('After clicking the above link you will be able to login to the WordPress administration panel.','aiowpsecurity')."\n";
+        $email_header = 'From: '.get_bloginfo( 'name' ).' <'.get_bloginfo('admin_email').'>' . "\r\n\\";
+        $sendMail = wp_mail($to_email_address, $subject, $email_msg, $email_header);
+    }
+    
+    /*
      * This function will check the settings and log the user after the configured time period
      */
     function aiowps_force_logout_action_handler()
@@ -438,6 +508,22 @@ class AIOWPSecurity_User_Login
             $message .= '<p class="login message">'. $msg . '</p>';
         }
         return $message;
+    }
+    
+    //This function will generate an unlock request button which to be inserted inside the wp-login form when user gets locked out
+    function insert_unlock_request_form()
+    {
+        global $aio_wp_security;
+        $unlock_request_form = '';
+        //Let's encode some hidden data and make a form
+        $unlock_secret_string = $aio_wp_security->configs->get_value('aiowps_unlock_request_secret_key');
+        $current_time = time();
+        $enc_result = base64_encode($current_time.$unlock_secret_string);
+        
+        $unlock_request_form .= '<div style="padding-bottom:10px;"><input type="hidden" name="aiowps-unlock-string-info" id="aiowps-unlock-string-info" value="'.$enc_result.'" />';
+        $unlock_request_form .= '<input type="hidden" name="aiowps-unlock-temp-string" id="aiowps-unlock-temp-string" value="'.$current_time.'" />';
+        $unlock_request_form .= '<button type="submit" name="aiowps_unlock_request" class="button">'.__('Request Unlock', 'aiowpsecurity').'</button></div>';
+        echo $unlock_request_form;
     }
     
 }

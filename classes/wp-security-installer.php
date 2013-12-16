@@ -47,6 +47,7 @@ class AIOWPSecurity_Installer
         lockdown_date datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
         release_date datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
         failed_login_ip varchar(100) NOT NULL DEFAULT '',
+        unlock_key varchar(128) NOT NULL,
         PRIMARY KEY  (id)
         )ENGINE=MyISAM DEFAULT CHARSET=utf8;";
 	dbDelta($ld_tbl_sql);

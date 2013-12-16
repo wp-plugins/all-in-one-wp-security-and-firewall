@@ -3,8 +3,8 @@ Contributors: Tips and Tricks HQ, wpsolutions, Peter Petreski, Ruhul Amin
 Donate link: http://www.tipsandtricks-hq.com
 Tags: security, secure, Anti Virus, antivirus, ban, ban hacker, virus, firewall, firewall security, login, lockdown, htaccess, hack, malware, vulnerability, protect, protection, phishing, database, backup, plugin, sql injection, ssl, restrict, login captcha
 Requires at least: 3.5
-Tested up to: 3.7.1
-Stable tag: 3.1
+Tested up to: 3.8
+Stable tag: 3.2
 License: GPLv3
 
 A comprehensive, user-friendly, all in one WordPress security and firewall plugin for your site.
@@ -146,6 +146,13 @@ http://www.tipsandtricks-hq.com/wordpress-security-and-firewall-plugin
 None
 
 == Changelog ==
+
+= 3.2 =
+- Added new feature which allows users to generate an automated unlock request link via email when they get locked out because of the login lockdown feature.
+- Added a check to ensure that user cannot enter 0 minutes in the Force Logout feature.
+- Fixed translations so that various previously omitted strings can now be translated.
+- Added a new filter before locking down a user's IP address - aiowps_before_lockdown.
+- Generated a new translation (POT) file.
 
 = 3.1 =
 - Added a new feature that will allow you to add a captcha to the lost password form (useful if you are allowing user registration on your site).

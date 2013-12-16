@@ -5,10 +5,7 @@ class AIOWPSecurity_Database_Menu extends AIOWPSecurity_Admin_Menu
     var $menu_page_slug = AIOWPSEC_DB_SEC_MENU_SLUG;
     
     /* Specify all the tabs of this menu in the following array */
-    var $menu_tabs = array(
-        'tab1' => 'DB Prefix', 
-        'tab2' => 'DB Backup',
-        );
+    var $menu_tabs;
 
     var $menu_tabs_handler = array(
         'tab1' => 'render_tab1', 
@@ -18,6 +15,14 @@ class AIOWPSecurity_Database_Menu extends AIOWPSecurity_Admin_Menu
     function __construct() 
     {
         $this->render_menu_page();
+    }
+    
+    function set_menu_tabs() 
+    {
+        $this->menu_tabs = array(
+        'tab1' => __('DB Prefix', 'aiowpsecurity'), 
+        'tab2' => __('DB Backup', 'aiowpsecurity'),
+        );
     }
     
     function get_current_tab() 
@@ -48,6 +53,7 @@ class AIOWPSecurity_Database_Menu extends AIOWPSecurity_Admin_Menu
      */
     function render_menu_page() 
     {
+        $this->set_menu_tabs();
         $tab = $this->get_current_tab();
         ?>
         <div class="wrap">

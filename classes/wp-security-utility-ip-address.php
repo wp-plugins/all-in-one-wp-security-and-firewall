@@ -16,9 +16,12 @@ class AIOWPSecurity_Utility_IP
         }
 
         //Get the forwarded IP if it exists
-        if (array_key_exists( 'X-Forwarded-For', $headers) ) {
+        if (array_key_exists( 'X-Forwarded-For', $headers) ) 
+        {
             $userIP = $headers['X-Forwarded-For'];
-        } else {
+        }
+        else 
+        {
             $userIP = $_SERVER['REMOTE_ADDR'];
         }
         return $userIP;

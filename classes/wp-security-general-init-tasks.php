@@ -17,6 +17,22 @@ class AIOWPSecurity_General_Init_Tasks
             AIOWPSecurity_Utility::redirect_to_url(AIOWPSEC_WP_URL."/wp-admin");
         }
         
+        //For user unlock request feature
+        if(isset($_POST['aiowps_unlock_request']) || isset($_POST['aiowps_wp_submit_unlock_request'])){
+            nocache_headers();
+            header("HTTP/1.0 503 Service Unavailable");
+            remove_action('wp_head','head_addons',7);
+            include_once(AIO_WP_SECURITY_PATH.'/other-includes/wp-security-unlock-request.php');
+            exit();
+        }
+        
+        if(isset($_GET['aiowps_auth_key'])){
+            //If URL contains unlock key in query param then process the request
+            $unlock_key = strip_tags($_GET['aiowps_auth_key']);
+            AIOWPSecurity_User_Login::process_unlock_request($unlock_key);
+        }
+        
+
         //For site lockout feature
         if($aio_wp_security->configs->get_value('aiowps_site_lockout') == '1'){
             if (!is_user_logged_in() && !current_user_can('administrator') && !is_admin() && !in_array( $GLOBALS['pagenow'], array( 'wp-login.php', 'wp-register.php' ))) {

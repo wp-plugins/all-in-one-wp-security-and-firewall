@@ -25,13 +25,13 @@ class AIOWPSecurity_Feature_Item
     {
         $level_string = "";
         if($level == "1"){
-            $level_string = "Basic";
+            $level_string = __('Basic', 'aiowpsecurity');
         }
         else if($level == "2"){
-            $level_string = "Intermediate";
+            $level_string = __('Intermediate', 'aiowpsecurity');
         }
         else if($level == "3"){
-            $level_string = "Advanced";
+            $level_string = __('Advanced', 'aiowpsecurity');
         }
         return $level_string;
     }

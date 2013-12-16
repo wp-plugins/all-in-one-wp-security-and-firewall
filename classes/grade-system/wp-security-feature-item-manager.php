@@ -26,72 +26,72 @@ class AIOWPSecurity_Feature_Item_Manager
         $this->feature_items = array();
         //Settings Menu Features
         //WP Generator Meta
-        $this->feature_items[] = new AIOWPSecurity_Feature_Item("wp-generator-meta-tag", "Remove WP Generatore Meta Tag", $this->feature_point_1, $this->sec_level_basic);
+        $this->feature_items[] = new AIOWPSecurity_Feature_Item("wp-generator-meta-tag", __("Remove WP Generatore Meta Tag", "aiowpsecurity"), $this->feature_point_1, $this->sec_level_basic);
         
         //User Accounts Menu Features
         //Change Admin Username
-        $this->feature_items[] = new AIOWPSecurity_Feature_Item("user-accounts-change-admin-user", "Change Admin Username", $this->feature_point_3, $this->sec_level_basic);
+        $this->feature_items[] = new AIOWPSecurity_Feature_Item("user-accounts-change-admin-user", __("Change Admin Username", "aiowpsecurity"), $this->feature_point_3, $this->sec_level_basic);
         //Change Display Name
-        $this->feature_items[] = new AIOWPSecurity_Feature_Item("user-accounts-display-name", "Change Display Name", $this->feature_point_1, $this->sec_level_basic);
+        $this->feature_items[] = new AIOWPSecurity_Feature_Item("user-accounts-display-name", __("Change Display Name", "aiowpsecurity"), $this->feature_point_1, $this->sec_level_basic);
         
         //User Login Menu Features
         //Locking Lockdown
-        $this->feature_items[] = new AIOWPSecurity_Feature_Item("user-login-login-lockdown", "Login Lockdown", $this->feature_point_4, $this->sec_level_basic);
+        $this->feature_items[] = new AIOWPSecurity_Feature_Item("user-login-login-lockdown", __("Login Lockdown", "aiowpsecurity"), $this->feature_point_4, $this->sec_level_basic);
         //Login Captcha
-        $this->feature_items[] = new AIOWPSecurity_Feature_Item("user-login-captcha", "Login Captcha", $this->feature_point_4, $this->sec_level_basic);
+        $this->feature_items[] = new AIOWPSecurity_Feature_Item("user-login-captcha", __("Login Captcha", "aiowpsecurity"), $this->feature_point_4, $this->sec_level_basic);
         //Lost Password Captcha
-        $this->feature_items[] = new AIOWPSecurity_Feature_Item("lost-password-captcha", "Lost Password Captcha", $this->feature_point_2, $this->sec_level_basic);
+        $this->feature_items[] = new AIOWPSecurity_Feature_Item("lost-password-captcha", __("Lost Password Captcha", "aiowpsecurity"), $this->feature_point_2, $this->sec_level_basic);
         //Login whitelisting
-        $this->feature_items[] = new AIOWPSecurity_Feature_Item("whitelist-manager-ip-login-whitelisting", "Login IP Whitelisting", $this->feature_point_3, $this->sec_level_inter);
+        $this->feature_items[] = new AIOWPSecurity_Feature_Item("whitelist-manager-ip-login-whitelisting", __("Login IP Whitelisting", "aiowpsecurity"), $this->feature_point_3, $this->sec_level_inter);
         //Force Logout
-        $this->feature_items[] = new AIOWPSecurity_Feature_Item("user-login-force-logout", "Force Logout", $this->feature_point_1, $this->sec_level_basic);
+        $this->feature_items[] = new AIOWPSecurity_Feature_Item("user-login-force-logout", __("Force Logout", "aiowpsecurity"), $this->feature_point_1, $this->sec_level_basic);
 
         //User Registration
         //Manually approve registrations
-        $this->feature_items[] = new AIOWPSecurity_Feature_Item("manually-approve-registrations", "Registration Approval", $this->feature_point_4, $this->sec_level_basic);
+        $this->feature_items[] = new AIOWPSecurity_Feature_Item("manually-approve-registrations", __("Registration Approval", "aiowpsecurity"), $this->feature_point_4, $this->sec_level_basic);
         //Registration Captcha
-        $this->feature_items[] = new AIOWPSecurity_Feature_Item("user-registration-captcha", "Registration Captcha", $this->feature_point_4, $this->sec_level_basic);
+        $this->feature_items[] = new AIOWPSecurity_Feature_Item("user-registration-captcha", __("Registration Captcha", "aiowpsecurity"), $this->feature_point_4, $this->sec_level_basic);
         
         //Database Security Menu Features
         //DB Prefix
-        $this->feature_items[] = new AIOWPSecurity_Feature_Item("db-security-db-prefix", "DB Prefix", $this->feature_point_2, $this->sec_level_inter);
+        $this->feature_items[] = new AIOWPSecurity_Feature_Item("db-security-db-prefix", __("DB Prefix", "aiowpsecurity"), $this->feature_point_2, $this->sec_level_inter);
         //DB Backup
-        $this->feature_items[] = new AIOWPSecurity_Feature_Item("db-security-db-backup", "DB Backup", $this->feature_point_4, $this->sec_level_basic);       
+        $this->feature_items[] = new AIOWPSecurity_Feature_Item("db-security-db-backup", __("DB Backup", "aiowpsecurity"), $this->feature_point_4, $this->sec_level_basic);       
         
         //File System Security Menu Features
         //File Permissions
-        $this->feature_items[] = new AIOWPSecurity_Feature_Item("filesystem-file-permissions", "File Permissions", $this->feature_point_4, $this->sec_level_basic);
+        $this->feature_items[] = new AIOWPSecurity_Feature_Item("filesystem-file-permissions", __("File Permissions", "aiowpsecurity"), $this->feature_point_4, $this->sec_level_basic);
         //PHP File Editing
-        $this->feature_items[] = new AIOWPSecurity_Feature_Item("filesystem-file-editing", "File Editing", $this->feature_point_2, $this->sec_level_basic);       
+        $this->feature_items[] = new AIOWPSecurity_Feature_Item("filesystem-file-editing", __("File Editing", "aiowpsecurity"), $this->feature_point_2, $this->sec_level_basic);       
         //Prevent Access WP Install Files
-        $this->feature_items[] = new AIOWPSecurity_Feature_Item("block-wp-files-access", "WordPress Files Access", $this->feature_point_2, $this->sec_level_basic);       
+        $this->feature_items[] = new AIOWPSecurity_Feature_Item("block-wp-files-access", __("WordPress Files Access", "aiowpsecurity"), $this->feature_point_2, $this->sec_level_basic);       
         
         //Blacklist Manager Menu Features
         //IP and user agent blacklisting
-        $this->feature_items[] = new AIOWPSecurity_Feature_Item("blacklist-manager-ip-user-agent-blacklisting", "IP and User Agent Blacklisting", $this->feature_point_3, $this->sec_level_inter);
+        $this->feature_items[] = new AIOWPSecurity_Feature_Item("blacklist-manager-ip-user-agent-blacklisting", __("IP and User Agent Blacklisting", "aiowpsecurity"), $this->feature_point_3, $this->sec_level_inter);
         
         //Firewall Menu Features
         //Basic firewall
-        $this->feature_items[] = new AIOWPSecurity_Feature_Item("firewall-basic-rules", "Enable Basic Firewall", $this->feature_point_3, $this->sec_level_basic);
-        $this->feature_items[] = new AIOWPSecurity_Feature_Item("firewall-pingback-rules", "Enable Pingback Vulnerability Protection", $this->feature_point_3, $this->sec_level_basic);
+        $this->feature_items[] = new AIOWPSecurity_Feature_Item("firewall-basic-rules", __("Enable Basic Firewall", "aiowpsecurity"), $this->feature_point_3, $this->sec_level_basic);
+        $this->feature_items[] = new AIOWPSecurity_Feature_Item("firewall-pingback-rules", __("Enable Pingback Vulnerability Protection", "aiowpsecurity"), $this->feature_point_3, $this->sec_level_basic);
         
         //Additional and Advanced firewall
-        $this->feature_items[] = new AIOWPSecurity_Feature_Item("firewall-enable-brute-force-attack-prevention", "Enable Brute Force Attack Prevention", $this->feature_point_4, $this->sec_level_advanced);
-        $this->feature_items[] = new AIOWPSecurity_Feature_Item("firewall-disable-index-views", "Disable Index Views", $this->feature_point_1, $this->sec_level_inter);
-        $this->feature_items[] = new AIOWPSecurity_Feature_Item("firewall-disable-trace-track", "Disable Trace and Track", $this->feature_point_2, $this->sec_level_advanced);
-        $this->feature_items[] = new AIOWPSecurity_Feature_Item("firewall-forbid-proxy-comments", "Forbid Proxy Comments", $this->feature_point_2, $this->sec_level_advanced);
-        $this->feature_items[] = new AIOWPSecurity_Feature_Item("firewall-deny-bad-queries", "Deny Bad Queries", $this->feature_point_3, $this->sec_level_advanced);
-        $this->feature_items[] = new AIOWPSecurity_Feature_Item("firewall-advanced-character-string-filter", "Advanced Character String Filter", $this->feature_point_3, $this->sec_level_advanced);
-        $this->feature_items[] = new AIOWPSecurity_Feature_Item("firewall-enable-5g-blacklist", "5G Blacklist", $this->feature_point_4, $this->sec_level_advanced);
+        $this->feature_items[] = new AIOWPSecurity_Feature_Item("firewall-enable-brute-force-attack-prevention", __("Enable Brute Force Attack Prevention", "aiowpsecurity"), $this->feature_point_4, $this->sec_level_advanced);
+        $this->feature_items[] = new AIOWPSecurity_Feature_Item("firewall-disable-index-views", __("Disable Index Views", "aiowpsecurity"), $this->feature_point_1, $this->sec_level_inter);
+        $this->feature_items[] = new AIOWPSecurity_Feature_Item("firewall-disable-trace-track", __("Disable Trace and Track", "aiowpsecurity"), $this->feature_point_2, $this->sec_level_advanced);
+        $this->feature_items[] = new AIOWPSecurity_Feature_Item("firewall-forbid-proxy-comments", __("Forbid Proxy Comments", "aiowpsecurity"), $this->feature_point_2, $this->sec_level_advanced);
+        $this->feature_items[] = new AIOWPSecurity_Feature_Item("firewall-deny-bad-queries", __("Deny Bad Queries", "aiowpsecurity"), $this->feature_point_3, $this->sec_level_advanced);
+        $this->feature_items[] = new AIOWPSecurity_Feature_Item("firewall-advanced-character-string-filter", __("Advanced Character String Filter", "aiowpsecurity"), $this->feature_point_3, $this->sec_level_advanced);
+        $this->feature_items[] = new AIOWPSecurity_Feature_Item("firewall-enable-5g-blacklist", __("5G Blacklist", "aiowpsecurity"), $this->feature_point_4, $this->sec_level_advanced);
 
         //SPAM Prevention
-        $this->feature_items[] = new AIOWPSecurity_Feature_Item("block-spambots", "Block Spambots", $this->feature_point_2, $this->sec_level_basic);
+        $this->feature_items[] = new AIOWPSecurity_Feature_Item("block-spambots", __("Block Spambots", "aiowpsecurity"), $this->feature_point_2, $this->sec_level_basic);
         //Comment Captcha
-        $this->feature_items[] = new AIOWPSecurity_Feature_Item("comment-form-captcha", "Comment Captcha", $this->feature_point_4, $this->sec_level_basic);
+        $this->feature_items[] = new AIOWPSecurity_Feature_Item("comment-form-captcha", __("Comment Captcha", "aiowpsecurity"), $this->feature_point_4, $this->sec_level_basic);
         
         //Filescan
         //File change detection
-        $this->feature_items[] = new AIOWPSecurity_Feature_Item("scan-file-change-detection", "File Change Detection", $this->feature_point_4, $this->sec_level_inter);       
+        $this->feature_items[] = new AIOWPSecurity_Feature_Item("scan-file-change-detection", __("File Change Detection", "aiowpsecurity"), $this->feature_point_4, $this->sec_level_inter);       
 
     }
     

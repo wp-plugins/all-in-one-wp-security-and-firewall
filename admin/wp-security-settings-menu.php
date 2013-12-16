@@ -5,12 +5,7 @@ class AIOWPSecurity_Settings_Menu extends AIOWPSecurity_Admin_Menu
     var $menu_page_slug = AIOWPSEC_SETTINGS_MENU_SLUG;
     
     /* Specify all the tabs of this menu in the following array */
-    var $menu_tabs = array(
-        'tab1' => 'General Settings', 
-        'tab2' => '.htaccess File',
-        'tab3' => 'wp-config.php File',
-        'tab4' => 'WP Meta Info',
-        );
+    var $menu_tabs;
 
     var $menu_tabs_handler = array(
         'tab1' => 'render_tab1', 
@@ -22,6 +17,16 @@ class AIOWPSecurity_Settings_Menu extends AIOWPSecurity_Admin_Menu
     function __construct() 
     {
         $this->render_menu_page();
+    }
+
+    function set_menu_tabs() 
+    {
+        $this->menu_tabs = array(
+        'tab1' => __('General Settings', 'aiowpsecurity'), 
+        'tab2' => '.htaccess '.__('File', 'aiowpsecurity'),
+        'tab3' => 'wp-config.php '.__('File', 'aiowpsecurity'),
+        'tab4' => __('WP Meta Info', 'aiowpsecurity'),
+        );
     }
 
     function get_current_tab() 
@@ -52,6 +57,7 @@ class AIOWPSecurity_Settings_Menu extends AIOWPSecurity_Admin_Menu
      */
     function render_menu_page() 
     {
+        $this->set_menu_tabs();
         $tab = $this->get_current_tab();
         ?>
         <div class="wrap">

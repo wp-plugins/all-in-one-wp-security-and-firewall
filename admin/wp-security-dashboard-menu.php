@@ -4,10 +4,7 @@ class AIOWPSecurity_Dashboard_Menu extends AIOWPSecurity_Admin_Menu
 {
     var $dashboard_menu_page_slug = AIOWPSEC_MAIN_MENU_SLUG;
     
-     var $menu_tabs = array(
-        'tab1' => 'Dashboard', 
-        'tab2' => 'System Info',
-        );
+     var $menu_tabs;
 
     var $menu_tabs_handler = array(
         'tab1' => 'render_tab1', 
@@ -17,6 +14,14 @@ class AIOWPSecurity_Dashboard_Menu extends AIOWPSecurity_Admin_Menu
     function __construct() 
     {
         $this->render_menu_page();
+    }
+
+    function set_menu_tabs() 
+    {
+        $this->menu_tabs = array(
+        'tab1' => __('Dashboard','aiowpsecurity'), 
+        'tab2' => __('System Info','aiowpsecurity'),
+        );
     }
 
     function get_current_tab() 
@@ -47,6 +52,7 @@ class AIOWPSecurity_Dashboard_Menu extends AIOWPSecurity_Admin_Menu
      */
     function render_menu_page() 
     {
+        $this->set_menu_tabs();
         $tab = $this->get_current_tab();
         ?>
         <div class="wrap">
@@ -64,8 +70,8 @@ class AIOWPSecurity_Dashboard_Menu extends AIOWPSecurity_Admin_Menu
     function render_tab1()
     {
         echo '<div class="aio_grey_box">';
- 	echo '<p>For information, updates and documentation, please visit the <a href="http://www.tipsandtricks-hq.com/wordpress-security-and-firewall-plugin" target="_blank">AIO WP Security & Firewall Plugin</a> Page.</p>';
-        echo '<p><a href="http://www.tipsandtricks-hq.com/development-center" target="_blank">Follow us</a> on Twitter, Google+ or via Email to stay upto date about the new security features of this plugin.</p>';
+ 	echo '<p>'.__('For information, updates and documentation, please visit the','aiowpsecurity').' <a href="http://www.tipsandtricks-hq.com/wordpress-security-and-firewall-plugin" target="_blank">'.__('AIO WP Security & Firewall Plugin','aiowpsecurity').'</a> '.__('Page','aiowpsecurity').'</p>';
+        echo '<p><a href="http://www.tipsandtricks-hq.com/development-center" target="_blank">'.__('Follow us','aiowpsecurity').'</a> on '.__('Twitter, Google+ or via Email to stay upto date about the new security features of this plugin.','aiowpsecurity').'</p>';
         echo '</div>';
 
         echo "<script type='text/javascript' src='https://www.google.com/jsapi'></script>";//Include the google chart library
@@ -79,7 +85,7 @@ class AIOWPSecurity_Dashboard_Menu extends AIOWPSecurity_Admin_Menu
         ?>
         <div class="aiowps_dashboard_box_small">
         <div class="postbox">
-        <h3><label for="title">Security Strength Meter</label></h3>
+        <h3><label for="title"><?php _e('Security Strength Meter', 'aiowpsecurity');?></label></h3>
         <div class="inside">
 
         <script type='text/javascript'>
@@ -120,7 +126,7 @@ class AIOWPSecurity_Dashboard_Menu extends AIOWPSecurity_Admin_Menu
         
         <div class="aiowps_dashboard_box_small">
         <div class="postbox">
-        <h3><label for="title">Security Points Breakdown</label></h3>
+        <h3><label for="title"><?php _e('Security Points Breakdown', 'aiowpsecurity');?></label></h3>
         <div class="inside">
         
         <?php
@@ -161,7 +167,7 @@ class AIOWPSecurity_Dashboard_Menu extends AIOWPSecurity_Admin_Menu
         
         <div class="aiowps_dashboard_box_small">
         <div class="postbox">
-        <h3><label for="title">Critical Feature Status</label></h3>
+        <h3><label for="title"><?php _e('Critical Feature Status', 'aiowpsecurity');?></label></h3>
         <div class="inside">
 
         <?php 
@@ -232,7 +238,7 @@ class AIOWPSecurity_Dashboard_Menu extends AIOWPSecurity_Admin_Menu
 
         <div class="aiowps_dashboard_box_small">
         <div class="postbox">
-        <h3><label for="title">Maintenance Mode Status</label></h3>
+        <h3><label for="title"><?php _e('Maintenance Mode Status', 'aiowpsecurity');?></label></h3>
         <div class="inside">        
         <?php 
         if($aio_wp_security->configs->get_value('aiowps_site_lockout') == '1'){
@@ -282,7 +288,7 @@ class AIOWPSecurity_Dashboard_Menu extends AIOWPSecurity_Admin_Menu
         
         <div class="aiowps_dashboard_box_small">
         <div class="postbox">
-        <h3><label for="title">Logged In Users</label></h3>
+        <h3><label for="title"><?php _e('Logged In Users', 'aiowpsecurity');?></label></h3>
         <div class="inside">        
         <?php
         $users_online_link = '<a href="admin.php?page='.AIOWPSEC_USER_LOGIN_MENU_SLUG.'&tab=tab7">Logged In Users</a>';
@@ -331,10 +337,10 @@ class AIOWPSecurity_Dashboard_Menu extends AIOWPSecurity_Admin_Menu
         
         <div class="aiowps_dashboard_box_small aiowps_spread_the_word_widget">
         <div class="postbox">
-        <h3><label for="title">Spread the Word</label></h3>
+        <h3><label for="title"><?php _e('Spread the Word', 'aiowpsecurity');?></label></h3>
         <div class="inside">
         
-        <p>We are working to make your WordPress site more secure. Please support us, here is how:</p>
+        <p><?php _e('We are working to make your WordPress site more secure. Please support us, here is how:', 'aiowpsecurity');?></p>
         <p>
             <a href="https://plus.google.com/102469783420435518783/" target="_blank">Follow us on Google+</a>
         </p>
@@ -358,24 +364,24 @@ class AIOWPSecurity_Dashboard_Menu extends AIOWPSecurity_Admin_Menu
         global $wpdb;
         ?>
         <div class="postbox">
-        <h3><label for="title">Site Info</label></h3>
+        <h3><label for="title"><?php _e('Site Info', 'aiowpsecurity');?></label></h3>
         <div class="inside">
-	<strong>Plugin Version: </strong><code><?php echo AIO_WP_SECURITY_VERSION;?></code><br />
-	<strong>WP Version: </strong><code><?php echo get_bloginfo("version"); ?></code><br />
+	<strong><?php _e('Plugin Version', 'aiowpsecurity');?>: </strong><code><?php echo AIO_WP_SECURITY_VERSION;?></code><br />
+	<strong><?php _e('WP Version', 'aiowpsecurity');?>: </strong><code><?php echo get_bloginfo("version"); ?></code><br />
 	<strong>WPMU: </strong><code><?php echo (!defined('MULTISITE') || !MULTISITE) ? "No" : "Yes";  ?></code><br />
-	<strong>MySQL Version: </strong><code><?php echo $wpdb->db_version();?></code><br />
-	<strong>WP Table Prefix: </strong><code><?php echo $wpdb->prefix; ?></code><br />
-	<strong>PHP Version: </strong><code><?php echo phpversion(); ?></code><br />
-	<strong>Session Save Path: </strong><code><?php echo ini_get("session.save_path"); ?></code><br />
+	<strong>MySQL <?php _e('Version', 'aiowpsecurity');?>: </strong><code><?php echo $wpdb->db_version();?></code><br />
+	<strong>WP <?php _e('Table Prefix', 'aiowpsecurity');?>: </strong><code><?php echo $wpdb->prefix; ?></code><br />
+	<strong>PHP <?php _e('Version', 'aiowpsecurity');?>: </strong><code><?php echo phpversion(); ?></code><br />
+	<strong><?php _e('Session Save Path', 'aiowpsecurity');?>: </strong><code><?php echo ini_get("session.save_path"); ?></code><br />
 	<strong>WP URL: </strong><code><?php echo get_bloginfo('wpurl'); ?></code><br />
-	<strong>Server Name: </strong><code><?php echo $_SERVER['SERVER_NAME']; ?></code><br />
-	<strong>Cookie Domain: </strong><code><?php $cookieDomain = parse_url( strtolower( get_bloginfo('wpurl') ) ); echo $cookieDomain['host']; ?></code><br />
-	<strong>CURL Library Present: </strong><code><?php echo (function_exists('curl_init')) ? "Yes" : "No"; ?></code><br />
-	<strong>Debug File Write Permissions: </strong><code><?php echo (is_writable(AIO_WP_SECURITY_PATH)) ? "Writable" : "Not Writable"; ?></code><br />
+	<strong><?php _e('Server Name', 'aiowpsecurity');?>: </strong><code><?php echo $_SERVER['SERVER_NAME']; ?></code><br />
+	<strong><?php _e('Cookie Domain', 'aiowpsecurity');?>: </strong><code><?php $cookieDomain = parse_url( strtolower( get_bloginfo('wpurl') ) ); echo $cookieDomain['host']; ?></code><br />
+	<strong>CURL <?php _e('Library Present', 'aiowpsecurity');?>: </strong><code><?php echo (function_exists('curl_init')) ? "Yes" : "No"; ?></code><br />
+	<strong><?php _e('Debug File Write Permissions', 'aiowpsecurity');?>: </strong><code><?php echo (is_writable(AIO_WP_SECURITY_PATH)) ? "Writable" : "Not Writable"; ?></code><br />
         </div></div>
         
         <div class="postbox">
-        <h3><label for="title">Active Plugins</label></h3>
+        <h3><label for="title"><?php _e('Active Plugins', 'aiowpsecurity');?></label></h3>
         <div class="inside">
         <?php
         $all_plugins = get_plugins();

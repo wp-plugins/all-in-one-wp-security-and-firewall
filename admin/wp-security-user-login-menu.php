@@ -5,16 +5,7 @@ class AIOWPSecurity_User_Login_Menu extends AIOWPSecurity_Admin_Menu
     var $menu_page_slug = AIOWPSEC_USER_LOGIN_MENU_SLUG;
     
     /* Specify all the tabs of this menu in the following array */
-    var $menu_tabs = array(
-        'tab1' => 'Login Lockdown',
-        'tab2' => 'Login Captcha',
-        'tab3' => 'Login Whitelist',
-        'tab4' => 'Failed Login Records',
-        'tab5' => 'Force Logout',
-        'tab6' => 'Account Activity Logs',
-        'tab7' => 'Logged In Users',
-
-        );
+    var $menu_tabs;
     var $menu_tabs_handler = array(
         'tab1' => 'render_tab1', 
         'tab2' => 'render_tab2',
@@ -30,6 +21,19 @@ class AIOWPSecurity_User_Login_Menu extends AIOWPSecurity_Admin_Menu
         $this->render_user_login_menu_page();
     }
     
+    function set_menu_tabs() 
+    {
+        $this->menu_tabs = array(
+        'tab1' => __('Login Lockdown', 'aiowpsecurity'),
+        'tab2' => __('Login Captcha', 'aiowpsecurity'),
+        'tab3' => __('Login Whitelist', 'aiowpsecurity'),
+        'tab4' => __('Failed Login Records', 'aiowpsecurity'),
+        'tab5' => __('Force Logout', 'aiowpsecurity'),
+        'tab6' => __('Account Activity Logs', 'aiowpsecurity'),
+        'tab7' => __('Logged In Users', 'aiowpsecurity'),
+        );
+    }
+
     function get_current_tab() 
     {
         $tab_keys = array_keys($this->menu_tabs);
@@ -58,6 +62,7 @@ class AIOWPSecurity_User_Login_Menu extends AIOWPSecurity_Admin_Menu
      */
     function render_user_login_menu_page() 
     {
+        $this->set_menu_tabs();
         $tab = $this->get_current_tab();
         ?>
         <div class="wrap">
@@ -123,7 +128,11 @@ class AIOWPSecurity_User_Login_Menu extends AIOWPSecurity_Admin_Menu
             }
 
             //Save all the form values to the options
+            $random_20_digit_string = AIOWPSecurity_Utility::generate_alpha_numeric_random_string(20); //Generate random 20 char string for use during captcha encode/decode
+            $aio_wp_security->configs->set_value('aiowps_unlock_request_secret_key', $random_20_digit_string);
+            
             $aio_wp_security->configs->set_value('aiowps_enable_login_lockdown',isset($_POST["aiowps_enable_login_lockdown"])?'1':'');
+            $aio_wp_security->configs->set_value('aiowps_allow_unlock_requests',isset($_POST["aiowps_allow_unlock_requests"])?'1':'');
             $aio_wp_security->configs->set_value('aiowps_max_login_attempts',absint($max_login_attempt_val));
             $aio_wp_security->configs->set_value('aiowps_retry_time_period',absint($login_retry_time_period));
             $aio_wp_security->configs->set_value('aiowps_lockout_time_length',absint($lockout_time_length));
@@ -179,6 +188,13 @@ class AIOWPSecurity_User_Login_Menu extends AIOWPSecurity_Admin_Menu
                 <td>
                 <input name="aiowps_enable_login_lockdown" type="checkbox"<?php if($aio_wp_security->configs->get_value('aiowps_enable_login_lockdown')=='1') echo ' checked="checked"'; ?> value="1"/>
                 <span class="description"><?php _e('Check this if you want to enable the login lockdown feature and apply the settings below', 'aiowpsecurity'); ?></span>
+                </td>
+            </tr>            
+            <tr valign="top">
+                <th scope="row"><?php _e('Allow Unlock Requests', 'aiowpsecurity')?>:</th>                
+                <td>
+                <input name="aiowps_allow_unlock_requests" type="checkbox"<?php if($aio_wp_security->configs->get_value('aiowps_allow_unlock_requests')=='1') echo ' checked="checked"'; ?> value="1"/>
+                <span class="description"><?php _e('Check this if you want to allow users to generate an automated unlock request link which will unlock their account', 'aiowpsecurity'); ?></span>
                 </td>
             </tr>            
             <tr valign="top">
@@ -563,6 +579,12 @@ class AIOWPSecurity_User_Login_Menu extends AIOWPSecurity_Admin_Menu
             {
                 $error .= '<br />'.__('You entered a non numeric value for the logout time period field. It has been set to the default value.','aiowpsecurity');
                 $logout_time_period = '1';//Set it to the default value for this field
+            }
+            else
+            {
+                if($logout_time_period < 1){
+                    $logout_time_period = '1';
+                }
             }
 
             if($error)

@@ -5,11 +5,7 @@ class AIOWPSecurity_User_Accounts_Menu extends AIOWPSecurity_Admin_Menu
     var $menu_page_slug = AIOWPSEC_USER_ACCOUNTS_MENU_SLUG;
     
     /* Specify all the tabs of this menu in the following array */
-    var $menu_tabs = array(
-        'tab1' => 'WP Username', 
-        'tab2' => 'Display Name',
-        'tab3' => 'Password'
-        );
+    var $menu_tabs;
     var $menu_tabs_handler = array(
         'tab1' => 'render_tab1', 
         'tab2' => 'render_tab2',
@@ -27,6 +23,15 @@ class AIOWPSecurity_User_Accounts_Menu extends AIOWPSecurity_Admin_Menu
         }
     }
     
+    function set_menu_tabs() 
+    {
+        $this->menu_tabs = array(
+        'tab1' => __('WP Username', 'aiowpsecurity'), 
+        'tab2' => __('Display Name', 'aiowpsecurity'),
+        'tab3' => __('Password', 'aiowpsecurity')
+        );
+    }
+
     function get_current_tab() 
     {
         $tab_keys = array_keys($this->menu_tabs);
@@ -55,6 +60,7 @@ class AIOWPSecurity_User_Accounts_Menu extends AIOWPSecurity_Admin_Menu
      */
     function render_user_account_menu_page() 
     {
+        $this->set_menu_tabs();
         $tab = $this->get_current_tab();
         ?>
         <div class="wrap">
@@ -212,13 +218,13 @@ class AIOWPSecurity_User_Accounts_Menu extends AIOWPSecurity_Admin_Menu
                     <div class="description"><?php _e('Start typing a password.', 'aiowpsecurity'); ?></div>
                 </div>
             <div id="aiowps_pw_tool_main">
-                <div class="aiowps_password_crack_info_text">It would take a desktop PC approximately
-                <div id="aiowps_password_crack_time_calculation">1 sec</div> to crack your password!</div>
+                <div class="aiowps_password_crack_info_text"><?php _e('It would take a desktop PC approximately', 'aiowpsecurity'); ?>
+                <div id="aiowps_password_crack_time_calculation"><?php _e('1 sec', 'aiowpsecurity'); ?></div> <?php _e('to crack your password!', 'aiowpsecurity'); ?></div>
                 <!-- The rotating arrow -->
                 <div class="arrowCap"></div>
                 <div class="arrow"></div>
 
-                <p class="meterText">Password Strength</p>
+                <p class="meterText"><?php _e('Password Strength', 'aiowpsecurity'); ?></p>
             </div>
             </div>
             </div>   

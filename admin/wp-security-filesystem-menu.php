@@ -5,12 +5,7 @@ class AIOWPSecurity_Filesystem_Menu extends AIOWPSecurity_Admin_Menu
     var $menu_page_slug = AIOWPSEC_FILESYSTEM_MENU_SLUG;
     
     /* Specify all the tabs of this menu in the following array */
-    var $menu_tabs = array(
-        'tab1' => 'File Permissions', 
-        'tab2' => 'PHP File Editing',
-        'tab3' => 'WP File Access',
-        'tab4' => 'Host System Logs',
-        );
+    var $menu_tabs;
 
     var $menu_tabs_handler = array(
         'tab1' => 'render_tab1', 
@@ -25,6 +20,16 @@ class AIOWPSecurity_Filesystem_Menu extends AIOWPSecurity_Admin_Menu
         add_action( 'admin_footer', array( &$this, 'filesystem_menu_footer_code' ) );
     }
     
+    function set_menu_tabs() 
+    {
+        $this->menu_tabs = array(
+        'tab1' => __('File Permissions','aiowpsecurity'), 
+        'tab2' => __('PHP File Editing','aiowpsecurity'),
+        'tab3' => __('WP File Access','aiowpsecurity'),
+        'tab4' => __('Host System Logs','aiowpsecurity'),
+        );
+    }
+
     function get_current_tab() 
     {
         $tab_keys = array_keys($this->menu_tabs);
@@ -53,6 +58,7 @@ class AIOWPSecurity_Filesystem_Menu extends AIOWPSecurity_Admin_Menu
      */
     function render_menu_page() 
     {
+        $this->set_menu_tabs();
         $tab = $this->get_current_tab();
         ?>
         <div class="wrap">
