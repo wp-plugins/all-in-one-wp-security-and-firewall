@@ -39,9 +39,7 @@ you are making it 50% easier for hackers because they already know the login nam
 via email whenever somebody gets locked out due to too many login attempts.
 
 * As the administrator you can view a list of all locked out users which are displayed in an easily readable and navigable table which also allows you to unlock individual or bulk IP addresses at the click of a button.
-
 * Force logout of all users after a configurable time period
-
 * Monitor/View failed login attempts which show the user's IP address, User ID/Username and Date/Time of the failed login attempt
 
 * Monitor/View the account activity of all user accounts on your system by keeping track of the username, IP address, login date/time, and logout date/time.
