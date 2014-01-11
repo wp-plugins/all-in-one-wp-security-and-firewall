@@ -121,7 +121,7 @@ class AIOWPSecurity_User_Accounts_Menu extends AIOWPSecurity_Admin_Menu
             <table class="form-table">
                 <tr valign="top">
                     <th scope="row"><label for="NewUserName"> <?php _e('New Admin Username', 'aiowpsecurity')?>:</label></th>
-                    <td><input size="16" name="aiowps_new_user_name" />
+                    <td><input type="text" size="16" name="aiowps_new_user_name" />
                     <p class="description"><?php _e('Choose a new username for admin.', 'aiowpsecurity'); ?></p>
                     </td> 
                 </tr>

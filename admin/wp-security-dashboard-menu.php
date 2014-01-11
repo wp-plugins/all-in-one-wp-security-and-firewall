@@ -320,7 +320,7 @@ class AIOWPSecurity_Dashboard_Menu extends AIOWPSecurity_Admin_Menu
             }
             if($num_users > 1)
             {
-                echo '<div class="aio_red_box"><p>'.__('Number of users currently logged into your site is:','aiowpsecurity').' <strong>'.$num_users.'</strong></p>';
+                echo '<div class="aio_red_box"><p>'.__('Number of users currently logged into your site (including you) is:','aiowpsecurity').' <strong>'.$num_users.'</strong></p>';
                 $info_msg = '<p>'.sprintf( __('Go to the %s menu to see more details', 'aiowpsecurity'), $users_online_link).'</p>';
                 echo $info_msg.'</div>';
             }

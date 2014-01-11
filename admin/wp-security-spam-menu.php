@@ -254,7 +254,7 @@ class AIOWPSecurity_Spam_Menu extends AIOWPSecurity_Admin_Menu
         <table class="form-table">
             <tr valign="top">
                 <th scope="row"><?php _e('Minimum number of SPAM comments per IP', 'aiowpsecurity')?>:</th>
-                <td><input size="5" name="aiowps_spam_ip_min_comments" value="<?php echo $aio_wp_security->configs->get_value('aiowps_spam_ip_min_comments'); ?>" />
+                <td><input type="text" size="5" name="aiowps_spam_ip_min_comments" value="<?php echo $aio_wp_security->configs->get_value('aiowps_spam_ip_min_comments'); ?>" />
                 <span class="description"><?php _e('This field allows you to list only those IP addresses which have been used to post X or more SPAM comments.', 'aiowpsecurity');?></span>
                 <span class="aiowps_more_info_anchor"><span class="aiowps_more_info_toggle_char">+</span><span class="aiowps_more_info_toggle_text"><?php _e('More Info', 'aiowpsecurity'); ?></span></span>
                 <div class="aiowps_more_info_body">

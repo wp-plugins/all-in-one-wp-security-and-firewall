@@ -1,9 +1,9 @@
 <?php
 /*
 Plugin Name: All In One WP Security
-Version: v3.2
+Version: v3.3
 Plugin URI: http://www.tipsandtricks-hq.com/wordpress-security-and-firewall-plugin
-Author: Tips and Tricks HQ, Peter, Ruhul Amin
+Author: Tips and Tricks HQ, Peter, Ruhul, Ivy
 Author URI: http://www.tipsandtricks-hq.com/
 Description: All round best WordPress security plugin!
 License: GPL3

@@ -130,6 +130,20 @@ class AIOWPSecurity_Firewall_Menu extends AIOWPSecurity_Admin_Menu
             '<br />'.$info_msg.'</p>';
             ?>
         </div>
+        <?php 
+        //Show the message if pingback rule is active
+        if ($aio_wp_security->configs->get_value('aiowps_enable_pingback_firewall')=='1')
+        {
+        ?>
+            <div class="aio_yellow_box">
+                <p><?php _e('Attention:', 'aiowpsecurity'); ?>
+                <br /><?php _e('Currently the ', 'aiowpsecurity'); ?><strong><?php _e('Enable Pingback Protection', 'aiowpsecurity'); ?></strong><?php _e(' is active.', 'aiowpsecurity'); ?></p>
+                <p><strong><?php _e('Please beware that if you are using the WordPress iOS App, then you will need to deactivate this feature in order for the app to work properly.', 'aiowpsecurity'); ?></strong></p>
+            </div>
+            
+        <?php
+        }
+        ?>
 
         <div class="postbox">
         <h3><label for="title"><?php _e('Basic Firewall Settings', 'aiowpsecurity'); ?></label></h3>
@@ -688,13 +702,13 @@ class AIOWPSecurity_Firewall_Menu extends AIOWPSecurity_Admin_Menu
             </tr>
             <tr valign="top">
                 <th scope="row"><?php _e('Secret Word', 'aiowpsecurity')?>:</th>
-                <td><input size="40" name="aiowps_brute_force_secret_word" value="<?php echo $aio_wp_security->configs->get_value('aiowps_brute_force_secret_word'); ?>" />
+                <td><input type="text" size="40" name="aiowps_brute_force_secret_word" value="<?php echo $aio_wp_security->configs->get_value('aiowps_brute_force_secret_word'); ?>" />
                 <span class="description"><?php _e('Choose a secret word consisting of alphanumeric characters which you can use to access your special URL. Your are highly encouraged to choose a word which will be difficult to guess.', 'aiowpsecurity'); ?></span>
                 </td> 
             </tr>
             <tr valign="top">
                 <th scope="row"><?php _e('Re-direct URL', 'aiowpsecurity')?>:</th>
-                <td><input size="40" name="aiowps_cookie_based_brute_force_redirect_url" value="<?php echo $aio_wp_security->configs->get_value('aiowps_cookie_based_brute_force_redirect_url'); ?>" />
+                <td><input type="text" size="40" name="aiowps_cookie_based_brute_force_redirect_url" value="<?php echo $aio_wp_security->configs->get_value('aiowps_cookie_based_brute_force_redirect_url'); ?>" />
                 <span class="description">
                     <?php 
                     _e('Specify a URL to redirect a hacker to when they try to access your WordPress login page.', 'aiowpsecurity');

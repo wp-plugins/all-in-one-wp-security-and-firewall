@@ -19,8 +19,7 @@ class AIOWPSecurity_General_Init_Tasks
         
         //For user unlock request feature
         if(isset($_POST['aiowps_unlock_request']) || isset($_POST['aiowps_wp_submit_unlock_request'])){
-            nocache_headers();
-            header("HTTP/1.0 503 Service Unavailable");
+            nocache_headers();            
             remove_action('wp_head','head_addons',7);
             include_once(AIO_WP_SECURITY_PATH.'/other-includes/wp-security-unlock-request.php');
             exit();
@@ -68,6 +67,14 @@ class AIOWPSecurity_General_Init_Tasks
             add_action( 'comment_form_logged_in_after', array(&$this, 'insert_captcha_question_form'), 1 );
             add_filter( 'preprocess_comment', array(&$this, 'process_comment_post') );
         }
+        
+        //For rename login page feature
+        if($aio_wp_security->configs->get_value('aiowps_enable_rename_login_page') == '1'){
+            include_once(AIO_WP_SECURITY_PATH.'/classes/wp-security-process-renamed-login-page.php');
+            $login_object = new AIOWPSecurity_Process_Renamed_Login_Page();
+            AIOWPSecurity_Process_Renamed_Login_Page::renamed_login_init_tasks();
+        }
+        
 
         //For feature which displays logged in users
         $this->update_logged_in_user_transient();

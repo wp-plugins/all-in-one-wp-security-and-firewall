@@ -4,7 +4,7 @@ Donate link: http://www.tipsandtricks-hq.com
 Tags: security, secure, Anti Virus, antivirus, ban, ban hacker, virus, firewall, firewall security, login, lockdown, htaccess, hack, malware, vulnerability, protect, protection, phishing, database, backup, plugin, sql injection, ssl, restrict, login captcha
 Requires at least: 3.5
 Tested up to: 3.8
-Stable tag: 3.2
+Stable tag: 3.3
 License: GPLv3
 
 A comprehensive, user-friendly, all in one WordPress security and firewall plugin for your site.
@@ -91,6 +91,7 @@ or malicious bots who do not have a special cookie in their browser. You (the si
 = Brute force login attack prevention =
 * Instantly block Brute Force Login Attacks via our special Cookie-Based Brute Force Login Prevention feature. This firewall functionality will block all login attempts from people and bots.
 * Ability to add a simple math captcha to the WordPress login form to fight against brute force login attacks.
+* Rename your WordPress login page URL so that bots and hackers cannot access your real WordPress login URL. This feature allows you to change the default login page (wp-login.php) to something you configure.
 
 = WhoIs Lookup =
 * Perform a WhoIs lookup of a suspicious host or IP address and get full details.
@@ -146,6 +147,14 @@ http://www.tipsandtricks-hq.com/wordpress-security-and-firewall-plugin
 None
 
 == Changelog ==
+
+= 3.3 =
+- Added a brand new brute force prevention feature - Rename Login Page. This feature can be found in the new menu item called "Brute Force".
+- Modified the new unlock request feature so that the locked out user will only have to enter email address when they submit an unlock request.
+- Replaced the deprecated PHP function "mysql_list_tables" with alternative code.
+- Added warning message regarding WordPress iOS app when pingback protection feature in the firewall settings is active.
+- Added Malware scan tab and information.
+- Some minor html form and CSS corrections.
 
 = 3.2 =
 - Added new feature which allows users to generate an automated unlock request link via email when they get locked out because of the login lockdown feature.

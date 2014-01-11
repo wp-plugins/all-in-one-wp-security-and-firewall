@@ -8,7 +8,8 @@ class AIOWPSecurity_Filescan_Menu extends AIOWPSecurity_Admin_Menu
     var $menu_tabs;
 
     var $menu_tabs_handler = array(
-        'tab1' => 'render_tab1', 
+        'tab1' => 'render_tab1',
+        'tab2' => 'render_tab2',
         );
     
     function __construct() 
@@ -19,7 +20,8 @@ class AIOWPSecurity_Filescan_Menu extends AIOWPSecurity_Admin_Menu
     function set_menu_tabs() 
     {
         $this->menu_tabs = array(
-        'tab1' => __('File Change Detection','aiowpsecurity'), 
+        'tab1' => __('File Change Detection','aiowpsecurity'),
+        'tab2' => __('Malware Scan','aiowpsecurity'), 
         );
     }
 
@@ -254,7 +256,7 @@ class AIOWPSecurity_Filescan_Menu extends AIOWPSecurity_Admin_Menu
             </tr>            
             <tr valign="top">
                 <th scope="row"><?php _e('Scan Time Interval', 'aiowpsecurity')?>:</th>
-                <td><input size="5" name="aiowps_fcd_scan_frequency" value="<?php echo $aio_wp_security->configs->get_value('aiowps_fcd_scan_frequency'); ?>" />
+                <td><input type="text" size="5" name="aiowps_fcd_scan_frequency" value="<?php echo $aio_wp_security->configs->get_value('aiowps_fcd_scan_frequency'); ?>" />
                     <select id="backup_interval" name="aiowps_fcd_scan_interval">
                         <option value="0" <?php selected( $aio_wp_security->configs->get_value('aiowps_fcd_scan_interval'), '0' ); ?>><?php _e( 'Hours', 'aiowpsecurity' ); ?></option>
                         <option value="1" <?php selected( $aio_wp_security->configs->get_value('aiowps_fcd_scan_interval'), '1' ); ?>><?php _e( 'Days', 'aiowpsecurity' ); ?></option>
@@ -301,7 +303,7 @@ class AIOWPSecurity_Filescan_Menu extends AIOWPSecurity_Admin_Menu
                 <td>
                 <input name="aiowps_send_fcd_scan_email" type="checkbox"<?php if($aio_wp_security->configs->get_value('aiowps_send_fcd_scan_email')=='1') echo ' checked="checked"'; ?> value="1"/>
                 <span class="description"><?php _e('Check this if you want the system to email you if a file change was detected', 'aiowpsecurity'); ?></span>
-                <br /><input size="40" name="aiowps_fcd_scan_email_address" value="<?php echo $aio_wp_security->configs->get_value('aiowps_fcd_scan_email_address'); ?>" />
+                <br /><input type="text" size="40" name="aiowps_fcd_scan_email_address" value="<?php echo $aio_wp_security->configs->get_value('aiowps_fcd_scan_email_address'); ?>" />
                 <span class="description"><?php _e('Enter an email address', 'aiowpsecurity'); ?></span>
                 </td>
             </tr>            
@@ -313,6 +315,28 @@ class AIOWPSecurity_Filescan_Menu extends AIOWPSecurity_Admin_Menu
         <?php
     }
     
+    function render_tab2()
+    {
+        ?>
+        <div class="aio_blue_box">
+            <?php
+            echo '<h2>'.__('What is Malware?', 'aiowpsecurity').'</h2>';
+            echo '<p>'.__('The word Malware stands for Malicious Software. It can consist of things like trojan horses, adware, worms, spyware and any other undesirable code which a hacker will try to inject into your website.', 'aiowpsecurity').'</p>'.
+            '<p>'.__('Often when malware code has been inserted into your site you will normally not notice anything out of the ordinary based on appearances, but it can have a dramatic effect on your site’s search ranking.', 'aiowpsecurity').'</p>'.
+            '<p>'.__('This is because the bots and spiders from search engines such as Google have the capability to detect malware when they are indexing the pages on your site, and consequently they can blacklist your website which will in turn affect your search rankings.', 'aiowpsecurity').'</p>';
+
+            $site_scanners_link = '<a href="http://www.site-scanners.com" target="_blank">CLICK HERE</a>';
+
+            echo '<h2>'.__('Scanning For Malware', 'aiowpsecurity').'</h2>';
+            echo '<p>'.__('Due to the constantly changing and complex nature of Malware, scanning for such things using a standalone plugin will not work reliably. This is something best done via an external scan of your site regularly.', 'aiowpsecurity').'</p>'.
+            '<p>'.__('This is why we have created an easy-to-use scanning service which is hosted off our own server which will scan your site for malware once every day and notify you if it finds anything.', 'aiowpsecurity').'</p>'.
+            '<p>'.sprintf(__('To learn more please %s.', 'aiowpsecurity'), $site_scanners_link).'</p>';
+            ?>
+        </div>
+
+        <?php
+    }
+
     /*
      * Outputs the last scan results in a postbox
      */

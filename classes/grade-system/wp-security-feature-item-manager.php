@@ -74,9 +74,13 @@ class AIOWPSecurity_Feature_Item_Manager
         //Basic firewall
         $this->feature_items[] = new AIOWPSecurity_Feature_Item("firewall-basic-rules", __("Enable Basic Firewall", "aiowpsecurity"), $this->feature_point_3, $this->sec_level_basic);
         $this->feature_items[] = new AIOWPSecurity_Feature_Item("firewall-pingback-rules", __("Enable Pingback Vulnerability Protection", "aiowpsecurity"), $this->feature_point_3, $this->sec_level_basic);
+
+        //Brute Force Menu Features
+        //Rename Login page
+        $this->feature_items[] = new AIOWPSecurity_Feature_Item("bf-rename-login-page", __("Enable Rename Login Page", "aiowpsecurity"), $this->feature_point_2, $this->sec_level_inter);
         
         //Additional and Advanced firewall
-        $this->feature_items[] = new AIOWPSecurity_Feature_Item("firewall-enable-brute-force-attack-prevention", __("Enable Brute Force Attack Prevention", "aiowpsecurity"), $this->feature_point_4, $this->sec_level_advanced);
+        $this->feature_items[] = new AIOWPSecurity_Feature_Item("firewall-enable-brute-force-attack-prevention", __("Enable Brute Force Attack Prevention", "aiowpsecurity"), $this->feature_point_4, $this->sec_level_inter);
         $this->feature_items[] = new AIOWPSecurity_Feature_Item("firewall-disable-index-views", __("Disable Index Views", "aiowpsecurity"), $this->feature_point_1, $this->sec_level_inter);
         $this->feature_items[] = new AIOWPSecurity_Feature_Item("firewall-disable-trace-track", __("Disable Trace and Track", "aiowpsecurity"), $this->feature_point_2, $this->sec_level_advanced);
         $this->feature_items[] = new AIOWPSecurity_Feature_Item("firewall-forbid-proxy-comments", __("Forbid Proxy Comments", "aiowpsecurity"), $this->feature_point_2, $this->sec_level_advanced);
@@ -253,6 +257,11 @@ class AIOWPSecurity_Feature_Item_Manager
             if($item->feature_id == "firewall-enable-5g-blacklist")
             {
                 $this->check_enable_5G_blacklist_firewall_feature($item);
+            }
+            
+            if($item->feature_id == "bf-rename-login-page")
+            {
+                $this->check_enable_rename_login_page_feature($item);
             }
             
             if($item->feature_id == "block-spambots")
@@ -616,6 +625,18 @@ class AIOWPSecurity_Feature_Item_Manager
         }
     }
     
+    function check_enable_rename_login_page_feature($item)
+    {
+        global $aio_wp_security;
+        if ($aio_wp_security->configs->get_value('aiowps_enable_rename_login_page') == '1') {
+            $item->set_feature_status($this->feature_active);
+        }
+        else
+        {
+            $item->set_feature_status($this->feature_inactive);
+        }
+    }
+
     function check_enable_block_spambots_feature($item)
     {
         global $aio_wp_security;

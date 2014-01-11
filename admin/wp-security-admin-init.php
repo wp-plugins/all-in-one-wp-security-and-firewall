@@ -16,6 +16,7 @@ class AIOWPSecurity_Admin_Init
     var $whois_menu;
     var $blacklist_menu;
     var $firewall_menu;
+    var $brute_force_menu;
     var $maintenance_menu;
     var $spam_menu;
     var $filescan_menu;
@@ -161,13 +162,13 @@ class AIOWPSecurity_Admin_Init
         add_submenu_page(AIOWPSEC_MAIN_MENU_SLUG, __('User Registration', 'aiowpsecurity'),  __('User Registration', 'aiowpsecurity') , AIOWPSEC_MANAGEMENT_PERMISSION, AIOWPSEC_USER_REGISTRATION_MENU_SLUG, array(&$this, 'handle_user_registration_menu_rendering'));
         add_submenu_page(AIOWPSEC_MAIN_MENU_SLUG, __('Database Security', 'aiowpsecurity'),  __('Database Security', 'aiowpsecurity') , AIOWPSEC_MANAGEMENT_PERMISSION, AIOWPSEC_DB_SEC_MENU_SLUG, array(&$this, 'handle_database_menu_rendering'));
         if (AIOWPSecurity_Utility::is_multisite_install() && get_current_blog_id() != 1){
-            //Suppress the firewall menu if site is a multi site AND not the main site
+            //Suppress the Filesystem Security menu if site is a multi site AND not the main site
         }else{
             add_submenu_page(AIOWPSEC_MAIN_MENU_SLUG, __('Filesystem Security', 'aiowpsecurity'),  __('Filesystem Security', 'aiowpsecurity') , AIOWPSEC_MANAGEMENT_PERMISSION, AIOWPSEC_FILESYSTEM_MENU_SLUG, array(&$this, 'handle_filesystem_menu_rendering'));
         }
         add_submenu_page(AIOWPSEC_MAIN_MENU_SLUG, __('WHOIS Lookup', 'aiowpsecurity'),  __('WHOIS Lookup', 'aiowpsecurity') , AIOWPSEC_MANAGEMENT_PERMISSION, AIOWPSEC_WHOIS_MENU_SLUG, array(&$this, 'handle_whois_menu_rendering'));
         if (AIOWPSecurity_Utility::is_multisite_install() && get_current_blog_id() != 1){
-            //Suppress the firewall menu if site is a multi site AND not the main site
+            //Suppress the Blacklist Manager menu if site is a multi site AND not the main site
         }else{
             add_submenu_page(AIOWPSEC_MAIN_MENU_SLUG, __('Blacklist Manager', 'aiowpsecurity'),  __('Blacklist Manager', 'aiowpsecurity') , AIOWPSEC_MANAGEMENT_PERMISSION, AIOWPSEC_BLACKLIST_MENU_SLUG, array(&$this, 'handle_blacklist_menu_rendering'));
         }
@@ -175,6 +176,11 @@ class AIOWPSecurity_Admin_Init
             //Suppress the firewall menu if site is a multi site AND not the main site
         }else{
             add_submenu_page(AIOWPSEC_MAIN_MENU_SLUG, __('Firewall', 'aiowpsecurity'),  __('Firewall', 'aiowpsecurity') , AIOWPSEC_MANAGEMENT_PERMISSION, AIOWPSEC_FIREWALL_MENU_SLUG, array(&$this, 'handle_firewall_menu_rendering'));
+        }
+        if (AIOWPSecurity_Utility::is_multisite_install() && get_current_blog_id() != 1){
+            //Suppress the Brute Force menu if site is a multi site AND not the main site
+        }else{
+            add_submenu_page(AIOWPSEC_MAIN_MENU_SLUG, __('Brute Force', 'aiowpsecurity'),  __('Brute Force', 'aiowpsecurity') , AIOWPSEC_MANAGEMENT_PERMISSION, AIOWPSEC_BRUTE_FORCE_MENU_SLUG, array(&$this, 'handle_brute_force_menu_rendering'));
         }
         add_submenu_page(AIOWPSEC_MAIN_MENU_SLUG, __('SPAM Prevention', 'aiowpsecurity'),  __('SPAM Prevention', 'aiowpsecurity') , AIOWPSEC_MANAGEMENT_PERMISSION, AIOWPSEC_SPAM_MENU_SLUG, array(&$this, 'handle_spam_menu_rendering'));
         if (AIOWPSecurity_Utility::is_multisite_install() && get_current_blog_id() != 1){
@@ -247,6 +253,12 @@ class AIOWPSecurity_Admin_Init
         $this->firewall_menu = new AIOWPSecurity_Firewall_Menu();
     }
     
+    function handle_brute_force_menu_rendering()
+    {
+        include_once('wp-security-brute-force-menu.php');
+        $this->brute_force_menu = new AIOWPSecurity_Brute_Force_Menu();
+    }
+
     function handle_maintenance_menu_rendering()
     {
         include_once('wp-security-maintenance-menu.php');

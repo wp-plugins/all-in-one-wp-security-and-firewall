@@ -169,7 +169,7 @@ class AIOWPSecurity_Database_Menu extends AIOWPSecurity_Admin_Menu
                 <input name="aiowps_enable_random_prefix" type="checkbox" <?php if($aio_wp_security->configs->get_value('aiowps_enable_random_prefix')=='1') echo ' checked="checked"'; ?> value="1"/>
                 <span class="description"><?php _e('Check this if you want the plugin to generate a random 6 character string for the table prefix', 'aiowpsecurity'); ?></span>
                 <br /><?php _e('OR', 'aiowpsecurity'); ?>
-                <br /><input size="10" name="aiowps_new_manual_db_prefix" value="<?php //echo $aio_wp_security->configs->get_value('aiowps_new_manual_db_prefix'); ?>" />
+                <br /><input type="text" size="10" name="aiowps_new_manual_db_prefix" value="<?php //echo $aio_wp_security->configs->get_value('aiowps_new_manual_db_prefix'); ?>" />
                 <span class="description"><?php _e('Choose your own DB prefix by specifying a string which contains letters and/or numbers and/or underscores. Example: xyz_', 'aiowpsecurity'); ?></span>
                 </td>
             </tr>            
@@ -319,7 +319,7 @@ class AIOWPSecurity_Database_Menu extends AIOWPSecurity_Admin_Menu
             </tr>            
             <tr valign="top">
                 <th scope="row"><?php _e('Backup Time Interval', 'aiowpsecurity')?>:</th>
-                <td><input size="5" name="aiowps_db_backup_frequency" value="<?php echo $aio_wp_security->configs->get_value('aiowps_db_backup_frequency'); ?>" />
+                <td><input type="text" size="5" name="aiowps_db_backup_frequency" value="<?php echo $aio_wp_security->configs->get_value('aiowps_db_backup_frequency'); ?>" />
                     <select id="backup_interval" name="aiowps_db_backup_interval">
                         <option value="0" <?php selected( $aio_wp_security->configs->get_value('aiowps_db_backup_interval'), '0' ); ?>><?php _e( 'Hours', 'aiowpsecurity' ); ?></option>
                         <option value="1" <?php selected( $aio_wp_security->configs->get_value('aiowps_db_backup_interval'), '1' ); ?>><?php _e( 'Days', 'aiowpsecurity' ); ?></option>
@@ -330,7 +330,7 @@ class AIOWPSecurity_Database_Menu extends AIOWPSecurity_Admin_Menu
             </tr>
             <tr valign="top">
                 <th scope="row"><?php _e('Number of Backup Files To Keep', 'aiowpsecurity')?>:</th>
-                <td><input size="5" name="aiowps_backup_files_stored" value="<?php echo $aio_wp_security->configs->get_value('aiowps_backup_files_stored'); ?>" />
+                <td><input type="text" size="5" name="aiowps_backup_files_stored" value="<?php echo $aio_wp_security->configs->get_value('aiowps_backup_files_stored'); ?>" />
                 <span class="description"><?php _e('Thie field allows you to choose the number of backup files you would like to keep in the backup directory', 'aiowpsecurity'); ?></span>
                 </td> 
             </tr>
@@ -339,7 +339,7 @@ class AIOWPSecurity_Database_Menu extends AIOWPSecurity_Admin_Menu
                 <td>
                 <input name="aiowps_send_backup_email_address" type="checkbox"<?php if($aio_wp_security->configs->get_value('aiowps_send_backup_email_address')=='1') echo ' checked="checked"'; ?> value="1"/>
                 <span class="description"><?php _e('Check this if you want the system to email you the backup file after a DB backup has been performed', 'aiowpsecurity'); ?></span>
-                <br /><input size="30" name="aiowps_backup_email_address" value="<?php echo $aio_wp_security->configs->get_value('aiowps_backup_email_address'); ?>" />
+                <br /><input type="text" size="30" name="aiowps_backup_email_address" value="<?php echo $aio_wp_security->configs->get_value('aiowps_backup_email_address'); ?>" />
                 <span class="description"><?php _e('Enter an email address', 'aiowpsecurity'); ?></span>
                 </td>
             </tr>            
@@ -363,12 +363,18 @@ class AIOWPSecurity_Database_Menu extends AIOWPSecurity_Admin_Menu
         $config_file = ABSPATH.'wp-config.php';
 
         //Get the table resource
-        $result = mysql_list_tables(DB_NAME);
+        //$result = mysql_list_tables(DB_NAME);
+        $result = $this->get_mysql_tables(DB_NAME); //Fix for deprecated php mysql_list_tables function
 
         //Count the number of tables
-        $num_rows = mysql_num_rows( $result );
+        //$num_rows = mysql_num_rows( $result );
+        if (is_array($result) && count($result) > 0){
+            $num_rows = count($result);
+        }else{
+            echo '<div class="aio_red_box"><p>'.__('Error - Could not get tables or no tables found!', 'aiowpsecurity').'</p></div>';
+            return;
+        }
         $table_count = 0;
-
         //TODO - after reading up on internationalization mixed with html code I found that the WP experts say to do it as below. We will need to clean up other areas where we haven't used the following convention
         $info_msg_string = '<p class="aio_info_with_icon">'.__('Starting DB prefix change operations.....', 'aiowpsecurity').'</p>';
         
@@ -385,11 +391,11 @@ class AIOWPSecurity_Database_Menu extends AIOWPSecurity_Admin_Menu
             echo '<p class="aio_success_with_icon">'.__('A backup copy of your wp-config.php file was created successfully!', 'aiowpsecurity').'</p>';
         }
         
-        //Rename all the tables name
-        for ($i = 0; $i < $num_rows; $i++)
+        //Rename all the table names
+        foreach ($result as $db_table)
         {
             //Get table name with old prefix
-            $table_old_name = mysql_tablename($result, $i); 
+            $table_old_name = $db_table; 
 
             if ( strpos( $table_old_name, $table_old_prefix ) === 0 ) 
             {
@@ -401,7 +407,6 @@ class AIOWPSecurity_Database_Menu extends AIOWPSecurity_Admin_Menu
                 //$sql = "RENAME TABLE %s TO %s";
 
                 //Execute the query
-                //if ( false === $wpdb->query($wpdb->prepare($sql, $table_old_name, $table_new_name)) ) //$wpdb->prepare is adding single quotes instead of backticks and hence causing the query to fail
                 if ( false === $wpdb->query($sql) )
                 {
                     $error = 1;
@@ -498,5 +503,24 @@ class AIOWPSecurity_Database_Menu extends AIOWPSecurity_Admin_Menu
         //Display tasks finished message
         $tasks_finished_msg_string = '<p class="aio_info_with_icon">'. __('DB prefix change tasks have been completed.', 'aiowpsecurity').'</p>';
         echo ($tasks_finished_msg_string);
-    }    
+    } 
+    
+    /**
+    * This is an alternative to the deprecated "mysql_list_tables"
+    */
+    function get_mysql_tables($database='')
+    {
+        $tables = array();
+        $list_tables_sql = "SHOW TABLES FROM {$database};";
+        $result = mysql_query($list_tables_sql);
+        if($result)
+        {
+            while($table = mysql_fetch_row($result))
+            {
+                $tables[] = $table[0];
+            }
+        }
+        return $tables;
+    }
+    
 } //end class

@@ -8,6 +8,7 @@
 .aio_clear_float{clear: both;}
 .aio_float_left{float: left;}
 .aio_padding_10{padding: 10px !important;}
+.aio_section_separator_1{border-bottom: 1px solid #dedede; height: 10px;}
 
 .aiowps_admin_ul_grp1{
     list-style: circle;
@@ -287,9 +288,9 @@
 #aiowps_pw_tool_main .arrow{
     background: url("../images/arrow.png") no-repeat -10px 0;
     height: 120px;
-    left: 215px;
+    left: 249px;
     position: absolute;
-    top: 299px;
+    top: 301px;
     width: 11px;
     
    	/* Defining a smooth CSS3 animation for turning the arrow */

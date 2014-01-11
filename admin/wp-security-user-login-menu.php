@@ -199,19 +199,19 @@ class AIOWPSecurity_User_Login_Menu extends AIOWPSecurity_Admin_Menu
             </tr>            
             <tr valign="top">
                 <th scope="row"><?php _e('Max Login Attempts', 'aiowpsecurity')?>:</th>
-                <td><input size="5" name="aiowps_max_login_attempts" value="<?php echo $aio_wp_security->configs->get_value('aiowps_max_login_attempts'); ?>" />
+                <td><input type="text" size="5" name="aiowps_max_login_attempts" value="<?php echo $aio_wp_security->configs->get_value('aiowps_max_login_attempts'); ?>" />
                 <span class="description"><?php _e('Set the value for the maximum login retries before IP address is locked out', 'aiowpsecurity'); ?></span>
                 </td> 
             </tr>
             <tr valign="top">
                 <th scope="row"><?php _e('Login Retry Time Period (min)', 'aiowpsecurity')?>:</th>
-                <td><input size="5" name="aiowps_retry_time_period" value="<?php echo $aio_wp_security->configs->get_value('aiowps_retry_time_period'); ?>" />
+                <td><input type="text" size="5" name="aiowps_retry_time_period" value="<?php echo $aio_wp_security->configs->get_value('aiowps_retry_time_period'); ?>" />
                 <span class="description"><?php _e('If the maximum number of failed login attempts for a particular IP address occur within this time period the plugin will lock out that address', 'aiowpsecurity'); ?></span>
                 </td> 
             </tr>
             <tr valign="top">
                 <th scope="row"><?php _e('Time Length of Lockout (min)', 'aiowpsecurity')?>:</th>
-                <td><input size="5" name="aiowps_lockout_time_length" value="<?php echo $aio_wp_security->configs->get_value('aiowps_lockout_time_length'); ?>" />
+                <td><input type="text" size="5" name="aiowps_lockout_time_length" value="<?php echo $aio_wp_security->configs->get_value('aiowps_lockout_time_length'); ?>" />
                 <span class="description"><?php _e('Set the length of time for which a particular IP address will be prevented from logging in', 'aiowpsecurity'); ?></span>
                 </td> 
             </tr>
@@ -235,7 +235,7 @@ class AIOWPSecurity_User_Login_Menu extends AIOWPSecurity_Admin_Menu
                 <td>
                     <input name="aiowps_enable_email_notify" type="checkbox"<?php if($aio_wp_security->configs->get_value('aiowps_enable_email_notify')=='1') echo ' checked="checked"'; ?> value="1"/>
                     <span class="description"><?php _e('Check this if you want to receive an email when someone has been locked out due to maximum failed login attempts', 'aiowpsecurity'); ?></span>
-                    <br /><input size="30" name="aiowps_email_address" value="<?php echo $aio_wp_security->configs->get_value('aiowps_email_address'); ?>" />
+                    <br /><input type="text" size="30" name="aiowps_email_address" value="<?php echo $aio_wp_security->configs->get_value('aiowps_email_address'); ?>" />
                     <span class="description"><?php _e('Enter an email address', 'aiowpsecurity'); ?></span>
                 </td> 
             </tr>
@@ -454,7 +454,7 @@ class AIOWPSecurity_User_Login_Menu extends AIOWPSecurity_Admin_Menu
             <tr valign="top">
                 <th scope="row"><?php _e('Your Current IP Address', 'aiowpsecurity')?>:</th>                
                 <td>
-                <input size="20" name="aiowps_user_ip" type="text" value="<?php echo $your_ip_address; ?>" disabled/>
+                <input size="20" name="aiowps_user_ip" type="text" value="<?php echo $your_ip_address; ?>" readonly="readonly"/>
                 <span class="description"><?php _e('You can copy and paste this address in the text box below if you want to include it in your login whitelist.', 'aiowpsecurity'); ?></span>
                 </td>
             </tr>            
@@ -631,7 +631,7 @@ class AIOWPSecurity_User_Login_Menu extends AIOWPSecurity_Admin_Menu
             </tr>            
             <tr valign="top">
                 <th scope="row"><?php _e('Logout the WP User After XX Minutes', 'aiowpsecurity')?>:</th>
-                <td><input size="5" name="aiowps_logout_time_period" value="<?php echo $aio_wp_security->configs->get_value('aiowps_logout_time_period'); ?>" />
+                <td><input type="text" size="5" name="aiowps_logout_time_period" value="<?php echo $aio_wp_security->configs->get_value('aiowps_logout_time_period'); ?>" />
                 <span class="description"><?php _e('(Minutes) The user will be forced to log back in after this time period has elapased.', 'aiowpsecurity'); ?></span>
                 </td> 
             </tr>

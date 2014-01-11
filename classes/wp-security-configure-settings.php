@@ -79,6 +79,9 @@ class AIOWPSecurity_Configure_Settings
         $aio_wp_security->configs->set_value('aiowps_brute_force_attack_prevention_pw_protected_exception','');//Checkbox
         $aio_wp_security->configs->set_value('aiowps_brute_force_attack_prevention_ajax_exception','');//Checkbox
 
+        //Brute Force features
+        $aio_wp_security->configs->set_value('aiowps_enable_rename_login_page','');//Checkbox
+
         //Maintenance menu - Visitor lockout feature
         $aio_wp_security->configs->set_value('aiowps_site_lockout','');//Checkbox
         $aio_wp_security->configs->set_value('aiowps_site_lockout_msg','');//Text area/msg box
@@ -177,6 +180,8 @@ class AIOWPSecurity_Configure_Settings
         $aio_wp_security->configs->add_value('aiowps_brute_force_attack_prevention_pw_protected_exception','');//Checkbox
         $aio_wp_security->configs->add_value('aiowps_brute_force_attack_prevention_ajax_exception','');//Checkbox
 
+        //Brute Force features
+        $aio_wp_security->configs->add_value('aiowps_enable_rename_login_page','');//Checkbox
         
         //Maintenance menu - Visitor lockout feature
         $aio_wp_security->configs->add_value('aiowps_site_lockout','');//Checkbox

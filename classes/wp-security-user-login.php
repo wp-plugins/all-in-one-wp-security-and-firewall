@@ -283,18 +283,18 @@ class AIOWPSecurity_User_Login
      * This function generates a special random string and inserts into the lockdown table for the relevant user
      * It then generates an unlock request link which will be used to send to the user
      */
-    static function generate_unlock_request_link($username)
+    static function generate_unlock_request_link($ip_range)
     {
         //Get the locked user row from lockdown table
         global $wpdb, $aio_wp_security;
         $unlock_link = '';
         $lockdown_table_name = AIOWPSEC_TBL_LOGIN_LOCKDOWN;
         $secret_rand_key = (md5(uniqid(rand(), true)));
-        $sql = "UPDATE $lockdown_table_name SET unlock_key = '$secret_rand_key' WHERE release_date > now() AND user_login = '$username'";
+        $sql = "UPDATE $lockdown_table_name SET unlock_key = '$secret_rand_key' WHERE release_date > now() AND failed_login_ip LIKE '%".esc_sql($ip_range)."%'";
         //$res = $wpdb->get_results("SELECT * FROM $lockdown_table_name WHERE release_date > now() AND user_login = '$username'", ARRAY_A);
         $res = $wpdb->query($sql);
         if($res == NULL){
-            $aio_wp_security->debug_logger->log_debug("No locked user found with username ".$username,4);
+            $aio_wp_security->debug_logger->log_debug("No locked user found with IP range ".$ip_range,4);
             return false;
         }else{
             $query_param = array('aiowps_auth_key'=>$secret_rand_key);
@@ -329,13 +329,13 @@ class AIOWPSecurity_User_Login
     /*
      * This function sends an unlock request email to a locked out user
      */
-    static function send_unlock_request_email($username, $email, $unlock_link)
+    static function send_unlock_request_email($email, $unlock_link)
     {
         global $aio_wp_security;
         $to_email_address = $email;
         $email_msg = '';
         $subject = '['.get_option('siteurl').'] '. __('Unlock Request Notification','aiowpsecurity');
-        $email_msg .= __('You have requested for the account with username '.$username.' to be unlocked. Please click the link below to unlock your account:','aiowpsecurity')."\n";
+        $email_msg .= __('You have requested for the account with email address '.$email.' to be unlocked. Please click the link below to unlock your account:','aiowpsecurity')."\n";
         $email_msg .= __('Unlock link: '.$unlock_link,'aiowpsecurity')."\n\n";
         $email_msg .= __('After clicking the above link you will be able to login to the WordPress administration panel.','aiowpsecurity')."\n";
         $email_header = 'From: '.get_bloginfo( 'name' ).' <'.get_bloginfo('admin_email').'>' . "\r\n\\";

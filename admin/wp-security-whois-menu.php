@@ -87,7 +87,7 @@ class AIOWPSecurity_WhoIs_Menu extends AIOWPSecurity_Admin_Menu
                 <table class="form-table">
                 <tr valign="top">
                     <th scope="row"><?php _e('Enter IP Address or Domain Name', 'aiowpsecurity')?>:</th>
-                    <td><input size="20" name="aiowps_whois_lookup_field" value="<?php //echo $aio_wp_security->configs->get_value('aiowps_whois_lookup_field'); ?>" />
+                    <td><input type="text" size="20" name="aiowps_whois_lookup_field" value="<?php //echo $aio_wp_security->configs->get_value('aiowps_whois_lookup_field'); ?>" />
                     <span class="description"><?php _e('Enter an IP address or domain name. Example: 111.11.12.13 OR some-domain-name.com', 'aiowpsecurity'); ?></span>
                     </td> 
                 </tr>

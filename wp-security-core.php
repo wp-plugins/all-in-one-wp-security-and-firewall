@@ -3,7 +3,7 @@
 if (!class_exists('AIO_WP_Security')){
 
 class AIO_WP_Security{
-    var $version = '3.2';
+    var $version = '3.3';
     var $db_version = '1.4';
     var $plugin_url;
     var $plugin_path;
@@ -71,6 +71,7 @@ class AIO_WP_Security{
         define('AIOWPSEC_MAINTENANCE_MENU_SLUG', 'aiowpsec_maintenance');
         define('AIOWPSEC_SPAM_MENU_SLUG', 'aiowpsec_spam');
         define('AIOWPSEC_FILESCAN_MENU_SLUG', 'aiowpsec_filescan');
+        define('AIOWPSEC_BRUTE_FORCE_MENU_SLUG', 'aiowpsec_brute_force');
         
         global $wpdb;
         define('AIOWPSEC_TBL_LOGIN_LOCKDOWN', $wpdb->prefix . 'aiowps_login_lockdown');
