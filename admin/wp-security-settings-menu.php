@@ -194,7 +194,7 @@ class AIOWPSecurity_Settings_Menu extends AIOWPSecurity_Admin_Menu
                 die("Nonce check failed on htaccess file save!");
             }
             $htaccess_path = ABSPATH . '.htaccess';
-            $result = AIOWPSecurity_Utility_File::backup_a_file($htaccess_path); //Backup the htaccess file
+            $result = AIOWPSecurity_Utility_File::backup_and_rename_wp_config($htaccess_path); //Backup the htaccess file
             
             if ($result)
             {

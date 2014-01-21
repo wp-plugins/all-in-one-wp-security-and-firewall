@@ -52,7 +52,53 @@ class AIOWPSecurity_Utility_File
         }
         return true;
     }
+
+    static function backup_and_rename_wp_config($src_file_path, $prefix = 'backup')
+    {
+        global $aio_wp_security;
+        
+        //Check to see if the main "backups" directory exists - create it otherwise
+        $aiowps_backup_dir = WP_CONTENT_DIR.'/'.AIO_WP_SECURITY_BACKUPS_DIR_NAME;
+        if (!AIOWPSecurity_Utility_File::create_dir($aiowps_backup_dir))
+        {
+            $aio_wp_security->debug_logger->log_debug("backup_and_rename_wp_config - Creation of backup directory failed!",4);
+            return false;
+        }
+        
+        $src_parts = pathinfo($src_file_path);
+        $backup_file_name = $prefix . '.' . $src_parts['basename'];
+        
+        $backup_file_path = $aiowps_backup_dir . '/' . $backup_file_name;
+        if (!copy($src_file_path, $backup_file_path)) {
+            //Failed to make a backup copy
+            return false;
+        }
+        return true;
+    }
     
+    static function backup_and_rename_htaccess($src_file_path, $suffix = 'backup')
+    {
+        global $aio_wp_security;
+        
+        //Check to see if the main "backups" directory exists - create it otherwise
+        $aiowps_backup_dir = WP_CONTENT_DIR.'/'.AIO_WP_SECURITY_BACKUPS_DIR_NAME;
+        if (!AIOWPSecurity_Utility_File::create_dir($aiowps_backup_dir))
+        {
+            $aio_wp_security->debug_logger->log_debug("backup_and_rename_htaccess - Creation of backup directory failed!",4);
+            return false;
+        }
+        
+        $src_parts = pathinfo($src_file_path);
+        $backup_file_name = $src_parts['basename'] . '.' . $suffix;
+        
+        $backup_file_path = $aiowps_backup_dir . '/' . $backup_file_name;
+        if (!copy($src_file_path, $backup_file_path)) {
+            //Failed to make a backup copy
+            return false;
+        }
+        return true;
+    }
+
     //Function which reads entire contents of a file and stores serialized contents into our global_meta table
     static function backup_file_contents_to_db($src_file_path, $key_description)
     {

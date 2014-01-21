@@ -112,7 +112,7 @@ class AIOWPSecurity_Utility_Htaccess
                 return -1;
             }					
         }
-        AIOWPSecurity_Utility_File::backup_a_file($htaccess); //TODO - we dont want to continually be backing up the htaccess file
+        AIOWPSecurity_Utility_File::backup_and_rename_htaccess($htaccess); //TODO - we dont want to continually be backing up the htaccess file
         @ini_set( 'auto_detect_line_endings', true );
         $ht = explode( PHP_EOL, implode( '', file( $htaccess ) ) ); //parse each line of file into array
 	
@@ -245,18 +245,18 @@ class AIOWPSecurity_Utility_Htaccess
         if($aio_wp_security->configs->get_value('aiowps_prevent_default_wp_file_access')=='1') 
         {
             $rules .= AIOWPSecurity_Utility_Htaccess::$prevent_wp_file_access_marker_start . PHP_EOL; //Add feature marker start
-            $rules .= '<files license.txt>
+            $rules .= '<Files license.txt>
                         order allow,deny
                         deny from all
                         </files>
-                        <files wp-config-sample.php>
+                        <Files wp-config-sample.php>
                         order allow,deny
                         deny from all
-                        </files>
-                        <files readme.html>
+                        </Files>
+                        <Files readme.html>
                         order allow,deny
                         deny from all
-                        </files>' . PHP_EOL;
+                        </Files>' . PHP_EOL;
             $rules .= AIOWPSecurity_Utility_Htaccess::$prevent_wp_file_access_marker_end . PHP_EOL; //Add feature marker end
         }
         
@@ -409,10 +409,10 @@ class AIOWPSecurity_Utility_Htaccess
         {
             $rules .= AIOWPSecurity_Utility_Htaccess::$basic_htaccess_rules_marker_start . PHP_EOL; //Add feature marker start
             //protect the htaccess file - this is done by default with apache config file but we are including it here for good measure
-            $rules .= '<files .htaccess>' . PHP_EOL;
+            $rules .= '<Files .htaccess>' . PHP_EOL;
             $rules .= 'order allow,deny' . PHP_EOL;
             $rules .= 'deny from all' . PHP_EOL;
-            $rules .= '</files>' . PHP_EOL;
+            $rules .= '</Files>' . PHP_EOL;
 
             //disable the server signature
             $rules .= 'ServerSignature Off' . PHP_EOL;
@@ -421,10 +421,10 @@ class AIOWPSecurity_Utility_Htaccess
             $rules .= 'LimitRequestBody 10240000' . PHP_EOL;
             
             // protect wpconfig.php. 
-            $rules .= '<files wp-config.php>' . PHP_EOL;
+            $rules .= '<Files wp-config.php>' . PHP_EOL;
             $rules .= 'order allow,deny' . PHP_EOL;
             $rules .= 'deny from all' . PHP_EOL;
-            $rules .= '</files>' . PHP_EOL;
+            $rules .= '</Files>' . PHP_EOL;
             
             $rules .= AIOWPSecurity_Utility_Htaccess::$basic_htaccess_rules_marker_end . PHP_EOL; //Add feature marker end
         }
@@ -838,15 +838,7 @@ class AIOWPSecurity_Utility_Htaccess
                         <ifModule mod_rewrite.c>
                                 RewriteCond %{REQUEST_METHOD} ^(TRACE|TRACK)
                                 RewriteRule .* - [F]
-                        </IfModule>
-
-                        # 5G:[BAD IPS]
-                        <limit GET POST PUT>
-                                Order Allow,Deny
-                                Allow from all
-                                # uncomment/edit/repeat next line to block IPs
-                                # Deny from 123.456.789
-                        </limit>' . PHP_EOL;
+                        </IfModule>' . PHP_EOL;
             $rules .= AIOWPSecurity_Utility_Htaccess::$five_g_blacklist_marker_end . PHP_EOL; //Add feature marker end
         }
         

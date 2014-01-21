@@ -103,12 +103,12 @@ class AIOWPSecurity_Admin_Init
     
     function do_other_admin_side_init_tasks()
     {
-        if (isset($_GET['page']) && $_GET['page'] == AIOWPSEC_FIREWALL_MENU_SLUG && isset($_GET['tab']) && $_GET['tab'] == 'tab4')
+        if (isset($_GET['page']) && $_GET['page'] == AIOWPSEC_BRUTE_FORCE_MENU_SLUG && isset($_GET['tab']) && $_GET['tab'] == 'tab2')
         {
             global $aio_wp_security;
             if(isset($_POST['aiowps_do_cookie_test_for_bfla'])){
                 AIOWPSecurity_Utility::set_cookie_value("aiowps_cookie_test", "1");
-                $cur_url = "admin.php?page=".AIOWPSEC_FIREWALL_MENU_SLUG."&tab=tab4";
+                $cur_url = "admin.php?page=".AIOWPSEC_BRUTE_FORCE_MENU_SLUG."&tab=tab2";
                 $redirect_url = AIOWPSecurity_Utility::add_query_data_to_url($cur_url, "aiowps_cookie_test", "1");
                 AIOWPSecurity_Utility::redirect_to_url($redirect_url);
             }
@@ -146,7 +146,7 @@ class AIOWPSecurity_Admin_Init
                 die("Nonce check failed on wp_config file save!");
             }
             $wp_config_path = ABSPATH . 'wp-config.php';
-            $result = AIOWPSecurity_Utility_File::backup_a_file($wp_config_path); //Backup the wp_config.php file
+            $result = AIOWPSecurity_Utility_File::backup_and_rename_wp_config($wp_config_path); //Backup the wp_config.php file
             AIOWPSecurity_Utility_File::download_a_file_option1($wp_config_path, "wp-config-backup.txt");
         }
     }

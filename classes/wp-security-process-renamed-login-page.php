@@ -9,6 +9,7 @@ class AIOWPSecurity_Process_Renamed_Login_Page
         add_filter('site_url', array(&$this, 'aiowps_site_url'), 10, 2);
         add_filter('network_site_url', array(&$this, 'aiowps_site_url'), 10, 2);
         add_filter('wp_redirect', array(&$this, 'aiowps_wp_redirect'), 10, 2);
+        remove_action('template_redirect', 'wp_redirect_admin_locations', 1000); //To prevent redirect to login page when people type "login" at end of home URL
         
     }
     

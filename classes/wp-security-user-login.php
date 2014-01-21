@@ -382,10 +382,19 @@ class AIOWPSecurity_User_Login
         return $last_login;
     }
 
-    function wp_login_action_handler($user_login, $user) 
+    function wp_login_action_handler($user_login, $user='') 
     {
         global $wpdb, $aio_wp_security;
         $login_activity_table = AIOWPSEC_TBL_USER_LOGIN_ACTIVITY;
+        
+        if ($user == ''){
+            //Try and get user object
+            $user = get_user_by('login', $user_login); //This should return WP_User obj
+            if (!$user){
+                $aio_wp_security->debug_logger->log_debug("AIOWPSecurity_User_Login::wp_login_action_handler: Unable to get WP_User object for login ".$user_login,4);
+                return;
+            }
+        }
         $login_date_time = current_time('mysql');
         update_user_meta($user->ID, 'last_login_time', $login_date_time); //store last login time in meta table
         $curr_ip_address = AIOWPSecurity_Utility_IP::get_user_ip_address();

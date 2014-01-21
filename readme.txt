@@ -4,7 +4,7 @@ Donate link: http://www.tipsandtricks-hq.com
 Tags: security, secure, Anti Virus, antivirus, ban, ban hacker, virus, firewall, firewall security, login, lockdown, htaccess, hack, malware, vulnerability, protect, protection, phishing, database, backup, plugin, sql injection, ssl, restrict, login captcha
 Requires at least: 3.5
 Tested up to: 3.8
-Stable tag: 3.3
+Stable tag: 3.4
 License: GPLv3
 
 A comprehensive, user-friendly, all in one WordPress security and firewall plugin for your site.
@@ -145,6 +145,13 @@ http://www.tipsandtricks-hq.com/wordpress-security-and-firewall-plugin
 None
 
 == Changelog ==
+
+= 3.4 =
+- Consolidated "Brute Force" features by moving all such features to the "Brute Force" menu.
+- Improved the file change detection scan feature: Introduced a button allowing admin to view the file change results from the last scan and fixed small bug whereby the change detected flag was not being cleared for applicable cases.
+- Fixed a small bug with "rename login page" feature.
+- Made wp-config.php and .htaccess file backups more secure. Thanks to @wzp for the tip.
+- Made the login code more robust by catering for cases where the "wp_login" action was not passing 2 parameters.
 
 = 3.3 =
 - Added a brand new brute force prevention feature - Rename Login Page. This feature can be found in the new menu item called "Brute Force".

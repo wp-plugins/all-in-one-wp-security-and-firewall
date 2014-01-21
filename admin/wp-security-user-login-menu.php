@@ -12,8 +12,6 @@ class AIOWPSecurity_User_Login_Menu extends AIOWPSecurity_Admin_Menu
         'tab3' => 'render_tab3',
         'tab4' => 'render_tab4',
         'tab5' => 'render_tab5',
-        'tab6' => 'render_tab6',
-        'tab7' => 'render_tab7',
         );
     
     function __construct() 
@@ -25,12 +23,10 @@ class AIOWPSecurity_User_Login_Menu extends AIOWPSecurity_Admin_Menu
     {
         $this->menu_tabs = array(
         'tab1' => __('Login Lockdown', 'aiowpsecurity'),
-        'tab2' => __('Login Captcha', 'aiowpsecurity'),
-        'tab3' => __('Login Whitelist', 'aiowpsecurity'),
-        'tab4' => __('Failed Login Records', 'aiowpsecurity'),
-        'tab5' => __('Force Logout', 'aiowpsecurity'),
-        'tab6' => __('Account Activity Logs', 'aiowpsecurity'),
-        'tab7' => __('Logged In Users', 'aiowpsecurity'),
+        'tab2' => __('Failed Login Records', 'aiowpsecurity'),
+        'tab3' => __('Force Logout', 'aiowpsecurity'),
+        'tab4' => __('Account Activity Logs', 'aiowpsecurity'),
+        'tab5' => __('Logged In Users', 'aiowpsecurity'),
         );
     }
 
@@ -163,7 +159,7 @@ class AIOWPSecurity_User_Login_Menu extends AIOWPSecurity_Admin_Menu
         <h2><?php _e('Login Lockdown Configuration', 'aiowpsecurity')?></h2>
         <div class="aio_blue_box">
             <?php
-            $brute_force_login_feature_link = '<a href="admin.php?page='.AIOWPSEC_FIREWALL_MENU_SLUG.'&tab=tab4">Cookie-Based Brute Force Login Prevention</a>';
+            $brute_force_login_feature_link = '<a href="admin.php?page='.AIOWPSEC_BRUTE_FORCE_MENU_SLUG.'&tab=tab2">Cookie-Based Brute Force Login Prevention</a>';
             echo '<p>'.__('One of the ways hackers try to compromise sites is via a ', 'aiowpsecurity').'<strong>'.__('Brute Force Login Attack', 'aiowpsecurity').'</strong>.
             <br />'.__('This is where attackers use repeated login attempts until they guess the password.', 'aiowpsecurity').'
             <br />'.__('Apart from choosing strong passwords, monitoring and blocking IP addresses which are involved in repeated login failures in a short period of time is a very effective way to stop these types of attacks.', 'aiowpsecurity').
@@ -269,223 +265,6 @@ class AIOWPSecurity_User_Login_Menu extends AIOWPSecurity_Admin_Menu
 
     function render_tab2()
     {
-        global $aio_wp_security;
-        global $aiowps_feature_mgr;
-        
-        if(isset($_POST['aiowpsec_save_captcha_settings']))//Do form submission tasks
-        {
-            $error = '';
-            $nonce=$_REQUEST['_wpnonce'];
-            if (!wp_verify_nonce($nonce, 'aiowpsec-captcha-settings-nonce'))
-            {
-                $aio_wp_security->debug_logger->log_debug("Nonce check failed on captcha settings save!",4);
-                die("Nonce check failed on captcha settings save!");
-            }
-
-
-            //Save all the form values to the options
-            $random_20_digit_string = AIOWPSecurity_Utility::generate_alpha_numeric_random_string(20); //Generate random 20 char string for use during captcha encode/decode
-            $aio_wp_security->configs->set_value('aiowps_captcha_secret_key', $random_20_digit_string);
-            $aio_wp_security->configs->set_value('aiowps_enable_login_captcha',isset($_POST["aiowps_enable_login_captcha"])?'1':'');
-            $aio_wp_security->configs->set_value('aiowps_enable_lost_password_captcha',isset($_POST["aiowps_enable_lost_password_captcha"])?'1':'');
-            $aio_wp_security->configs->save_config();
-            
-            //Recalculate points after the feature status/options have been altered
-            $aiowps_feature_mgr->check_feature_status_and_recalculate_points();
-            
-            $this->show_msg_settings_updated();
-        }
-        ?>
-        <div class="aio_blue_box">
-            <?php
-            echo '<p>'.__('This feature allows you to add a captcha form on the WordPress login page.', 'aiowpsecurity').'
-            <br />'.__('Users who attempt to login will also need to enter the answer to a simple mathematical question - if they enter the wrong answer, the plugin will not allow them login even if they entered the correct username and password.', 'aiowpsecurity').'
-                <br />'.__('Therefore, adding a captcha form on the login page is another effective yet simple "Brute Force" prevention technique.', 'aiowpsecurity').'
-            </p>';
-            ?>
-        </div>
-        <form action="" method="POST">
-        <div class="postbox">
-        <h3><label for="title"><?php _e('Login Form Captcha Settings', 'aiowpsecurity'); ?></label></h3>
-        <div class="inside">
-        <?php
-        //Display security info badge
-        global $aiowps_feature_mgr;
-        $aiowps_feature_mgr->output_feature_details_badge("user-login-captcha");
-        ?>
-
-        <?php wp_nonce_field('aiowpsec-captcha-settings-nonce'); ?>
-        <table class="form-table">
-            <tr valign="top">
-                <th scope="row"><?php _e('Enable Captcha On Login Page', 'aiowpsecurity')?>:</th>                
-                <td>
-                <input name="aiowps_enable_login_captcha" type="checkbox"<?php if($aio_wp_security->configs->get_value('aiowps_enable_login_captcha')=='1') echo ' checked="checked"'; ?> value="1"/>
-                <span class="description"><?php _e('Check this if you want to insert a captcha form on the login page', 'aiowpsecurity'); ?></span>
-                </td>
-            </tr>            
-        </table>
-        </div></div>        
-        <div class="postbox">
-        <h3><label for="title"><?php _e('Lost Password Form Captcha Settings', 'aiowpsecurity'); ?></label></h3>
-        <div class="inside">
-        <?php
-        //Display security info badge
-        global $aiowps_feature_mgr;
-        $aiowps_feature_mgr->output_feature_details_badge("lost-password-captcha");
-        ?>
-
-        <table class="form-table">
-            <tr valign="top">
-                <th scope="row"><?php _e('Enable Captcha On Lost Password Page', 'aiowpsecurity')?>:</th>                
-                <td>
-                <input name="aiowps_enable_lost_password_captcha" type="checkbox"<?php if($aio_wp_security->configs->get_value('aiowps_enable_lost_password_captcha')=='1') echo ' checked="checked"'; ?> value="1"/>
-                <span class="description"><?php _e('Check this if you want to insert a captcha form on the lost password page', 'aiowpsecurity'); ?></span>
-                </td>
-            </tr>            
-        </table>
-        </div></div>        
-        <input type="submit" name="aiowpsec_save_captcha_settings" value="<?php _e('Save Settings', 'aiowpsecurity')?>" class="button-primary" />
-        </form>
-        <?php
-    }
-    
-    function render_tab3() 
-    {
-        global $aio_wp_security;
-        global $aiowps_feature_mgr;
-        $result = 1;
-        $your_ip_address = AIOWPSecurity_Utility_IP::get_user_ip_address();
-        if (isset($_POST['aiowps_save_whitelist_settings']))
-        {
-            $nonce=$_REQUEST['_wpnonce'];
-            if (!wp_verify_nonce($nonce, 'aiowpsec-whitelist-settings-nonce'))
-            {
-                $aio_wp_security->debug_logger->log_debug("Nonce check failed for save whitelist settings!",4);
-                die(__('Nonce check failed for save whitelist settings!','aiowpsecurity'));
-            }
-            
-            if (isset($_POST["aiowps_enable_whitelisting"]) && empty($_POST['aiowps_allowed_ip_addresses']))
-            {
-                $this->show_msg_error('You must submit at least one IP address!','aiowpsecurity');
-            }
-            else
-            {
-                if (!empty($_POST['aiowps_allowed_ip_addresses']))
-                {
-                    $ip_addresses = $_POST['aiowps_allowed_ip_addresses'];
-                    $ip_list_array = AIOWPSecurity_Utility_IP::create_ip_list_array_from_string_with_newline($ip_addresses);
-                    $payload = AIOWPSecurity_Utility_IP::validate_ip_list($ip_list_array, 'whitelist');
-                    if($payload[0] == 1){
-                        //success case
-                        $result = 1;
-                        $list = $payload[1];
-                        $banned_ip_data = implode(PHP_EOL, $list);
-                        $aio_wp_security->configs->set_value('aiowps_allowed_ip_addresses',$banned_ip_data);
-                        $_POST['aiowps_allowed_ip_addresses'] = ''; //Clear the post variable for the banned address list
-                    }
-                    else{
-                        $result = -1;
-                        $error_msg = $payload[1][0];
-                        $this->show_msg_error($error_msg);
-                    }
-                    
-                }
-                else
-                {
-                    $aio_wp_security->configs->set_value('aiowps_allowed_ip_addresses',''); //Clear the IP address config value
-                }
-
-                if ($result == 1)
-                {
-                    $aio_wp_security->configs->set_value('aiowps_enable_whitelisting',isset($_POST["aiowps_enable_whitelisting"])?'1':'');
-                    $aio_wp_security->configs->save_config(); //Save the configuration
-                    
-                    //Recalculate points after the feature status/options have been altered
-                    $aiowps_feature_mgr->check_feature_status_and_recalculate_points();
-                    
-                    $this->show_msg_settings_updated();
-
-                    $write_result = AIOWPSecurity_Utility_Htaccess::write_to_htaccess(); //now let's write to the .htaccess file
-                    if ($write_result == -1)
-                    {
-                        $this->show_msg_error(__('The plugin was unable to write to the .htaccess file. Please edit file manually.','aiowpsecurity'));
-                        $aio_wp_security->debug_logger->log_debug("AIOWPSecurity_whitelist_Menu - The plugin was unable to write to the .htaccess file.");
-                    }
-                }
-            }
-        }
-        ?>
-        <h2><?php _e('Login Whitelist', 'aiowpsecurity')?></h2>
-        <div class="aio_blue_box">
-            <?php
-            echo '<p>'.__('The All In One WP Security Whitelist feature gives you the option of only allowing certain IP addresses or ranges to have access to your WordPress login page.', 'aiowpsecurity').'
-            <br />'.__('This feature will deny login access for all IP addresses which are not in your whitelist as configured in the settings below.', 'aiowpsecurity').'
-            <br />'.__('The plugin achieves this by writing the appropriate directives to your .htaccess file.', 'aiowpsecurity').'
-            <br />'.__('By allowing/blocking IP addresses via the .htaccess file your are using the most secure first line of defence because login access will only be granted to whitelisted IP addresses and other addresses will be blocked as soon as they try to access your login page.', 'aiowpsecurity').'    
-            </p>';
-            ?>
-        </div>
-        <div class="aio_yellow_box">
-            <?php
-            $brute_force_login_feature_link = '<a href="admin.php?page='.AIOWPSEC_FIREWALL_MENU_SLUG.'&tab=tab4" target="_blank">Cookie-Based Brute Force Login Prevention</a>';
-            echo '<p>'.sprintf( __('Attention: If in addition to enabling the white list feature, you also have the %s feature enabled, <strong>you will still need to use your secret word in the URL when trying to access your WordPress login page</strong>.', 'aiowpsecurity'), $brute_force_login_feature_link).'</p>            
-            <p>'.__('These features are NOT functionally related. Having both of them enabled on your site means you are creating 2 layers of security.', 'aiowpsecurity').'</p>';
-            ?>
-        </div>
-
-        <div class="postbox">
-        <h3><label for="title"><?php _e('Login IP Whitelist Settings', 'aiowpsecurity'); ?></label></h3>
-        <div class="inside">
-        <?php
-        //Display security info badge
-        global $aiowps_feature_mgr;
-        $aiowps_feature_mgr->output_feature_details_badge("whitelist-manager-ip-login-whitelisting");
-        ?>    
-        <form action="" method="POST">
-        <?php wp_nonce_field('aiowpsec-whitelist-settings-nonce'); ?>            
-        <table class="form-table">
-            <tr valign="top">
-                <th scope="row"><?php _e('Enable IP Whitelisting', 'aiowpsecurity')?>:</th>                
-                <td>
-                <input name="aiowps_enable_whitelisting" type="checkbox"<?php if($aio_wp_security->configs->get_value('aiowps_enable_whitelisting')=='1') echo ' checked="checked"'; ?> value="1"/>
-                <span class="description"><?php _e('Check this if you want to enable the whitelisting of selected IP addresses specified in the settings below', 'aiowpsecurity'); ?></span>
-                </td>
-            </tr>            
-            <tr valign="top">
-                <th scope="row"><?php _e('Your Current IP Address', 'aiowpsecurity')?>:</th>                
-                <td>
-                <input size="20" name="aiowps_user_ip" type="text" value="<?php echo $your_ip_address; ?>" readonly="readonly"/>
-                <span class="description"><?php _e('You can copy and paste this address in the text box below if you want to include it in your login whitelist.', 'aiowpsecurity'); ?></span>
-                </td>
-            </tr>            
-            <tr valign="top">
-                <th scope="row"><?php _e('Enter Whitelisted IP Addresses:', 'aiowpsecurity')?></th>
-                <td>
-                    <textarea name="aiowps_allowed_ip_addresses" rows="5" cols="50"><?php echo ($result == -1)?$_POST['aiowps_allowed_ip_addresses']:$aio_wp_security->configs->get_value('aiowps_allowed_ip_addresses'); ?></textarea>
-                    <br />
-                    <span class="description"><?php _e('Enter one or more IP addresses or IP ranges you wish to include in your whitelist. Only the addresses specified here will have access to the WordPress login page.','aiowpsecurity');?></span>
-                    <span class="aiowps_more_info_anchor"><span class="aiowps_more_info_toggle_char">+</span><span class="aiowps_more_info_toggle_text"><?php _e('More Info', 'aiowpsecurity'); ?></span></span>
-                    <div class="aiowps_more_info_body">
-                            <?php 
-                            echo '<p class="description">'.__('Each IP address must be on a new line.', 'aiowpsecurity').'</p>';
-                            echo '<p class="description">'.__('To specify an IP range use a wildcard "*" character. Acceptable ways to use wildcards is shown in the examples below:', 'aiowpsecurity').'</p>';
-                            echo '<p class="description">'.__('Example 1: 195.47.89.*', 'aiowpsecurity').'</p>';
-                            echo '<p class="description">'.__('Example 2: 195.47.*.*', 'aiowpsecurity').'</p>';
-                            echo '<p class="description">'.__('Example 3: 195.*.*.*', 'aiowpsecurity').'</p>';
-                            ?>
-                    </div>
-
-                </td>
-            </tr>
-        </table>
-        <input type="submit" name="aiowps_save_whitelist_settings" value="<?php _e('Save Settings', 'aiowpsecurity')?>" class="button-primary" />
-        </form>
-        </div></div>
-        <?php
-    }
-
-    function render_tab4()
-    {
         global $aio_wp_security, $wpdb;
         if (isset($_POST['aiowps_delete_failed_login_records']))
         {
@@ -559,7 +338,7 @@ class AIOWPSecurity_User_Login_Menu extends AIOWPSecurity_Admin_Menu
         <?php
     }
 
-    function render_tab5()
+    function render_tab3()
     {
         global $aio_wp_security;
         global $aiowps_feature_mgr;
@@ -642,7 +421,7 @@ class AIOWPSecurity_User_Login_Menu extends AIOWPSecurity_Admin_Menu
         <?php
     }
     
-    function render_tab6()
+    function render_tab4()
     {
         include_once 'wp-security-list-acct-activity.php'; //For rendering the AIOWPSecurity_List_Table in tab4
         $acct_activity_list = new AIOWPSecurity_List_Account_Activity(); //For rendering the AIOWPSecurity_List_Table in tab2
@@ -679,7 +458,7 @@ class AIOWPSecurity_User_Login_Menu extends AIOWPSecurity_Admin_Menu
         <?php
     }
     
-    function render_tab7()
+    function render_tab5()
     {
         $logged_in_users = (AIOWPSecurity_Utility::is_multisite_install() ? get_site_transient('users_online') : get_transient('users_online'));
         

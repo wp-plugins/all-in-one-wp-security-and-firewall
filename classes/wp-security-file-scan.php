@@ -28,6 +28,10 @@ class AIOWPSecurity_Filescan
                 $aio_wp_security->debug_logger->log_debug("File Change Detection Feature: change to filesystem detected!");
                 
                 $this->aiowps_send_file_change_alert_email(); //Send file change scan results via email if applicable
+            }else if(empty($scan_result['files_added']) && empty($scan_result['files_removed']) && empty($scan_result['files_changed'])){
+                //Reset the change flag
+                $aio_wp_security->configs->set_value('aiowps_fcds_change_detected', FALSE);
+                $aio_wp_security->configs->save_config();
             }
             return $scan_result;
         }

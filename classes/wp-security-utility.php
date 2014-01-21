@@ -201,7 +201,7 @@ class AIOWPSecurity_Utility
         }
         
         //Make a backup of the config file
-        if(!AIOWPSecurity_Utility_File::backup_a_file($config_file))
+        if(!AIOWPSecurity_Utility_File::backup_and_rename_wp_config($config_file))
         {
             $this->show_msg_error(__('Failed to make a backup of the wp-config.php file. This operation will not go ahead.', 'aiowpsecurity'));
             //$aio_wp_security->debug_logger->log_debug("Disable PHP File Edit - Failed to make a backup of the wp-config.php file.",4);

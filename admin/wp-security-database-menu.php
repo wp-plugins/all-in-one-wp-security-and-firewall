@@ -382,7 +382,7 @@ class AIOWPSecurity_Database_Menu extends AIOWPSecurity_Admin_Menu
         echo ($info_msg_string);
 
         //Do a back of the config file
-        if(!AIOWPSecurity_Utility_File::backup_a_file($config_file))
+        if(!AIOWPSecurity_Utility_File::backup_and_rename_wp_config($config_file))
         {
             echo '<div class="aio_red_box"><p>'.__('Failed to make a backup of the wp-config.php file. This operation will not go ahead.', 'aiowpsecurity').'</p></div>';
             return;

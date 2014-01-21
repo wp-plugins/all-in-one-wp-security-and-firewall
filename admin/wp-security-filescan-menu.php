@@ -86,6 +86,14 @@ class AIOWPSecurity_Filescan_Menu extends AIOWPSecurity_Admin_Menu
             $this->display_last_scan_results();
         }
 
+        if (isset($_POST['aiowps_view_last_fcd_results']))
+        {
+            //Display the last scan results
+            if (!$this->display_last_scan_results()){
+                $this->show_msg_updated(__('There have been no file changes since the last scan.', 'aiowpsecurity'));
+            }
+        }
+
         if (isset($_POST['aiowps_manual_fcd_scan']))
         {
             $nonce=$_REQUEST['_wpnonce'];
@@ -100,12 +108,9 @@ class AIOWPSecurity_Filescan_Menu extends AIOWPSecurity_Admin_Menu
             if ($result['initial_scan'] == 1)
             {
                 $this->show_msg_updated(__('The plugin has detected that this is your first file change detection scan. The file details from this scan will be used to detect file changes for future scans!','aiowpsecurity'));
+            }else if(!$aio_wp_security->configs->get_value('aiowps_fcds_change_detected')){
+                $this->show_msg_updated(__('Scan Complete - There were no file changes detected!', 'aiowpsecurity'));
             }
-//            else
-//            {
-//                $aio_wp_security->debug_logger->log_debug("Manual File Change Detection scan operation failed!",4);
-//                $this->show_msg_error(__('Manual File Change Detection scan operation failed!','aiowpsecurity'));
-//            }
         }
 
         if(isset($_POST['aiowps_schedule_fcd_scan']))//Do form submission tasks
@@ -236,6 +241,19 @@ class AIOWPSecurity_Filescan_Menu extends AIOWPSecurity_Admin_Menu
         </form>
         </div></div>
         <div class="postbox">
+        <h3><label for="title"><?php _e('View Last Saved File Change Results', 'aiowpsecurity'); ?></label></h3>
+        <div class="inside">
+        <form action="" method="POST">
+        <?php wp_nonce_field('aiowpsec-view-last-fcd-results-nonce'); ?>
+        <table class="form-table">
+            <tr valign="top">
+            <span class="description"><?php _e('Click the button below to view the saved file change results from the last scan.', 'aiowpsecurity'); ?></span>                
+            </tr>            
+        </table>
+        <input type="submit" name="aiowps_view_last_fcd_results" value="<?php _e('View Last File Change', 'aiowpsecurity')?>" class="button-primary" />
+        </form>
+        </div></div>
+        <div class="postbox">
         <h3><label for="title"><?php _e('File Change Detection Settings', 'aiowpsecurity'); ?></label></h3>
         <div class="inside">
         <?php
@@ -348,12 +366,15 @@ class AIOWPSecurity_Filescan_Menu extends AIOWPSecurity_Admin_Menu
         $scan_db_data = $wpdb->get_row($query, ARRAY_A);
         if ($scan_db_data === NULL)
         {
-            //TODO: Failure scenario
             $aio_wp_security->debug_logger->log_debug("display_last_scan_results() - DB query for scan results data from global meta table returned NULL!",4);
-            return;
+            return FALSE;
         }
         $date_last_scan = $scan_db_data['date_time'];
         $scan_results_unserialized = maybe_unserialize($scan_db_data['meta_value5']);
+        if (empty($scan_results_unserialized['files_added']) && empty($scan_results_unserialized['files_removed']) && empty($scan_results_unserialized['files_changed'])){
+            //No file change detected
+            return FALSE;
+        }
         ?>
         <div class="postbox">
         <h3><label for="title"><?php _e('Latest File Change Scan Results', 'aiowpsecurity'); ?></label></h3>

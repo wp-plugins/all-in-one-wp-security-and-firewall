@@ -902,7 +902,7 @@ d.select();
 }, 200);
 }
 
-<?php if ( !$error ) { ?>
+<?php if ( !$errors ) { ?>
 wp_attempt_focus();
 <?php } ?>
 if(typeof wpOnload=='function')wpOnload();
