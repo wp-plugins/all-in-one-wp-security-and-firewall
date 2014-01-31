@@ -80,14 +80,14 @@ class AIOWPSecurity_Feature_Item_Manager
         $this->feature_items[] = new AIOWPSecurity_Feature_Item("bf-rename-login-page", __("Enable Rename Login Page", "aiowpsecurity"), $this->feature_point_2, $this->sec_level_inter);
         
         //Additional and Advanced firewall
-        $this->feature_items[] = new AIOWPSecurity_Feature_Item("firewall-enable-brute-force-attack-prevention", __("Enable Brute Force Attack Prevention", "aiowpsecurity"), $this->feature_point_4, $this->sec_level_inter);
+        $this->feature_items[] = new AIOWPSecurity_Feature_Item("firewall-enable-brute-force-attack-prevention", __("Enable Brute Force Attack Prevention", "aiowpsecurity"), $this->feature_point_4, $this->sec_level_advanced);
         $this->feature_items[] = new AIOWPSecurity_Feature_Item("firewall-disable-index-views", __("Disable Index Views", "aiowpsecurity"), $this->feature_point_1, $this->sec_level_inter);
         $this->feature_items[] = new AIOWPSecurity_Feature_Item("firewall-disable-trace-track", __("Disable Trace and Track", "aiowpsecurity"), $this->feature_point_2, $this->sec_level_advanced);
         $this->feature_items[] = new AIOWPSecurity_Feature_Item("firewall-forbid-proxy-comments", __("Forbid Proxy Comments", "aiowpsecurity"), $this->feature_point_2, $this->sec_level_advanced);
         $this->feature_items[] = new AIOWPSecurity_Feature_Item("firewall-deny-bad-queries", __("Deny Bad Queries", "aiowpsecurity"), $this->feature_point_3, $this->sec_level_advanced);
         $this->feature_items[] = new AIOWPSecurity_Feature_Item("firewall-advanced-character-string-filter", __("Advanced Character String Filter", "aiowpsecurity"), $this->feature_point_3, $this->sec_level_advanced);
         $this->feature_items[] = new AIOWPSecurity_Feature_Item("firewall-enable-5g-blacklist", __("5G Blacklist", "aiowpsecurity"), $this->feature_point_4, $this->sec_level_advanced);
-
+        $this->feature_items[] = new AIOWPSecurity_Feature_Item("firewall-block-fake-googlebots", __("Block Fake Googlebots", "aiowpsecurity"), $this->feature_point_1, $this->sec_level_advanced);
         //SPAM Prevention
         $this->feature_items[] = new AIOWPSecurity_Feature_Item("block-spambots", __("Block Spambots", "aiowpsecurity"), $this->feature_point_2, $this->sec_level_basic);
         //Comment Captcha
@@ -257,6 +257,10 @@ class AIOWPSecurity_Feature_Item_Manager
             if($item->feature_id == "firewall-enable-5g-blacklist")
             {
                 $this->check_enable_5G_blacklist_firewall_feature($item);
+            }
+            if($item->feature_id == "firewall-block-fake-googlebots")
+            {
+                $this->check_block_fake_googlebots_firewall_feature($item);
             }
             
             if($item->feature_id == "bf-rename-login-page")
@@ -617,6 +621,18 @@ class AIOWPSecurity_Feature_Item_Manager
     {
         global $aio_wp_security;
         if ($aio_wp_security->configs->get_value('aiowps_enable_5g_firewall') == '1') {
+            $item->set_feature_status($this->feature_active);
+        }
+        else
+        {
+            $item->set_feature_status($this->feature_inactive);
+        }
+    }
+
+    function check_block_fake_googlebots_firewall_feature($item)
+    {
+        global $aio_wp_security;
+        if ($aio_wp_security->configs->get_value('aiowps_block_fake_googlebots') == '1') {
             $item->set_feature_status($this->feature_active);
         }
         else

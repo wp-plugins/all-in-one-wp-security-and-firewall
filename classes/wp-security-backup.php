@@ -173,7 +173,7 @@ class AIOWPSecurity_Backup
             }
 
             $to = $toaddress;
-            $headers = 'From: ' . get_option( 'blogname' ) . ' <' . $to . '>' . PHP_EOL;
+            $headers = 'From: ' . get_option( 'blogname' ) . ' <' . get_option('admin_email') . '>' . PHP_EOL;
             $subject = __( 'All In One WP Security - Site Database Backup', 'aiowpsecurity' ) . ' ' . date( 'l, F jS, Y \a\\t g:i a', current_time( 'timestamp' ) );
             $attachment = array( $this->last_backup_file_path );
             $message = __( 'Attached is your latest DB backup file for site URL', 'aiowpsecurity' ) . ' ' . get_option( 'siteurl' ) . __( ' generated on', 'aiowpsecurity' ) . ' ' . date( 'l, F jS, Y \a\\t g:i a', current_time( 'timestamp' ) );

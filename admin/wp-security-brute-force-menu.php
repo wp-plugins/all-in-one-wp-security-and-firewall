@@ -105,7 +105,12 @@ class AIOWPSecurity_Brute_Force_Menu extends AIOWPSecurity_Admin_Menu
                 $this->show_msg_error(__('Attention!','aiowpsecurity').$error);
             }else{
                 //Save all the form values to the options
-                $aio_wp_security->configs->set_value('aiowps_enable_rename_login_page',isset($_POST["aiowps_enable_rename_login_page"])?'1':'');
+                if (isset($_POST["aiowps_enable_rename_login_page"])){
+                    $aio_wp_security->configs->set_value('aiowps_enable_rename_login_page', '1');
+                    $aio_wp_security->configs->set_value('aiowps_enable_brute_force_attack_prevention', '');//deactivate cookie based feature
+                }else{
+                    $aio_wp_security->configs->set_value('aiowps_enable_rename_login_page', '');
+                }
                 $aio_wp_security->configs->set_value('aiowps_login_page_slug',$aiowps_login_page_slug);
                 $aio_wp_security->configs->save_config();
 
@@ -139,6 +144,7 @@ class AIOWPSecurity_Brute_Force_Menu extends AIOWPSecurity_Admin_Menu
                 <p><?php _e('Your WordPress login page URL has been renamed.', 'aiowpsecurity'); ?></p>
                 <p><?php _e('Your current login URL is:', 'aiowpsecurity'); ?></p>
                 <p><strong><?php echo $home_url.$aio_wp_security->configs->get_value('aiowps_login_page_slug'); ?></strong></p>
+                <p><strong><?php _e('NOTE: If you already had the Cookie-Based Brute Force Prevention feature active, the plugin has automatically deactivated it because only one of these features can be active at any one time.', 'aiowpsecurity'); ?></strong></p>
             </div>
             
         <?php
@@ -213,7 +219,8 @@ class AIOWPSecurity_Brute_Force_Menu extends AIOWPSecurity_Admin_Menu
                 }
 
                 $aio_wp_security->configs->set_value('aiowps_enable_brute_force_attack_prevention','1');
-
+                $aio_wp_security->configs->set_value('aiowps_enable_rename_login_page',''); //Disable the Rename Login Page feature
+                
                 if (!$error)
                 {
                     $aio_wp_security->configs->set_value('aiowps_brute_force_secret_word',$brute_force_feature_secret_word);
@@ -295,6 +302,18 @@ class AIOWPSecurity_Brute_Force_Menu extends AIOWPSecurity_Admin_Menu
             '<br />'.$info_msg2.'</p>';
             ?>
         </div>
+        <?php 
+        //Show the user the new login URL if this feature is active
+        if ($aio_wp_security->configs->get_value('aiowps_enable_brute_force_attack_prevention')=='1')
+        {
+        ?>
+            <div class="aio_yellow_box">
+                <p><strong><?php _e('NOTE: If you already had the Rename Login Page feature active, the plugin has automatically deactivated it because only one of these features can be active at any one time.', 'aiowpsecurity'); ?></strong></p>
+            </div>
+            
+        <?php
+        }
+        ?>
 
         <div class="postbox">
         <h3><label for="title"><?php _e('Cookie Based Brute Force Login Prevention', 'aiowpsecurity'); ?></label></h3>

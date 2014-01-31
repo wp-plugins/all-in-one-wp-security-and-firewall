@@ -1,10 +1,10 @@
 === All In One WP Security & Firewall ===
 Contributors: Tips and Tricks HQ, wpsolutions, Peter Petreski, Ruhul Amin 
 Donate link: http://www.tipsandtricks-hq.com
-Tags: security, secure, Anti Virus, antivirus, ban, ban hacker, virus, firewall, firewall security, login, lockdown, htaccess, hack, malware, vulnerability, protect, protection, phishing, database, backup, plugin, sql injection, ssl, restrict, login captcha
+Tags: security, secure, Anti Virus, antivirus, ban, ban hacker, virus, firewall, firewall security, login, lockdown, htaccess, hack, malware, vulnerability, protect, protection, phishing, database, backup, plugin, sql injection, ssl, restrict, login captcha, bot
 Requires at least: 3.5
-Tested up to: 3.8
-Stable tag: 3.4
+Tested up to: 3.8.1
+Stable tag: 3.5
 License: GPLv3
 
 A comprehensive, user-friendly, all in one WordPress security and firewall plugin for your site.
@@ -85,6 +85,7 @@ So these firewall rules will stop malicious script(s) before it gets a chance to
 * Protect against Cross Site Scripting (XSS) by activating the comprehensive advanced character string filter.
 or malicious bots who do not have a special cookie in their browser. You (the site admin) will know how to set this special cookie and be able to log into your site.
 * WordPress PingBack Vulnerability Protection feature. This firewall feature allows the user to prohibit access to the xmlrpc.php file in order to protect against certain vulnerabilities in the pingback functionality. This is also helpful to block bots from constantly accessing the xmlrpc.php file and wasting your server resource.
+* Ability to block fake Googlebots from crawling your site.
 
 = Brute force login attack prevention =
 * Instantly block Brute Force Login Attacks via our special Cookie-Based Brute Force Login Prevention feature. This firewall functionality will block all login attempts from people and bots.
@@ -146,11 +147,20 @@ None
 
 == Changelog ==
 
+= 3.5 =
+- Added new feature which will Block Fake Googlebots from crawling your site. Check the Firewall menu for this new feature.
+- Added code to prevent users from having both the Rename Login Page and Cookie-Based Brute Force features active at the same time.
+- Added some useful info boxes in the dashboard: 1) to inform the user if the cookie based brute force or rename login page features are active, 2) last 5 logins to your site.
+- Fixed minor bug with .htaccess backup feature.
+- Updated the from email address value used for sending backups and file change notification. Thanks to @TheAssurer for the tip.
+- Updated the warning message for the disable index view feature.
+
+
 = 3.4 =
 - Consolidated "Brute Force" features by moving all such features to the "Brute Force" menu.
 - Improved the file change detection scan feature: Introduced a button allowing admin to view the file change results from the last scan and fixed small bug whereby the change detected flag was not being cleared for applicable cases.
 - Fixed a small bug with "rename login page" feature.
-- Made wp-config.php and .htaccess file backups more secure. Thanks to @wzp for the tip.
+- Made wp-config.php and .htaccess file backups more secure. Thanks to @TheAssurer for the tip.
 - Made the login code more robust by catering for cases where the "wp_login" action was not passing 2 parameters.
 
 = 3.3 =

@@ -71,7 +71,7 @@ class AIOWPSecurity_Dashboard_Menu extends AIOWPSecurity_Admin_Menu
     {
         echo '<div class="aio_grey_box">';
  	echo '<p>'.__('For information, updates and documentation, please visit the','aiowpsecurity').' <a href="http://www.tipsandtricks-hq.com/wordpress-security-and-firewall-plugin" target="_blank">'.__('AIO WP Security & Firewall Plugin','aiowpsecurity').'</a> '.__('Page','aiowpsecurity').'</p>';
-        echo '<p><a href="http://www.tipsandtricks-hq.com/development-center" target="_blank">'.__('Follow us','aiowpsecurity').'</a> on '.__('Twitter, Google+ or via Email to stay upto date about the new security features of this plugin.','aiowpsecurity').'</p>';
+        echo '<p><a href="http://www.tipsandtricks-hq.com/development-center" target="_blank">'.__('Follow us','aiowpsecurity').'</a> on '.__('Twitter, Google+ or via Email to stay up to date about the new security features of this plugin.','aiowpsecurity').'</p>';
         echo '</div>';
 
         echo "<script type='text/javascript' src='https://www.google.com/jsapi'></script>";//Include the google chart library
@@ -238,6 +238,51 @@ class AIOWPSecurity_Dashboard_Menu extends AIOWPSecurity_Admin_Menu
 
         <div class="aiowps_dashboard_box_small">
         <div class="postbox">
+        <h3><label for="title"><?php _e('Last 5 Logins', 'aiowpsecurity');?></label></h3>
+        <div class="inside">        
+        <?php 
+    	global $wpdb;
+        $login_activity_table = AIOWPSEC_TBL_USER_LOGIN_ACTIVITY;
+
+	/* -- Ordering parameters -- */
+	    //Parameters that are going to be used to order the result
+	$orderby = !empty($_GET["orderby"]) ? mysql_real_escape_string($_GET["orderby"]) : 'login_date';
+	$order = !empty($_GET["order"]) ? mysql_real_escape_string($_GET["order"]) : 'DESC';
+
+	$data = $wpdb->get_results("SELECT * FROM $login_activity_table ORDER BY $orderby $order LIMIT 5", ARRAY_A); //Get the last 50 records
+        
+        if ($data == NULL){
+            echo '<p>'.__('No data found!','aiowpsecurity').'</p>';
+            
+        }else{
+            $login_summary_table = '';
+            echo '<p>'.__('Last 5 logins summary:','aiowpsecurity').'</p>';
+            $login_summary_table .= '<table class="widefat">';
+            $login_summary_table .= '<thead>';
+            $login_summary_table .= '<tr>';
+            $login_summary_table .= '<th>'.__('User','aiowpsecurity').'</th>';
+            $login_summary_table .= '<th>'.__('Date','aiowpsecurity').'</th>';
+            $login_summary_table .= '<th>'.__('IP','aiowpsecurity').'</th>';
+            $login_summary_table .= '</tr>';
+            $login_summary_table .= '</thead>';
+            foreach ($data as $entry) {
+                $login_summary_table .= '<tr>';
+                $login_summary_table .= '<td>'.$entry['user_login'].'</td>';
+                $login_summary_table .= '<td>'.$entry['login_date'].'</td>';
+                $login_summary_table .= '<td>'.$entry['login_ip'].'</td>';
+                $login_summary_table .= '</tr>';
+            }
+            $login_summary_table .= '</table>';
+            echo $login_summary_table;
+        }
+
+        echo '<div class="aio_clear_float"></div>';       
+        ?>
+        </div></div>
+        </div><!-- aiowps_dashboard_box -->
+        
+        <div class="aiowps_dashboard_box_small">
+        <div class="postbox">
         <h3><label for="title"><?php _e('Maintenance Mode Status', 'aiowpsecurity');?></label></h3>
         <div class="inside">        
         <?php 
@@ -266,6 +311,57 @@ class AIOWPSecurity_Dashboard_Menu extends AIOWPSecurity_Admin_Menu
         </div><!-- aiowps_dashboard_box -->
 
         <?php
+        //Insert Cookie Based Brute Force feature box if this feature is active
+        if($aio_wp_security->configs->get_value('aiowps_enable_brute_force_attack_prevention')=='1'){
+        ?>
+        <div class="aiowps_dashboard_box_small">
+        <div class="postbox">
+        <h3><label for="title"><?php _e('Cookie Based Brute Prevention', 'aiowpsecurity');?></label></h3>
+        <div class="inside">        
+        <?php 
+        $brute_force_login_feature_link = '<a href="admin.php?page='.AIOWPSEC_BRUTE_FORCE_MENU_SLUG.'&tab=tab2" target="_blank">'.__('Cookie-Based Brute Force','aiowpsecurity').'</a>';
+        $brute_force_feature_secret_word = $aio_wp_security->configs->get_value('aiowps_brute_force_secret_word');
+        echo '<div class="aio_yellow_box">';
+
+        echo '<p>'.sprintf( __('The %s feature is currently active.', 'aiowpsecurity'), $brute_force_login_feature_link).'</p>';
+        echo '<p>'.__('Your new WordPress login URL is now:','aiowpsecurity').'</p>';
+        echo '<p><strong>'.AIOWPSEC_WP_URL.'/?'.$brute_force_feature_secret_word.'=1</strong></p>';
+        echo '</div>'; //yellow box div
+        echo '<div class="aio_clear_float"></div>';       
+        ?>
+        </div></div>
+        </div><!-- aiowps_dashboard_box -->
+        <?php
+        }//End if statement for Cookie Based Brute Prevention box
+        
+        //Insert Rename Login Page feature box if this feature is active
+        if($aio_wp_security->configs->get_value('aiowps_enable_rename_login_page')=='1'){
+        ?>
+        <div class="aiowps_dashboard_box_small">
+        <div class="postbox">
+        <h3><label for="title"><?php _e('Rename Login Page', 'aiowpsecurity');?></label></h3>
+        <div class="inside">        
+        <?php 
+        if (get_option('permalink_structure')){
+            $home_url = trailingslashit(home_url());
+        }else{
+            $home_url = trailingslashit(home_url()) . '?';
+        }
+        
+        $rename_login_feature_link = '<a href="admin.php?page='.AIOWPSEC_BRUTE_FORCE_MENU_SLUG.'&tab=tab1" target="_blank">'.__('Rename Login Page','aiowpsecurity').'</a>';
+        echo '<div class="aio_yellow_box">';
+
+        echo '<p>'.sprintf( __('The %s feature is currently active.', 'aiowpsecurity'), $rename_login_feature_link).'</p>';
+        echo '<p>'.__('Your new WordPress login URL is now:','aiowpsecurity').'</p>';
+        echo '<p><strong>'.$home_url.$aio_wp_security->configs->get_value('aiowps_login_page_slug').'</strong></p>';
+        echo '</div>'; //yellow box div
+        echo '<div class="aio_clear_float"></div>';       
+        ?>
+        </div></div>
+        </div><!-- aiowps_dashboard_box -->
+        <?php
+        }//End if statement for Rename Login box
+
         if($aio_wp_security->configs->get_value('aiowps_enable_automated_fcd_scan') == '1'){
       
         echo '<div class="aiowps_dashboard_box_small">';
@@ -283,7 +379,7 @@ class AIOWPSecurity_Dashboard_Menu extends AIOWPSecurity_Admin_Menu
         
         echo '</div></div>';
         echo '</div>';//<!-- aiowps_dashboard_box -->     
-        } 
+        }//End if statement for automated scan box
         ?>
         
         <div class="aiowps_dashboard_box_small">

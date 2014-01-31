@@ -79,7 +79,15 @@ class AIOWPSecurity_General_Init_Tasks
         //For feature which displays logged in users
         $this->update_logged_in_user_transient();
         
+        //For block fake googlebots feature
+        if($aio_wp_security->configs->get_value('aiowps_enable_block_fake_googlebots') == '1'){
+            include_once(AIO_WP_SECURITY_PATH.'/classes/wp-security-bot-protection.php');
+            AIOWPSecurity_Fake_Bot_Protection::block_fake_googlebots();
+        }
+        
+        
         //Add more tasks that need to be executed at init time
+        
     }
     
     function remove_wp_generator_meta_info()

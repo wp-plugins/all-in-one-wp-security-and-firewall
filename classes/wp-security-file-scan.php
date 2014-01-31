@@ -58,7 +58,7 @@ class AIOWPSecurity_Filescan
             }
 
             $to = $toaddress;
-            $headers = 'From: ' . get_option( 'blogname' ) . ' <' . $to . '>' . PHP_EOL;
+            $headers = 'From: ' . get_option( 'blogname' ) . ' <' . get_option('admin_email') . '>' . PHP_EOL;
             $subject = __( 'All In One WP Security - File change detected!', 'aiowpsecurity' ) . ' ' . date( 'l, F jS, Y \a\\t g:i a', current_time( 'timestamp' ) );
             //$attachment = array();
             $message = __( 'A file change was detected on your system for site URL', 'aiowpsecurity' ) . ' ' . get_option( 'siteurl' ) . __( '. Scan was generated on', 'aiowpsecurity' ) . ' ' . date( 'l, F jS, Y \a\\t g:i a', current_time( 'timestamp' ) );

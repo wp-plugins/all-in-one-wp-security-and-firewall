@@ -194,20 +194,16 @@ class AIOWPSecurity_Settings_Menu extends AIOWPSecurity_Admin_Menu
                 die("Nonce check failed on htaccess file save!");
             }
             $htaccess_path = ABSPATH . '.htaccess';
-            $result = AIOWPSecurity_Utility_File::backup_and_rename_wp_config($htaccess_path); //Backup the htaccess file
+            $result = AIOWPSecurity_Utility_File::backup_and_rename_htaccess($htaccess_path); //Backup the htaccess file
             
             if ($result)
             {
                 $random_prefix = AIOWPSecurity_Utility::generate_alpha_numeric_random_string(10);
-                if (rename(ABSPATH.'.htaccess.backup', AIO_WP_SECURITY_BACKUPS_PATH.'/'.$random_prefix.'_htaccess_backup.txt'))
+                $aiowps_backup_dir = WP_CONTENT_DIR.'/'.AIO_WP_SECURITY_BACKUPS_DIR_NAME;
+                if (rename($aiowps_backup_dir.'/'.'.htaccess.backup', $aiowps_backup_dir.'/'.$random_prefix.'_htaccess_backup.txt'))
                 {
-//                    $backup_file_url = AIOWPSEC_WP_URL . '/htaccess_backup.txt';
                     echo '<div id="message" class="updated fade"><p>';
-                    _e('Your .htaccess file was successfully backed up! Using an FTP program go to the "backups" directory of this plugin to save a copy of the file to your computer.','aiowpsecurity');
-//                    echo '<p>';
-//                    _e('Your .htaccess File: ');
-//                    echo '<a href="'.$backup_file_url.'" target="_blank">'.$backup_file_url.'</a>';
-//                    echo '</p>';
+                    _e('Your .htaccess file was successfully backed up! Using an FTP program go to the "/wp-content/aiowps_backups" directory to save a copy of the file to your computer.','aiowpsecurity');
                     echo '</p></div>';
                 }
                 else
