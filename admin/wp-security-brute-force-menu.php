@@ -116,7 +116,13 @@ class AIOWPSecurity_Brute_Force_Menu extends AIOWPSecurity_Admin_Menu
 
                 //Recalculate points after the feature status/options have been altered
                 $aiowps_feature_mgr->check_feature_status_and_recalculate_points();
-                $this->show_msg_settings_updated();
+                $res = AIOWPSecurity_Utility_Htaccess::write_to_htaccess(); //Delete the cookie based directives if that feature is active
+                if ($res){
+                    $this->show_msg_settings_updated();
+                }
+                else if($res == -1){
+                    $this->show_msg_error(__('Could not delete the Cookie-based directives from the .htaccess file. Please check the file permissions.', 'aiowpsecurity'));
+                }
             }
         }
         

@@ -4,7 +4,7 @@ Donate link: http://www.tipsandtricks-hq.com
 Tags: security, secure, Anti Virus, antivirus, ban, ban hacker, virus, firewall, firewall security, login, lockdown, htaccess, hack, malware, vulnerability, protect, protection, phishing, database, backup, plugin, sql injection, ssl, restrict, login captcha, bot
 Requires at least: 3.5
 Tested up to: 3.8.1
-Stable tag: 3.5
+Stable tag: 3.5.1
 License: GPLv3
 
 A comprehensive, user-friendly, all in one WordPress security and firewall plugin for your site.
@@ -146,6 +146,9 @@ http://www.tipsandtricks-hq.com/wordpress-security-and-firewall-plugin
 None
 
 == Changelog ==
+
+= 3.5.1 =
+- Fixed a bug where the cookie-based brute force directives were not being deleted from the .htaccess file when the Rename Login Page feature was being activated.
 
 = 3.5 =
 - Added new feature which will Block Fake Googlebots from crawling your site. Check the Firewall menu for this new feature.
