@@ -1,10 +1,10 @@
 === All In One WP Security & Firewall ===
 Contributors: Tips and Tricks HQ, wpsolutions, Peter Petreski, Ruhul Amin 
 Donate link: http://www.tipsandtricks-hq.com
-Tags: security, secure, Anti Virus, antivirus, ban, ban hacker, virus, firewall, firewall security, login, lockdown, htaccess, hack, malware, vulnerability, protect, protection, phishing, database, backup, plugin, sql injection, ssl, restrict, login captcha, bot
+Tags: security, secure, Anti Virus, antivirus, ban, ban hacker, virus, firewall, firewall security, login, lockdown, htaccess, hack, malware, vulnerability, protect, protection, phishing, database, backup, plugin, sql injection, ssl, restrict, login captcha, bot, hotlink
 Requires at least: 3.5
 Tested up to: 3.8.1
-Stable tag: 3.5.1
+Stable tag: 3.6
 License: GPLv3
 
 A comprehensive, user-friendly, all in one WordPress security and firewall plugin for your site.
@@ -86,6 +86,7 @@ So these firewall rules will stop malicious script(s) before it gets a chance to
 or malicious bots who do not have a special cookie in their browser. You (the site admin) will know how to set this special cookie and be able to log into your site.
 * WordPress PingBack Vulnerability Protection feature. This firewall feature allows the user to prohibit access to the xmlrpc.php file in order to protect against certain vulnerabilities in the pingback functionality. This is also helpful to block bots from constantly accessing the xmlrpc.php file and wasting your server resource.
 * Ability to block fake Googlebots from crawling your site.
+* Ability to prevent image hotlinking. Use this to prevent others from hotlinking your images.
 
 = Brute force login attack prevention =
 * Instantly block Brute Force Login Attacks via our special Cookie-Based Brute Force Login Prevention feature. This firewall functionality will block all login attempts from people and bots.
@@ -146,6 +147,11 @@ http://www.tipsandtricks-hq.com/wordpress-security-and-firewall-plugin
 None
 
 == Changelog ==
+
+= 3.6 =
+- Added a new feature to prevent image hot-linking. (See the "Prevent Hotlinks" tab in the firewall menu)
+- Added a check in the Rename Login Page feature to prevent people from setting the slug to "wp-admin"
+- Fixed a small bug with Login Lockdown feature.
 
 = 3.5.1 =
 - Fixed a bug where the cookie-based brute force directives were not being deleted from the .htaccess file when the Rename Login Page feature was being activated.

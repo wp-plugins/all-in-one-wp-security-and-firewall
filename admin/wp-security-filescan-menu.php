@@ -347,8 +347,20 @@ class AIOWPSecurity_Filescan_Menu extends AIOWPSecurity_Admin_Menu
 
             echo '<h2>'.__('Scanning For Malware', 'aiowpsecurity').'</h2>';
             echo '<p>'.__('Due to the constantly changing and complex nature of Malware, scanning for such things using a standalone plugin will not work reliably. This is something best done via an external scan of your site regularly.', 'aiowpsecurity').'</p>'.
-            '<p>'.__('This is why we have created an easy-to-use scanning service which is hosted off our own server which will scan your site for malware once every day and notify you if it finds anything.', 'aiowpsecurity').'</p>'.
-            '<p>'.sprintf(__('To learn more please %s.', 'aiowpsecurity'), $site_scanners_link).'</p>';
+            '<p>'.__('This is why we have created an easy-to-use scanning service which is hosted off our own server which will scan your site for malware once every day and notify you if it finds anything.', 'aiowpsecurity').'</p>';
+            echo '<p>'.__('When you sign up for this service you will get the following:', 'aiowpsecurity').'</p>';
+            echo '<ul class="aiowps_admin_ul_grp1">
+                <li>'.__('Free for the First 14 Days (zero risk)','aiowpsecurity').'</li>
+                <li>'.__('Automatic Daily Scan of 1 Website','aiowpsecurity').'</li>
+                <li>'.__('Automatic Malware & Blacklist Monitoring','aiowpsecurity').'</li>
+                <li>'.__('Automatic Email Alerting','aiowpsecurity').'</li>
+                <li>'.__('Site uptime monitoring','aiowpsecurity').'</li>
+                <li>'.__('Site response time monitoring','aiowpsecurity').'</li>
+                <li>'.__('Malware Cleanup','aiowpsecurity').'</li>
+                <li>'.__('Blacklist Removal','aiowpsecurity').'</li>
+                <li>'.__('No Contract (Cancel Anytime)','aiowpsecurity').'</li>
+            </ul>';
+            echo '<p>'.sprintf(__('To learn more please %s.', 'aiowpsecurity'), $site_scanners_link).'</p>';
             ?>
         </div>
 

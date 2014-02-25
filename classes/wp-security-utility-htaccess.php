@@ -45,6 +45,10 @@ class AIOWPSecurity_Utility_Htaccess
 
     public static $enable_login_whitelist_marker_start = '#AIOWPS_LOGIN_WHITELIST_START';
     public static $enable_login_whitelist_marker_end = '#AIOWPS_LOGIN_WHITELIST_END';
+    
+    public static $prevent_image_hotlinks_marker_start = '#AIOWPS_PREVENT_IMAGE_HOTLINKS_START';
+    public static $prevent_image_hotlinks_marker_end = '#AIOWPS_PREVENT_IMAGE_HOTLINKS_END';
+    
     // TODO - enter more markers as new .htaccess features are added
     
     function __construct(){
@@ -220,6 +224,7 @@ class AIOWPSecurity_Utility_Htaccess
         $rules .= AIOWPSecurity_Utility_Htaccess::getrules_enable_brute_force_prevention();
         $rules .= AIOWPSecurity_Utility_Htaccess::getrules_block_spambots();
         $rules .= AIOWPSecurity_Utility_Htaccess::getrules_enable_login_whitelist();
+        $rules .= AIOWPSecurity_Utility_Htaccess::prevent_image_hotlinks();
         //TODO: The following utility functions are ready to use when we write the menu pages for these features
 
         //Add more functions for features as needed
@@ -873,6 +878,33 @@ class AIOWPSecurity_Utility_Htaccess
 	return $rules;
     }
     
+    /*
+     * This function will write some directives to prevent image hotlinking
+     */
+    static function prevent_image_hotlinks()  
+    {
+        global $aio_wp_security;
+        $rules = '';
+        if($aio_wp_security->configs->get_value('aiowps_prevent_hotlinking')=='1') 
+        {
+            $url_string = AIOWPSecurity_Utility_Htaccess::return_regularized_url(AIOWPSEC_WP_URL);
+            if ($url_string == FALSE){
+                $url_string = AIOWPSEC_WP_URL;
+            }
+            $rules .= AIOWPSecurity_Utility_Htaccess::$prevent_image_hotlinks_marker_start . PHP_EOL; //Add feature marker start
+            $rules .= '<IfModule mod_rewrite.c>
+                        RewriteEngine on
+                        RewriteCond %{HTTP_REFERER} !^$' . PHP_EOL;
+            $rules .= ' RewriteCond %{REQUEST_FILENAME} -f' . PHP_EOL;
+            $rules .= ' RewriteCond %{REQUEST_FILENAME} \.(gif|jpe?g?|png)$ [NC]' . PHP_EOL;
+            $rules .= ' RewriteCond %{HTTP_REFERER} !^'.$url_string.' [NC]' . PHP_EOL;
+            $rules .= ' RewriteRule \.(gif|jpe?g?|png)$ - [F,NC,L]
+                       </IfModule>' . PHP_EOL;
+            $rules .= AIOWPSecurity_Utility_Htaccess::$prevent_image_hotlinks_marker_end . PHP_EOL; //Add feature marker end
+        }
+        
+	return $rules;
+    }
 
     /*
      * This function will do a quick check to see if a file's contents are actually .htaccess specific.

@@ -12,6 +12,7 @@ class AIOWPSecurity_Firewall_Menu extends AIOWPSecurity_Admin_Menu
         'tab2' => 'render_tab2',
         'tab3' => 'render_tab3',
         'tab4' => 'render_tab4',
+        'tab5' => 'render_tab5',
         );
     
     function __construct() 
@@ -26,6 +27,7 @@ class AIOWPSecurity_Firewall_Menu extends AIOWPSecurity_Admin_Menu
         'tab2' => __('Additional Firewall Rules', 'aiowpsecurity'),
         'tab3' => __('5G Blacklist Firewall Rules', 'aiowpsecurity'),
         'tab4' => __('Internet Bots', 'aiowpsecurity'),
+        'tab5' => __('Prevent Hotlinks', 'aiowpsecurity'),    
         );
     }
 
@@ -630,6 +632,73 @@ class AIOWPSecurity_Firewall_Menu extends AIOWPSecurity_Admin_Menu
         <input type="submit" name="aiowps_save_internet_bot_settings" value="<?php _e('Save Internet Bot Settings', 'aiowpsecurity')?>" class="button-primary" />
         </form>
         <?php
+    }
+    
+    function render_tab5()
+    {
+        global $aio_wp_security;
+        global $aiowps_feature_mgr;
+        
+        if(isset($_POST['aiowps_save_prevent_hotlinking']))//Do form submission tasks
+        {
+            $nonce=$_REQUEST['_wpnonce'];
+            if (!wp_verify_nonce($nonce, 'aiowpsec-prevent-hotlinking-nonce'))
+            {
+                $aio_wp_security->debug_logger->log_debug("Nonce check failed on prevent hotlinking options save!",4);
+                die("Nonce check failed on prevent hotlinking options save!");
+            }
+            $aio_wp_security->configs->set_value('aiowps_prevent_hotlinking',isset($_POST["aiowps_prevent_hotlinking"])?'1':'');
+            $aio_wp_security->configs->save_config();
+            
+            //Recalculate points after the feature status/options have been altered
+            $aiowps_feature_mgr->check_feature_status_and_recalculate_points();
+
+            //Now let's write the applicable rules to the .htaccess file
+            $res = AIOWPSecurity_Utility_Htaccess::write_to_htaccess();
+
+            if ($res)
+            {
+                $this->show_msg_updated(__('Settings were successfully saved', 'aiowpsecurity'));
+            }
+            else if($res == -1)
+            {
+                $this->show_msg_error(__('Could not write to the .htaccess file. Please check the file permissions.', 'aiowpsecurity'));
+            }
+    }
+        ?>
+        <h2><?php _e('Prevent Image Hotlinking', 'aiowpsecurity')?></h2>
+        <div class="aio_blue_box">
+            <?php
+            echo '<p>'.__('A Hotlink is where someone displays an image on their site which is actually located on your site by using a direct link to the source of the image on your server.', 'aiowpsecurity');
+            echo '<br />'.__('Due to the fact that the image being displayed on the other person\'s site is coming from your server, this can cause leaking of bandwidth and resources for you because your server has to present this image for the people viewing it on someone elses\'s site.','aiowpsecurity');
+            echo '<br />'.__('This feature will prevent people from directly hotlinking images from your site\'s pages by writing some directives in your .htaccess file.', 'aiowpsecurity').'</p>';
+            ?>
+        </div>
+
+        <div class="postbox">
+        <h3><label for="title"><?php _e('Prevent Hotlinking', 'aiowpsecurity'); ?></label></h3>
+        <div class="inside">
+        <?php
+        //Display security info badge
+        global $aiowps_feature_mgr;
+        $aiowps_feature_mgr->output_feature_details_badge("prevent-hotlinking");
+        ?>
+
+        <form action="" method="POST">
+        <?php wp_nonce_field('aiowpsec-prevent-hotlinking-nonce'); ?>            
+        <table class="form-table">
+            <tr valign="top">
+                <th scope="row"><?php _e('Prevent Image Hotlinking', 'aiowpsecurity')?>:</th>                
+                <td>
+                <input name="aiowps_prevent_hotlinking" type="checkbox"<?php if($aio_wp_security->configs->get_value('aiowps_prevent_hotlinking')=='1') echo ' checked="checked"'; ?> value="1"/>
+                <span class="description"><?php _e('Check this if you want to prevent hotlinking to images on your site.', 'aiowpsecurity'); ?></span>
+                </td>
+            </tr>            
+        </table>
+        <input type="submit" name="aiowps_save_prevent_hotlinking" value="<?php _e('Save Settings', 'aiowpsecurity')?>" class="button-primary" />
+        </form>
+        </div></div>
+    <?php
     }
     
 } //end class

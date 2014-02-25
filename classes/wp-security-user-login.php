@@ -61,7 +61,7 @@ class AIOWPSecurity_User_Login
                     $this->increment_failed_logins($username);
                     if($aio_wp_security->configs->get_value('aiowps_enable_login_lockdown')=='1')
                     {
-                        if($login_attempts_permitted <= $this->get_login_fail_count()  || $aio_wp_security->configs->get_value('aiowps_enable_invalid_username_lockdown')=='1')
+                        if($login_attempts_permitted <= $this->get_login_fail_count())
                         {
                             $this->lock_the_user($username);
                         }

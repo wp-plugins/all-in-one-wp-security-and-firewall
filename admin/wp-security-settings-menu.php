@@ -496,7 +496,6 @@ class AIOWPSecurity_Settings_Menu extends AIOWPSecurity_Admin_Menu
     <?php
     }
 
-    
     function check_if_wp_config_contents($wp_file)
     {
         $is_wp_config = false;

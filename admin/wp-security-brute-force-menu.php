@@ -99,6 +99,9 @@ class AIOWPSecurity_Brute_Force_Menu extends AIOWPSecurity_Admin_Menu
                 $error .= '<br />'.__('Please enter a value for your login page slug.','aiowpsecurity');
             }else if (!empty($_POST['aiowps_login_page_slug'])){
                 $aiowps_login_page_slug = sanitize_text_field($_POST['aiowps_login_page_slug']);
+                if($aiowps_login_page_slug == 'wp-admin'){
+                    $error .= '<br />'.__('You cannot use the value "wp-admin" for your login page slug.','aiowpsecurity');
+                }
             }
             
             if($error){

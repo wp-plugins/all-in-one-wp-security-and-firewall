@@ -28,6 +28,9 @@ class AIOWPSecurity_Feature_Item_Manager
         //WP Generator Meta
         $this->feature_items[] = new AIOWPSecurity_Feature_Item("wp-generator-meta-tag", __("Remove WP Generatore Meta Tag", "aiowpsecurity"), $this->feature_point_1, $this->sec_level_basic);
         
+        //Prevent Image Hotlinks
+        $this->feature_items[] = new AIOWPSecurity_Feature_Item("prevent-hotlinking", __("Prevent Image Hotlinking", "aiowpsecurity"), $this->feature_point_2, $this->sec_level_basic);
+
         //User Accounts Menu Features
         //Change Admin Username
         $this->feature_items[] = new AIOWPSecurity_Feature_Item("user-accounts-change-admin-user", __("Change Admin Username", "aiowpsecurity"), $this->feature_point_3, $this->sec_level_basic);
@@ -146,6 +149,11 @@ class AIOWPSecurity_Feature_Item_Manager
             if($item->feature_id == "wp-generator-meta-tag")
             {
                 $this->check_remove_wp_generator_meta_feature($item);
+            }            
+
+            if($item->feature_id == "prevent-hotlinking")
+            {
+                $this->check_prevent_hotlinking_feature($item);
             }            
 
             if($item->feature_id == "user-accounts-change-admin-user")
@@ -310,6 +318,18 @@ class AIOWPSecurity_Feature_Item_Manager
     {
         global $aio_wp_security;
         if ($aio_wp_security->configs->get_value('aiowps_remove_wp_generator_meta_info') == '1') {
+            $item->set_feature_status($this->feature_active);
+        }
+        else
+        {
+            $item->set_feature_status($this->feature_inactive);
+        }
+    }
+
+    function check_prevent_hotlinking_feature($item)
+    {
+        global $aio_wp_security;
+        if ($aio_wp_security->configs->get_value('aiowps_prevent_hotlinking') == '1') {
             $item->set_feature_status($this->feature_active);
         }
         else

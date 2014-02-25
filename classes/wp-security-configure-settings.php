@@ -14,6 +14,8 @@ class AIOWPSecurity_Configure_Settings
         //WP Generator Meta Tag feature
         $aio_wp_security->configs->set_value('aiowps_remove_wp_generator_meta_info','');//Checkbox
         
+        //Prevent Image Hotlinks
+        $aio_wp_security->configs->set_value('aiowps_prevent_hotlinking','');//Checkbox
         //General Settings Page
 
         //User password feature
@@ -115,6 +117,9 @@ class AIOWPSecurity_Configure_Settings
 
         //WP Generator Meta Tag feature
         $aio_wp_security->configs->add_value('aiowps_remove_wp_generator_meta_info','');//Checkbox
+        
+        //Prevent Image Hotlinks
+        $aio_wp_security->configs->add_value('aiowps_prevent_hotlinking','');//Checkbox
         
         //General Settings Page
         
