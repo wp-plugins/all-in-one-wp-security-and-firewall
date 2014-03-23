@@ -39,6 +39,7 @@ class AIOWPSecurity_Installer
         $failed_login_tbl_name = AIOWPSEC_TBL_FAILED_LOGINS;
         $user_login_activity_tbl_name = AIOWPSEC_TBL_USER_LOGIN_ACTIVITY;
         $aiowps_global_meta_tbl_name = AIOWPSEC_TBL_GLOBAL_META_DATA;
+        $aiowps_event_tbl_name = AIOWPSEC_TBL_EVENTS;
 
 	$ld_tbl_sql = "CREATE TABLE " . $lockdown_tbl_name . " (
         id bigint(20) NOT NULL AUTO_INCREMENT,
@@ -47,7 +48,8 @@ class AIOWPSecurity_Installer
         lockdown_date datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
         release_date datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
         failed_login_ip varchar(100) NOT NULL DEFAULT '',
-        unlock_key varchar(128) NOT NULL,
+        lock_reason varchar(128) NOT NULL DEFAULT '',
+        unlock_key varchar(128) NOT NULL DEFAULT '',
         PRIMARY KEY  (id)
         )ENGINE=MyISAM DEFAULT CHARSET=utf8;";
 	dbDelta($ld_tbl_sql);
@@ -92,7 +94,21 @@ class AIOWPSecurity_Installer
         )ENGINE=MyISAM DEFAULT CHARSET=utf8;";
         dbDelta($gm_tbl_sql);
                 
-	update_option("aiowpsec_db_version", AIO_WP_SECURITY_DB_VERSION);
+        $evt_tbl_sql = "CREATE TABLE " . $aiowps_event_tbl_name . " (
+        id bigint(20) NOT NULL AUTO_INCREMENT,
+        event_type VARCHAR(150) NOT NULL DEFAULT '',
+        username VARCHAR(150),
+        user_id bigint(20),
+        event_date datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+        ip_or_host varchar(100),
+        referer_info varchar(255),
+        url varchar(255),
+        event_data longtext,
+        PRIMARY KEY  (id)
+        )ENGINE=MyISAM DEFAULT CHARSET=utf8;";
+        dbDelta($evt_tbl_sql);
+
+        update_option("aiowpsec_db_version", AIO_WP_SECURITY_DB_VERSION);
     }
     
     static function create_db_backup_dir()

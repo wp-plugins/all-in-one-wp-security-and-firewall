@@ -242,23 +242,12 @@ class AIOWPSecurity_User_Login_Menu extends AIOWPSecurity_Admin_Menu
         <div class="postbox">
         <h3><label for="title"><?php _e('Currently Locked Out IP Address Ranges', 'aiowpsecurity'); ?></label></h3>
         <div class="inside">
-            <?php 
-            //Fetch, prepare, sort, and filter our data...
-            $locked_ip_list->prepare_items();
-            //echo "put table of locked entries here"; 
-            ?>
-            <form id="tables-filter" method="get" onSubmit="return confirm('Are you sure you want to perform this bulk operation on the selected entries?');">
-            <!-- For plugins, we also need to ensure that the form posts back to our current page -->
-            <input type="hidden" name="page" value="<?php echo $_REQUEST['page']; ?>" />
-            <?php
-            if(isset($_REQUEST["tab"]))
-            {
-                echo '<input type="hidden" name="tab" value="'.$_REQUEST["tab"].'" />';
-            }
-            ?>
-            <!-- Now we can render the completed list table -->
-            <?php $locked_ip_list->display(); ?>
-            </form>
+            <div class="aio_blue_box aio_width_80">
+                <?php
+                $locked_ips_link = '<a href="admin.php?page='.AIOWPSEC_MAIN_MENU_SLUG.'&tab=tab3">Locked IP Addresses</a>';
+                echo '<p>'.sprintf( __('To see a list of all locked IP addresses and ranges go to the %s tab in the dashboard menu.', 'aiowpsecurity'), $locked_ips_link).'</p>';
+                ?>
+            </div>
         </div></div>
         <?php
     }
@@ -535,7 +524,7 @@ class AIOWPSecurity_User_Login_Menu extends AIOWPSecurity_Admin_Menu
             $result = $wpdb->query($unlock_command);
             if($result != NULL)
             {
-                $this->show_msg_updated(__('The selected IP ranges were unlocked successfully!','aiowpsecurity'));
+                $this->show_msg_updated(__('The selected IP entries were unlocked successfully!','aiowpsecurity'));
             }
         } elseif ($entries != NULL)
         {
@@ -544,7 +533,7 @@ class AIOWPSecurity_User_Login_Menu extends AIOWPSecurity_Admin_Menu
             $result = $wpdb->query($unlock_command);
             if($result != NULL)
             {
-                $this->show_msg_updated(__('The selected IP range was unlocked successfully!','aiowpsecurity'));
+                $this->show_msg_updated(__('The selected IP entry was unlocked successfully!','aiowpsecurity'));
             }
         }
         //$aio_wp_security->debug_logger->log_debug("IP range unlocked from login_lockdown table - lockdown ID: ".$lockdown_id,0);

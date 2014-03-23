@@ -9,6 +9,7 @@ class AIOWPSecurity_Dashboard_Menu extends AIOWPSecurity_Admin_Menu
     var $menu_tabs_handler = array(
         'tab1' => 'render_tab1', 
         'tab2' => 'render_tab2',
+        'tab3' => 'render_tab3',
         );
     
     function __construct() 
@@ -21,6 +22,7 @@ class AIOWPSecurity_Dashboard_Menu extends AIOWPSecurity_Admin_Menu
         $this->menu_tabs = array(
         'tab1' => __('Dashboard','aiowpsecurity'), 
         'tab2' => __('System Info','aiowpsecurity'),
+        'tab3' => __('Locked IP Addresses','aiowpsecurity'),
         );
     }
 
@@ -428,6 +430,30 @@ class AIOWPSecurity_Dashboard_Menu extends AIOWPSecurity_Admin_Menu
         ?>
         </div></div>
         </div><!-- aiowps_dashboard_box -->
+
+        <div class="aiowps_dashboard_box_small">
+        <div class="postbox">
+        <h3><label for="title"><?php _e('Locked IP Addresses', 'aiowpsecurity');?></label></h3>
+        <div class="inside">        
+        <?php
+        $locked_ips_link = '<a href="admin.php?page='.AIOWPSEC_MAIN_MENU_SLUG.'&tab=tab3">Locked IP Addresses</a>';
+        
+        $locked_ips = AIOWPSecurity_Utility::get_locked_ips();
+        if($locked_ips === FALSE)
+        {
+            echo '<div class="aio_green_box"><p>'.__('There are no IP addresses currently locked out.','aiowpsecurity').'</p></div>';
+        }
+        else
+        {
+            $num_ips = count($locked_ips);
+            echo '<div class="aio_red_box"><p>'.__('Number of temporarily locked out IP addresses: ','aiowpsecurity').' <strong>'.$num_ips.'</strong></p>';
+            $info_msg = '<p>'.sprintf( __('Go to the %s menu to see more details', 'aiowpsecurity'), $locked_ips_link).'</p>';
+            echo $info_msg.'</div>';
+        }
+        
+        ?>
+        </div></div>
+        </div><!-- aiowps_dashboard_box -->        
         
         <div class="aio_clear_float"></div>
         
@@ -503,6 +529,49 @@ class AIOWPSecurity_Dashboard_Menu extends AIOWPSecurity_Admin_Menu
         </tbody>
         </table>
         </div></div>
+        <?php
+    }
+
+    function render_tab3()
+    {
+        global $wpdb;
+        include_once 'wp-security-list-locked-ip.php'; //For rendering the AIOWPSecurity_List_Table in tab1
+        $locked_ip_list = new AIOWPSecurity_List_Locked_IP(); //For rendering the AIOWPSecurity_List_Table in tab1
+
+        if(isset($_REQUEST['action'])) //Do list table form row action tasks
+        {
+            if($_REQUEST['action'] == 'delete_blocked_ip'){ //Delete link was clicked for a row in list table
+                $locked_ip_list->delete_lockdown_records(strip_tags($_REQUEST['lockdown_id']));
+            }
+            
+            if($_REQUEST['action'] == 'unlock_ip'){ //Unlock link was clicked for a row in list table
+                $locked_ip_list->unlock_ip_range(strip_tags($_REQUEST['lockdown_id']));
+            }
+        }
+        
+        ?>
+        <div class="postbox">
+        <h3><label for="title"><?php _e('Currently Locked Out IP Addresses and Ranges', 'aiowpsecurity');?></label></h3>
+        <div class="inside">
+            <?php 
+            //Fetch, prepare, sort, and filter our data...
+            $locked_ip_list->prepare_items();
+            //echo "put table of locked entries here"; 
+            ?>
+            <form id="tables-filter" method="get" onSubmit="return confirm('Are you sure you want to perform this bulk operation on the selected entries?');">
+            <!-- For plugins, we also need to ensure that the form posts back to our current page -->
+            <input type="hidden" name="page" value="<?php echo $_REQUEST['page']; ?>" />
+            <?php
+            if(isset($_REQUEST["tab"]))
+            {
+                echo '<input type="hidden" name="tab" value="'.$_REQUEST["tab"].'" />';
+            }
+            ?>
+            <!-- Now we can render the completed list table -->
+            <?php $locked_ip_list->display(); ?>
+            </form>
+        </div></div>
+        
         <?php
     }
     

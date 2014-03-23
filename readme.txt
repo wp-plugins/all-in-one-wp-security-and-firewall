@@ -1,10 +1,10 @@
 === All In One WP Security & Firewall ===
 Contributors: Tips and Tricks HQ, wpsolutions, Peter Petreski, Ruhul Amin 
 Donate link: http://www.tipsandtricks-hq.com
-Tags: security, secure, Anti Virus, antivirus, ban, ban hacker, virus, firewall, firewall security, login, lockdown, htaccess, hack, malware, vulnerability, protect, protection, phishing, database, backup, plugin, sql injection, ssl, restrict, login captcha, bot, hotlink
+Tags: security, secure, Anti Virus, antivirus, ban, ban hacker, virus, firewall, firewall security, login, lockdown, htaccess, hack, malware, vulnerability, protect, protection, phishing, database, backup, plugin, sql injection, ssl, restrict, login captcha, bot, hotlink, 404 detection,
 Requires at least: 3.5
 Tested up to: 3.8.1
-Stable tag: 3.6
+Stable tag: 3.7
 License: GPLv3
 
 A comprehensive, user-friendly, all in one WordPress security and firewall plugin for your site.
@@ -87,6 +87,7 @@ or malicious bots who do not have a special cookie in their browser. You (the si
 * WordPress PingBack Vulnerability Protection feature. This firewall feature allows the user to prohibit access to the xmlrpc.php file in order to protect against certain vulnerabilities in the pingback functionality. This is also helpful to block bots from constantly accessing the xmlrpc.php file and wasting your server resource.
 * Ability to block fake Googlebots from crawling your site.
 * Ability to prevent image hotlinking. Use this to prevent others from hotlinking your images.
+* Ability to log all 404 events on your site. You can also choose to automatically block IP addresses that are hitting too many 404s.
 
 = Brute force login attack prevention =
 * Instantly block Brute Force Login Attacks via our special Cookie-Based Brute Force Login Prevention feature. This firewall functionality will block all login attempts from people and bots.
@@ -147,6 +148,16 @@ http://www.tipsandtricks-hq.com/wordpress-security-and-firewall-plugin
 None
 
 == Changelog ==
+
+= 3.7 =
+- Added new feature - 404 detection. This allows you to log 404 events and block selected IPs. This feature can be found in the Firewall menu.
+- Added new dashboard info box to display number of blocked IP addresses in the lockout table.
+- Fixed bug where user could not access login page when maintenance mode and rename login page features were both active.
+- Tweaked the hotlinking .htaccess directives to cover both http and https.
+- Fixed code to prevent mysql errors due to some variables not having default value in failed login and lockdown tables
+- Replaced deprecated PHP function mysql_query with mysqli.
+- Added language file for Spanish language. The Spanish translation was done by Samuel Montoya.
+- Added code to hide the "DB Prefix" menu for the non-main sites in multi-site installation
 
 = 3.6 =
 - Added a new feature to prevent image hot-linking. (See the "Prevent Hotlinks" tab in the firewall menu)

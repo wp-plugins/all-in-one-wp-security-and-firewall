@@ -31,14 +31,27 @@ class AIOWPSecurity_General_Init_Tasks
             AIOWPSecurity_User_Login::process_unlock_request($unlock_key);
         }
         
+        //For rename login page feature
+        if($aio_wp_security->configs->get_value('aiowps_enable_rename_login_page') == '1'){
+            include_once(AIO_WP_SECURITY_PATH.'/classes/wp-security-process-renamed-login-page.php');
+            $login_object = new AIOWPSecurity_Process_Renamed_Login_Page();
+            AIOWPSecurity_Process_Renamed_Login_Page::renamed_login_init_tasks();
+        }
 
-        //For site lockout feature
+        //For site lockout feature (ie, maintenance mode)
         if($aio_wp_security->configs->get_value('aiowps_site_lockout') == '1'){
             if (!is_user_logged_in() && !current_user_can('administrator') && !is_admin() && !in_array( $GLOBALS['pagenow'], array( 'wp-login.php', 'wp-register.php' ))) {
                 $this->site_lockout_tasks();
             }
         }
         
+        //For 404 IP lockout feature
+        if($aio_wp_security->configs->get_value('aiowps_enable_404_IP_lockout') == '1'){
+            if (!is_user_logged_in() || !current_user_can('administrator')) {
+                $this->do_404_lockout_tasks();
+            }
+        }
+
         //For login captcha feature
         if($aio_wp_security->configs->get_value('aiowps_enable_login_captcha') == '1'){
             if (!is_user_logged_in()) {
@@ -68,14 +81,6 @@ class AIOWPSecurity_General_Init_Tasks
             add_filter( 'preprocess_comment', array(&$this, 'process_comment_post') );
         }
         
-        //For rename login page feature
-        if($aio_wp_security->configs->get_value('aiowps_enable_rename_login_page') == '1'){
-            include_once(AIO_WP_SECURITY_PATH.'/classes/wp-security-process-renamed-login-page.php');
-            $login_object = new AIOWPSecurity_Process_Renamed_Login_Page();
-            AIOWPSecurity_Process_Renamed_Login_Page::renamed_login_init_tasks();
-        }
-        
-
         //For feature which displays logged in users
         $this->update_logged_in_user_transient();
         
@@ -85,6 +90,11 @@ class AIOWPSecurity_General_Init_Tasks
             AIOWPSecurity_Fake_Bot_Protection::block_fake_googlebots();
         }
         
+        
+        //For 404 event logging
+        if($aio_wp_security->configs->get_value('aiowps_enable_404_logging') == '1'){
+            add_action('wp_head', array(&$this, 'check_404_event'));
+        }
         
         //Add more tasks that need to be executed at init time
         
@@ -101,6 +111,22 @@ class AIOWPSecurity_General_Init_Tasks
         remove_action('wp_head','head_addons',7);
         include_once(AIO_WP_SECURITY_PATH.'/other-includes/wp-security-visitor-lockout-page.php');
         exit();
+    }
+
+    function do_404_lockout_tasks(){
+        global $aio_wp_security;
+        $redirect_url = $aio_wp_security->configs->get_value('aiowps_404_lock_redirect_url'); //This is the redirect URL for blocked users
+        
+        $visitor_ip = AIOWPSecurity_Utility_IP::get_user_ip_address();
+        
+        $is_locked = AIOWPSecurity_Utility::check_locked_ip($visitor_ip);
+        
+        if($is_locked){
+            //redirect blocked user to configured URL
+            AIOWPSecurity_Utility::redirect_to_url($redirect_url);
+        }else{
+            //allow through
+        }
     }
 
     function update_logged_in_user_transient(){
@@ -224,7 +250,16 @@ class AIOWPSecurity_General_Init_Tasks
     function add_lostpassword_captcha_error_msg()
     {
         //Insert an error just before the password reset process kicks in
-        return new WP_Error('aiowps_captcha_error',__('<strong>ERROR</strong>: Your answer was incorrect - please try again.', 'aiowpsecurity'));;
+        return new WP_Error('aiowps_captcha_error',__('<strong>ERROR</strong>: Your answer was incorrect - please try again.', 'aiowpsecurity'));
+    }
+    
+    function check_404_event()
+    {
+        if(is_404()){
+            //This means a 404 event has occurred - let's log it!
+            AIOWPSecurity_Utility::event_logger('404');
+        }
+        
     }
     
 }

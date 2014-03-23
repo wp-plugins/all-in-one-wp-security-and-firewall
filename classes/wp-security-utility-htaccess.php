@@ -945,7 +945,7 @@ class AIOWPSecurity_Utility_Htaccess
     /*
      * This function will take a URL string and convert it to a form useful for using in htaccess rules.
      * Example: If URL passed to function = "http://www.mysite.com"
-     * Result = "http://(.*)?mysite\.com"
+     * Result = "http(s)?://(.*)?mysite\.com"
      */
 
     static function return_regularized_url($url)
@@ -964,6 +964,10 @@ class AIOWPSecurity_Utility_Htaccess
                         $y .= '\.'.$x;
                     }
                     $j++;
+                }
+                //Now replace the "http" with "http(s)?" to cover both secure and non-secure
+                if(strpos($y,'http') !== false) {
+                    $y = str_replace('http', 'http(s)?', $y);
                 }
                 return $y;
             }else {

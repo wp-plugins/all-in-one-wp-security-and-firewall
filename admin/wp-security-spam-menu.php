@@ -118,7 +118,7 @@ class AIOWPSecurity_Spam_Menu extends AIOWPSecurity_Admin_Menu
         <div class="aio_blue_box">
             <?php
             echo '<p>'.__('This feature will add a simple math captcha field in the WordPress comments form.', 'aiowpsecurity').
-            '<br />Adding a captcha field in the comment form is a simple way of greatly reducing SPAM comments from bots without using .htaccess rules.</p>';
+            '<br />'.__('Adding a captcha field in the comment form is a simple way of greatly reducing SPAM comments from bots without using .htaccess rules.', 'aiowpsecurity').'</p>';
             ?>
         </div>
         <?php
@@ -151,7 +151,7 @@ class AIOWPSecurity_Spam_Menu extends AIOWPSecurity_Admin_Menu
             <?php
             echo '<p>'.__('A large portion of WordPress blog comment SPAM is mainly produced by automated bots and not necessarily by humans. ', 'aiowpsecurity').
             '<br />'.__('This feature will greatly minimize the useless and unecessary traffic and load on your server resulting from SPAM comments by blocking all comment requests which do not originate from your domain.', 'aiowpsecurity').
-            '<br />In other words, if the comment was not submitted by a human who physically submitted the comment on your site, the request will be blocked.</p>';
+            '<br />'.__('In other words, if the comment was not submitted by a human who physically submitted the comment on your site, the request will be blocked.', 'aiowpsecurity').'</p>';
             ?>
         </div>
         <?php

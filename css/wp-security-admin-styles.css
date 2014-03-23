@@ -123,6 +123,7 @@
 }
 
 .aiowps_more_info_anchor{
+    display: inline-block;
     background-color: #D9D9D9;
     color: #21759B;
     font: 0.9em/1.455em "Lucida Grande","Lucida Sans Unicode",Tahoma,Verdana,sans-serif;

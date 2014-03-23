@@ -13,6 +13,7 @@ class AIOWPSecurity_Firewall_Menu extends AIOWPSecurity_Admin_Menu
         'tab3' => 'render_tab3',
         'tab4' => 'render_tab4',
         'tab5' => 'render_tab5',
+        'tab6' => 'render_tab6',
         );
     
     function __construct() 
@@ -28,6 +29,7 @@ class AIOWPSecurity_Firewall_Menu extends AIOWPSecurity_Admin_Menu
         'tab3' => __('5G Blacklist Firewall Rules', 'aiowpsecurity'),
         'tab4' => __('Internet Bots', 'aiowpsecurity'),
         'tab5' => __('Prevent Hotlinks', 'aiowpsecurity'),    
+        'tab6' => __('404 Detection', 'aiowpsecurity'),    
         );
     }
 
@@ -699,6 +701,168 @@ class AIOWPSecurity_Firewall_Menu extends AIOWPSecurity_Admin_Menu
         </form>
         </div></div>
     <?php
+    }
+    
+    function render_tab6() 
+    {
+        global $aio_wp_security;
+        global $aiowps_feature_mgr;
+        include_once 'wp-security-list-404.php'; //For rendering the AIOWPSecurity_List_Table in tab1
+        $event_list_404 = new AIOWPSecurity_List_404(); //For rendering the AIOWPSecurity_List_Table in tab1
+
+        if(isset($_POST['aiowps_save_404_detect_options']))//Do form submission tasks
+        {
+            $error = '';
+            $nonce=$_REQUEST['_wpnonce'];
+            if (!wp_verify_nonce($nonce, 'aiowpsec-404-detection-nonce'))
+            {
+                $aio_wp_security->debug_logger->log_debug("Nonce check failed on 404 detection options save!",4);
+                die("Nonce check failed on 404 detection options save!");
+            }
+            
+            /*** Currently the aiowps_enable_404_IP_lockout option is automatically enabled when the aiowps_enable_404_IP_lockout option is enabled. ***/
+            //$aio_wp_security->configs->set_value('aiowps_enable_404_logging',isset($_POST["aiowps_enable_404_logging"])?'1':'');
+            $aio_wp_security->configs->set_value('aiowps_enable_404_logging',isset($_POST["aiowps_enable_404_IP_lockout"])?'1':'');
+            $aio_wp_security->configs->set_value('aiowps_enable_404_IP_lockout',isset($_POST["aiowps_enable_404_IP_lockout"])?'1':'');
+            
+            $lockout_time_length = isset($_POST['aiowps_404_lockout_time_length'])?sanitize_text_field($_POST['aiowps_404_lockout_time_length']):'';
+            if(!is_numeric($lockout_time_length))
+            {
+                $error .= '<br />'.__('You entered a non numeric value for the lockout time length field. It has been set to the default value.','aiowpsecurity');
+                $lockout_time_length = '60';//Set it to the default value for this field
+            }
+
+            $redirect_url = isset($_POST['aiowps_404_lock_redirect_url'])?trim($_POST['aiowps_404_lock_redirect_url']):'';
+            if ($redirect_url == '' || esc_url($redirect_url, array('http', 'https')) == ''){
+                $error .= '<br />'.__('You entered an incorrect format for the "Redirect URL" field. It has been set to the default value.','aiowpsecurity');
+                $redirect_url = 'http://127.0.0.1';
+            }
+            
+            if($error)
+            {
+                $this->show_msg_error(__('Attention!','aiowpsecurity').$error);
+            }
+            
+            $aio_wp_security->configs->set_value('aiowps_404_lockout_time_length',absint($lockout_time_length));
+            $aio_wp_security->configs->set_value('aiowps_404_lock_redirect_url',$redirect_url);
+            $aio_wp_security->configs->save_config();
+            
+            //Recalculate points after the feature status/options have been altered
+            $aiowps_feature_mgr->check_feature_status_and_recalculate_points();
+            
+            $this->show_msg_settings_updated();
+        }
+        
+                
+        if(isset($_REQUEST['action'])) //Do list table form row action tasks
+        {
+            if($_REQUEST['action'] == 'temp_block'){ //Temp Block link was clicked for a row in list table
+                $username = isset($_REQUEST['username'])?strip_tags($_REQUEST['ip_address']):'';
+                $event_list_404->block_ip(strip_tags($_REQUEST['ip_address']), $username);
+            }
+            
+            if($_REQUEST['action'] == 'delete_event_log'){ //Unlock link was clicked for a row in list table
+                $event_list_404->delete_404_event_records(strip_tags($_REQUEST['id']));
+            }
+        }
+        ?>
+        <h2><?php _e('404 Detection Configuration', 'aiowpsecurity')?></h2>
+        <div class="aio_blue_box">
+            <?php
+            echo '<p>'.__('A 404 or Not Found error occurs when somebody tries to access a non-existent page on your website.', 'aiowpsecurity').'
+                <br />'.__('Typically, most 404 errors happen quite innocently when people have mis-typed a URL or used an old link to page which doesn\'t exist anymore.', 'aiowpsecurity').'
+                <br />'.__('However, in some cases you may find many repeated 404 errors which occur in a relatively short space of time and from the same IP address which are all attempting to access a variety of non-existent page URLs.', 'aiowpsecurity').'
+                <br />'.__('Such behaviour can mean that a hacker might be trying to find a particular page or URL for sinister reasons.', 'aiowpsecurity').'
+                <br /><br />'.__('This feature allows you to monitor all 404 events which occur on your site, and it also gives you the option of blocking IP addresses for a configured length of time.', 'aiowpsecurity').'
+                <br />'.__('If you want to temporarily block an IP address, simply click the "Temp Block" link for the applicable IP entry in the "404 Event Logs" table below.', 'aiowpsecurity').'</p>';
+            ?>
+        </div>
+
+        <div class="postbox">
+        <h3><label for="title"><?php _e('404 Detection Options', 'aiowpsecurity'); ?></label></h3>
+        <div class="inside">
+        <?php
+        //Display security info badge
+        global $aiowps_feature_mgr;
+        $aiowps_feature_mgr->output_feature_details_badge("firewall-enable-404-blocking");
+        ?>
+
+        <form action="" method="POST">
+        <?php wp_nonce_field('aiowpsec-404-detection-nonce'); ?>
+        <table class="form-table">
+            <tr valign="top">
+                <th scope="row"><?php _e('Enable IP Lockout For 404 Events', 'aiowpsecurity')?>:</th>                
+                <td>
+                <input name="aiowps_enable_404_IP_lockout" type="checkbox"<?php if($aio_wp_security->configs->get_value('aiowps_enable_404_IP_lockout')=='1') echo ' checked="checked"'; ?> value="1"/>
+                <span class="description"><?php _e('Check this if you want to enable the lockout of selected IP addresses.', 'aiowpsecurity'); ?></span>
+                <span class="aiowps_more_info_anchor"><span class="aiowps_more_info_toggle_char">+</span><span class="aiowps_more_info_toggle_text"><?php _e('More Info', 'aiowpsecurity'); ?></span></span>
+                <div class="aiowps_more_info_body">
+                    <p class="description">
+                        <?php 
+                        _e('When you enable this checkbox, all 404 events on your site will be logged in the table below. You can monitor these events and select some IP addresses to be blocked in the table. All IP addresses you select to be blocked from the "404 Event Logs" table section will be unable to access your site.', 'aiowpsecurity');
+                        ?>
+                    </p>
+                </div>
+                </td>
+            </tr>
+            <!-- currenty this option is automatically set when the aiowps_enable_404_IP_lockout feature is turned on
+            <tr valign="top">
+                <th scope="row"><?php _e('Enable 404 Event Logging', 'aiowpsecurity')?>:</th>                
+                <td>
+                <input name="aiowps_enable_404_logging" type="checkbox"<?php if($aio_wp_security->configs->get_value('aiowps_enable_404_logging')=='1') echo ' checked="checked"'; ?> value="1"/>
+                <span class="description"><?php _e('Check this if you want to enable the logging of 404 events', 'aiowpsecurity'); ?></span>
+                </td>
+            </tr>
+            -->
+            <tr valign="top">
+                <th scope="row"><?php _e('Time Length of 404 Lockout (min)', 'aiowpsecurity')?>:</th>
+                <td><input type="text" size="5" name="aiowps_404_lockout_time_length" value="<?php echo $aio_wp_security->configs->get_value('aiowps_404_lockout_time_length'); ?>" />
+                <span class="description"><?php _e('Set the length of time for which a blocked IP address will be prevented from visiting your site', 'aiowpsecurity'); ?></span>
+                <span class="aiowps_more_info_anchor"><span class="aiowps_more_info_toggle_char">+</span><span class="aiowps_more_info_toggle_text"><?php _e('More Info', 'aiowpsecurity'); ?></span></span>
+                <div class="aiowps_more_info_body">
+                    <p class="description">
+                        <?php 
+                        _e('You can lock any IP address which is recorded in the "404 Event Logs" table section below.', 'aiowpsecurity');
+                        echo '<br />';
+                        _e('To temporarily lock an IP address, hover over the ID column and click the "Temp Block" link for the applicable IP entry.', 'aiowpsecurity');
+                        ?>
+                    </p>
+                </div>
+                </td> 
+            </tr>
+            <tr valign="top">
+                <th scope="row"><?php _e('404 Lockout Redirect URL', 'aiowpsecurity')?>:</th>
+                <td><input type="text" size="50" name="aiowps_404_lock_redirect_url" value="<?php echo $aio_wp_security->configs->get_value('aiowps_404_lock_redirect_url'); ?>" />
+                <span class="description"><?php _e('A blocked visitor will be automatically redirected to this URL.', 'aiowpsecurity'); ?></span>
+                </td> 
+            </tr>
+        </table>
+        <input type="submit" name="aiowps_save_404_detect_options" value="<?php _e('Save Settings', 'aiowpsecurity')?>" class="button-primary" />
+            
+        </form>
+        </div></div>
+        <div class="postbox">
+        <h3><label for="title"><?php _e('404 Event Logs', 'aiowpsecurity'); ?></label></h3>
+        <div class="inside">
+            <?php 
+            //Fetch, prepare, sort, and filter our data...
+            $event_list_404->prepare_items();
+            //echo "put table of locked entries here"; 
+            ?>
+            <form id="tables-filter" method="get" onSubmit="return confirm('Are you sure you want to perform this bulk operation on the selected entries?');">
+            <!-- For plugins, we also need to ensure that the form posts back to our current page -->
+            <input type="hidden" name="page" value="<?php echo $_REQUEST['page']; ?>" />
+            <?php
+            if(isset($_REQUEST["tab"]))
+            {
+                echo '<input type="hidden" name="tab" value="'.$_REQUEST["tab"].'" />';
+            }
+            ?>
+            <!-- Now we can render the completed list table -->
+            <?php $event_list_404->display(); ?>
+            </form>
+        </div></div>
+        <?php
     }
     
 } //end class

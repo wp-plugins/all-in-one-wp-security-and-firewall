@@ -19,10 +19,19 @@ class AIOWPSecurity_Database_Menu extends AIOWPSecurity_Admin_Menu
     
     function set_menu_tabs() 
     {
-        $this->menu_tabs = array(
-        'tab1' => __('DB Prefix', 'aiowpsecurity'), 
-        'tab2' => __('DB Backup', 'aiowpsecurity'),
-        );
+        if (AIOWPSecurity_Utility::is_multisite_install() && get_current_blog_id() != 1){
+            //Suppress the DB prefix change tab if site is a multi site AND not the main site
+            $this->menu_tabs = array(
+            //'tab1' => __('DB Prefix', 'aiowpsecurity'), 
+            'tab2' => __('DB Backup', 'aiowpsecurity'),
+            );
+        }else{
+            $this->menu_tabs = array(
+            'tab1' => __('DB Prefix', 'aiowpsecurity'), 
+            'tab2' => __('DB Backup', 'aiowpsecurity'),
+            );
+        }
+        
     }
     
     function get_current_tab() 
@@ -507,19 +516,28 @@ class AIOWPSecurity_Database_Menu extends AIOWPSecurity_Admin_Menu
     
     /**
     * This is an alternative to the deprecated "mysql_list_tables"
+    * Returns an array of table names
     */
     function get_mysql_tables($database='')
     {
+        global $aio_wp_security;
         $tables = array();
         $list_tables_sql = "SHOW TABLES FROM {$database};";
-        $result = mysql_query($list_tables_sql);
-        if($result)
-        {
-            while($table = mysql_fetch_row($result))
-            {
-                $tables[] = $table[0];
+        $mysqli = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
+        
+        if ($mysqli->connect_errno) {
+            $aio_wp_security->debug_logger->log_debug("AIOWPSecurity_Database_Menu->get_mysql_tables() - DB connection error.",4);
+            return false;
+        }
+        
+        if ($result = $mysqli->query($list_tables_sql, MYSQLI_USE_RESULT)) {
+            $temp = $result->fetch_all();
+            foreach($temp as $res){
+                $tables[] = $res[0];
             }
         }
+        $result->close();
+        $mysqli->close();        
         return $tables;
     }
     

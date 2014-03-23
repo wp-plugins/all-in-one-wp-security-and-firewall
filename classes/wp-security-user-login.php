@@ -63,7 +63,7 @@ class AIOWPSecurity_User_Login
                     {
                         if($login_attempts_permitted <= $this->get_login_fail_count())
                         {
-                            $this->lock_the_user($username);
+                            $this->lock_the_user($username, 'login_fail');
                         }
                         else
                         {
@@ -98,7 +98,7 @@ class AIOWPSecurity_User_Login
             {
                 if($login_attempts_permitted <= $this->get_login_fail_count()  || $aio_wp_security->configs->get_value('aiowps_enable_invalid_username_lockdown')=='1')
                 {
-                    $this->lock_the_user($username);
+                    $this->lock_the_user($username, 'login_fail');
                 }
             }
             if($aio_wp_security->configs->get_value('aiowps_set_generic_login_msg')=='1')
@@ -124,7 +124,7 @@ class AIOWPSecurity_User_Login
             {
                 if($login_attempts_permitted <= $this->get_login_fail_count())
                 {
-                    $this->lock_the_user($username);
+                    $this->lock_the_user($username, 'login_fail');
                 }
             }
             if($aio_wp_security->configs->get_value('aiowps_set_generic_login_msg')=='1')
@@ -188,7 +188,7 @@ class AIOWPSecurity_User_Login
     /*
      * Adds an entry to the aiowps_lockdowns table
      */
-    function lock_the_user($username='')
+    function lock_the_user($username='', $lock_reason='login_fail')
     {
         global $wpdb, $aio_wp_security;
         $login_lockdown_table = AIOWPSEC_TBL_LOGIN_LOCKDOWN;
@@ -207,9 +207,9 @@ class AIOWPSecurity_User_Login
             $user_id = '';
         }
         $ip_range_str = esc_sql($ip_range).'.*';
-        $insert = "INSERT INTO " . $login_lockdown_table . " (user_id, user_login, lockdown_date, release_date, failed_login_IP) " .
+        $insert = "INSERT INTO " . $login_lockdown_table . " (user_id, user_login, lockdown_date, release_date, failed_login_IP, lock_reason) " .
                         "VALUES ('" . $user_id . "', '" . $username . "', now(), date_add(now(), INTERVAL " .
-                        $lockout_time_length . " MINUTE), '" . $ip_range_str . "')";
+                        $lockout_time_length . " MINUTE), '" . $ip_range_str . "', '" . $lock_reason . "')";
         $result = $wpdb->query($insert);
         if ($result > 0)
         {
@@ -243,7 +243,7 @@ class AIOWPSecurity_User_Login
             $user_id = $user->ID;
         } else {
             //If the login attempt was made using a non-existent user then let's set user_id to blank and record the attempted user login name for DB storage later on
-            $user_id = '';
+            $user_id = 0;
         }
         $ip_range_str = esc_sql($ip_range).'.*';
         $insert = "INSERT INTO " . $login_fails_table . " (user_id, user_login, failed_login_date, login_attempt_ip) " .

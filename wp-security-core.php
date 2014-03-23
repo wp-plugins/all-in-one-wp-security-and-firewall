@@ -3,8 +3,8 @@
 if (!class_exists('AIO_WP_Security')){
 
 class AIO_WP_Security{
-    var $version = '3.6';
-    var $db_version = '1.4';
+    var $version = '3.7';
+    var $db_version = '1.6';
     var $plugin_url;
     var $plugin_path;
     var $configs;
@@ -78,6 +78,7 @@ class AIO_WP_Security{
         define('AIOWPSEC_TBL_FAILED_LOGINS', $wpdb->prefix . 'aiowps_failed_logins');
         define('AIOWPSEC_TBL_USER_LOGIN_ACTIVITY', $wpdb->prefix . 'aiowps_login_activity');
         define('AIOWPSEC_TBL_GLOBAL_META_DATA', $wpdb->prefix . 'aiowps_global_meta');
+        define('AIOWPSEC_TBL_EVENTS', $wpdb->prefix . 'aiowps_events');
 
     }
 

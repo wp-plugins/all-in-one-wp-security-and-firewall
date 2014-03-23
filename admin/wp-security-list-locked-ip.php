@@ -18,11 +18,11 @@ class AIOWPSecurity_List_Locked_IP extends AIOWPSecurity_List_Table {
     }
         
     function column_failed_login_ip($item){
-        //$tab = strip_tags($_REQUEST['tab']);
+        $tab = isset($_REQUEST['tab'])?strip_tags($_REQUEST['tab']):'';
         //Build row actions
         $actions = array(
-            'unlock' => sprintf('<a href="admin.php?page=%s&action=%s&lockdown_id=%s" onclick="return confirm(\'Are you sure you want to unlock this address range?\')">Unlock</a>',AIOWPSEC_USER_LOGIN_MENU_SLUG,'unlock_ip',$item['id']),
-            'delete' => sprintf('<a href="admin.php?page=%s&action=%s&lockdown_id=%s" onclick="return confirm(\'Are you sure you want to delete this item?\')">Delete</a>',AIOWPSEC_USER_LOGIN_MENU_SLUG,'delete_blocked_ip',$item['id']),
+            'unlock' => sprintf('<a href="admin.php?page=%s&tab=%s&action=%s&lockdown_id=%s" onclick="return confirm(\'Are you sure you want to unlock this address range?\')">Unlock</a>',AIOWPSEC_MAIN_MENU_SLUG,$tab,'unlock_ip',$item['id']),
+            'delete' => sprintf('<a href="admin.php?page=%s&tab=%s&action=%s&lockdown_id=%s" onclick="return confirm(\'Are you sure you want to delete this item?\')">Delete</a>',AIOWPSEC_USER_LOGIN_MENU_SLUG,$tab,'delete_blocked_ip',$item['id']),
         );
         
         //Return the user_login contents
@@ -44,9 +44,10 @@ class AIOWPSecurity_List_Locked_IP extends AIOWPSecurity_List_Table {
     function get_columns(){
         $columns = array(
             'cb' => '<input type="checkbox" />', //Render a checkbox
-            'failed_login_ip' => 'Locked IP Range',
+            'failed_login_ip' => 'Locked IP/Range',
             'user_id' => 'User ID',
             'user_login' => 'Username',
+            'lock_reason' => 'Reason',
             'lockdown_date' => 'Date Locked',
             'release_date' => 'Release Date'
         );
@@ -58,6 +59,7 @@ class AIOWPSecurity_List_Locked_IP extends AIOWPSecurity_List_Table {
             'failed_login_ip' => array('failed_login_ip',false),
             'user_id' => array('user_id',false),
             'user_login' => array('user_login',false),
+            'lock_reason' => array('lock_reason',false),
             'lockdown_date' => array('lockdown_date',false),
             'release_date' => array('release_date',false)
         );
@@ -112,7 +114,7 @@ class AIOWPSecurity_List_Locked_IP extends AIOWPSecurity_List_Table {
             $result = $wpdb->query($unlock_command);
             if($result != NULL)
             {
-                AIOWPSecurity_Admin_Menu::show_msg_updated_st(__('The selected IP ranges were unlocked successfully!','aiowpsecurity'));
+                AIOWPSecurity_Admin_Menu::show_msg_updated_st(__('The selected IP entries were unlocked successfully!','aiowpsecurity'));
             }
         } elseif ($entries != NULL)
         {
@@ -121,7 +123,7 @@ class AIOWPSecurity_List_Locked_IP extends AIOWPSecurity_List_Table {
             $result = $wpdb->query($unlock_command);
             if($result != NULL)
             {
-                AIOWPSecurity_Admin_Menu::show_msg_updated_st(__('The selected IP range was unlocked successfully!','aiowpsecurity'));
+                AIOWPSecurity_Admin_Menu::show_msg_updated_st(__('The selected IP entry was unlocked successfully!','aiowpsecurity'));
             }
         }
     }

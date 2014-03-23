@@ -80,6 +80,12 @@ class AIOWPSecurity_Configure_Settings
         $aio_wp_security->configs->set_value('aiowps_cookie_based_brute_force_redirect_url','http://127.0.0.1');
         $aio_wp_security->configs->set_value('aiowps_brute_force_attack_prevention_pw_protected_exception','');//Checkbox
         $aio_wp_security->configs->set_value('aiowps_brute_force_attack_prevention_ajax_exception','');//Checkbox
+        
+        //404 detection
+        $aio_wp_security->configs->set_value('aiowps_enable_404_logging','');//Checkbox
+        $aio_wp_security->configs->set_value('aiowps_enable_404_IP_lockout','');//Checkbox
+        $aio_wp_security->configs->set_value('aiowps_404_lockout_time_length','60');
+        $aio_wp_security->configs->set_value('aiowps_404_lock_redirect_url','http://127.0.0.1');
 
         //Brute Force features
         $aio_wp_security->configs->set_value('aiowps_enable_rename_login_page','');//Checkbox
@@ -185,6 +191,12 @@ class AIOWPSecurity_Configure_Settings
         $aio_wp_security->configs->add_value('aiowps_brute_force_attack_prevention_pw_protected_exception','');//Checkbox
         $aio_wp_security->configs->add_value('aiowps_brute_force_attack_prevention_ajax_exception','');//Checkbox
 
+        //404 detection
+        $aio_wp_security->configs->add_value('aiowps_enable_404_logging','');//Checkbox
+        $aio_wp_security->configs->add_value('aiowps_enable_404_IP_lockout','');//Checkbox
+        $aio_wp_security->configs->add_value('aiowps_404_lockout_time_length','60');
+        $aio_wp_security->configs->add_value('aiowps_404_lock_redirect_url','http://127.0.0.1');
+        
         //Brute Force features
         $aio_wp_security->configs->add_value('aiowps_enable_rename_login_page','');//Checkbox
         
@@ -237,6 +249,10 @@ class AIOWPSecurity_Configure_Settings
         $aio_wp_security->configs->set_value('aiowps_prevent_default_wp_file_access','');//Checkbox
         
         $aio_wp_security->configs->set_value('aiowps_enable_spambot_blocking','');//Checkbox
+        
+        //404 detection
+        $aio_wp_security->configs->set_value('aiowps_enable_404_logging','');//Checkbox
+        $aio_wp_security->configs->set_value('aiowps_enable_404_IP_lockout','');//Checkbox
         
         $aio_wp_security->configs->save_config();
     }
