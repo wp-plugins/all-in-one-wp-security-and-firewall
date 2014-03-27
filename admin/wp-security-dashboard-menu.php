@@ -389,7 +389,7 @@ class AIOWPSecurity_Dashboard_Menu extends AIOWPSecurity_Admin_Menu
         <h3><label for="title"><?php _e('Logged In Users', 'aiowpsecurity');?></label></h3>
         <div class="inside">        
         <?php
-        $users_online_link = '<a href="admin.php?page='.AIOWPSEC_USER_LOGIN_MENU_SLUG.'&tab=tab7">Logged In Users</a>';
+        $users_online_link = '<a href="admin.php?page='.AIOWPSEC_USER_LOGIN_MENU_SLUG.'&tab=tab5">Logged In Users</a>';
         if (AIOWPSecurity_Utility::is_multisite_install())
         {
             $logged_in_users = get_site_transient('users_online');

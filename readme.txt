@@ -4,7 +4,7 @@ Donate link: http://www.tipsandtricks-hq.com
 Tags: security, secure, Anti Virus, antivirus, ban, ban hacker, virus, firewall, firewall security, login, lockdown, htaccess, hack, malware, vulnerability, protect, protection, phishing, database, backup, plugin, sql injection, ssl, restrict, login captcha, bot, hotlink, 404 detection,
 Requires at least: 3.5
 Tested up to: 3.8.1
-Stable tag: 3.7
+Stable tag: 3.7.1
 License: GPLv3
 
 A comprehensive, user-friendly, all in one WordPress security and firewall plugin for your site.
@@ -148,6 +148,10 @@ http://www.tipsandtricks-hq.com/wordpress-security-and-firewall-plugin
 None
 
 == Changelog ==
+
+= 3.7.1 =
+- Fixed a minor bug: dashboard link was pointing to the wrong tab for the "Logged In Users" tab.
+- Fix a bug with the login page captcha. The captcha wansn't shown if the rename login page feature was enabled at the same time.
 
 = 3.7 =
 - Added new feature - 404 detection. This allows you to log 404 events and block selected IPs. This feature can be found in the Firewall menu.
