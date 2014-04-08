@@ -1,10 +1,10 @@
 === All In One WP Security & Firewall ===
 Contributors: Tips and Tricks HQ, wpsolutions, Peter Petreski, Ruhul Amin 
 Donate link: http://www.tipsandtricks-hq.com
-Tags: security, secure, Anti Virus, antivirus, ban, ban hacker, virus, firewall, firewall security, login, lockdown, htaccess, hack, malware, vulnerability, protect, protection, phishing, database, backup, plugin, sql injection, ssl, restrict, login captcha, bot, hotlink, 404 detection,
+Tags: security, secure, Anti Virus, antivirus, ban, ban hacker, virus, firewall, firewall security, login, lockdown, htaccess, hack, malware, vulnerability, protect, protection, phishing, database, backup, plugin, sql injection, ssl, restrict, login captcha, bot, hotlink, 404 detection, admin, rename,
 Requires at least: 3.5
 Tested up to: 3.8.1
-Stable tag: 3.7.1
+Stable tag: 3.7.2
 License: GPLv3
 
 A comprehensive, user-friendly, all in one WordPress security and firewall plugin for your site.
@@ -92,7 +92,7 @@ or malicious bots who do not have a special cookie in their browser. You (the si
 = Brute force login attack prevention =
 * Instantly block Brute Force Login Attacks via our special Cookie-Based Brute Force Login Prevention feature. This firewall functionality will block all login attempts from people and bots.
 * Ability to add a simple math captcha to the WordPress login form to fight against brute force login attacks.
-* Rename your WordPress login page URL so that bots and hackers cannot access your real WordPress login URL. This feature allows you to change the default login page (wp-login.php) to something you configure.
+* Ability to hide admin login page. Rename your WordPress login page URL so that bots and hackers cannot access your real WordPress login URL. This feature allows you to change the default login page (wp-login.php) to something you configure.
 
 = WhoIs Lookup =
 * Perform a WhoIs lookup of a suspicious host or IP address and get full details.
@@ -149,6 +149,14 @@ None
 
 == Changelog ==
 
+= 3.7.2 =
+- Added a PHP Info section in the system info interface to show some important PHP details of the server.
+- Added a filter to allow the user to have a custom translation in a place (which will be loaded instead of the default one from the plugin). This change was submitted by Samuel Aguilera.
+- Replaced myslqi fetch_all method with fetch_assoc to cover cases where some servers do not have the correct mysql drivers.
+- Added a new filter to allow manipulation of the htaccess rules from your custom code. The name of the filter is 'aiowps_htaccess_rules_before_writing'.
+- Added a "Delete All 404 Event Logs" button to purge all 404 logs from DB
+- Added code to automatically send an email to the registrant when an account has been manually "Approved" from the User Registration menu.
+
 = 3.7.1 =
 - Fixed a minor bug: dashboard link was pointing to the wrong tab for the "Logged In Users" tab.
 - Fix a bug with the login page captcha. The captcha wansn't shown if the rename login page feature was enabled at the same time.
@@ -183,7 +191,7 @@ None
 = 3.4 =
 - Consolidated "Brute Force" features by moving all such features to the "Brute Force" menu.
 - Improved the file change detection scan feature: Introduced a button allowing admin to view the file change results from the last scan and fixed small bug whereby the change detected flag was not being cleared for applicable cases.
-- Fixed a small bug with "rename login page" feature.
+- Fixed a small bug with "rename login page" (hide admin login) feature.
 - Made wp-config.php and .htaccess file backups more secure. Thanks to @TheAssurer for the tip.
 - Made the login code more robust by catering for cases where the "wp_login" action was not passing 2 parameters.
 

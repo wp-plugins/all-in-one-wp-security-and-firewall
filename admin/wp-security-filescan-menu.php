@@ -350,7 +350,6 @@ class AIOWPSecurity_Filescan_Menu extends AIOWPSecurity_Admin_Menu
             '<p>'.__('This is why we have created an easy-to-use scanning service which is hosted off our own server which will scan your site for malware once every day and notify you if it finds anything.', 'aiowpsecurity').'</p>';
             echo '<p>'.__('When you sign up for this service you will get the following:', 'aiowpsecurity').'</p>';
             echo '<ul class="aiowps_admin_ul_grp1">
-                <li>'.__('Free for the First 14 Days (zero risk)','aiowpsecurity').'</li>
                 <li>'.__('Automatic Daily Scan of 1 Website','aiowpsecurity').'</li>
                 <li>'.__('Automatic Malware & Blacklist Monitoring','aiowpsecurity').'</li>
                 <li>'.__('Automatic Email Alerting','aiowpsecurity').'</li>

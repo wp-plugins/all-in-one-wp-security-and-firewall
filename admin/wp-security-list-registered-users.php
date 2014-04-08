@@ -104,6 +104,8 @@ class AIOWPSecurity_List_Registered_Users extends AIOWPSecurity_List_Table {
         global $wpdb, $aio_wp_security;
         $meta_key = 'aiowps_account_status';
         $meta_value = 'approved'; //set account status
+        $failed_accts = ''; //string to store comma separated accounts which failed to update
+        $at_least_one_updated = false;
         if (is_array($entries))
         {
             //Let's go through each entry and approve
@@ -112,10 +114,30 @@ class AIOWPSecurity_List_Registered_Users extends AIOWPSecurity_List_Table {
                 $result = update_user_meta($user_id, $meta_key, $meta_value);
                 if($result === false)
                 {
+                    $failed_accts .= ' '.$user_id.',';
                     $aio_wp_security->debug_logger->log_debug("AIOWPSecurity_List_Registered_Users::approve_selected_accounts() - could not approve account ID: $user_id",4);
+                }else{
+                    $at_least_one_updated = true;
+                    $user = get_user_by('id', $user_id);
+                    if($user === false){
+                        //don't send mail
+                    }else{
+                        //TODO send email to account holder
+                        $to_email_address = $user->user_email;
+                        $subject = '['.get_option('siteurl').'] '. __('Your account is now active','aiowpsecurity');
+                        $email_msg .= __('Your account with username:','aiowpsecurity').$user->ID." is now active.\n";
+                        $email_header = 'From: '.get_bloginfo( 'name' ).' <'.get_bloginfo('admin_email').'>' . "\r\n\\";
+                        $sendMail = wp_mail($to_email_address, $subject, $email_msg, $email_header);
+                    }
                 }
             }
-            AIOWPSecurity_Admin_Menu::show_msg_updated_st(__('The selected accounts were approved successfully!','aiowpsecurity'));
+            if ($at_least_one_updated){
+                AIOWPSecurity_Admin_Menu::show_msg_updated_st(__('The selected accounts were approved successfully!','aiowpsecurity'));
+            }
+            if ($failed_accts != ''){//display any failed account updates
+                rtrim($failed_accts);
+                AIOWPSecurity_Admin_Menu::show_msg_error_st(__('The following accounts failed to update successfully: ','aiowpsecurity').$failed_accts);
+            }
         } elseif ($entries != NULL)
         {
             //Approve single account
@@ -123,6 +145,14 @@ class AIOWPSecurity_List_Registered_Users extends AIOWPSecurity_List_Table {
             if($result)
             {
                 AIOWPSecurity_Admin_Menu::show_msg_updated_st(__('The selected account was approved successfully!','aiowpsecurity'));
+                //TODO send email to account holder
+                $user = get_user_by('id', $entries);
+                $to_email_address = $user->user_email;
+                $subject = '['.get_option('siteurl').'] '. __('Your account is now active','aiowpsecurity');
+                $email_msg .= __('Your account with username: ','aiowpsecurity').$user->user_login." is now active.\n";
+                $email_header = 'From: '.get_bloginfo( 'name' ).' <'.get_bloginfo('admin_email').'>' . "\r\n\\";
+                $sendMail = wp_mail($to_email_address, $subject, $email_msg, $email_header);
+                
             }else if($result === false){
                 $aio_wp_security->debug_logger->log_debug("AIOWPSecurity_List_Registered_Users::approve_selected_accounts() - could not approve account ID: $user_id",4);
             }

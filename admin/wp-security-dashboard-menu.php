@@ -462,7 +462,7 @@ class AIOWPSecurity_Dashboard_Menu extends AIOWPSecurity_Admin_Menu
         <h3><label for="title"><?php _e('Spread the Word', 'aiowpsecurity');?></label></h3>
         <div class="inside">
         
-        <p><?php _e('We are working to make your WordPress site more secure. Please support us, here is how:', 'aiowpsecurity');?></p>
+        <p><?php _e('We are working hard to make your WordPress site more secure. Please support us, here is how:', 'aiowpsecurity');?></p>
         <p>
             <a href="https://plus.google.com/102469783420435518783/" target="_blank">Follow us on Google+</a>
         </p>
@@ -470,7 +470,7 @@ class AIOWPSecurity_Dashboard_Menu extends AIOWPSecurity_Admin_Menu
             <a href="http://twitter.com/intent/tweet?url=http://www.tipsandtricks-hq.com/wordpress-security-and-firewall-plugin&text=I love the All In One WP Security and Firewall plugin!" target="_blank" class="aio_tweet_link">Post to Twitter</a>
         </p>
         <p>
-            <a href="http://wordpress.org/support/view/plugin-reviews/all-in-one-wp-security-and-firewall/" target="_blank" class="aio_rate_us_link">Vote & Rate Now</a>
+            <a href="http://wordpress.org/support/view/plugin-reviews/all-in-one-wp-security-and-firewall/" target="_blank" class="aio_rate_us_link">Give us a Good Rating</a>
         </p>
         
         </div></div>
@@ -500,7 +500,82 @@ class AIOWPSecurity_Dashboard_Menu extends AIOWPSecurity_Admin_Menu
 	<strong><?php _e('Cookie Domain', 'aiowpsecurity');?>: </strong><code><?php $cookieDomain = parse_url( strtolower( get_bloginfo('wpurl') ) ); echo $cookieDomain['host']; ?></code><br />
 	<strong>CURL <?php _e('Library Present', 'aiowpsecurity');?>: </strong><code><?php echo (function_exists('curl_init')) ? "Yes" : "No"; ?></code><br />
 	<strong><?php _e('Debug File Write Permissions', 'aiowpsecurity');?>: </strong><code><?php echo (is_writable(AIO_WP_SECURITY_PATH)) ? "Writable" : "Not Writable"; ?></code><br />
-        </div></div>
+        </div></div><!-- End of Site Info -->
+        
+        <div class="postbox">
+        <h3><label for="title"><?php _e('PHP Info', 'aiowpsecurity');?></label></h3>
+        <div class="inside">
+        <strong><?php _e('PHP Version', 'aiowpsecurity'); ?>: </strong><code><?php echo PHP_VERSION; ?></code><br />
+        <strong><?php _e('PHP Memory Usage', 'aiowpsecurity'); ?>:
+        </strong><code><?php echo round(memory_get_usage() / 1024 / 1024, 2) . __(' MB', 'aiowpsecurity'); ?></code>
+        <br />
+        <?php
+        if (ini_get('memory_limit')) {
+            $memory_limit = filter_var(ini_get('memory_limit'), FILTER_SANITIZE_STRING);
+        } else {
+            $memory_limit = __('N/A', 'aiowpsecurity');
+        }
+        ?>
+        <strong><?php _e('PHP Memory Limit', 'aiowpsecurity'); ?>: </strong><code><?php echo $memory_limit; ?></code><br />
+        <?php
+        if (ini_get('upload_max_filesize')) {
+            $upload_max = filter_var(ini_get('upload_max_filesize'), FILTER_SANITIZE_STRING);
+        } else {
+            $upload_max = __('N/A', 'aiowpsecurity');
+        }
+        ?>
+        <strong><?php _e('PHP Max Upload Size', 'aiowpsecurity'); ?>: </strong><code><?php echo $upload_max; ?></code><br />
+        <?php
+        if (ini_get('post_max_size')) {
+            $post_max = filter_var(ini_get('post_max_size'), FILTER_SANITIZE_STRING);
+        } else {
+            $post_max = __('N/A', 'aiowpsecurity');
+        }
+        ?>
+        <strong><?php _e('PHP Max Post Size', 'aiowpsecurity'); ?>: </strong><code><?php echo $post_max; ?></code><br />
+        <?php
+        if (ini_get('safe_mode')) {
+            $safe_mode = __('On', 'aiowpsecurity');
+        } else {
+            $safe_mode = __('Off', 'aiowpsecurity');
+        }
+        ?>
+        <strong><?php _e('PHP Safe Mode', 'aiowpsecurity'); ?>: </strong><code><?php echo $safe_mode; ?></code><br />
+        <?php
+        if (ini_get('allow_url_fopen')) {
+            $allow_url_fopen = __('On', 'aiowpsecurity');
+        } else {
+            $allow_url_fopen = __('Off', 'aiowpsecurity');
+        }
+        ?>
+        <strong><?php _e('PHP Allow URL fopen', 'aiowpsecurity'); ?>: </strong><code><?php echo $allow_url_fopen; ?></code>
+        <br />
+        <?php
+        if (ini_get('allow_url_include')) {
+            $allow_url_include = __('On', 'aiowpsecurity');
+        } else {
+            $allow_url_include = __('Off', 'aiowpsecurity');
+        }
+        ?>
+        <strong><?php _e('PHP Allow URL Include'); ?>: </strong><code><?php echo $allow_url_include; ?></code><br />
+        <?php
+        if (ini_get('display_errors')) {
+            $display_errors = __('On', 'aiowpsecurity');
+        } else {
+            $display_errors = __('Off', 'aiowpsecurity');
+        }
+        ?>
+        <strong><?php _e('PHP Display Errors', 'aiowpsecurity'); ?>: </strong><code><?php echo $display_errors; ?></code>
+        <br />
+        <?php
+        if (ini_get('max_execution_time')) {
+            $max_execute = filter_var(ini_get('max_execution_time'));
+        } else {
+            $max_execute = __('N/A', 'aiowpsecurity');
+        }
+        ?>
+        <strong><?php _e('PHP Max Script Execution Time', 'aiowpsecurity'); ?>: </strong><code><?php echo $max_execute; ?> <?php _e('Seconds'); ?></code><br />  
+        </div></div><!-- End of PHP Info -->
         
         <div class="postbox">
         <h3><label for="title"><?php _e('Active Plugins', 'aiowpsecurity');?></label></h3>
@@ -528,7 +603,7 @@ class AIOWPSecurity_Dashboard_Menu extends AIOWPSecurity_Admin_Menu
         ?>
         </tbody>
         </table>
-        </div></div>
+        </div></div><!-- End of Active Plugins -->
         <?php
     }
 

@@ -128,6 +128,7 @@ class AIOWPSecurity_Utility_Htaccess
         }
         
 	$rulesarray = explode( PHP_EOL, $rules );
+        $rulesarray = apply_filters('aiowps_htaccess_rules_before_writing', $rulesarray);
 	$contents = array_merge( $rulesarray, $ht );
         
         if (!$f = @fopen($htaccess, 'w+')) 

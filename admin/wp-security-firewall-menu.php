@@ -707,6 +707,32 @@ class AIOWPSecurity_Firewall_Menu extends AIOWPSecurity_Admin_Menu
     {
         global $aio_wp_security;
         global $aiowps_feature_mgr;
+        if (isset($_POST['aiowps_delete_404_event_records']))
+        {
+            $nonce=$_REQUEST['_wpnonce'];
+            if (!wp_verify_nonce($nonce, 'aiowpsec-delete-404-event-records-nonce'))
+            {
+                $aio_wp_security->debug_logger->log_debug("Nonce check failed for delete all 404 event logs operation!",4);
+                die(__('Nonce check failed for delete all 404 event logs operation!','aiowpsecurity'));
+            }
+            global $wpdb;
+            $events_table_name = AIOWPSEC_TBL_EVENTS;
+            //Delete all 404 records from the events table
+            $where = array('event_type' => '404');
+            $result = $wpdb->delete($events_table_name, $where);
+                    
+            if ($result === FALSE)
+            {
+                $aio_wp_security->debug_logger->log_debug("404 Detection Feature - Delete all 404 event logs operation failed!",4);
+                $this->show_msg_error(__('404 Detection Feature - Delete all 404 event logs operation failed!','aiowpsecurity'));
+            } 
+            else
+            {
+                $this->show_msg_updated(__('All 404 event logs were deleted from the DB successfully!','aiowpsecurity'));
+            }
+        }
+        
+        
         include_once 'wp-security-list-404.php'; //For rendering the AIOWPSecurity_List_Table in tab1
         $event_list_404 = new AIOWPSecurity_List_404(); //For rendering the AIOWPSecurity_List_Table in tab1
 
@@ -862,6 +888,20 @@ class AIOWPSecurity_Firewall_Menu extends AIOWPSecurity_Admin_Menu
             <?php $event_list_404->display(); ?>
             </form>
         </div></div>
+        <div class="postbox">
+        <h3><label for="title"><?php _e('Delete All 404 Event Logs', 'aiowpsecurity'); ?></label></h3>
+        <div class="inside">
+        <form action="" method="POST">
+        <?php wp_nonce_field('aiowpsec-delete-404-event-records-nonce'); ?>
+        <table class="form-table">
+            <tr valign="top">
+            <span class="description"><?php _e('Click this button if you wish to purge all 404 event logs from the DB.', 'aiowpsecurity'); ?></span>                
+            </tr>            
+        </table>
+        <input type="submit" name="aiowps_delete_404_event_records" value="<?php _e('Delete All 404 Event Logs', 'aiowpsecurity')?>" class="button-primary" onclick="return confirm('Are you sure you want to delete all records?')"/>
+        </form>
+        </div></div>
+        
         <?php
     }
     

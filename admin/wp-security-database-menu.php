@@ -531,10 +531,20 @@ class AIOWPSecurity_Database_Menu extends AIOWPSecurity_Admin_Menu
         }
         
         if ($result = $mysqli->query($list_tables_sql, MYSQLI_USE_RESULT)) {
-            $temp = $result->fetch_all();
-            foreach($temp as $res){
-                $tables[] = $res[0];
-            }
+            //$temp = $result->fetch_all();
+
+            //Alternative way to get the tables
+            while ($row = $result->fetch_assoc()) {
+                foreach( $row  AS $value ) {
+                    $tables[] = $value;
+                }
+            //var_dump($row);
+                //$key = 'Tables_in_'.$database;
+
+            }            
+//            foreach($temp as $res){
+//                $tables[] = $res[0];
+//            }
         }
         $result->close();
         $mysqli->close();        
