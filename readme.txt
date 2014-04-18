@@ -3,14 +3,14 @@ Contributors: Tips and Tricks HQ, wpsolutions, Peter Petreski, Ruhul Amin
 Donate link: http://www.tipsandtricks-hq.com
 Tags: security, secure, Anti Virus, antivirus, ban, ban hacker, virus, firewall, firewall security, login, lockdown, htaccess, hack, malware, vulnerability, protect, protection, phishing, database, backup, plugin, sql injection, ssl, restrict, login captcha, bot, hotlink, 404 detection, admin, rename,
 Requires at least: 3.5
-Tested up to: 3.8.1
-Stable tag: 3.7.2
+Tested up to: 3.9
+Stable tag: 3.7.3
 License: GPLv3
 
 A comprehensive, user-friendly, all in one WordPress security and firewall plugin for your site.
 
 == Description ==
-= A COMPREHENSIVE, EASY TO USE AND WELL SUPPORTED WORDPRESS SECURITY PLUGIN =
+= A COMPREHENSIVE, EASY TO USE, STABLE AND WELL SUPPORTED WORDPRESS SECURITY PLUGIN =
 
 WordPress itself is a very secure platform. However, it helps to add some extra security and firewall to your site by using a security plugin that enforces a lot of good security practices.
 
@@ -25,6 +25,8 @@ http://www.youtube.com/watch?v=CJvCTlVtazA
 All In One WP Security also uses an unprecedented security points grading system to measure how well you are protecting your site based on the security features you have activated.
 
 Our security and firewall rules are categorized into "basic", "intermediate" and "advanced". This way you can apply the firewall rules progressively without breaking your site's functionality.
+
+The All In One WordPress Security plugin doesn't slow down your site and it is 100% free.
 
 Below is a list of the security and firewall features offered in this plugin:
 
@@ -148,6 +150,13 @@ http://www.tipsandtricks-hq.com/wordpress-security-and-firewall-plugin
 None
 
 == Changelog ==
+
+= 3.7.3 =
+- Added Brazilian language translation. The translation was submitted by Sergio Siqueira.
+- Added two new action hooks for plugin activation and deactivation time.
+- Improved the get_user_ip_address() function so it handles cases when multiple addresses are returned due to proxy.
+- Fixed the mis-alignment of login page which was broken by WP3.9 when rename login feature is used.
+- WordPress 3.9 compatibility
 
 = 3.7.2 =
 - Added a PHP Info section in the system info interface to show some important PHP details of the server.
