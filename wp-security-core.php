@@ -3,7 +3,7 @@
 if (!class_exists('AIO_WP_Security')){
 
 class AIO_WP_Security{
-    var $version = '3.7.3';
+    var $version = '3.7.4';
     var $db_version = '1.6';
     var $plugin_url;
     var $plugin_path;
@@ -25,6 +25,7 @@ class AIO_WP_Security{
         $this->loader_operations();
 
         add_action('init', array(&$this, 'wp_security_plugin_init'), 0);
+        add_action('wp_loaded',array(&$this, 'aiowps_wp_loaded_handler'));
         do_action('aiowpsecurity_loaded');
     }
     
@@ -72,6 +73,7 @@ class AIO_WP_Security{
         define('AIOWPSEC_SPAM_MENU_SLUG', 'aiowpsec_spam');
         define('AIOWPSEC_FILESCAN_MENU_SLUG', 'aiowpsec_filescan');
         define('AIOWPSEC_BRUTE_FORCE_MENU_SLUG', 'aiowpsec_brute_force');
+        define('AIOWPSEC_MISC_MENU_SLUG', 'aiowpsec_misc');
         
         global $wpdb;
         define('AIOWPSEC_TBL_LOGIN_LOCKDOWN', $wpdb->prefix . 'aiowps_login_lockdown');
@@ -91,6 +93,7 @@ class AIO_WP_Security{
         include_once('classes/wp-security-utility-ip-address.php');
         include_once('classes/wp-security-utility-file.php');
         include_once('classes/wp-security-general-init-tasks.php');
+        include_once('classes/wp-security-wp-loaded-tasks.php');
         
         include_once('classes/wp-security-user-login.php');
         include_once('classes/wp-security-user-registration.php');
@@ -100,6 +103,7 @@ class AIO_WP_Security{
         include_once('classes/wp-security-cronjob-handler.php');
         include_once('classes/grade-system/wp-security-feature-item.php');
         include_once('classes/grade-system/wp-security-feature-item-manager.php');
+        include_once('classes/wp-security-wp-footer-content.php');
         
         if (is_admin()){ //Load admin side only files
             include_once('classes/wp-security-configure-settings.php');
@@ -184,15 +188,26 @@ class AIO_WP_Security{
         $this->cron_handler = new AIOWPSecurity_Cronjob_Handler();
         
         add_action('wp_head',array(&$this, 'aiowps_header_content'));
-                
+        add_action('wp_footer',array(&$this, 'aiowps_footer_content'));
+        
         add_action('wp_login', array('AIOWPSecurity_User_Login', 'wp_login_action_handler'), 10, 2);
         do_action('aiowps_force_logout_check');
         new AIOWPSecurity_General_Init_Tasks();
+    }
+    
+    function aiowps_wp_loaded_handler()
+    {
+        new AIOWPSecurity_WP_Loaded_Tasks();
     }
 
     function aiowps_header_content()
     {
         //NOP
+    }
+    
+    function aiowps_footer_content()
+    {
+        new AIOWPSecurity_WP_Footer_Content();
     }
     
     function do_additional_plugins_loaded_tasks()

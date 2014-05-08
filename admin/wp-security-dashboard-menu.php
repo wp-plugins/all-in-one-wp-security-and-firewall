@@ -85,6 +85,8 @@ class AIOWPSecurity_Dashboard_Menu extends AIOWPSecurity_Admin_Menu
         $total_security_points_achievable = $feature_mgr->get_total_achievable_points();
         
         ?>
+        <div id="aiowps_dashboard_widget_content">
+            
         <div class="aiowps_dashboard_box_small">
         <div class="postbox">
         <h3><label for="title"><?php _e('Security Strength Meter', 'aiowpsecurity');?></label></h3>
@@ -166,6 +168,25 @@ class AIOWPSecurity_Dashboard_Menu extends AIOWPSecurity_Admin_Menu
 
         </div></div>
         </div><!-- aiowps_dashboard_box -->
+        
+        <div class="aiowps_dashboard_box_small aiowps_spread_the_word_widget">
+        <div class="postbox">
+        <h3><label for="title"><?php _e('Spread the Word', 'aiowpsecurity');?></label></h3>
+        <div class="inside">
+        
+        <p><?php _e('We are working hard to make your WordPress site more secure. Please support us, here is how:', 'aiowpsecurity');?></p>
+        <p>
+            <a href="https://plus.google.com/102469783420435518783/" target="_blank">Follow us on Google+</a>
+        </p>
+        <p>
+            <a href="http://twitter.com/intent/tweet?url=http://www.tipsandtricks-hq.com/wordpress-security-and-firewall-plugin&text=I love the All In One WP Security and Firewall plugin!" target="_blank" class="aio_tweet_link">Post to Twitter</a>
+        </p>
+        <p>
+            <a href="http://wordpress.org/support/view/plugin-reviews/all-in-one-wp-security-and-firewall/" target="_blank" class="aio_rate_us_link">Give us a Good Rating</a>
+        </p>
+        
+        </div></div>
+        </div><!-- aiowps_dashboard_box -->   
         
         <div class="aiowps_dashboard_box_small">
         <div class="postbox">
@@ -454,29 +475,32 @@ class AIOWPSecurity_Dashboard_Menu extends AIOWPSecurity_Admin_Menu
         ?>
         </div></div>
         </div><!-- aiowps_dashboard_box -->        
-        
+
         <div class="aio_clear_float"></div>
         
-        <div class="aiowps_dashboard_box_small aiowps_spread_the_word_widget">
-        <div class="postbox">
-        <h3><label for="title"><?php _e('Spread the Word', 'aiowpsecurity');?></label></h3>
-        <div class="inside">
+        </div>
+<!-- Masonry stuff -->
+<?php
+//wp_enqueue_script('masonry');
+echo '<script type="text/javascript" src="'.AIO_WP_SECURITY_URL.'/js/masonry.pkgd.min.js?ver='.AIO_WP_SECURITY_VERSION.'"></script>';
+?>
+<style>
+.aiowps_dashboard_box_small { 
+    width: 350px;
+}
+</style>
+<script type="text/javascript">
+window.onload = function(){
+var container = document.querySelector('#aiowps_dashboard_widget_content');
+var msnry = new Masonry( container, {
+  // options
+  columnWidth: 100,
+  itemSelector: '.aiowps_dashboard_box_small'
+});
+}
+</script>
+<!-- End Masonry stuff -->
         
-        <p><?php _e('We are working hard to make your WordPress site more secure. Please support us, here is how:', 'aiowpsecurity');?></p>
-        <p>
-            <a href="https://plus.google.com/102469783420435518783/" target="_blank">Follow us on Google+</a>
-        </p>
-        <p>
-            <a href="http://twitter.com/intent/tweet?url=http://www.tipsandtricks-hq.com/wordpress-security-and-firewall-plugin&text=I love the All In One WP Security and Firewall plugin!" target="_blank" class="aio_tweet_link">Post to Twitter</a>
-        </p>
-        <p>
-            <a href="http://wordpress.org/support/view/plugin-reviews/all-in-one-wp-security-and-firewall/" target="_blank" class="aio_rate_us_link">Give us a Good Rating</a>
-        </p>
-        
-        </div></div>
-        </div><!-- aiowps_dashboard_box -->        
-        
-        <div class="aio_clear_float"></div>
         <?php
     }
    

@@ -2,18 +2,17 @@ msgid ""
 msgstr ""
 "Project-Id-Version: AIOWPS\n"
 "POT-Creation-Date: 2013-12-03 12:53+1000\n"
-"PO-Revision-Date: 2014-05-07 11:28-0300\n"
-"Last-Translator: Sms Lbr <smslbr@gmail.com>\n"
-"Language-Team: Li9 <suporte@li9.com.br>\n"
+"PO-Revision-Date: 2014-04-17 20:34+0100\n"
+"Last-Translator: I♥WP <info@ilovewp.net>\n"
+"Language-Team: \n"
+"Language: hu_HU\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.6.5\n"
+"X-Generator: Poedit 1.6.4\n"
 "X-Poedit-KeywordsList: __;_e\n"
 "X-Poedit-Basepath: .\n"
-"Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"Language: pt_BR\n"
-"X-Poedit-SourceCharset: UTF-8\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-SearchPath-0: .\n"
 
 #: all-in-one-wp-security/admin/wp-security-admin-init.php:156
@@ -23,31 +22,31 @@ msgstr ""
 #: all-in-one-wp-security/admin/wp-security-admin-init.php:157
 #: all-in-one-wp-security/admin/wp-security-dashboard-menu.php:22
 msgid "Dashboard"
-msgstr "Painel"
+msgstr ""
 
 #: all-in-one-wp-security/admin/wp-security-admin-init.php:158
 msgid "Settings"
-msgstr "Configurações"
+msgstr ""
 
 #: all-in-one-wp-security/admin/wp-security-admin-init.php:159
 msgid "User Accounts"
-msgstr "Contas de Usuários"
+msgstr ""
 
 #: all-in-one-wp-security/admin/wp-security-admin-init.php:160
 msgid "User Login"
-msgstr "Login de Usuário"
+msgstr ""
 
 #: all-in-one-wp-security/admin/wp-security-admin-init.php:161
 msgid "User Registration"
-msgstr "Registro de Usuário"
+msgstr ""
 
 #: all-in-one-wp-security/admin/wp-security-admin-init.php:162
 msgid "Database Security"
-msgstr "Segurança Base de Dados"
+msgstr ""
 
 #: all-in-one-wp-security/admin/wp-security-admin-init.php:166
 msgid "Filesystem Security"
-msgstr "Segurança Sistema de Arquivos"
+msgstr ""
 
 #: all-in-one-wp-security/admin/wp-security-admin-init.php:168
 msgid "WHOIS Lookup"
@@ -55,15 +54,15 @@ msgstr ""
 
 #: all-in-one-wp-security/admin/wp-security-admin-init.php:172
 msgid "Blacklist Manager"
-msgstr "Gerenciador Lista Negra"
+msgstr ""
 
 #: all-in-one-wp-security/admin/wp-security-admin-init.php:177
 msgid "Firewall"
-msgstr "Firewall"
+msgstr ""
 
 #: all-in-one-wp-security/admin/wp-security-admin-init.php:179
 msgid "SPAM Prevention"
-msgstr "Prevenção SPAM"
+msgstr ""
 
 #: all-in-one-wp-security/admin/wp-security-admin-init.php:183
 msgid "Scanner"
@@ -71,11 +70,11 @@ msgstr ""
 
 #: all-in-one-wp-security/admin/wp-security-admin-init.php:185
 msgid "Maintenance"
-msgstr "Manutenção"
+msgstr ""
 
 #: all-in-one-wp-security/admin/wp-security-admin-menu.php:43
 msgid "Settings successfully updated."
-msgstr "Configurações autalizadas com sucesso."
+msgstr ""
 
 #: all-in-one-wp-security/admin/wp-security-admin-menu.php:50
 msgid "The selected record(s) deleted successfully!"
@@ -83,7 +82,7 @@ msgstr ""
 
 #: all-in-one-wp-security/admin/wp-security-blacklist-menu.php:22
 msgid "Ban Users"
-msgstr "Usuários Banidos"
+msgstr ""
 
 #: all-in-one-wp-security/admin/wp-security-blacklist-menu.php:80
 msgid "Nonce check failed for save blacklist settings!"
@@ -143,7 +142,7 @@ msgstr ""
 
 #: all-in-one-wp-security/admin/wp-security-blacklist-menu.php:169
 msgid "Enter IP Addresses:"
-msgstr "Digite o endereço IP:"
+msgstr ""
 
 #: all-in-one-wp-security/admin/wp-security-blacklist-menu.php:173
 msgid "Enter one or more IP addresses or IP ranges."
@@ -169,7 +168,7 @@ msgstr ""
 #: all-in-one-wp-security/admin/wp-security-spam-menu.php:259
 #: all-in-one-wp-security/admin/wp-security-user-login-menu.php:456
 msgid "More Info"
-msgstr "Mais Informação"
+msgstr ""
 
 #: all-in-one-wp-security/admin/wp-security-blacklist-menu.php:177
 #: all-in-one-wp-security/admin/wp-security-user-login-menu.php:459
@@ -231,11 +230,11 @@ msgstr ""
 #: all-in-one-wp-security/admin/wp-security-user-registration-menu.php:146
 #: all-in-one-wp-security/admin/wp-security-user-registration-menu.php:221
 msgid "Save Settings"
-msgstr "Salvar Configurações"
+msgstr ""
 
 #: all-in-one-wp-security/admin/wp-security-dashboard-menu.php:23
 msgid "System Info"
-msgstr "System Info"
+msgstr ""
 
 #: all-in-one-wp-security/admin/wp-security-dashboard-menu.php:73
 msgid "For information, updates and documentation, please visit the"
@@ -247,11 +246,11 @@ msgstr ""
 
 #: all-in-one-wp-security/admin/wp-security-dashboard-menu.php:73
 msgid "Page"
-msgstr "Página"
+msgstr ""
 
 #: all-in-one-wp-security/admin/wp-security-dashboard-menu.php:74
 msgid "Follow us"
-msgstr "Siga-nos"
+msgstr ""
 
 #: all-in-one-wp-security/admin/wp-security-dashboard-menu.php:74
 msgid ""
@@ -297,11 +296,11 @@ msgstr ""
 
 #: all-in-one-wp-security/admin/wp-security-dashboard-menu.php:208
 msgid "File Permission"
-msgstr "Permissão de Arquivo"
+msgstr ""
 
 #: all-in-one-wp-security/admin/wp-security-dashboard-menu.php:223
 msgid "Basic Firewall"
-msgstr "Firewall Básico"
+msgstr ""
 
 #: all-in-one-wp-security/admin/wp-security-dashboard-menu.php:241
 msgid "Maintenance Mode Status"
@@ -566,11 +565,11 @@ msgstr ""
 #: all-in-one-wp-security/admin/wp-security-user-login-menu.php:127
 #: all-in-one-wp-security/admin/wp-security-user-login-menu.php:581
 msgid "Attention!"
-msgstr "Atenção!"
+msgstr ""
 
 #: all-in-one-wp-security/admin/wp-security-database-menu.php:289
 msgid "Manual Backup"
-msgstr "Backup Manual"
+msgstr ""
 
 #: all-in-one-wp-security/admin/wp-security-database-menu.php:295
 msgid "To create a new DB backup just click on the button below."
@@ -601,17 +600,17 @@ msgstr ""
 #: all-in-one-wp-security/admin/wp-security-database-menu.php:324
 #: all-in-one-wp-security/admin/wp-security-filescan-menu.php:259
 msgid "Hours"
-msgstr "Horas"
+msgstr ""
 
 #: all-in-one-wp-security/admin/wp-security-database-menu.php:325
 #: all-in-one-wp-security/admin/wp-security-filescan-menu.php:260
 msgid "Days"
-msgstr "Dias"
+msgstr ""
 
 #: all-in-one-wp-security/admin/wp-security-database-menu.php:326
 #: all-in-one-wp-security/admin/wp-security-filescan-menu.php:261
 msgid "Weeks"
-msgstr "Semanas"
+msgstr ""
 
 #: all-in-one-wp-security/admin/wp-security-database-menu.php:328
 msgid "Set the value for how often you would like an automated backup to occur"
@@ -641,7 +640,7 @@ msgstr ""
 #: all-in-one-wp-security/admin/wp-security-filescan-menu.php:305
 #: all-in-one-wp-security/admin/wp-security-user-login-menu.php:228
 msgid "Enter an email address"
-msgstr "Digite um endereço de email"
+msgstr ""
 
 #: all-in-one-wp-security/admin/wp-security-database-menu.php:373
 msgid "Starting DB prefix change operations....."
@@ -723,7 +722,7 @@ msgstr ""
 #: all-in-one-wp-security/admin/wp-security-filescan-menu.php:22
 #: all-in-one-wp-security/classes/grade-system/wp-security-feature-item-manager.php:94
 msgid "File Change Detection"
-msgstr "Detecção de Substituição de Arquivo"
+msgstr ""
 
 #: all-in-one-wp-security/admin/wp-security-filescan-menu.php:93
 msgid "Nonce check failed for manual file change detection scan operation!"
@@ -905,7 +904,7 @@ msgstr ""
 
 #: all-in-one-wp-security/admin/wp-security-filescan-menu.php:344
 msgid "The following files were added to your host."
-msgstr "Os seguintes arquivos foram adicionados para o seu host."
+msgstr ""
 
 #: all-in-one-wp-security/admin/wp-security-filescan-menu.php:347
 #: all-in-one-wp-security/admin/wp-security-filescan-menu.php:368
@@ -938,7 +937,7 @@ msgstr ""
 #: all-in-one-wp-security/admin/wp-security-filesystem-menu.php:26
 #: all-in-one-wp-security/classes/grade-system/wp-security-feature-item-manager.php:63
 msgid "File Permissions"
-msgstr "Permissões Arquivos"
+msgstr ""
 
 #: all-in-one-wp-security/admin/wp-security-filesystem-menu.php:27
 msgid "PHP File Editing"
@@ -1004,17 +1003,17 @@ msgstr ""
 #: all-in-one-wp-security/admin/wp-security-filesystem-menu.php:132
 #: all-in-one-wp-security/admin/wp-security-filesystem-menu.php:151
 msgid "Current Permissions"
-msgstr "Permissões Atuais"
+msgstr ""
 
 #: all-in-one-wp-security/admin/wp-security-filesystem-menu.php:133
 #: all-in-one-wp-security/admin/wp-security-filesystem-menu.php:152
 msgid "Recommended Permissions"
-msgstr "Permissões Recomendadas"
+msgstr ""
 
 #: all-in-one-wp-security/admin/wp-security-filesystem-menu.php:134
 #: all-in-one-wp-security/admin/wp-security-filesystem-menu.php:153
 msgid "Recommended Action"
-msgstr "Ação Recomendada"
+msgstr ""
 
 #: all-in-one-wp-security/admin/wp-security-filesystem-menu.php:191
 msgid "Your PHP file editing settings were saved successfully."
@@ -1320,7 +1319,7 @@ msgstr ""
 
 #: all-in-one-wp-security/admin/wp-security-firewall-menu.php:193
 msgid "Save Basic Firewall Settings"
-msgstr "Salvar Configurações Básicas Firewall"
+msgstr ""
 
 #: all-in-one-wp-security/admin/wp-security-firewall-menu.php:265
 msgid ""
@@ -1889,12 +1888,12 @@ msgstr ""
 #: all-in-one-wp-security/admin/wp-security-list-locked-ip.php:115
 #: all-in-one-wp-security/admin/wp-security-user-login-menu.php:748
 msgid "The selected IP ranges were unlocked successfully!"
-msgstr "As faixas de IP selecionadas foram desbloqueadas com sucesso!"
+msgstr ""
 
 #: all-in-one-wp-security/admin/wp-security-list-locked-ip.php:124
 #: all-in-one-wp-security/admin/wp-security-user-login-menu.php:757
 msgid "The selected IP range was unlocked successfully!"
-msgstr "As faixas de IP selecionadas foram desbloqueadas com sucesso!"
+msgstr ""
 
 #: all-in-one-wp-security/admin/wp-security-list-registered-users.php:118
 msgid "The selected accounts were approved successfully!"
@@ -3065,7 +3064,7 @@ msgstr ""
 
 #: all-in-one-wp-security/admin/wp-security-user-login-menu.php:714
 msgid "Currently Logged In Users"
-msgstr "Usuários Atualmente Logados"
+msgstr ""
 
 #: all-in-one-wp-security/admin/wp-security-user-login-menu.php:779
 msgid "The selected records were deleted successfully!"
@@ -3077,20 +3076,20 @@ msgstr ""
 
 #: all-in-one-wp-security/admin/wp-security-user-registration-menu.php:23
 msgid "Manual Approval"
-msgstr "Aprovação Manual"
+msgstr ""
 
 #: all-in-one-wp-security/admin/wp-security-user-registration-menu.php:24
 #: all-in-one-wp-security/classes/grade-system/wp-security-feature-item-manager.php:53
 msgid "Registration Captcha"
-msgstr "Captcha ao Registrar"
+msgstr ""
 
 #: all-in-one-wp-security/admin/wp-security-user-registration-menu.php:112
 msgid "User Registration Settings"
-msgstr "Configurações Registro Usuários"
+msgstr ""
 
 #: all-in-one-wp-security/admin/wp-security-user-registration-menu.php:116
 msgid "Manually Approve New Registrations"
-msgstr "Aprovar Manualmente os Novos Registros"
+msgstr ""
 
 #: all-in-one-wp-security/admin/wp-security-user-registration-menu.php:120
 msgid ""
@@ -3098,9 +3097,6 @@ msgid ""
 "registration form, then you can minimize SPAM or bogus registrations by "
 "manually approving each registration."
 msgstr ""
-"Se o seu site permite que as pessoas criem suas próprias contas, através do "
-"formulário de inscrição WordPress, então você pode minimizar SPAM ou "
-"registros falsos, aprovando manualmente cada registro."
 
 #: all-in-one-wp-security/admin/wp-security-user-registration-menu.php:121
 msgid ""
@@ -3108,9 +3104,6 @@ msgid ""
 "\" until the administrator activates it. Therefore undesirable registrants "
 "will be unable to log in without your express approval."
 msgstr ""
-"Este recurso irá definir automaticamente uma conta recém-registrada para "
-"\"pendente\" até que o administrador a ative. Portanto inscritos "
-"indesejáveis ​​não serão capazes de entrar sem a sua autorização expressa."
 
 #: all-in-one-wp-security/admin/wp-security-user-registration-menu.php:122
 msgid ""
@@ -3118,13 +3111,10 @@ msgid ""
 "table below and you can also perform bulk activation/deactivation/deletion "
 "tasks on each account."
 msgstr ""
-"Você pode ver todas as contas que foram recentemente registados através da "
-"tabela prática abaixo e você também pode executar tarefas de ativação em "
-"massa / desativação / exclusão em cada conta."
 
 #: all-in-one-wp-security/admin/wp-security-user-registration-menu.php:138
 msgid "Enable manual approval of new registrations"
-msgstr "Permitir Aprovação Manual para Novos Registros"
+msgstr ""
 
 #: all-in-one-wp-security/admin/wp-security-user-registration-menu.php:141
 msgid ""
@@ -3134,7 +3124,7 @@ msgstr ""
 
 #: all-in-one-wp-security/admin/wp-security-user-registration-menu.php:150
 msgid "Approve Registered Users"
-msgstr "Aprovar Usuários Registrados"
+msgstr ""
 
 #: all-in-one-wp-security/admin/wp-security-user-registration-menu.php:195
 msgid ""
@@ -3259,103 +3249,103 @@ msgstr ""
 
 #: all-in-one-wp-security/classes/wp-security-backup.php:179
 msgid " generated on"
-msgstr "gerado em"
+msgstr ""
 
 #: all-in-one-wp-security/classes/wp-security-captcha.php:12
 msgid "Please enter an answer in digits:"
-msgstr "Favor inserir a resposta em dígitos:"
+msgstr "Kérjük, adja meg a választ számjegyekkel:"
 
 #: all-in-one-wp-security/classes/wp-security-captcha.php:91
 msgid "one"
-msgstr "um"
+msgstr "egy"
 
 #: all-in-one-wp-security/classes/wp-security-captcha.php:92
 msgid "two"
-msgstr "dois"
+msgstr "kettő"
 
 #: all-in-one-wp-security/classes/wp-security-captcha.php:93
 msgid "three"
-msgstr "três"
+msgstr "három"
 
 #: all-in-one-wp-security/classes/wp-security-captcha.php:94
 msgid "four"
-msgstr "quatro"
+msgstr "négy"
 
 #: all-in-one-wp-security/classes/wp-security-captcha.php:95
 msgid "five"
-msgstr "cinco"
+msgstr "öt"
 
 #: all-in-one-wp-security/classes/wp-security-captcha.php:96
 msgid "six"
-msgstr "seis"
+msgstr "hat"
 
 #: all-in-one-wp-security/classes/wp-security-captcha.php:97
 msgid "seven"
-msgstr "sete"
+msgstr "hét"
 
 #: all-in-one-wp-security/classes/wp-security-captcha.php:98
 msgid "eight"
-msgstr "oito"
+msgstr "nyolc"
 
 #: all-in-one-wp-security/classes/wp-security-captcha.php:99
 msgid "nine"
-msgstr "nove"
+msgstr "kilenc"
 
 #: all-in-one-wp-security/classes/wp-security-captcha.php:100
 msgid "ten"
-msgstr "dez"
+msgstr "tíz"
 
 #: all-in-one-wp-security/classes/wp-security-captcha.php:101
 msgid "eleven"
-msgstr "onze"
+msgstr "tizenegy"
 
 #: all-in-one-wp-security/classes/wp-security-captcha.php:102
 msgid "twelve"
-msgstr "doze"
+msgstr "tizenkettő"
 
 #: all-in-one-wp-security/classes/wp-security-captcha.php:103
 msgid "thirteen"
-msgstr "treze"
+msgstr "tizenhárom"
 
 #: all-in-one-wp-security/classes/wp-security-captcha.php:104
 msgid "fourteen"
-msgstr "catorze"
+msgstr "tizennégy"
 
 #: all-in-one-wp-security/classes/wp-security-captcha.php:105
 msgid "fifteen"
-msgstr "quinze"
+msgstr "tizenöt"
 
 #: all-in-one-wp-security/classes/wp-security-captcha.php:106
 msgid "sixteen"
-msgstr "dezesseis"
+msgstr "tizenhat"
 
 #: all-in-one-wp-security/classes/wp-security-captcha.php:107
 msgid "seventeen"
-msgstr "dezessete"
+msgstr "tizenhét"
 
 #: all-in-one-wp-security/classes/wp-security-captcha.php:108
 msgid "eighteen"
-msgstr "dezoito"
+msgstr "tizennyolc"
 
 #: all-in-one-wp-security/classes/wp-security-captcha.php:109
 msgid "nineteen"
-msgstr "dezenove"
+msgstr "tizenkilenc"
 
 #: all-in-one-wp-security/classes/wp-security-captcha.php:110
 msgid "twenty"
-msgstr "vinte"
+msgstr "húsz"
 
 #: all-in-one-wp-security/classes/wp-security-file-scan.php:58
 msgid "All In One WP Security - File change detected!"
-msgstr "All In One WP Security - Alteração de Arquivo detectada!"
+msgstr ""
 
 #: all-in-one-wp-security/classes/wp-security-file-scan.php:60
 msgid "A file change was detected on your system for site URL"
-msgstr "Um arquivo substituido foi detectado em seu sistema do website URL "
+msgstr ""
 
 #: all-in-one-wp-security/classes/wp-security-file-scan.php:60
 msgid ". Scan was generated on"
-msgstr ".Scan foi gerado em"
+msgstr ""
 
 #: all-in-one-wp-security/classes/wp-security-file-scan.php:61
 msgid "Login to your site to view the scan details."
@@ -3363,14 +3353,14 @@ msgstr ""
 
 #: all-in-one-wp-security/classes/wp-security-general-init-tasks.php:158
 msgid "Please enter an answer in the CAPTCHA field."
-msgstr "Por favor, digite uma resposta no campo CAPTCHA."
+msgstr "Kérjük adja meg a választ a CAPTCHA mezőben."
 
 #: all-in-one-wp-security/classes/wp-security-general-init-tasks.php:168
 msgid ""
 "Error: You entered an incorrect CAPTCHA answer. Please go back and try again."
 msgstr ""
-"Erro: Você digitou a resposta CAPTCHA, de forma incorreta. Por favor, volte "
-"e tente NOVAMENTE."
+"Hiba: Helytelen CAPTCHA választ adott meg. Kérjük menjen vissza és próbálja "
+"meg újból."
 
 #: all-in-one-wp-security/classes/wp-security-general-init-tasks.php:196
 #: all-in-one-wp-security/classes/wp-security-user-login.php:63
@@ -3378,8 +3368,7 @@ msgstr ""
 #: all-in-one-wp-security/classes/wp-security-user-registration.php:59
 msgid "<strong>ERROR</strong>: Your answer was incorrect - please try again."
 msgstr ""
-"<strong>ERRO</strong>: A sua resposta está INCORRETA - por favor, tente "
-"novamente."
+"<strong>HIBA</strong>: A válasz helytelen - kérjük, próbálja meg újból."
 
 #: all-in-one-wp-security/classes/wp-security-user-login.php:39
 msgid ""
@@ -3387,27 +3376,27 @@ msgid ""
 "blocked.\n"
 "                                Please contact the administrator."
 msgstr ""
-"<strong>ERRO</strong>: O seu LOGIN falhou porque o seu endereço IP foi "
-"bloqueado.\n"
-"                                Por favor, contate o administrador do "
-"Website."
+"<strong>HIBA</strong>: A bejelentkezés sikertelen, mert az IP címe blokkolva "
+"van.\n"
+"                                Kérjük lépjen kapcsolatba az "
+"adminisztrátorral."
 
 #: all-in-one-wp-security/classes/wp-security-user-login.php:76
 msgid "<strong>ERROR</strong>: The username field is empty."
-msgstr "<strong>ERRO</strong>: O campo nome de USUÁRIO está vazio."
+msgstr "<strong>HIBA</strong>: A felhasználó mező üres."
 
 #: all-in-one-wp-security/classes/wp-security-user-login.php:80
 msgid "<strong>ERROR</strong>: The password field is empty."
-msgstr "<strong>ERRO</strong>: O campo da SENHA está vazio."
+msgstr "<strong>HIBA</strong>: A jelszó mező üres."
 
 #: all-in-one-wp-security/classes/wp-security-user-login.php:100
 #: all-in-one-wp-security/classes/wp-security-user-login.php:126
 msgid "<strong>ERROR</strong>: Invalid login credentials."
-msgstr "<strong>ERRO</strong>: As suas informações de login são INVÁLIDAS."
+msgstr "<strong>HIBA</strong>: Érvénytelen bejelentkezési adatok."
 
 #: all-in-one-wp-security/classes/wp-security-user-login.php:103
 msgid "<strong>ERROR</strong>: Invalid username."
-msgstr "<strong>ERRO</strong>: NOME DE USUÁRIO Inválido."
+msgstr "<strong>HIBA</strong>: Érvénytelen felhasználónév."
 
 #: all-in-one-wp-security/classes/wp-security-user-login.php:129
 #, php-format
@@ -3415,40 +3404,38 @@ msgid ""
 "<strong>ERROR</strong>: Incorrect password. <a href=\"%s\" title=\"Password "
 "Lost and Found\">Lost your password</a>?"
 msgstr ""
-"<strong>ERRO</strong>: SENHA INCORRETA. <a href=\"%s\" title=\"Senha Perdida "
-"e Encontrada\">Perdeu a sua SENHA</a>?"
+"<strong>HIBA</strong>: Érvénytelen jelszó. <a href=\"%s\" title=\"Password "
+"Lost and Found\">Elfelejtett jelszó</a>?"
 
 #: all-in-one-wp-security/classes/wp-security-user-login.php:140
 msgid ""
 "<strong>ACCOUNT PENDING</strong>: Your account is currently not active. An "
 "administrator needs to activate your account before you can login."
 msgstr ""
-"<strong>CONTA PENDENTE</strong>: A sua CONTA não está ativa. Um "
-"Administrador precisa ativar a sua conta ante e você efetuar o LOGIN."
+"<strong>FIÓK FÜGGŐBEN</strong>: A fiókja jelenleg nem aktív. Egy "
+"adminisztrátornak kell aktiválnia, mielőtt belépne."
 
 #: all-in-one-wp-security/classes/wp-security-user-login.php:263
 msgid "Site Lockout Notification"
-msgstr "Notificação de Bloqueio do Website"
+msgstr ""
 
 #: all-in-one-wp-security/classes/wp-security-user-login.php:264
 msgid ""
 "A lockdown event has occurred due to too many failed login attempts or "
 "invalid username:"
 msgstr ""
-"Um evento de bloqueio ocorreu devido a muitas tentativas de login ou nome de "
-"usuário inválido:"
 
 #: all-in-one-wp-security/classes/wp-security-user-login.php:265
 msgid "Username: "
-msgstr "Usuário:"
+msgstr ""
 
 #: all-in-one-wp-security/classes/wp-security-user-login.php:266
 msgid "IP Address: "
-msgstr "Endereço IP:"
+msgstr ""
 
 #: all-in-one-wp-security/classes/wp-security-user-login.php:267
 msgid "IP Range: "
-msgstr "Faixa IP:"
+msgstr ""
 
 #: all-in-one-wp-security/classes/wp-security-user-login.php:268
 msgid ""
@@ -3462,8 +3449,6 @@ msgid ""
 "Your session has expired because it has been over %d minutes since your last "
 "login."
 msgstr ""
-"A sua sessão foi encerrada porque já se passaram  %d minutos do seu último "
-"login."
 
 #: all-in-one-wp-security/classes/wp-security-user-login.php:426
 #: all-in-one-wp-security/classes/wp-security-user-login.php:430
@@ -3479,11 +3464,11 @@ msgstr ""
 #: all-in-one-wp-security/classes/wp-security-utility-ip-address.php:113
 #: all-in-one-wp-security/classes/wp-security-utility-ip-address.php:128
 msgid " is not a valid ip address format."
-msgstr "esse formato de endereço de IP não é válido."
+msgstr ""
 
 #: all-in-one-wp-security/classes/wp-security-utility-ip-address.php:136
 msgid "You cannot ban your own IP address: "
-msgstr "Você não pode banir o seu próprio endereço IP"
+msgstr ""
 
 #: all-in-one-wp-security/classes/wp-security-utility.php:151
 msgid ""
@@ -3496,11 +3481,11 @@ msgstr ""
 
 #: all-in-one-wp-security/classes/grade-system/wp-security-feature-item-manager.php:35
 msgid "Change Display Name"
-msgstr "Troca do Nome Exibido"
+msgstr ""
 
 #: all-in-one-wp-security/classes/grade-system/wp-security-feature-item-manager.php:43
 msgid "Lost Password Captcha"
-msgstr "Captcha Senha Perdida"
+msgstr ""
 
 #: all-in-one-wp-security/classes/grade-system/wp-security-feature-item-manager.php:45
 msgid "Login IP Whitelisting"
@@ -3508,7 +3493,7 @@ msgstr ""
 
 #: all-in-one-wp-security/classes/grade-system/wp-security-feature-item-manager.php:51
 msgid "Registration Approval"
-msgstr "Aprovação do Registro"
+msgstr ""
 
 #: all-in-one-wp-security/classes/grade-system/wp-security-feature-item-manager.php:67
 msgid "WordPress Files Access"
@@ -3520,7 +3505,7 @@ msgstr ""
 
 #: all-in-one-wp-security/classes/grade-system/wp-security-feature-item-manager.php:75
 msgid "Enable Basic Firewall"
-msgstr "Ativar Firewall Básico"
+msgstr ""
 
 #: all-in-one-wp-security/classes/grade-system/wp-security-feature-item-manager.php:76
 msgid "Enable Pingback Vulnerability Protection"
@@ -3532,7 +3517,7 @@ msgstr ""
 
 #: all-in-one-wp-security/classes/grade-system/wp-security-feature-item-manager.php:83
 msgid "Deny Bad Queries"
-msgstr "Impedir Consultas Duvidosas"
+msgstr ""
 
 #: all-in-one-wp-security/classes/grade-system/wp-security-feature-item-manager.php:85
 msgid "5G Blacklist"
@@ -3540,20 +3525,20 @@ msgstr ""
 
 #: all-in-one-wp-security/classes/grade-system/wp-security-feature-item-manager.php:88
 msgid "Block Spambots"
-msgstr "Bloquear Spambots"
+msgstr ""
 
 #: all-in-one-wp-security/classes/grade-system/wp-security-feature-item-manager.php:90
 msgid "Comment Captcha"
-msgstr "Captcha Comentário"
+msgstr ""
 
 #: all-in-one-wp-security/classes/grade-system/wp-security-feature-item.php:28
 msgid "Basic"
-msgstr "Basico"
+msgstr ""
 
 #: all-in-one-wp-security/classes/grade-system/wp-security-feature-item.php:31
 msgid "Intermediate"
-msgstr "Intermediario"
+msgstr ""
 
 #: all-in-one-wp-security/classes/grade-system/wp-security-feature-item.php:34
 msgid "Advanced"
-msgstr "Avançado"
+msgstr ""

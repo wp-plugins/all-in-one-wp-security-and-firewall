@@ -20,6 +20,7 @@ class AIOWPSecurity_Admin_Init
     var $maintenance_menu;
     var $spam_menu;
     var $filescan_menu;
+    var $misc_menu;
 
     function __construct()
     {
@@ -189,6 +190,7 @@ class AIOWPSecurity_Admin_Init
             add_submenu_page(AIOWPSEC_MAIN_MENU_SLUG, __('Scanner', 'aiowpsecurity'),  __('Scanner', 'aiowpsecurity') , AIOWPSEC_MANAGEMENT_PERMISSION, AIOWPSEC_FILESCAN_MENU_SLUG, array(&$this, 'handle_filescan_menu_rendering'));
         }
         add_submenu_page(AIOWPSEC_MAIN_MENU_SLUG, __('Maintenance', 'aiowpsecurity'),  __('Maintenance', 'aiowpsecurity') , AIOWPSEC_MANAGEMENT_PERMISSION, AIOWPSEC_MAINTENANCE_MENU_SLUG, array(&$this, 'handle_maintenance_menu_rendering'));
+        add_submenu_page(AIOWPSEC_MAIN_MENU_SLUG, __('Miscellaneous', 'aiowpsecurity'),  __('Miscellaneous', 'aiowpsecurity') , AIOWPSEC_MANAGEMENT_PERMISSION, AIOWPSEC_MISC_MENU_SLUG, array(&$this, 'handle_misc_menu_rendering'));
         do_action('aiowpsecurity_admin_menu_created');
     }
         
@@ -275,6 +277,12 @@ class AIOWPSecurity_Admin_Init
     {
         include_once('wp-security-filescan-menu.php');
         $this->filescan_menu = new AIOWPSecurity_Filescan_Menu();
+    }
+    
+    function handle_misc_menu_rendering()
+    {
+        include_once('wp-security-misc-options-menu.php');
+        $this->misc_menu = new AIOWPSecurity_Misc_Options_Menu();
     }
     
 }//End of class

@@ -124,13 +124,6 @@ class AIOWPSecurity_Spam_Menu extends AIOWPSecurity_Admin_Menu
         <?php
         //Display security info badge
         $aiowps_feature_mgr->output_feature_details_badge("comment-form-captcha");
-        if (AIOWPSecurity_Utility::is_multisite_install() && get_current_blog_id() != 1)
-        {
-           //Hide config settings if MS and not main site
-           AIOWPSecurity_Utility::display_multisite_message();
-        }
-        else
-        {
         ?>
         <table class="form-table">
             <tr valign="top">
@@ -141,7 +134,6 @@ class AIOWPSecurity_Spam_Menu extends AIOWPSecurity_Admin_Menu
                 </td>
             </tr>            
         </table>
-        <?php } //End if statement ?>
         </div></div>
             
         <div class="postbox">

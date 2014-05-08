@@ -1,10 +1,10 @@
 === All In One WP Security & Firewall ===
 Contributors: Tips and Tricks HQ, wpsolutions, Peter Petreski, Ruhul Amin 
 Donate link: http://www.tipsandtricks-hq.com
-Tags: security, secure, Anti Virus, antivirus, ban, ban hacker, virus, firewall, firewall security, login, lockdown, htaccess, hack, malware, vulnerability, protect, protection, phishing, database, backup, plugin, sql injection, ssl, restrict, login captcha, bot, hotlink, 404 detection, admin, rename,
+Tags: security, secure, Anti Virus, antivirus, ban, ban hacker, virus, firewall, firewall security, login, lockdown, htaccess, hack, malware, vulnerability, protect, protection, phishing, database, backup, plugin, sql injection, ssl, restrict, login captcha, bot, hotlink, 404 detection, admin, rename, all in one,
 Requires at least: 3.5
 Tested up to: 3.9
-Stable tag: 3.7.3
+Stable tag: 3.7.4
 License: GPLv3
 
 A comprehensive, user-friendly, all in one WordPress security and firewall plugin for your site.
@@ -107,6 +107,9 @@ or malicious bots who do not have a special cookie in their browser. You (the si
 * Prevent comments from being submitted if it doesn't originate from your domain (this should reduce some SPAM bot comment posting on your site).
 * Add a captcha to your wordpress comment form to add security against comment spam.
 
+= Front-end Text Copy Protection =
+* Ability to disable the right click, text selection and copy option for your front-end.
+
 = Regular updates and additions of new security features =
 * WordPress Security is something that evolves over time. We will be updating the All In One WP Security plugin with new security features (and fixes if required) on a regular basis so you can rest assured that your site will be on the cutting edge of security protection techniques.
 
@@ -150,6 +153,15 @@ http://www.tipsandtricks-hq.com/wordpress-security-and-firewall-plugin
 None
 
 == Changelog ==
+
+= 3.7.4 =
+- Added a new feature to add copy protection for your front-end. You can find this feature under the "Miscellaneous" menu.
+- Fixed comment captcha bug for multi-site. Now this feature can be activated/deactivated for subsites of a multisite installation.
+- Added Hungarian language translation. The translation was submitted by Daniel Kocsis.
+- Moved the custom login page feature's handling code to wp-loaded hook so other plugins that modify the login page can do their task before our one is triggered. This change was suggested by Mark Hudnall.
+- Added German language translation. The translation was submitted by Manuel Fritsch.
+- Updated the Brazilian language translation file.
+
 
 = 3.7.3 =
 - Added Brazilian language translation. The translation was submitted by Sergio Siqueira.

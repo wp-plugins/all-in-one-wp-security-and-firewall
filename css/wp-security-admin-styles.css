@@ -160,6 +160,11 @@
     max-width:350px;
     margin-right:15px;
 }
+
+#security_strength_chart_div table{
+    margin-right: auto !important;
+    margin-left:auto !important;
+}
 .aiowps_dashboard_widget_footer{
     background-color: #E6E6E6;
     padding: 10px;

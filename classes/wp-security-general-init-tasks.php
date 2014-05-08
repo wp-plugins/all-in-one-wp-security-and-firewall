@@ -61,25 +61,22 @@ class AIOWPSecurity_General_Init_Tasks
         }
 
         //For comment captcha feature
-        if($aio_wp_security->configs->get_value('aiowps_enable_comment_captcha') == '1'){
-            add_action( 'comment_form_after_fields', array(&$this, 'insert_captcha_question_form'), 1 );
-            add_action( 'comment_form_logged_in_after', array(&$this, 'insert_captcha_question_form'), 1 );
-            add_filter( 'preprocess_comment', array(&$this, 'process_comment_post') );
-        }
-        
-        //For rename login page feature
-        if($aio_wp_security->configs->get_value('aiowps_enable_rename_login_page') == '1'){
-            include_once(AIO_WP_SECURITY_PATH.'/classes/wp-security-process-renamed-login-page.php');
-            $login_object = new AIOWPSecurity_Process_Renamed_Login_Page();
-            AIOWPSecurity_Process_Renamed_Login_Page::renamed_login_init_tasks();
-        }
-        
-        //For site lockout feature (ie, maintenance mode)
-        if($aio_wp_security->configs->get_value('aiowps_site_lockout') == '1'){
-            if (!is_user_logged_in() && !current_user_can('administrator') && !is_admin() && !in_array( $GLOBALS['pagenow'], array( 'wp-login.php', 'wp-register.php' ))) {
-                $this->site_lockout_tasks();
+        if (AIOWPSecurity_Utility::is_multisite_install()){
+            $blog_id = get_current_blog_id();
+            switch_to_blog($blog_id);
+            if($aio_wp_security->configs->get_value('aiowps_enable_comment_captcha') == '1'){
+                add_action( 'comment_form_after_fields', array(&$this, 'insert_captcha_question_form'), 1 );
+                add_action( 'comment_form_logged_in_after', array(&$this, 'insert_captcha_question_form'), 1 );
+                add_filter( 'preprocess_comment', array(&$this, 'process_comment_post') );
             }
-        }        
+            restore_current_blog();
+        }else{
+            if($aio_wp_security->configs->get_value('aiowps_enable_comment_captcha') == '1'){
+                add_action( 'comment_form_after_fields', array(&$this, 'insert_captcha_question_form'), 1 );
+                add_action( 'comment_form_logged_in_after', array(&$this, 'insert_captcha_question_form'), 1 );
+                add_filter( 'preprocess_comment', array(&$this, 'process_comment_post') );
+            }
+        }
         
         //For feature which displays logged in users
         $this->update_logged_in_user_transient();
@@ -102,14 +99,6 @@ class AIOWPSecurity_General_Init_Tasks
     function remove_wp_generator_meta_info()
     {
         return '';
-    }
-    
-    function site_lockout_tasks(){
-        nocache_headers();
-        header("HTTP/1.0 503 Service Unavailable");
-        remove_action('wp_head','head_addons',7);
-        include_once(AIO_WP_SECURITY_PATH.'/other-includes/wp-security-visitor-lockout-page.php');
-        exit();
     }
 
     function do_404_lockout_tasks(){

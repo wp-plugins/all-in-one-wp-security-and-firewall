@@ -109,7 +109,10 @@ class AIOWPSecurity_Configure_Settings
         $aio_wp_security->configs->set_value('aiowps_fcd_scan_email_address',$blog_email_address);
         $aio_wp_security->configs->set_value('aiowps_fcds_change_detected', FALSE); //used to display a global alert on site when file change detected
 
-
+        //Misc Options
+        //Copy protection feature
+        $aio_wp_security->configs->set_value('aiowps_copy_protection','');//Checkbox
+                
         //TODO - keep adding default options for any fields that require it
         
         //Save it
@@ -218,6 +221,11 @@ class AIOWPSecurity_Configure_Settings
         $aio_wp_security->configs->add_value('aiowps_send_fcd_scan_email','');//Checkbox
         $aio_wp_security->configs->add_value('aiowps_fcd_scan_email_address',$blog_email_address);
         $aio_wp_security->configs->add_value('aiowps_fcds_change_detected',FALSE); //used to display a global alert on site when file change detected
+        
+        //Misc Options
+        //Copy protection feature
+        $aio_wp_security->configs->add_value('aiowps_copy_protection','');//Checkbox
+
         
         //TODO - keep adding default options for any fields that require it
         
