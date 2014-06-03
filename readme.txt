@@ -126,6 +126,9 @@ or malicious bots who do not have a special cookie in their browser. You (the si
 = Plugin Support =
 * If you have a question or problem with the All In One Security plugin, post it on the support forum and we will help you.
 
+= Developers =
+* If you are a developer and you need some extra hooks or filters for this plugin then let us know.
+
 = Translations =
 * All In One WP Security plugin can be translated to any language.
 
