@@ -1,7 +1,7 @@
 === All In One WP Security & Firewall ===
 Contributors: Tips and Tricks HQ, wpsolutions, Peter Petreski, Ruhul Amin 
 Donate link: http://www.tipsandtricks-hq.com
-Tags: security, secure, Anti Virus, antivirus, ban, ban hacker, virus, firewall, firewall security, login, lockdown, htaccess, hack, malware, vulnerability, protect, protection, phishing, database, backup, plugin, sql injection, ssl, restrict, login captcha, bot, hotlink, 404 detection, admin, rename, all in one, scan, scanner,
+Tags: security, secure, Anti Virus, antivirus, ban, ban hacker, virus, firewall, firewall security, login, lockdown, htaccess, hack, malware, vulnerability, protect, protection, phishing, database, backup, plugin, sql injection, ssl, restrict, login captcha, bot, hotlink, 404 detection, admin, rename, all in one, scan, scanner
 Requires at least: 3.5
 Tested up to: 3.9.1
 Stable tag: 3.7.5
