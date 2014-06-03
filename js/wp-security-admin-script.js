@@ -18,6 +18,7 @@ jQuery(document).ready(function($){
     }
     aiowps_attach_media_uploader('aiowps_htaccess_file');
     aiowps_attach_media_uploader('aiowps_wp_config_file');
+    aiowps_attach_media_uploader('aiowps_import_settings_file');
     aiowps_attach_media_uploader('aiowps_db_file'); //TODO - for future use when we implement DB restore
     //End of Media Uploader
     

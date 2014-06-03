@@ -1,10 +1,10 @@
 === All In One WP Security & Firewall ===
 Contributors: Tips and Tricks HQ, wpsolutions, Peter Petreski, Ruhul Amin 
 Donate link: http://www.tipsandtricks-hq.com
-Tags: security, secure, Anti Virus, antivirus, ban, ban hacker, virus, firewall, firewall security, login, lockdown, htaccess, hack, malware, vulnerability, protect, protection, phishing, database, backup, plugin, sql injection, ssl, restrict, login captcha, bot, hotlink, 404 detection, admin, rename, all in one,
+Tags: security, secure, Anti Virus, antivirus, ban, ban hacker, virus, firewall, firewall security, login, lockdown, htaccess, hack, malware, vulnerability, protect, protection, phishing, database, backup, plugin, sql injection, ssl, restrict, login captcha, bot, hotlink, 404 detection, admin, rename, all in one, scan, scanner,
 Requires at least: 3.5
-Tested up to: 3.9
-Stable tag: 3.7.4
+Tested up to: 3.9.1
+Stable tag: 3.7.5
 License: GPLv3
 
 A comprehensive, user-friendly, all in one WordPress security and firewall plugin for your site.
@@ -101,6 +101,7 @@ or malicious bots who do not have a special cookie in their browser. You (the si
 
 = Security Scanner =
 * The file change detection scanner can alert you if any files have changed in your WordPress system. You can then investigate and see if that was a legitimate change or some bad code was injected.
+* Database scanner feature can be used to scan your database tables. It will look for any common suspicious-looking strings, javascript and html code in some of the WordPress core tables.
 
 = Comment SPAM Security =
 * Monitor the most active IP addresses which persistently produce the most SPAM comments and instantly block them with the click of a button.
@@ -120,6 +121,7 @@ or malicious bots who do not have a special cookie in their browser. You (the si
 * Ability to remove the WordPress Generator Meta information from the HTML source of your site.
 * Ability to prevent people from accessing the readme.html, license.txt and wp-config-sample.php files
 * Ability to temporarily lock down the front end of your site from general visitors while you do various backend tasks (investigate security attacks, perform site upgrades, do maintenance work etc.)
+* Ability to export/import the security settings.
 
 = Plugin Support =
 * If you have a question or problem with the All In One Security plugin, post it on the support forum and we will help you.
@@ -153,6 +155,14 @@ http://www.tipsandtricks-hq.com/wordpress-security-and-firewall-plugin
 None
 
 == Changelog ==
+
+= 3.7.5 =
+- Added a new DB scan feature. Go to the "Scanner" menu to use this new feature.
+- Added new settings import/export feature.
+- Modified user accounts feature to alert administrator if one or both "admin" or "Admin" usernames are being used.
+- Added Persian language translation. The translation was submitted by Amir Mousavi Pour (me@ameer.ir).
+- Small change to get_mysql_tables function to prevent fatal error when mysqli query is unsuccessful.
+- Added Italian language translation. The translation was submitted by Marco Guglielmetti.
 
 = 3.7.4 =
 - Added a new feature to add copy protection for your front-end. You can find this feature under the "Miscellaneous" menu.

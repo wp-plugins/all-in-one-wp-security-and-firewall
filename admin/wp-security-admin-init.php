@@ -150,6 +150,21 @@ class AIOWPSecurity_Admin_Init
             $result = AIOWPSecurity_Utility_File::backup_and_rename_wp_config($wp_config_path); //Backup the wp_config.php file
             AIOWPSecurity_Utility_File::download_a_file_option1($wp_config_path, "wp-config-backup.txt");
         }
+        
+        //Handle export settings
+        if(isset($_POST['aiowps_export_settings']))//Do form submission tasks
+        {
+            $nonce=$_REQUEST['_wpnonce'];
+            if (!wp_verify_nonce($nonce, 'aiowpsec-export-settings-nonce'))
+            {
+                $aio_wp_security->debug_logger->log_debug("Nonce check failed on export AIOWPS settings!",4);
+                die("Nonce check failed on export AIOWPS settings!");
+            }
+            $config_data = get_option('aio_wp_security_configs');
+            $output = json_encode($config_data);
+            AIOWPSecurity_Utility_File::download_content_to_a_file($output);            
+        }
+        
     }
     
     function create_admin_menus()

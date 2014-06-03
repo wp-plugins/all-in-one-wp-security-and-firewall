@@ -573,7 +573,7 @@ class AIOWPSecurity_Utility_Htaccess
         if($aio_wp_security->configs->get_value('aiowps_disable_index_views')=='1') 
         {
             $rules .= AIOWPSecurity_Utility_Htaccess::$disable_index_views_marker_start . PHP_EOL; //Add feature marker start
-            $rules .= 'Options All -Indexes' . PHP_EOL;
+            $rules .= 'Options -Indexes' . PHP_EOL;
             $rules .= AIOWPSecurity_Utility_Htaccess::$disable_index_views_marker_end . PHP_EOL; //Add feature marker end
         }
         

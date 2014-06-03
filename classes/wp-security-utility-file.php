@@ -212,6 +212,21 @@ class AIOWPSecurity_Utility_File
         exit;
     }
     
+    static function download_content_to_a_file($output, $file_name = '')
+    {
+        if(empty($file_name)){$file_name = "aiowps_" . date("Y-m-d_H-i", time()).".txt";}
+
+        header("Content-Encoding: UTF-8");
+        header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
+        header("Content-Description: File Transfer");
+        header("Content-type: application/octet-stream");
+        header("Content-disposition: attachment; filename=" . $file_name);
+        header("Content-Transfer-Encoding: binary");
+        header("Content-Length: " . strlen($output));
+        echo $output;
+        exit;
+    }
+    
     /*
      * This function will compare the current permission value for a file or dir with the recommended value.
      * It will compare the individual "execute", "write" and "read" bits for the "public", "group" and "owner" permissions.
@@ -361,5 +376,26 @@ class AIOWPSecurity_Utility_File
         }
         return $res;
     }
+
+    static function get_attachment_id_from_url($attachment_url = '')
+    {
+        global $wpdb;
+        $attachment_id = false;
+
+        // If there is no url, return.
+        if ('' == $attachment_url)return;
+
+        // Get the upload directory paths
+        $upload_dir_paths = wp_upload_dir();
+
+        // Make sure the upload path base directory exists in the attachment URL, to verify that we're working with a media library image
+        if (false !== strpos($attachment_url, $upload_dir_paths['baseurl'])) {
+            // Remove the upload path base directory from the attachment URL
+            $attachment_url = str_replace( $upload_dir_paths['baseurl'] . '/', '', $attachment_url );
+            // Now run custom database query to get attachment ID from attachment URL
+            $attachment_id = $wpdb->get_var( $wpdb->prepare( "SELECT wposts.ID FROM $wpdb->posts wposts, $wpdb->postmeta wpostmeta WHERE wposts.ID = wpostmeta.post_id AND wpostmeta.meta_key = '_wp_attached_file' AND wpostmeta.meta_value = '%s' AND wposts.post_type = 'attachment'", $attachment_url ) );
+        }
+        return $attachment_id;
+    }    
     
 }

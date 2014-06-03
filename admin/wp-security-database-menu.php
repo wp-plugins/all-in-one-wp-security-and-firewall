@@ -545,8 +545,8 @@ class AIOWPSecurity_Database_Menu extends AIOWPSecurity_Admin_Menu
 //            foreach($temp as $res){
 //                $tables[] = $res[0];
 //            }
+            $result->close();
         }
-        $result->close();
         $mysqli->close();        
         return $tables;
     }

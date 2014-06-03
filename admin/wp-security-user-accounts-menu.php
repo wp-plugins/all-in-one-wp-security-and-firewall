@@ -110,7 +110,7 @@ class AIOWPSecurity_User_Accounts_Menu extends AIOWPSecurity_Admin_Menu
         global $aiowps_feature_mgr;
         $aiowps_feature_mgr->output_feature_details_badge("user-accounts-change-admin-user");
         
-        if (AIOWPSecurity_Utility::check_user_exists('admin')) 
+        if (AIOWPSecurity_Utility::check_user_exists('admin') || AIOWPSecurity_Utility::check_user_exists('Admin')) 
         {
             echo '<div class="aio_red_box"><p>'.__('Your site currently has an account which uses the default "admin" username. 
                 It is highly recommended that you change this name to something else. 
@@ -324,7 +324,7 @@ class AIOWPSecurity_User_Accounts_Menu extends AIOWPSecurity_Admin_Menu
             $account_output .= '<tr><th>'.__('Account Login Name', 'aiowpsecurity').'</th></tr>';
             foreach ($admin_users as $entry) {
                 $account_output .= '<tr>';
-                if ($entry->user_login == 'admin') {
+                if (strtolower($entry->user_login) == 'admin') {
                     $account_output .= '<td style="color:red; font-weight: bold;">'.$entry->user_login.'</td>';
                 }else {
                     $account_output .= '<td>'.$entry->user_login.'</td>';

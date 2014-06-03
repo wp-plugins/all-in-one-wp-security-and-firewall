@@ -12,6 +12,7 @@ class AIOWPSecurity_Settings_Menu extends AIOWPSecurity_Admin_Menu
         'tab2' => 'render_tab2',
         'tab3' => 'render_tab3',
         'tab4' => 'render_tab4',
+        'tab5' => 'render_tab5',
         );
 
     function __construct() 
@@ -22,10 +23,11 @@ class AIOWPSecurity_Settings_Menu extends AIOWPSecurity_Admin_Menu
     function set_menu_tabs() 
     {
         $this->menu_tabs = array(
-        'tab1' => __('General Settings', 'aiowpsecurity'), 
-        'tab2' => '.htaccess '.__('File', 'aiowpsecurity'),
-        'tab3' => 'wp-config.php '.__('File', 'aiowpsecurity'),
-        'tab4' => __('WP Meta Info', 'aiowpsecurity'),
+            'tab1' => __('General Settings', 'aiowpsecurity'), 
+            'tab2' => '.htaccess '.__('File', 'aiowpsecurity'),
+            'tab3' => 'wp-config.php '.__('File', 'aiowpsecurity'),
+            'tab4' => __('WP Meta Info', 'aiowpsecurity'),
+            'tab5' => __('Import/Export', 'aiowpsecurity'),
         );
     }
 
@@ -347,9 +349,9 @@ class AIOWPSecurity_Settings_Menu extends AIOWPSecurity_Admin_Menu
             {
                 //Let's copy the uploaded wp-config.php file into the active root file
                 $new_wp_config_file_path = trim($_POST['aiowps_wp_config_file']);
-                //TODO
-                //Verify that file chosen has contents which are relevant to .htaccess file
-                $is_wp_config = $this->check_if_wp_config_contents($new_wp_config_file_path); //TODO - write the function
+                
+                //Verify that file chosen is a wp-config.file
+                $is_wp_config = $this->check_if_wp_config_contents($new_wp_config_file_path);
                 if ($is_wp_config == 1)
                 {
                     $active_root_wp_config = ABSPATH.'wp-config.php';
@@ -496,6 +498,133 @@ class AIOWPSecurity_Settings_Menu extends AIOWPSecurity_Admin_Menu
     <?php
     }
 
+    
+    function render_tab5()
+    {
+        global $aio_wp_security;
+        
+        if(isset($_POST['aiowps_import_settings']))//Do form submission tasks
+        {
+            $nonce=$_REQUEST['_wpnonce'];
+            if (!wp_verify_nonce($nonce, 'aiowpsec-import-settings-nonce'))
+            {
+                $aio_wp_security->debug_logger->log_debug("Nonce check failed on import AIOWPS settings!",4);
+                die("Nonce check failed on import AIOWPS settings!");
+            }
+            
+            if (empty($_POST['aiowps_import_settings_file']))
+            {
+                $this->show_msg_error(__('Please choose a file to import your settings from.', 'aiowpsecurity'));
+            }
+            else
+            {
+                //Let's get the uploaded import file path
+                $submitted_import_file_path = trim($_POST['aiowps_import_settings_file']);
+                $attachment_id = AIOWPSecurity_Utility_File::get_attachment_id_from_url($submitted_import_file_path); //we'll need this later for deleting
+
+                //Verify that file chosen has valid AIOWPS settings contents
+                $aiowps_settings_file_contents = $this->check_if_valid_aiowps_settings_file($submitted_import_file_path);
+                if ($aiowps_settings_file_contents != -1)
+                {
+                    //Apply the settings and delete the file
+                    $settings_array = json_decode($aiowps_settings_file_contents, true);
+                    $aiowps_settings_applied = update_option('aio_wp_security_configs', $settings_array);
+                    
+                    if (!$aiowps_settings_applied) 
+                    {
+                        //Failed to import settings
+                        $aio_wp_security->debug_logger->log_debug("Import AIOWPS settings from file operation failed!",4);
+                        $this->show_msg_error(__('Import AIOWPS settings from file operation failed!','aiowpsecurity'));
+
+                        //Delete the uploaded settings file for security purposes
+                        wp_delete_attachment( $attachment_id, true );
+                        if ( false === wp_delete_attachment( $attachment_id, true ) ){
+                            $this->show_msg_error(__('The deletion of the import file failed. Please delete this file manually via the media menu for security purposes.', 'aiowpsecurity'));
+                        }else{
+                            $this->show_msg_updated(__('The file you uploaded was also deleted for security purposes because it contains security settings details.', 'aiowpsecurity'));
+                        }
+                    }
+                    else
+                    {
+                        //Delete the uploaded settings file for security purposes
+                        wp_delete_attachment( $attachment_id, true );
+                        if ( false === wp_delete_attachment( $attachment_id, true ) ){
+                            $this->show_msg_updated(__('Your AIOWPS settings were successfully imported.', 'aiowpsecurity'));
+                            $this->show_msg_error(__('The deletion of the import file failed. Please delete this file manually via the media menu for security purposes because it contains security settings details.', 'aiowpsecurity'));
+                        }else{
+                            $this->show_msg_updated(__('Your AIOWPS settings were successfully imported. The file you uploaded was also deleted for security purposes because it contains security settings details.', 'aiowpsecurity'));
+                        }
+                    }
+                }
+                else
+                {
+                    //Invalid settings file
+                    $aio_wp_security->debug_logger->log_debug("The contents of your settings file appear invalid!",4);
+                    $this->show_msg_error(__('The contents of your settings file appear invalid. Please check the contents of the file you are trying to import settings from.','aiowpsecurity'));
+                    //Let's also delete the uploaded settings file for security purposes
+                    wp_delete_attachment( $attachment_id, true );
+                    if ( false === wp_delete_attachment( $attachment_id, true ) ){
+                        $this->show_msg_error(__('The deletion of the import file failed. Please delete this file manually via the media menu for security purposes.', 'aiowpsecurity'));
+                    }else{
+                        $this->show_msg_updated(__('The file you uploaded was also deleted for security purposes because it contains security settings details.', 'aiowpsecurity'));
+                    }
+                    
+                }
+            }
+        }
+        
+
+        ?>
+        <h2><?php _e('Export or Import Your AIOWPS Settings', 'aiowpsecurity')?></h2>
+        <div class="aio_blue_box">
+            <?php
+            echo '<p>'.__('This section allows you to export or import your All In One WP Security & Firewall settings.', 'aiowpsecurity');
+            echo '<br />'.__('This can be handy if you wanted to save time by applying the settings from one site to another site.', 'aiowpsecurity').'
+            <br />'.__('NOTE: Before importing, it is your responsibility to know what settings you are trying to import. Importing settings blindly can cause you to be locked out of your site.', 'aiowpsecurity').'    
+            <br />'.__('For Example: If a settings item rely on the domain URL then it may not work correctly when imported into a different domain.','aiowpsecurity').'
+            </p>';
+            ?>
+        </div>
+
+        <div class="postbox">
+        <h3><label for="title"><?php _e('Export AIOWPS Settings', 'aiowpsecurity'); ?></label></h3>
+        <div class="inside">
+        <form action="" method="POST">
+        <?php wp_nonce_field('aiowpsec-export-settings-nonce'); ?>            
+        <table class="form-table">
+            <tr valign="top">
+            <span class="description"><?php _e('To export your All In One WP Security & Firewall settings click the button below.', 'aiowpsecurity'); ?></span>                
+            </tr>            
+        </table>
+        <input type="submit" name="aiowps_export_settings" value="<?php _e('Export AIOWPS Settings', 'aiowpsecurity')?>" class="button-primary" />
+        </form>
+        </div></div>
+        <div class="postbox">
+        <h3><label for="title"><?php _e('Import AIOWPS Settings', 'aiowpsecurity'); ?></label></h3>
+        <div class="inside">
+        <form action="" method="POST">
+        <?php wp_nonce_field('aiowpsec-import-settings-nonce'); ?>            
+        <table class="form-table">
+            <tr valign="top">
+                <span class="description"><?php _e('Use this section to import your All In One WP Security & Firewall settings from a file.', 'aiowpsecurity'); ?></span>
+                <th scope="row"><?php _e('Import File', 'aiowpsecurity')?>:</th>
+                <td>
+                    <input type="button" id="aiowps_import_settings_file_button" name="aiowps_import_settings_file_button" class="button rbutton" value="Select Your Import Settings File" />
+                    <input name="aiowps_import_settings_file" type="text" id="aiowps_import_settings_file" value="" size="80" />
+                    <p class="description">
+                        <?php
+                        _e('After selecting your file, click the button below to apply the settings to your site.', 'aiowpsecurity');
+                        ?>
+                    </p>
+                </td>
+            </tr>            
+        </table>
+        <input type="submit" name="aiowps_import_settings" value="<?php _e('Import AIOWPS Settings', 'aiowpsecurity')?>" class="button-primary" />
+        </form>
+        </div></div>
+    <?php
+    }
+    
     function check_if_wp_config_contents($wp_file)
     {
         $is_wp_config = false;
@@ -522,6 +651,36 @@ class AIOWPSecurity_Settings_Menu extends AIOWPSecurity_Admin_Menu
         if ($is_wp_config)
         {
             return 1;
+        }
+        else
+        {
+            return -1;
+        }
+
+    }
+    
+    
+    //Checks if valid aiowps settings file and returns contents as string
+    function check_if_valid_aiowps_settings_file($wp_file)
+    {
+        $is_aiopws_settings = false;
+        
+        $file_contents = file_get_contents($wp_file);
+
+        if ($file_contents == '' || $file_contents == NULL || $file_contents == false)
+        {
+            return -1;
+        }
+        
+        //Check a known aiowps config strings to see if it is contained within this file
+        if(strpos($file_contents, 'aiowps_enable_login_lockdown') === FALSE){
+            $is_aiopws_settings = false;
+        }else{
+            $is_aiopws_settings = true;
+        }
+        if ($is_aiopws_settings)
+        {
+            return $file_contents;
         }
         else
         {

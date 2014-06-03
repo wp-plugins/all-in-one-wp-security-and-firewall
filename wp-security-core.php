@@ -3,7 +3,7 @@
 if (!class_exists('AIO_WP_Security')){
 
 class AIO_WP_Security{
-    var $version = '3.7.4';
+    var $version = '3.7.5';
     var $db_version = '1.6';
     var $plugin_url;
     var $plugin_path;
@@ -14,7 +14,7 @@ class AIO_WP_Security{
     var $user_login_obj;
     var $user_registration_obj;
     var $backup_obj;
-    var $filescan_obj;
+    var $scan_obj;
     var $captcha_obj;
 
     function __construct()
@@ -184,7 +184,7 @@ class AIO_WP_Security{
         $this->user_registration_obj = new AIOWPSecurity_User_Registration();//Do the user login operation tasks
         $this->captcha_obj = new AIOWPSecurity_Captcha();//Do the captcha tasks
         $this->backup_obj = new AIOWPSecurity_Backup();//Object to handle backup tasks
-        $this->filescan_obj = new AIOWPSecurity_Filescan();//Object to handle backup tasks 
+        $this->scan_obj = new AIOWPSecurity_Scan();//Object to handle backup tasks 
         $this->cron_handler = new AIOWPSecurity_Cronjob_Handler();
         
         add_action('wp_head',array(&$this, 'aiowps_header_content'));
@@ -236,7 +236,32 @@ class AIO_WP_Security{
                 }
             }
         }
-    }    
+    }
+    
+    //This function will dynamically change the upload directory if the user is uploading a file from an aiowps page
+    function aiowps_set_upload_dir($path_data)
+    {
+        $output = array();
+        $originating_url_parsed = parse_url($_SERVER['HTTP_REFERER']);
+        if(isset($originating_url_parsed['query'])){
+            parse_str($originating_url_parsed['query'], $output);
+            
+            if (isset($output['referer'])){
+                if ($output['referer'] == 'aiowpsec') {
+                    $path_data['path'] = WP_CONTENT_DIR . "/" . AIO_WP_SECURITY_BACKUPS_DIR_NAME;
+                    $path_data['url'] = content_url() . "/" . AIO_WP_SECURITY_BACKUPS_DIR_NAME;
+                }
+            }
+        }
+        return $path_data;
+    }
+    
+    function handle_upload( $fileinfo )
+    {
+        remove_filter('upload_dir', array( &$this, 'aiowps_set_upload_dir' ) );
+        return $fileinfo;
+    }
+    
     
 }//End of class
 
