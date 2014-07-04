@@ -54,11 +54,26 @@ class AIOWPSecurity_General_Init_Tasks
         }
 
         //For registration page captcha feature
-        if($aio_wp_security->configs->get_value('aiowps_enable_registration_page_captcha') == '1'){
-            if (!is_user_logged_in()) {
-                add_action('register_form', array(&$this, 'insert_captcha_question_form'));
+        if (AIOWPSecurity_Utility::is_multisite_install()){
+            $blog_id = get_current_blog_id();
+            switch_to_blog($blog_id);
+            if($aio_wp_security->configs->get_value('aiowps_enable_registration_page_captcha') == '1'){
+                if (!is_user_logged_in()) {
+                    add_action('signup_extra_fields', array(&$this, 'insert_captcha_question_form_multi'));
+                    //add_action('preprocess_signup_form', array(&$this, 'process_signup_form_multi'));
+                    add_filter( 'wpmu_validate_user_signup', array(&$this, 'process_signup_form_multi') );
+                    
+                }
+            }
+            restore_current_blog();
+        }else{
+            if($aio_wp_security->configs->get_value('aiowps_enable_registration_page_captcha') == '1'){
+                if (!is_user_logged_in()) {
+                    add_action('register_form', array(&$this, 'insert_captcha_question_form'));
+                }
             }
         }
+        
 
         //For comment captcha feature
         if (AIOWPSecurity_Utility::is_multisite_install()){
@@ -82,7 +97,7 @@ class AIOWPSecurity_General_Init_Tasks
         $this->update_logged_in_user_transient();
         
         //For block fake googlebots feature
-        if($aio_wp_security->configs->get_value('aiowps_enable_block_fake_googlebots') == '1'){
+        if($aio_wp_security->configs->get_value('aiowps_block_fake_googlebots') == '1'){
             include_once(AIO_WP_SECURITY_PATH.'/classes/wp-security-bot-protection.php');
             AIOWPSecurity_Fake_Bot_Protection::block_fake_googlebots();
         }
@@ -171,6 +186,30 @@ class AIOWPSecurity_General_Init_Tasks
                 }
             }
         }
+    }
+    
+    function insert_captcha_question_form_multi($error)
+    {
+        global $aio_wp_security;
+        $aio_wp_security->captcha_obj->display_captcha_form();
+    }
+    
+    function process_signup_form_multi($result)
+    {
+        global $aio_wp_security;
+        //Check if captcha enabled
+        if (array_key_exists('aiowps-captcha-answer', $_POST)) //If the register form with captcha was submitted then do some processing
+        {
+            isset($_POST['aiowps-captcha-answer'])?$captcha_answer = strip_tags(trim($_POST['aiowps-captcha-answer'])): $captcha_answer = '';
+            $captcha_secret_string = $aio_wp_security->configs->get_value('aiowps_captcha_secret_key');
+            $submitted_encoded_string = base64_encode($_POST['aiowps-captcha-temp-string'].$captcha_secret_string.$captcha_answer);
+            if($submitted_encoded_string !== $_POST['aiowps-captcha-string-info'])
+            {
+                //This means a wrong answer was entered
+                $result['errors']->add('generic', __('<strong>ERROR</strong>: Your answer was incorrect - please try again.', 'aiowpsecurity'));                
+            }
+        }
+        return $result;
     }
     
     function insert_captcha_question_form(){

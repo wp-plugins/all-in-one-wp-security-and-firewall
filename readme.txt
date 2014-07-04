@@ -1,10 +1,10 @@
 === All In One WP Security & Firewall ===
-Contributors: Tips and Tricks HQ, wpsolutions, Peter Petreski, Ruhul Amin 
+Contributors: Tips and Tricks HQ, wpsolutions, Peter Petreski, Ruhul Amin, samuelaguilera
 Donate link: http://www.tipsandtricks-hq.com
 Tags: security, secure, Anti Virus, antivirus, ban, ban hacker, virus, firewall, firewall security, login, lockdown, htaccess, hack, malware, vulnerability, protect, protection, phishing, database, backup, plugin, sql injection, ssl, restrict, login captcha, bot, hotlink, 404 detection, admin, rename, all in one, scan, scanner
 Requires at least: 3.5
 Tested up to: 3.9.1
-Stable tag: 3.7.5
+Stable tag: 3.7.6
 License: GPLv3
 
 A comprehensive, user-friendly, all in one WordPress security and firewall plugin for your site.
@@ -158,6 +158,12 @@ http://www.tipsandtricks-hq.com/wordpress-security-and-firewall-plugin
 None
 
 == Changelog ==
+
+= 3.7.6 =
+- Added ability to insert captcha in WordPress Multi Site registration form.
+- Added a condition around the management permission constant. This will allow users to define a custom capability for this plugin's admin side via the wp-config file. This was submitted by Samuel Aguilera.
+- Fixed a bug with the hidden login page feature.
+- Fixed a small settings bug with the "block fake google bot" feature.
 
 = 3.7.5 =
 - Added a new DB scan feature. Go to the "Scanner" menu to use this new feature.

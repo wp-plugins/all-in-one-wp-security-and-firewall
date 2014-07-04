@@ -3,7 +3,7 @@
 if (!class_exists('AIO_WP_Security')){
 
 class AIO_WP_Security{
-    var $version = '3.7.5';
+    var $version = '3.7.6';
     var $db_version = '1.6';
     var $plugin_url;
     var $plugin_path;
@@ -57,7 +57,9 @@ class AIO_WP_Security{
         define('AIO_WP_SECURITY_BACKUPS_DIR_NAME', 'aiowps_backups');
         define('AIO_WP_SECURITY_BACKUPS_PATH', AIO_WP_SECURITY_PATH.'/backups');
         define('AIO_WP_SECURITY_LIB_PATH', AIO_WP_SECURITY_PATH.'/lib');
-        define('AIOWPSEC_MANAGEMENT_PERMISSION', 'manage_options');
+        if (!defined('AIOWPSEC_MANAGEMENT_PERMISSION')){//This will allow the user to define custom capability for this constant in wp-config file
+            define('AIOWPSEC_MANAGEMENT_PERMISSION', 'manage_options');
+        }
         define('AIOWPSEC_MENU_SLUG_PREFIX', 'aiowpsec');
         define('AIOWPSEC_MAIN_MENU_SLUG', 'aiowpsec');
         define('AIOWPSEC_SETTINGS_MENU_SLUG', 'aiowpsec_settings');

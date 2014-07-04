@@ -65,11 +65,18 @@ class AIOWPSecurity_Process_Renamed_Login_Page
     {
         global $aio_wp_security;
         if (is_admin() && !is_user_logged_in() && !defined('DOING_AJAX')){
-            wp_die( __( 'Please log in to access the WordPress admin area.', 'aiowpsecurity') );
+            AIOWPSecurity_Process_Renamed_Login_Page::aiowps_set_404();
         }
         
         $parsed_url = parse_url($_SERVER['REQUEST_URI']);
+
+        //Bug fix: It has been discovered that entering something like the following "http://yoursite.com//xyz/wp-login.php" was revealing the hidden login page
+        //Check if there are instances of 2 or more "//" in the REQUEST_URI path
+        if (preg_match('/(\/)\1{1,}/', $parsed_url['path'])) {
+            AIOWPSecurity_Process_Renamed_Login_Page::aiowps_set_404();
+        }
         $login_slug = $aio_wp_security->configs->get_value('aiowps_login_page_slug');
+        
         if(untrailingslashit($parsed_url['path']) === home_url($login_slug, 'relative')
                 || (!get_option('permalink_structure') && isset($_GET[$login_slug]))){
             status_header( 200 );
