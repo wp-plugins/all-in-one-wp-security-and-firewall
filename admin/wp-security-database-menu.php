@@ -96,7 +96,7 @@ class AIOWPSecurity_Database_Menu extends AIOWPSecurity_Admin_Menu
             //Let's first check if user's system allows writing to wp-config.php file. If plugin cannot write to wp-config we will not do the prefix change.
             $config_file = ABSPATH.'wp-config.php';
             $file_write = AIOWPSecurity_Utility_File::is_file_writable($config_file);
-            if ($file_write == false)
+            if (!$file_write)
             {
                 $this->show_msg_error(__('The plugin has detected that it cannot write to the wp-config.php file. This feature can only be used if the plugin can successfully write to the wp-config.php file.', 'aiowpsecurity'));
             }
@@ -439,11 +439,12 @@ class AIOWPSecurity_Database_Menu extends AIOWPSecurity_Admin_Menu
         
         //Get wp-config.php file contents and modify it with new info
         $config_contents = file($config_file);
+        $prefix_match_string = '$table_prefix='; //this is our search string for the wp-config.php file
 	foreach ($config_contents as $line_num => $line) {
-            switch (substr($line,0,16)) {
-                case '$table_prefix  =':
-                    $config_contents[$line_num] = str_replace($table_old_prefix, $table_new_prefix, $line);
-                    break;
+            $no_ws_line = preg_replace( '/\s+/', '', $line ); //Strip white spaces
+            if(strpos($no_ws_line, $prefix_match_string) !== FALSE){
+                $config_contents[$line_num] = str_replace($table_old_prefix, $table_new_prefix, $line);
+                break;
             }
 	}
         //Now let's modify the wp-config.php file

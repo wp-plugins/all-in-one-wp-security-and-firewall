@@ -9,6 +9,7 @@ class AIOWPSecurity_Process_Renamed_Login_Page
         add_filter('site_url', array(&$this, 'aiowps_site_url'), 10, 2);
         add_filter('network_site_url', array(&$this, 'aiowps_site_url'), 10, 2);
         add_filter('wp_redirect', array(&$this, 'aiowps_wp_redirect'), 10, 2);
+        add_filter('register', array(&$this, 'register_link'));
         remove_action('template_redirect', 'wp_redirect_admin_locations', 1000); //To prevent redirect to login page when people type "login" at end of home URL
         
     }
@@ -46,6 +47,12 @@ class AIOWPSecurity_Process_Renamed_Login_Page
         return $this->aiowps_filter_wp_login_file($location);
     }
 
+    //Filter register link on the login page
+    function register_link($registration_url)
+    {
+        return $this->aiowps_filter_wp_login_file($registration_url);
+    }
+    
     //Filter all login url strings on the login page
     function aiowps_filter_wp_login_file($url)
     {
@@ -60,21 +67,43 @@ class AIOWPSecurity_Process_Renamed_Login_Page
         }
         return $url;
     }
-    
+
     static function renamed_login_init_tasks()
     {
         global $aio_wp_security;
+        //case where someone attempting to reach wp-admin 
         if (is_admin() && !is_user_logged_in() && !defined('DOING_AJAX')){
-            AIOWPSecurity_Process_Renamed_Login_Page::aiowps_set_404();
+            //Check if the maintenance (lockout) mode is active - if so prevent access to site by not displaying 404 page!
+            if($aio_wp_security->configs->get_value('aiowps_site_lockout') == '1'){
+                AIOWPSecurity_WP_Loaded_Tasks::site_lockout_tasks();
+            }else{
+                AIOWPSecurity_Process_Renamed_Login_Page::aiowps_set_404();
+            }
+        }
+
+        //case where someone attempting to reach wp-login
+        if(isset($_SERVER['REQUEST_URI']) && strpos( $_SERVER['REQUEST_URI'], 'wp-login.php' ) && !is_user_logged_in()){
+            //Check if the maintenance (lockout) mode is active - if so prevent access to site by not displaying 404 page!
+            if($aio_wp_security->configs->get_value('aiowps_site_lockout') == '1'){
+                AIOWPSecurity_WP_Loaded_Tasks::site_lockout_tasks();
+            }else{
+                AIOWPSecurity_Process_Renamed_Login_Page::aiowps_set_404();
+            }
         }
         
+        //case where someone attempting to reach the standard register or signup pages
+        if(isset( $_SERVER['REQUEST_URI'] ) && strpos( $_SERVER['REQUEST_URI'], 'wp-register.php' ) ||
+            isset( $_SERVER['REQUEST_URI'] ) && strpos( $_SERVER['REQUEST_URI'], 'wp-signup.php' )){
+            //Check if the maintenance (lockout) mode is active - if so prevent access to site by not displaying 404 page!
+            if($aio_wp_security->configs->get_value('aiowps_site_lockout') == '1'){
+                AIOWPSecurity_WP_Loaded_Tasks::site_lockout_tasks();
+            }else{
+                AIOWPSecurity_Process_Renamed_Login_Page::aiowps_set_404();
+            }
+        }
+
         $parsed_url = parse_url($_SERVER['REQUEST_URI']);
 
-        //Bug fix: It has been discovered that entering something like the following "http://yoursite.com//xyz/wp-login.php" was revealing the hidden login page
-        //Check if there are instances of 2 or more "//" in the REQUEST_URI path
-        if (preg_match('/(\/)\1{1,}/', $parsed_url['path'])) {
-            AIOWPSecurity_Process_Renamed_Login_Page::aiowps_set_404();
-        }
         $login_slug = $aio_wp_security->configs->get_value('aiowps_login_page_slug');
         
         if(untrailingslashit($parsed_url['path']) === home_url($login_slug, 'relative')

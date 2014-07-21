@@ -466,6 +466,7 @@ class AIOWPSecurity_Utility_Htaccess
         if($aio_wp_security->configs->get_value('aiowps_enable_brute_force_attack_prevention')=='1') 
         {
             $cookie_name = $aio_wp_security->configs->get_value('aiowps_brute_force_secret_word');
+            $test_cookie_name = $aio_wp_security->configs->get_value('aiowps_cookie_brute_test');
             $redirect_url = $aio_wp_security->configs->get_value('aiowps_cookie_based_brute_force_redirect_url');
             $rules .= AIOWPSecurity_Utility_Htaccess::$enable_brute_force_attack_prevention_marker_start . PHP_EOL; //Add feature marker start
             $rules .= 'RewriteEngine On' . PHP_EOL;
@@ -479,7 +480,7 @@ class AIOWPSecurity_Utility_Htaccess
                 $rules .= 'RewriteCond %{QUERY_STRING} !(action\=postpass)' . PHP_EOL; // Possible workaround for people usign the password protected page/post feature
             }
             $rules .= 'RewriteCond %{HTTP_COOKIE} !'.$cookie_name.'= [NC]' . PHP_EOL;
-            $rules .= 'RewriteCond %{HTTP_COOKIE} !aiowps_cookie_test= [NC]' . PHP_EOL;
+            $rules .= 'RewriteCond %{HTTP_COOKIE} !'.$test_cookie_name.'= [NC]' . PHP_EOL;
             $rules .= 'RewriteRule .* '.$redirect_url.' [L]' . PHP_EOL;
             $rules .= AIOWPSecurity_Utility_Htaccess::$enable_brute_force_attack_prevention_marker_end . PHP_EOL; //Add feature marker end
         }

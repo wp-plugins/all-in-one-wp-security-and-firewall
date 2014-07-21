@@ -40,8 +40,7 @@ class AIOWPSecurity_User_Login
                 add_action('login_form', array(&$this, 'insert_unlock_request_form'));
             }
             $aio_wp_security->debug_logger->log_debug("Login attempt from blocked IP range - ".$user_locked['failed_login_ip'],2);
-            return new WP_Error('authentication_failed', __('<strong>ERROR</strong>: Login failed because your IP address has been blocked.
-                                Please contact the administrator.', 'aiowpsecurity'));
+            return new WP_Error('authentication_failed', __('<strong>ERROR</strong>: Login failed because your IP address has been blocked. Please contact the administrator.', 'aiowpsecurity'));
             //$unlock_msg_form = $this->user_unlock_message();
             //return new WP_Error('authentication_failed', __('<strong>ERROR</strong>: Login failed because your IP address has been blocked.
               //                  Please contact the administrator.', 'aiowpsecurity').$unlock_msg_form);

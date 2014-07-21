@@ -75,11 +75,6 @@ class AIOWPSecurity_Configure_Settings
         $aio_wp_security->configs->set_value('aiowps_deny_bad_query_strings','');//Checkbox
         $aio_wp_security->configs->set_value('aiowps_advanced_char_string_filter','');//Checkbox
         $aio_wp_security->configs->set_value('aiowps_enable_5g_firewall','');//Checkbox
-        $aio_wp_security->configs->set_value('aiowps_enable_brute_force_attack_prevention','');//Checkbox
-        $aio_wp_security->configs->set_value('aiowps_brute_force_secret_word','');
-        $aio_wp_security->configs->set_value('aiowps_cookie_based_brute_force_redirect_url','http://127.0.0.1');
-        $aio_wp_security->configs->set_value('aiowps_brute_force_attack_prevention_pw_protected_exception','');//Checkbox
-        $aio_wp_security->configs->set_value('aiowps_brute_force_attack_prevention_ajax_exception','');//Checkbox
         
         //404 detection
         $aio_wp_security->configs->set_value('aiowps_enable_404_logging','');//Checkbox
@@ -89,6 +84,13 @@ class AIOWPSecurity_Configure_Settings
 
         //Brute Force features
         $aio_wp_security->configs->set_value('aiowps_enable_rename_login_page','');//Checkbox
+
+        $aio_wp_security->configs->set_value('aiowps_enable_brute_force_attack_prevention','');//Checkbox
+        $aio_wp_security->configs->set_value('aiowps_brute_force_secret_word','');
+        $aio_wp_security->configs->set_value('aiowps_cookie_brute_test','');
+        $aio_wp_security->configs->set_value('aiowps_cookie_based_brute_force_redirect_url','http://127.0.0.1');
+        $aio_wp_security->configs->set_value('aiowps_brute_force_attack_prevention_pw_protected_exception','');//Checkbox
+        $aio_wp_security->configs->set_value('aiowps_brute_force_attack_prevention_ajax_exception','');//Checkbox
 
         //Maintenance menu - Visitor lockout feature
         $aio_wp_security->configs->set_value('aiowps_site_lockout','');//Checkbox
@@ -188,11 +190,6 @@ class AIOWPSecurity_Configure_Settings
         $aio_wp_security->configs->add_value('aiowps_deny_bad_query_strings','');//Checkbox
         $aio_wp_security->configs->add_value('aiowps_advanced_char_string_filter','');//Checkbox
         $aio_wp_security->configs->add_value('aiowps_enable_5g_firewall','');//Checkbox
-        $aio_wp_security->configs->add_value('aiowps_enable_brute_force_attack_prevention','');//Checkbox
-        $aio_wp_security->configs->add_value('aiowps_brute_force_secret_word','');
-        $aio_wp_security->configs->add_value('aiowps_cookie_based_brute_force_redirect_url','http://127.0.0.1');
-        $aio_wp_security->configs->add_value('aiowps_brute_force_attack_prevention_pw_protected_exception','');//Checkbox
-        $aio_wp_security->configs->add_value('aiowps_brute_force_attack_prevention_ajax_exception','');//Checkbox
 
         //404 detection
         $aio_wp_security->configs->add_value('aiowps_enable_404_logging','');//Checkbox
@@ -202,6 +199,13 @@ class AIOWPSecurity_Configure_Settings
         
         //Brute Force features
         $aio_wp_security->configs->add_value('aiowps_enable_rename_login_page','');//Checkbox
+        
+        $aio_wp_security->configs->add_value('aiowps_enable_brute_force_attack_prevention','');//Checkbox
+        $aio_wp_security->configs->add_value('aiowps_brute_force_secret_word','');
+        $aio_wp_security->configs->add_value('aiowps_cookie_brute_test','');
+        $aio_wp_security->configs->add_value('aiowps_cookie_based_brute_force_redirect_url','http://127.0.0.1');
+        $aio_wp_security->configs->add_value('aiowps_brute_force_attack_prevention_pw_protected_exception','');//Checkbox
+        $aio_wp_security->configs->add_value('aiowps_brute_force_attack_prevention_ajax_exception','');//Checkbox
         
         //Maintenance menu - Visitor lockout feature
         $aio_wp_security->configs->add_value('aiowps_site_lockout','');//Checkbox
