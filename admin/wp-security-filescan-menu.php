@@ -370,6 +370,16 @@ class AIOWPSecurity_Filescan_Menu extends AIOWPSecurity_Admin_Menu
     
     function render_tab3()
     {
+        echo '<div class="aio_blue_box">';
+        echo '<p>'.__('This feature performs a basic database scan which will look for any common suspicious-looking strings and javascript and html code in some of the Wordpress core tables.', 'aiowpsecurity');
+        echo '</div>';
+        
+        echo '<div class="aio_yellow_box">';
+        echo '<p>This feature can give you false positive result. We have temporarily deactivated this feature to make sure you don\'t lose some data on a false positive. We will re-introduced this feature after we rework it.</p>';
+        echo '</div>';
+        
+        return;//This feature is temporarily deactivated while we re-work the interface
+        
         global $wpdb, $aio_wp_security;
         $perform_db_scan = false;
         if (isset($_POST['aiowps_manual_db_scan']))

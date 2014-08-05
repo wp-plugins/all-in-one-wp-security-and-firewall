@@ -84,6 +84,7 @@ class AIOWPSecurity_Configure_Settings
 
         //Brute Force features
         $aio_wp_security->configs->set_value('aiowps_enable_rename_login_page','');//Checkbox
+        $aio_wp_security->configs->set_value('aiowps_enable_login_honeypot','');//Checkbox
 
         $aio_wp_security->configs->set_value('aiowps_enable_brute_force_attack_prevention','');//Checkbox
         $aio_wp_security->configs->set_value('aiowps_brute_force_secret_word','');
@@ -114,6 +115,9 @@ class AIOWPSecurity_Configure_Settings
         //Misc Options
         //Copy protection feature
         $aio_wp_security->configs->set_value('aiowps_copy_protection','');//Checkbox
+        //Prevent others from dislaying your site in iframe
+        $aio_wp_security->configs->set_value('aiowps_prevent_site_display_inside_frame','');//Checkbox
+        
                 
         //TODO - keep adding default options for any fields that require it
         
@@ -199,6 +203,7 @@ class AIOWPSecurity_Configure_Settings
         
         //Brute Force features
         $aio_wp_security->configs->add_value('aiowps_enable_rename_login_page','');//Checkbox
+        $aio_wp_security->configs->add_value('aiowps_enable_login_honeypot','');//Checkbox
         
         $aio_wp_security->configs->add_value('aiowps_enable_brute_force_attack_prevention','');//Checkbox
         $aio_wp_security->configs->add_value('aiowps_brute_force_secret_word','');
@@ -229,6 +234,8 @@ class AIOWPSecurity_Configure_Settings
         //Misc Options
         //Copy protection feature
         $aio_wp_security->configs->add_value('aiowps_copy_protection','');//Checkbox
+        //Prevent others from dislaying your site in iframe
+        $aio_wp_security->configs->add_value('aiowps_prevent_site_display_inside_frame','');//Checkbox
 
         
         //TODO - keep adding default options for any fields that require it

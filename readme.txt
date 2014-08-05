@@ -4,7 +4,7 @@ Donate link: http://www.tipsandtricks-hq.com
 Tags: security, secure, Anti Virus, antivirus, ban, ban hacker, virus, firewall, firewall security, login, lockdown, htaccess, hack, malware, vulnerability, protect, protection, phishing, database, backup, plugin, sql injection, ssl, restrict, login captcha, bot, hotlink, 404 detection, admin, rename, all in one, scan, scanner
 Requires at least: 3.5
 Tested up to: 3.9.1
-Stable tag: 3.7.7
+Stable tag: 3.7.8
 License: GPLv3
 
 A comprehensive, user-friendly, all in one WordPress security and firewall plugin for your site.
@@ -158,6 +158,14 @@ http://www.tipsandtricks-hq.com/wordpress-security-and-firewall-plugin
 None
 
 == Changelog ==
+
+= 3.7.8 =
+- Added new feature called Login Honeypot which will help reduce brute force login attempts by robots. (This can be found in the Brute Force menu)
+- Added new feature to prevent other sites from displaying your content via a frame or iframe. (This can be found in the Miscellaneous menu)
+- Added captcha feature for BuddyPress registration form.
+- Added a new filter for the site lockout message so it can be customized.
+- Added a new filter for template include of the site lockout feature.
+- Temporarily deactivated the "DB Scan" feature.
 
 = 3.7.7 =
 - Improved DB prefix change code to make it more robust.
