@@ -1,7 +1,7 @@
 === All In One WP Security & Firewall ===
 Contributors: Tips and Tricks HQ, wpsolutions, Peter Petreski, Ruhul Amin, samuelaguilera
 Donate link: http://www.tipsandtricks-hq.com
-Tags: security, secure, Anti Virus, antivirus, ban, ban hacker, virus, firewall, firewall security, login, lockdown, htaccess, hack, malware, vulnerability, protect, protection, phishing, database, backup, plugin, sql injection, ssl, restrict, login captcha, bot, hotlink, 404 detection, admin, rename, all in one, scan, scanner
+Tags: security, secure, Anti Virus, antivirus, ban, ban hacker, virus, firewall, firewall security, login, lockdown, htaccess, hack, malware, vulnerability, protect, protection, phishing, database, backup, plugin, sql injection, ssl, restrict, login captcha, bot, hotlink, 404 detection, admin, rename, all in one, scan, scanner, iframe,
 Requires at least: 3.5
 Tested up to: 3.9.1
 Stable tag: 3.7.8
@@ -95,6 +95,7 @@ or malicious bots who do not have a special cookie in their browser. You (the si
 * Instantly block Brute Force Login Attacks via our special Cookie-Based Brute Force Login Prevention feature. This firewall functionality will block all login attempts from people and bots.
 * Ability to add a simple math captcha to the WordPress login form to fight against brute force login attacks.
 * Ability to hide admin login page. Rename your WordPress login page URL so that bots and hackers cannot access your real WordPress login URL. This feature allows you to change the default login page (wp-login.php) to something you configure.
+* Ability to use Login Honeypot which will helps reduce brute force login attempts by robots.
 
 = WhoIs Lookup =
 * Perform a WhoIs lookup of a suspicious host or IP address and get full details.
@@ -122,6 +123,7 @@ or malicious bots who do not have a special cookie in their browser. You (the si
 * Ability to prevent people from accessing the readme.html, license.txt and wp-config-sample.php files
 * Ability to temporarily lock down the front end of your site from general visitors while you do various backend tasks (investigate security attacks, perform site upgrades, do maintenance work etc.)
 * Ability to export/import the security settings.
+* Prevent other sites from displaying your content via a frame or iframe.
 
 = Plugin Support =
 * If you have a question or problem with the All In One Security plugin, post it on the support forum and we will help you.
