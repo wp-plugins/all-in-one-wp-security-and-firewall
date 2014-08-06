@@ -154,7 +154,8 @@ class AIOWPSecurity_Admin_Init
 
             if(isset($_REQUEST['aiowps_cookie_test']))
             {
-                $cookie_val = AIOWPSecurity_Utility::get_cookie_value("aiowps_cookie_test");
+                $test_cookie = $aio_wp_security->configs->get_value('aiowps_cookie_brute_test');
+                $cookie_val = AIOWPSecurity_Utility::get_cookie_value($test_cookie);
                 if(empty($cookie_val))
                 {
                     $aio_wp_security->configs->set_value('aiowps_cookie_test_success','');

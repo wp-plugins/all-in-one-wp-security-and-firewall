@@ -4,7 +4,7 @@ Donate link: http://www.tipsandtricks-hq.com
 Tags: security, secure, Anti Virus, antivirus, ban, ban hacker, virus, firewall, firewall security, login, lockdown, htaccess, hack, malware, vulnerability, protect, protection, phishing, database, backup, plugin, sql injection, ssl, restrict, login captcha, bot, hotlink, 404 detection, admin, rename, all in one, scan, scanner, iframe,
 Requires at least: 3.5
 Tested up to: 3.9.1
-Stable tag: 3.7.8
+Stable tag: 3.7.9
 License: GPLv3
 
 A comprehensive, user-friendly, all in one WordPress security and firewall plugin for your site.
@@ -160,6 +160,9 @@ http://www.tipsandtricks-hq.com/wordpress-security-and-firewall-plugin
 None
 
 == Changelog ==
+
+= 3.7.9 =
+- Fixed a small bug related to the cookie test in the Cookie Based Brute Force feature.
 
 = 3.7.8 =
 - Added new feature called Login Honeypot which will help reduce brute force login attempts by robots. (This can be found in the Brute Force menu)
