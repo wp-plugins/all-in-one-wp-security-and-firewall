@@ -663,12 +663,14 @@ class AIOWPSecurity_Settings_Menu extends AIOWPSecurity_Admin_Menu
     //Checks if valid aiowps settings file and returns contents as string
     function check_if_valid_aiowps_settings_file($wp_file)
     {
+        global $aio_wp_security;
         $is_aiopws_settings = false;
         
         $file_contents = file_get_contents($wp_file);
 
         if ($file_contents == '' || $file_contents == NULL || $file_contents == false)
         {
+            $aio_wp_security->debug_logger->log_debug("check_if_valid_aiowps_settings_file() returned fail - file_get_contents returned null or false",4);
             return -1;
         }
         
@@ -684,6 +686,7 @@ class AIOWPSecurity_Settings_Menu extends AIOWPSecurity_Admin_Menu
         }
         else
         {
+            $aio_wp_security->debug_logger->log_debug("check_if_valid_aiowps_settings_file() returned fail - Not a valid AIOWPS config file!",4);
             return -1;
         }
 

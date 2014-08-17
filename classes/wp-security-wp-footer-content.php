@@ -52,7 +52,7 @@ if (window.sidebar) {
 }
 /*]]>*/
 </script>
-<script type="text/javascript" language="JavaScript1.1">
+<script type="text/javascript">
 /*<![CDATA[*/
 if (parent.frames.length > 0) { top.location.replace(document.location); }
 /*]]>*/
@@ -62,7 +62,7 @@ if (parent.frames.length > 0) { top.location.replace(document.location); }
 document.ondragstart = function(){return false;};
 /*]]>*/
 </script>
-<?php        
+<?php
     }
     
 }//End of class

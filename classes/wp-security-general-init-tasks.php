@@ -52,10 +52,18 @@ class AIOWPSecurity_General_Init_Tasks
             }
         }
 
+
         //For login captcha feature
         if($aio_wp_security->configs->get_value('aiowps_enable_login_captcha') == '1'){
             if (!is_user_logged_in()) {
                 add_action('login_form', array(&$this, 'insert_captcha_question_form'));
+            }
+        }
+
+        //For custom login form captcha feature, ie, when wp_login_form() function is used to generate login form
+        if($aio_wp_security->configs->get_value('aiowps_enable_custom_login_captcha') == '1'){
+            if (!is_user_logged_in()) {
+                add_filter( 'login_form_middle', array(&$this, 'insert_captcha_custom_login'), 10, 2); //For cases where the WP wp_login_form() function is used
             }
         }
 
@@ -216,6 +224,18 @@ class AIOWPSecurity_General_Init_Tasks
                 }
             }
         }
+    }
+    
+    function insert_captcha_custom_login($cust_html_code, $args)
+    {
+        global $aio_wp_security;
+        $cap_form = '<p class="aiowps-captcha"><label>'.__('Please enter an answer in digits:','aiowpsecurity').'</label>';
+        $cap_form .= '<div class="aiowps-captcha-equation"><strong>';
+        $maths_question_output = $aio_wp_security->captcha_obj->generate_maths_question();
+        $cap_form .= $maths_question_output . '</strong></div></p>';
+        
+        $cust_html_code .= $cap_form;
+        return $cust_html_code;
     }
     
     function insert_captcha_question_form_multi($error)

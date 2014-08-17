@@ -42,6 +42,7 @@ class AIOWPSecurity_Feature_Item_Manager
         $this->feature_items[] = new AIOWPSecurity_Feature_Item("user-login-login-lockdown", __("Login Lockdown", "aiowpsecurity"), $this->feature_point_4, $this->sec_level_basic);
         //Login Captcha
         $this->feature_items[] = new AIOWPSecurity_Feature_Item("user-login-captcha", __("Login Captcha", "aiowpsecurity"), $this->feature_point_4, $this->sec_level_basic);
+        $this->feature_items[] = new AIOWPSecurity_Feature_Item("custom-login-captcha", __("Custom Login Captcha", "aiowpsecurity"), $this->feature_point_4, $this->sec_level_basic);
         //Lost Password Captcha
         $this->feature_items[] = new AIOWPSecurity_Feature_Item("lost-password-captcha", __("Lost Password Captcha", "aiowpsecurity"), $this->feature_point_2, $this->sec_level_basic);
         //Login whitelisting
@@ -186,6 +187,10 @@ class AIOWPSecurity_Feature_Item_Manager
             if($item->feature_id == "user-login-captcha")
             {
                 $this->check_login_captcha_feature($item);
+            }
+            if($item->feature_id == "custom-login-captcha")
+            {
+                $this->check_custom_login_captcha_feature($item);
             }
             if($item->feature_id == "lost-password-captcha")
             {
@@ -394,6 +399,18 @@ class AIOWPSecurity_Feature_Item_Manager
     {
         global $aio_wp_security;
         if ($aio_wp_security->configs->get_value('aiowps_enable_login_captcha') == '1') {
+            $item->set_feature_status($this->feature_active);
+        }
+        else
+        {
+            $item->set_feature_status($this->feature_inactive);
+        }
+    }
+
+    function check_custom_login_captcha_feature($item)
+    {
+        global $aio_wp_security;
+        if ($aio_wp_security->configs->get_value('aiowps_enable_custom_login_captcha') == '1') {
             $item->set_feature_status($this->feature_active);
         }
         else

@@ -199,6 +199,9 @@ class AIOWPSecurity_Scan
             }
             //Let's omit specific files or directories from the scan which were specified in the settings
             $filename = $fileinfo->getPathname();
+            if(file_exists($filename) === FALSE){
+                continue; //if file doesn't exist move on to next iteration
+            }
             $files_to_skip = $aio_wp_security->configs->get_value('aiowps_fcd_exclude_files');
             if (!empty($files_to_skip))
             {
