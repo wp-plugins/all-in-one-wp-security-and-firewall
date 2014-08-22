@@ -163,6 +163,7 @@ https://www.tipsandtricks-hq.com/wordpress-security-and-firewall-plugin
 None
 
 == Changelog ==
+
 = 3.8.1 =
 - Minor bug fix for the honeypot feature - loading of css style sheet was not occurring when main login page rendered.
 
