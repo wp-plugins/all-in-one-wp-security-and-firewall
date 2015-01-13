@@ -178,9 +178,9 @@ None
 == Changelog ==
 
 = 3.8.9 =
-- Fixed a possible open redirect vulnerability related to logout events. Thanks to Sucuri for pointing this out.
 - Fixed bug in the new feature which allows permanent blocking of IP addresses that create 404 events.
 - Fixed minor bug for all instances where wpdb "prepare" was being used with order/orderby parameters.
+- Fixed a possible open redirect vulnerability. Thanks to Sucuri for pointing it out.
 
 = 3.8.8 =
 - Added extra robustness and security for wp list table db commands by using wpdb "prepare" command.
