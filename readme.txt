@@ -3,8 +3,8 @@ Contributors: Tips and Tricks HQ, wpsolutions, Peter Petreski, Ruhul Amin, mbrso
 Donate link: https://www.tipsandtricks-hq.com
 Tags: security, secure, Anti Virus, antivirus, ban, ban hacker, virus, firewall, firewall security, login, lockdown, htaccess, hack, malware, vulnerability, protect, protection, phishing, database, backup, plugin, sql injection, ssl, restrict, login captcha, bot, hotlink, 404 detection, admin, rename, all in one, scan, scanner, iframe,
 Requires at least: 3.5
-Tested up to: 4.1
-Stable tag: 3.8.9
+Tested up to: 4.1.1
+Stable tag: 3.9.0
 License: GPLv3
 
 A comprehensive, user-friendly, all in one WordPress security and firewall plugin for your site.
@@ -176,6 +176,11 @@ https://www.tipsandtricks-hq.com/wordpress-security-and-firewall-plugin
 None
 
 == Changelog ==
+
+= 3.9.0 =
+- Added some robustness to the file-scan code.
+- Added extra security to all relevant list table instances to prevent unlikely malicious deletion commands.
+- Fixed the user agent part of the blacklist settings code to allow user-agents to be cleared upon saving.
 
 = 3.8.9 =
 - Fixed bug in the new feature which allows permanent blocking of IP addresses that create 404 events.
