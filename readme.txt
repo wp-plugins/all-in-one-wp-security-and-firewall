@@ -179,10 +179,10 @@ None
 == Changelog ==
 
 = 3.9.1 =
-- Added protection against possible SQL injection attacks.
 - Added new "Force Logout" feature which will instantly force a certain user to be logged out of their session. (See the "Logged In Users" tab in User Login menu)
 - Added more security protection for aiowps log files by creating .htaccess file and rules. AIOWPS log files can now only be viewed via dashboard menu, in new tab called "AIOWPS Logs". (NOTE:This security currently applies only for apache or similar servers)
 - Added backticks to SQL statement for DB prefix change to help prevent errors.
+- Added protection against possible SQL injection attacks.
 
 = 3.9.0 =
 - Added some robustness to the file-scan code.
