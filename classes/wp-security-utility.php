@@ -71,9 +71,9 @@ class AIOWPSecurity_Utility
         
         //check users table
         //$user = $wpdb->get_var( "SELECT user_login FROM `" . $wpdb->users . "` WHERE user_login='" . sanitize_text_field( $username ) . "';" );
-        $sql_1 = $wpdb->prepare("SELECT %s FROM $wpdb->users WHERE user_login=%s", 'user_login', sanitize_text_field( $username ));
+        $sql_1 = $wpdb->prepare("SELECT user_login FROM $wpdb->users WHERE user_login=%s", sanitize_text_field( $username ));
         $user = $wpdb->get_var( $sql_1 );
-        $sql_2 = $wpdb->prepare("SELECT %s FROM $wpdb->users WHERE ID=%s", 'ID', sanitize_text_field( $username ));
+        $sql_2 = $wpdb->prepare("SELECT ID FROM $wpdb->users WHERE ID=%s", sanitize_text_field( $username ));
         $userid = $wpdb->get_var( $sql_2 );
 
         if ( $user == $username || $userid == $username ) {
