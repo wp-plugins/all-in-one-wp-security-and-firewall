@@ -179,7 +179,7 @@ None
 == Changelog ==
 
 = 3.9.4 =
-- The sort order and orderby parameters now use a whitelisting approach for sanitization. This is to prevent any SQL injection vulnerability.
+- The sort order and orderby parameters now use a whitelisting approach for sanitization.
 
 = 3.9.3 =
 - Fixed the sort order not working in the 404 error logging and account activity page.
