@@ -210,6 +210,9 @@ class AIOWPSecurity_List_Locked_IP extends AIOWPSecurity_List_Table {
 	$orderby = !empty($orderby) ? esc_sql($orderby) : 'lockdown_date';
 	$order = !empty($order) ? esc_sql($order) : 'DESC';
 
+        $orderby = AIOWPSecurity_Utility::sanitize_value_by_array($orderby, $sortable);
+        $order = AIOWPSecurity_Utility::sanitize_value_by_array($order, array('DESC' => '1', 'ASC' => '1'));
+        
 	$data = $wpdb->get_results($wpdb->prepare("SELECT * FROM $lockdown_table_name WHERE lock_reason=%s AND release_date > now() ORDER BY $orderby $order", 'login_fail'), ARRAY_A);
         $current_page = $this->get_pagenum();
         $total_items = count($data);
