@@ -4,7 +4,7 @@ Donate link: https://www.tipsandtricks-hq.com
 Tags: security, secure, Anti Virus, antivirus, ban, ban hacker, virus, firewall, firewall security, login, lockdown, htaccess, hack, malware, vulnerability, protect, protection, phishing, database, backup, plugin, sql injection, ssl, restrict, login captcha, bot, hotlink, 404 detection, admin, rename, all in one, scan, scanner, iframe,
 Requires at least: 3.5
 Tested up to: 4.3
-Stable tag: 3.9.8
+Stable tag: 3.9.9
 License: GPLv3
 
 A comprehensive, user-friendly, all in one WordPress security and firewall plugin for your site.
@@ -178,7 +178,13 @@ https://www.tipsandtricks-hq.com/wordpress-security-and-firewall-plugin
 == Upgrade Notice ==
 None
 
+
 == Changelog ==
+
+= 3.9.9 =
+- Fixed an issue with the rename login page feature for WordPress 4.3
+- Added esc_attr() sanitization to some of the relevant parameters
+- Added the necessary changes to allow activation via wp-cli
 
 = 3.9.8 =
 - Added guard against possible XSS in the unlock request feature.
