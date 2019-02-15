@@ -352,3 +352,18 @@
     text-align: center;
     color: darkorange;
 }
+
+.tablenav .tablenav-pages .pagination-links a {
+    display: inline-block;
+    padding: 4px 5px 6px;
+    font-size: 16px;
+    line-height: 1;
+    text-align: center;
+    text-decoration: none;
+}
+
+.tablenav .tablenav-pages .pagination-links a {
+    min-width: 17px;
+    border: 1px solid #ccc;
+    background: #f7f7f7;
+}
